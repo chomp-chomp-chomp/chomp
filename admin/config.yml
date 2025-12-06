@@ -1,0 +1,80 @@
+<backend:
+  # CHANGE 1: Use the Auth0 backend type
+  name: auth0
+  
+  # CHANGE 2: Replace these with your actual Auth0 credentials
+  auth0_domain: "dev-ul6sbm1ykdwz4uy7.us.auth0.com" # <-- REPLACE WITH YOUR AUTH0 DOMAIN
+  auth0_client_id: "Zooc13XIB90b1MSB7k8f70s1QWchqSiG" # <-- REPLACE WITH YOUR AUTH0 CLIENT ID
+  
+  # Configuration for committing to GitHub
+  base_url: "https://api.netlify.com" # Decap CMS still uses Netlify's API to commit to Git
+  auth_scope: "repo"
+  branch: main  # Change this if your main branch is named 'master'
+
+# The path to the media folder (where images are stored)
+media_folder: "images"
+public_folder: "/images"
+
+# --- Collections (Data Models) ---
+collections:
+  - name: "recipes" 
+    label: "Recipe Catalog" 
+    # Crucial: This tells the CMS to load data from a single JSON file.
+    file: "recipes.json"
+    format: "json"
+    create: true 
+    slug: "{{title}}"
+
+    # --- Fields (Defines the structure of ONE recipe object) ---
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "Description"
+        name: "description"
+        widget: "markdown"
+        required: false
+      - label: "Image Path"
+        name: "image"
+        widget: "image" 
+        required: false
+      - label: "Servings"
+        name: "servings"
+        widget: "string"
+        required: false
+      - label: "Prep Time (e.g., 20min)"
+        name: "prepTime"
+        widget: "string"
+        required: false
+      - label: "Cook Time (e.g., 65-80 minutes)"
+        name: "cookTime"
+        widget: "string"
+        required: false
+      - label: "Total Time"
+        name: "totalTime"
+        widget: "string"
+        required: false
+      - label: "Source"
+        name: "source"
+        widget: "string"
+        required: false
+      - label: "Category (e.g., chomp chomp)"
+        name: "category"
+        widget: "string"
+        required: false
+      # Ingredients and Instructions are handled as string lists (arrays of strings)
+      - label: "Ingredients (One per line)"
+        name: "ingredients"
+        widget: "list"
+        field: { label: "Ingredient Item", name: "ingredient_item", widget: "string" }
+      - label: "Instructions (One step per line)"
+        name: "instructions"
+        widget: "list"
+        field: { label: "Instruction Step", name: "instruction_step", widget: "markdown" }
+      - label: "Notes"
+        name: "notes"
+        widget: "text"
+        required: false
+
+>

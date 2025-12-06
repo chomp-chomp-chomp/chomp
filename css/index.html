@@ -1,0 +1,281 @@
+<!DOCTYPE html> 
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chomp - Baking as Ritual, Recipe as Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/chomp-recipes.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🍴 CHOMP</a>
+            <button class="nav-toggle" onclick="toggleNav()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+```
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container-narrow">
+        <h1>Baking as Ritual, Recipe as Story</h1>
+        <p>
+            Where recipes remember their moments, baking becomes meditation, 
+            and every loaf carries the context of its making.
+        </p>
+        <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+            <a href="recipes.html" class="btn btn-primary">Browse Recipes</a>
+            <a href="about.html" class="btn btn-outline">Read the Manifesto</a>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Posts Section -->
+<div class="container-wide">
+    <section style="margin-top: 60px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 style="margin: 0;">Recent Stories</h2>
+            <!-- Optional: Filter by category -->
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-ghost btn-small" onclick="filterPosts('all')">All</button>
+                <button class="btn btn-ghost btn-small" onclick="filterPosts('recipe-stories')">Stories</button>
+                <button class="btn btn-ghost btn-small" onclick="filterPosts('anthropology')">Anthropology</button>
+                <button class="btn btn-ghost btn-small" onclick="filterPosts('mindful-baking')">Mindful</button>
+            </div>
+        </div>
+
+        <!-- Blog Tile Grid -->
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog tiles will be loaded here by JavaScript -->
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666666;">
+                <p>Loading stories...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Recipes Teaser -->
+    <section style="margin-top: 80px;">
+        <h2 style="text-align: center; margin-bottom: 30px;">Featured Recipes</h2>
+        <div class="grid-3" id="featuredRecipes">
+            <!-- Featured recipes will be loaded here -->
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="recipes.html" class="btn btn-primary">View All Recipes</a>
+        </div>
+    </section>
+</div>
+
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="footer-content">
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="https://chomp.be/tools">Tools</a></li>
+        </ul>
+        <div class="footer-copyright">
+            © 2024 Chomp. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, getDocs, query, where, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let allPosts = [];
+    let currentFilter = 'all';
+
+    // Category display names
+    const categoryNames = {
+        'recipe-stories': 'Recipe Stories & Rituals',
+        'anthropology': 'Anthropology',
+        'mindful-baking': 'Mindful Baking'
+    };
+
+    // Load blog posts
+    async function loadPosts() {
+        try {
+            // Query only published posts
+            const q = query(
+                collection(db, "posts"),
+                where("status", "==", "published"),
+                orderBy("publishDate", "desc")
+            );
+            
+            const querySnapshot = await getDocs(q);
+            allPosts = [];
+            
+            querySnapshot.forEach((doc) => {
+                allPosts.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+
+            displayPosts(allPosts);
+            
+        } catch (error) {
+            console.error("Error loading posts:", error);
+            document.getElementById('blogGrid').innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666666;">
+                    <p>No stories yet. Check back soon!</p>
+                </div>
+            `;
+        }
+    }
+
+    // Display blog posts
+    function displayPosts(posts) {
+        const blogGrid = document.getElementById('blogGrid');
+        
+        if (posts.length === 0) {
+            blogGrid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666666;">
+                    <p>No stories found in this category yet.</p>
+                </div>
+            `;
+            return;
+        }
+
+        blogGrid.innerHTML = posts.map(post => `
+            <a href="post.html?id=${post.id}" class="blog-tile">
+                ${post.featuredImage ? `
+                    <img src="${post.featuredImage}" alt="${post.title}" class="blog-tile-image">
+                ` : `
+                    <div class="blog-tile-image" style="background: linear-gradient(135deg, #2a2a2a 0%, #434343 100%); display: flex; align-items: center; justify-content: center; color: #666;">
+                        No Image
+                    </div>
+                `}
+                <div class="blog-tile-content">
+                    <div class="blog-tile-category">${categoryNames[post.category] || post.category}</div>
+                    <h3 class="blog-tile-title">${post.title}</h3>
+                    <p class="blog-tile-excerpt">${post.excerpt}</p>
+                    <div class="blog-tile-date">${formatDate(post.publishDate)}</div>
+                </div>
+            </a>
+        `).join('');
+    }
+
+    // Filter posts by category
+    window.filterPosts = function(category) {
+        currentFilter = category;
+        
+        // Update active button state
+        document.querySelectorAll('.btn-ghost').forEach(btn => {
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+        });
+        event.target.style.backgroundColor = '#fe0032';
+        event.target.style.color = 'white';
+
+        if (category === 'all') {
+            displayPosts(allPosts);
+        } else {
+            const filtered = allPosts.filter(post => post.category === category);
+            displayPosts(filtered);
+        }
+    };
+
+    // Load featured recipes
+    async function loadFeaturedRecipes() {
+        try {
+            const q = query(
+                collection(db, "recipes"),
+                limit(3)
+            );
+            
+            const querySnapshot = await getDocs(q);
+            const recipes = [];
+            
+            querySnapshot.forEach((doc) => {
+                recipes.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+
+            displayFeaturedRecipes(recipes);
+            
+        } catch (error) {
+            console.error("Error loading featured recipes:", error);
+        }
+    }
+
+    // Display featured recipes
+    function displayFeaturedRecipes(recipes) {
+        const container = document.getElementById('featuredRecipes');
+        
+        if (recipes.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; color: #666666;">
+                    <p>No recipes yet.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = recipes.map(recipe => `
+            <div class="card" onclick="window.location.href='recipe.html?id=${recipe.id}'">
+                ${recipe.imageUrl ? `
+                    <img src="${recipe.imageUrl}" alt="${recipe.name}" class="card-image">
+                ` : ''}
+                <h3 class="card-title">${recipe.name}</h3>
+                ${recipe.description ? `
+                    <p class="card-excerpt">${recipe.description}</p>
+                ` : ''}
+            </div>
+        `).join('');
+    }
+
+    // Format date
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+
+    // Initialize
+    loadPosts();
+    loadFeaturedRecipes();
+</script>
+
+<script>
+    function toggleNav() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+</script>
+```
+
+</body>
+</html>

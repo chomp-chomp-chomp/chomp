@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Editor - Chomp Chomp Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .editor-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .editor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .preview-area {
+      border: 1px solid #e0e0e0;
+      padding: 20px;
+      border-radius: 6px;
+      min-height: 400px;
+      background: white;
+      overflow-y: auto;
+      max-height: 600px;
+    }
+
+    .login-box {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .post-list {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .post-list-item {
+      padding: 10px;
+      margin-bottom: 10px;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .post-list-item:hover {
+      border-color: #e73b42;
+    }
+
+    .post-list-item.draft {
+      opacity: 0.7;
+      border-left: 4px solid #ff9800;
+    }
+
+    .image-upload-area {
+      border: 2px dashed #e0e0e0;
+      padding: 20px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 15px;
+    }
+
+    .image-upload-area:hover {
+      border-color: #e73b42;
+      background: #fafafa;
+    }
+
+    .image-preview {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .editor-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .editor-container {
+        margin: 20px auto;
+        padding: 20px;
+      }
+
+      .form-textarea, textarea {
+        width: 100% !important;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="login-box">
+    <h1 style="color: #e73b42; margin-bottom: 20px;">Admin Login</h1>
+    <p style="margin-bottom: 20px; color: #666;">Sign in to manage posts</p>
+
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="loginEmail" class="form-input" placeholder="your@email.com">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="loginPassword" class="form-input" placeholder="••••••••">
+    </div>
+
+    <button onclick="handleLogin()" class="btn btn-primary" style="width: 100%;">
+      Sign In
+    </button>
+
+    <div id="loginError" style="margin-top: 15px; color: #c62828; font-size: 0.9em; display: none;"></div>
+  </div>
+
+  <!-- Editor Screen -->
+  <div id="editorScreen" class="editor-container" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h1 style="color: #e73b42; margin: 0;">Post Editor</h1>
+      <button onclick="handleLogout()" class="btn btn-outline">Logout</button>
+    </div>
+
+    <!-- Auth Status -->
+    <div id="authStatus" style="margin-bottom: 20px; padding: 10px; background: #e8f5e9; border-radius: 4px; color: #2e7d32;">
+      ✓ Logged in
+    </div>
+
+    <!-- Editor Form -->
+    <form id="postForm" onsubmit="handleSubmit(event)">
+      <input type="hidden" id="postId" value="">
+
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" id="postTitle" class="form-input" required
+               placeholder="e.g., Sunday Morning Ritual: Making Pancakes">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Slug (auto-generated from title)</label>
+        <input type="text" id="postSlug" class="form-input" readonly
+               style="background: #f0f0f0;">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Author Name *</label>
+        <input type="text" id="postAuthor" class="form-input" required
+               placeholder="Your name or pen name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Publish Date *</label>
+        <input type="date" id="postDate" class="form-input" required>
+        <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+          The date this post was/will be published
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category *</label>
+        <select id="postCategory" class="form-select" required>
+          <option value="">Select category...</option>
+          <option value="rituals">Stories & Practice</option>
+          <option value="anthropologies">Histories & Meditations</option>
+          <option value="zen">Zen of Baking</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Excerpt (short preview for homepage) *</label>
+        <textarea id="postExcerpt" class="form-textarea" required
+                  placeholder="A brief 1-2 sentence summary..."
+                  style="min-height: 80px;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Featured Image</label>
+
+        <!-- Image Upload Area -->
+        <div class="image-upload-area" onclick="document.getElementById('imageUpload').click()">
+          <p>📁 Click to upload image or drag and drop</p>
+          <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+            Recommended: 1200x600px, max 2MB
+          </p>
+        </div>
+        <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+
+        <div id="imagePreviewContainer" style="display: none;">
+          <img id="imagePreview" class="image-preview" alt="Preview">
+          <button type="button" onclick="removeImage()" class="btn btn-outline" style="margin-top: 10px; width: 100%;">
+            Remove Image
+          </button>
+        </div>
+
+        <!-- Or Manual URL -->
+        <div style="margin-top: 10px;">
+          <label class="form-label">Or paste image URL:</label>
+          <input type="text" id="postImage" class="form-input"
+                 placeholder="https://firebasestorage.googleapis.com/...">
+        </div>
+      </div>
+
+      <!-- Image Library for Content -->
+      <div class="form-group">
+        <label class="form-label">Image Library (for inserting in content)</label>
+        <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">
+          Upload multiple images to use in your post content. Click any image to copy its markdown code.
+        </p>
+
+        <!-- Multiple Image Upload -->
+        <div class="image-upload-area" onclick="document.getElementById('multiImageUpload').click()">
+          <p>📁 Upload Images for Content</p>
+          <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
+            Select multiple images (max 2MB each)
+          </p>
+        </div>
+        <input type="file" id="multiImageUpload" accept="image/*" multiple style="display: none;" onchange="handleMultiImageUpload(event)">
+
+        <!-- Upload Progress -->
+        <div id="uploadProgress" style="display: none; margin-top: 15px; padding: 10px; background: #f0f8ff; border-radius: 6px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="font-size: 0.9em; color: #1565c0;">Uploading images...</div>
+            <div id="progressText" style="font-size: 0.85em; color: #666;"></div>
+          </div>
+        </div>
+
+        <!-- Image Library Grid -->
+        <div id="imageLibrary" style="display: none; margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h4 style="margin: 0; color: #353535;">Your Images</h4>
+            <span style="font-size: 0.85em; color: #666;">Click image to copy markdown</span>
+          </div>
+          <div id="imageGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px;">
+            <!-- Images will be added here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Editor and Preview Side by Side -->
+      <div class="editor-grid">
+        <div>
+          <div class="form-group">
+            <label class="form-label">Content (Markdown) *</label>
+            <textarea id="postContent" class="form-textarea" required
+                      placeholder="Write your post content here using markdown..."
+                      style="min-height: 500px; font-family: 'Monaco', 'Menlo', monospace; font-size: 14px;"></textarea>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label">Live Preview</label>
+          <div class="preview-area" id="previewArea">
+            <p style="color: #999;">Start typing to see preview...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Markdown Help -->
+      <div style="background: #f0f8ff; padding: 15px; border-radius: 6px; margin: 20px 0; font-size: 0.9em;">
+        <strong>Markdown Quick Reference:</strong><br>
+        # Heading 1 &nbsp;|&nbsp; ## Heading 2 &nbsp;|&nbsp; **bold** &nbsp;|&nbsp; *italic* &nbsp;|&nbsp; [link](url) &nbsp;|&nbsp; ![image](url)
+      </div>
+
+      <!-- Status Toggle -->
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="postPublished" style="margin-right: 8px;">
+          Publish immediately (uncheck to save as draft)
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 15px; margin-top: 30px;">
+        <button type="submit" class="btn btn-primary">
+          <span id="saveButtonText">Save Post</span>
+        </button>
+        <button type="button" class="btn btn-outline" onclick="clearForm()">
+          Clear Form
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Status Messages -->
+    <div id="statusMessage" style="margin-top: 20px; padding: 15px; border-radius: 6px; display: none;"></div>
+
+    <!-- Existing Posts List (at bottom for easy access when there are many posts) -->
+    <div class="form-group" style="margin-top: 60px; padding-top: 40px; border-top: 2px solid #e0e0e0;">
+      <h2 style="color: #e73b42; margin-bottom: 20px;">Edit Existing Posts</h2>
+      <p style="color: #666; margin-bottom: 20px;">Click any post below to load it into the editor above.</p>
+      <div class="post-list" id="existingPosts">
+        <p style="color: #999; text-align: center;">Loading posts...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, updateDoc, doc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+    const appId = firebaseConfig.projectId;
+
+    let currentUser = null;
+    let uploadedImageUrl = null;
+    let allPosts = [];
+
+    // Check authentication state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('editorScreen').style.display = 'block';
+
+        // Set default date to today for new posts
+        document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
+
+        loadExistingPosts();
+      } else {
+        currentUser = null;
+        document.getElementById('loginScreen').style.display = 'block';
+        document.getElementById('editorScreen').style.display = 'none';
+      }
+    });
+
+    // Handle login
+    window.handleLogin = async function() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        errorDiv.style.display = 'none';
+      } catch (error) {
+        console.error("Login error:", error);
+        errorDiv.style.display = 'block';
+
+        if (error.code === 'auth/user-not-found') {
+          errorDiv.textContent = 'No user found with this email. Please check your email or contact admin.';
+        } else if (error.code === 'auth/wrong-password') {
+          errorDiv.textContent = 'Incorrect password. Please try again.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorDiv.textContent = 'Invalid email address format.';
+        } else {
+          errorDiv.textContent = 'Login failed: ' + error.message;
+        }
+      }
+    }
+
+    // Handle logout
+    window.handleLogout = async function() {
+      if (confirm('Are you sure you want to logout?')) {
+        await signOut(auth);
+        clearForm();
+      }
+    }
+
+    // Load existing posts for editing
+    async function loadExistingPosts() {
+      try {
+        const postsRef = collection(db, `artifacts/${appId}/public/data/posts`);
+        // Get all posts without requiring created_at field
+        const snapshot = await getDocs(postsRef);
+
+        allPosts = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        // Sort by created_at if available, otherwise by date, then title
+        allPosts.sort((a, b) => {
+          const aTime = a.created_at?.toMillis?.() || new Date(a.date).getTime() || 0;
+          const bTime = b.created_at?.toMillis?.() || new Date(b.date).getTime() || 0;
+          return bTime - aTime;
+        });
+
+        const container = document.getElementById('existingPosts');
+        if (allPosts.length === 0) {
+          container.innerHTML = '<p style="color: #999; text-align: center;">No posts yet. Create your first one!</p>';
+          return;
+        }
+
+        container.innerHTML = allPosts.map(post => `
+          <div class="post-list-item ${post.status === 'draft' ? 'draft' : ''}" onclick="loadPostForEditing('${post.id}')">
+            <div style="font-weight: 600; color: #353535;">${post.title}</div>
+            <div style="font-size: 0.85em; color: #666; margin-top: 4px;">
+              ${formatCategory(post.category)} • ${post.status === 'draft' ? '📝 Draft' : '✓ Published'}
+            </div>
+          </div>
+        `).join('');
+
+      } catch (error) {
+        console.error("Error loading posts:", error);
+      }
+    }
+
+    // Load a post for editing
+    window.loadPostForEditing = function(postId) {
+      const post = allPosts.find(p => p.id === postId);
+      if (!post) return;
+
+      document.getElementById('postId').value = postId;
+      document.getElementById('postTitle').value = post.title || '';
+      document.getElementById('postSlug').value = post.slug || '';
+      document.getElementById('postAuthor').value = post.author || '';
+      document.getElementById('postDate').value = post.date || new Date().toISOString().split('T')[0];
+      document.getElementById('postCategory').value = post.category || '';
+      document.getElementById('postExcerpt').value = post.excerpt || '';
+      document.getElementById('postContent').value = post.content || '';
+      document.getElementById('postImage').value = post.featured_image || '';
+      document.getElementById('postPublished').checked = post.status === 'published';
+
+      // Update preview
+      updatePreview();
+
+      // Show image if exists
+      if (post.featured_image) {
+        showImagePreview(post.featured_image);
+      }
+
+      // Update button text
+      document.getElementById('saveButtonText').textContent = 'Update Post';
+
+      // Scroll to top
+      window.scrollTo(0, 0);
+
+      showStatus('info', `Editing: ${post.title}`);
+    }
+
+    // Clear form for new post
+    window.clearForm = function() {
+      document.getElementById('postForm').reset();
+      document.getElementById('postId').value = '';
+      document.getElementById('postSlug').value = '';
+      document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('previewArea').innerHTML = '<p style="color: #999;">Start typing to see preview...</p>';
+      document.getElementById('imagePreviewContainer').style.display = 'none';
+      document.getElementById('saveButtonText').textContent = 'Save Post';
+      uploadedImageUrl = null;
+      document.getElementById('statusMessage').style.display = 'none';
+    }
+
+    // Generate slug from title
+    document.getElementById('postTitle').addEventListener('input', (e) => {
+      const slug = e.target.value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      document.getElementById('postSlug').value = slug;
+    });
+
+    // Handle image upload
+    window.handleImageUpload = async function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      // Validate file size (max 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        showStatus('error', 'Image too large. Please use an image under 2MB.');
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        showStatus('error', 'Please upload an image file.');
+        return;
+      }
+
+      showStatus('info', 'Uploading image...');
+
+      try {
+        // Upload to Firebase Storage
+        const timestamp = Date.now();
+        const filename = `${timestamp}_${file.name}`;
+        const storageRef = ref(storage, `posts/images/${filename}`);
+
+        await uploadBytes(storageRef, file);
+        uploadedImageUrl = await getDownloadURL(storageRef);
+
+        // Show preview
+        showImagePreview(uploadedImageUrl);
+
+        showStatus('success', 'Image uploaded successfully!');
+      } catch (error) {
+        console.error("Upload error:", error);
+        showStatus('error', 'Failed to upload image: ' + error.message);
+      }
+    }
+
+    // Show image preview
+    function showImagePreview(url) {
+      document.getElementById('imagePreview').src = url;
+      document.getElementById('imagePreviewContainer').style.display = 'block';
+    }
+
+    // Remove image
+    window.removeImage = function() {
+      document.getElementById('imagePreviewContainer').style.display = 'none';
+      document.getElementById('imageUpload').value = '';
+      document.getElementById('postImage').value = '';
+      uploadedImageUrl = null;
+    }
+
+    // Image library storage
+    let imageLibraryUrls = [];
+
+    // Handle multiple image uploads
+    window.handleMultiImageUpload = async function(event) {
+      const files = Array.from(event.target.files);
+      if (files.length === 0) return;
+
+      // Show progress
+      const progressDiv = document.getElementById('uploadProgress');
+      const progressText = document.getElementById('progressText');
+      progressDiv.style.display = 'block';
+
+      let uploaded = 0;
+      const total = files.length;
+
+      for (const file of files) {
+        // Validate file size
+        if (file.size > 2 * 1024 * 1024) {
+          showStatus('error', `${file.name} is too large (max 2MB)`);
+          continue;
+        }
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          showStatus('error', `${file.name} is not an image`);
+          continue;
+        }
+
+        try {
+          // Upload to Firebase Storage
+          const timestamp = Date.now();
+          const filename = `${timestamp}_${file.name}`;
+          const storageRef = ref(storage, `posts/images/${filename}`);
+
+          await uploadBytes(storageRef, file);
+          const url = await getDownloadURL(storageRef);
+
+          // Add to library
+          imageLibraryUrls.push({
+            url: url,
+            name: file.name,
+            timestamp: timestamp
+          });
+
+          uploaded++;
+          progressText.textContent = `${uploaded} of ${total}`;
+
+        } catch (error) {
+          console.error(`Error uploading ${file.name}:`, error);
+          showStatus('error', `Failed to upload ${file.name}`);
+        }
+      }
+
+      // Hide progress
+      progressDiv.style.display = 'none';
+
+      // Update library display
+      updateImageLibrary();
+
+      // Clear input
+      event.target.value = '';
+
+      showStatus('success', `Uploaded ${uploaded} image(s) successfully!`);
+    }
+
+    // Update image library display
+    function updateImageLibrary() {
+      const library = document.getElementById('imageLibrary');
+      const grid = document.getElementById('imageGrid');
+
+      if (imageLibraryUrls.length === 0) {
+        library.style.display = 'none';
+        return;
+      }
+
+      library.style.display = 'block';
+
+      grid.innerHTML = imageLibraryUrls.map((img, index) => `
+        <div style="position: relative; cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;"
+             onclick="copyImageMarkdown('${img.url}', '${img.name}')"
+             onmouseover="this.style.borderColor='#e73b42'"
+             onmouseout="this.style.borderColor='transparent'">
+          <img src="${img.url}" alt="${img.name}"
+               style="width: 100%; height: 120px; object-fit: cover; display: block;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color: white; padding: 5px; font-size: 0.7em; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            ${img.name}
+          </div>
+          <button onclick="event.stopPropagation(); removeFromLibrary(${index})"
+                  style="position: absolute; top: 5px; right: 5px; background: rgba(231,59,66,0.9); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 14px; line-height: 1; padding: 0;">
+            ×
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // Copy image markdown to clipboard
+    window.copyImageMarkdown = function(url, name) {
+      const markdown = `![${name}](${url})`;
+      navigator.clipboard.writeText(markdown).then(() => {
+        showStatus('success', 'Markdown copied! Paste it into your content.');
+
+        // Flash effect
+        event.currentTarget.style.borderColor = '#4caf50';
+        setTimeout(() => {
+          event.currentTarget.style.borderColor = 'transparent';
+        }, 500);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        showStatus('error', 'Failed to copy. Please copy manually: ' + markdown);
+      });
+    }
+
+    // Remove image from library
+    window.removeFromLibrary = function(index) {
+      if (confirm('Remove this image from the library?')) {
+        imageLibraryUrls.splice(index, 1);
+        updateImageLibrary();
+        showStatus('info', 'Image removed from library');
+      }
+    }
+
+    // Simple markdown parser for preview (without eval)
+    function parseMarkdown(text) {
+      if (!text) return '';
+
+      let html = text;
+
+      // Escape HTML
+      html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+      // Headers
+      html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+      html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+      // Bold and italic
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+      // Images
+      html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; border-radius: 6px;">');
+
+      // Paragraphs
+      html = html.replace(/\n\n/g, '</p><p>');
+      html = '<p>' + html + '</p>';
+
+      // Line breaks
+      html = html.replace(/\n/g, '<br>');
+
+      return html;
+    }
+
+    // Live preview
+    document.getElementById('postContent').addEventListener('input', updatePreview);
+
+    function updatePreview() {
+      const preview = document.getElementById('previewArea');
+      const markdown = document.getElementById('postContent').value;
+
+      if (!markdown) {
+        preview.innerHTML = '<p style="color: #999;">Start typing to see preview...</p>';
+        return;
+      }
+
+      preview.innerHTML = `<div style="line-height: 1.8;">${parseMarkdown(markdown)}</div>`;
+    }
+
+    // Handle form submission
+    window.handleSubmit = async function(e) {
+      e.preventDefault();
+
+      if (!currentUser) {
+        showStatus('error', 'You must be logged in to save posts');
+        return;
+      }
+
+      showStatus('info', 'Saving post...');
+
+      const postId = document.getElementById('postId').value;
+      const isUpdate = !!postId;
+
+      // Determine final image URL
+      const finalImageUrl = uploadedImageUrl || document.getElementById('postImage').value || '';
+
+      const postData = {
+        title: document.getElementById('postTitle').value,
+        slug: document.getElementById('postSlug').value,
+        author: document.getElementById('postAuthor').value,
+        date: document.getElementById('postDate').value,
+        category: document.getElementById('postCategory').value,
+        excerpt: document.getElementById('postExcerpt').value,
+        content: document.getElementById('postContent').value,
+        featured_image: finalImageUrl,
+        status: document.getElementById('postPublished').checked ? 'published' : 'draft',
+        updated_at: serverTimestamp()
+      };
+
+      try {
+        if (isUpdate) {
+          // Update existing post
+          const postRef = doc(db, `artifacts/${appId}/public/data/posts`, postId);
+          await updateDoc(postRef, postData);
+          showStatus('success', 'Post updated successfully!');
+        } else {
+          // Create new post
+          postData.created_at = serverTimestamp();
+          const postsRef = collection(db, `artifacts/${appId}/public/data/posts`);
+          await addDoc(postsRef, postData);
+          showStatus('success', 'Post created successfully!');
+        }
+
+        // Reload post list
+        await loadExistingPosts();
+
+        // Optionally clear form
+        setTimeout(() => {
+          if (confirm('Success! Would you like to create another post?')) {
+            clearForm();
+          }
+        }, 1500);
+
+      } catch (error) {
+        console.error("Error saving post:", error);
+        showStatus('error', 'Failed to save post: ' + error.message);
+      }
+    }
+
+    function showStatus(type, message) {
+      const statusMsg = document.getElementById('statusMessage');
+      statusMsg.style.display = 'block';
+      statusMsg.textContent = message;
+
+      if (type === 'success') {
+        statusMsg.style.background = '#e8f5e9';
+        statusMsg.style.color = '#2e7d32';
+      } else if (type === 'error') {
+        statusMsg.style.background = '#ffebee';
+        statusMsg.style.color = '#c62828';
+      } else {
+        statusMsg.style.background = '#e3f2fd';
+        statusMsg.style.color = '#1976d2';
+      }
+
+      // Auto-hide success messages
+      if (type === 'success') {
+        setTimeout(() => {
+          statusMsg.style.display = 'none';
+        }, 5000);
+      }
+    }
+
+    function formatCategory(cat) {
+      const categories = {
+        'rituals': 'Stories & Practice',
+        'anthropologies': 'Histories & Meditations',
+        'zen': 'Zen of Baking'
+      };
+      return categories[cat] || cat;
+    }
+
+    // Allow enter key in login
+    document.getElementById('loginPassword').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+  </script>
+
+</body>
+</html>

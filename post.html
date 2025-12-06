@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post | Stories & Practice</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes_logo.jpeg?alt=media">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Chomp Chomp Recipes">
+  <meta name="description" content="Baking is the materialization of comfort itself.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/">
+  <meta property="og:title" content="Chomp Chomp Recipes">
+  <meta property="og:description" content="Baking is the materialization of comfort itself.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/">
+  <meta property="twitter:title" content="Chomp Chomp Recipes">
+  <meta property="twitter:description" content="Baking is the materialization of comfort itself.">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="recipes.html" title="Recipes" class="header-icon-link">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764687494472_MagicEraser_251202_001040.png?alt=media&token=97b7e1ec-632a-4dea-8037-e54789b4e2fd"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-default">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-hover">
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="index.html" title="Home">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right"><div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-container">
+    <div id="postContainer" class="content-wrapper">
+      <p style="text-align: center; color: var(--color-text-muted);">Loading post...</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>Baking is the materialization of comfort itself.</p>
+      <div class="footer-links">
+        <a href="mailto:baking@chomp.ltd">baking@chomp.ltd</a>
+        <a href="https://www.chomp.ltd" target="_blank">chomp chomp: cookies, etc.</a>
+        <a href="https://chomp.be/tools" target="_blank">chomp chomp: tools</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const appId = firebaseConfig.projectId;
+
+    // Get slug from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    if (!slug) {
+      document.getElementById('postContainer').innerHTML = `
+        <div style="text-align: center; padding: 60px 20px;">
+          <h2 style="color: var(--color-accent);">Post not found</h2>
+          <p style="color: var(--color-text-muted); margin-top: 20px;">
+            No post slug provided in URL.
+          </p>
+          <a href="index.html" class="btn btn-primary" style="margin-top: 30px; display: inline-block;">
+            Return to Home
+          </a>
+        </div>
+      `;
+    } else {
+      loadPost(slug);
+    }
+
+    // Load post from Firestore
+    async function loadPost(slug) {
+      try {
+        const postsRef = collection(db, `artifacts/${appId}/public/data/posts`);
+        const q = query(postsRef, where('slug', '==', slug));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          document.getElementById('postContainer').innerHTML = `
+            <div style="text-align: center; padding: 60px 20px;">
+              <h2 style="color: var(--color-accent);">Post not found</h2>
+              <p style="color: var(--color-text-muted); margin-top: 20px;">
+                The post you're looking for doesn't exist or has been removed.
+              </p>
+              <a href="index.html" class="btn btn-primary" style="margin-top: 30px; display: inline-block;">
+                Return to Home
+              </a>
+            </div>
+          `;
+          return;
+        }
+
+        const post = snapshot.docs[0].data();
+        displayPost(post);
+      } catch (error) {
+        console.error("Error loading post:", error);
+        document.getElementById('postContainer').innerHTML = `
+          <div style="text-align: center; padding: 60px 20px;">
+            <h2 style="color: var(--color-accent);">Error loading post</h2>
+            <p style="color: var(--color-text-muted); margin-top: 20px;">
+              ${error.message}
+            </p>
+            <a href="index.html" class="btn btn-primary" style="margin-top: 30px; display: inline-block;">
+              Return to Home
+            </a>
+          </div>
+        `;
+      }
+    }
+
+    // Display post
+    function displayPost(post) {
+      document.title = `${post.title} | Stories & Practice`;
+
+      const container = document.getElementById('postContainer');
+      container.innerHTML = `
+        <article>
+          <!-- Post Header -->
+          <header class="post-header">
+            <div class="post-tile-category" style="margin-bottom: 15px;">
+              ${formatCategory(post.category)}
+            </div>
+            <h1>${post.title}</h1>
+            <div class="post-meta">
+              <span>by ${post.author || 'Anonymous'}</span>
+              <span style="margin: 0 10px;">•</span>
+              <span>${formatDate(post.date)}</span>
+            </div>
+          </header>
+
+          <!-- Featured Image -->
+          ${post.featured_image
+            ? `<img src="${post.featured_image}" alt="${post.title}" class="post-featured-image">`
+            : ''
+          }
+
+          <!-- Post Content -->
+          <div class="post-content">
+            ${parseMarkdown(post.content)}
+          </div>
+
+          <!-- Back Button -->
+          <div style="text-align: center; margin-top: 60px;">
+            <a href="index.html" class="btn btn-outline">← Back to Stories</a>
+          </div>
+        </article>
+      `;
+    }
+
+    // Format category for display
+    function formatCategory(cat) {
+      const categories = {
+        'rituals': 'Stories & Practice',
+        'anthropologies': 'Histories & Meditations',
+        'zen': 'Zen of Baking'
+      };
+      return categories[cat] || cat;
+    }
+
+    // Format date
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // Parse markdown
+    function parseMarkdown(text) {
+      if (!text) return '';
+      let html = text;
+
+      // Images (process BEFORE links since they start with !)
+      html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; border-radius: 8px; margin: 20px 0;">');
+
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+      // Headers
+      html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^## (.+)$/gm, '<h2>$2</h2>');
+      html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+      // Bold and italic
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Line breaks: two spaces at end of line (consume the newline so it's not processed again)
+      html = html.replace(/  \n/g, '<br>');
+
+      // Paragraphs (split by double newlines)
+      html = html.split('\n\n').map(para => {
+        para = para.trim();
+        if (!para) return '';
+        // Don't wrap if it's already a block element
+        if (para.startsWith('<h') || para.startsWith('<img') || para.startsWith('<ul') || para.startsWith('<ol')) {
+          return para;
+        }
+        // Convert single newlines to <br> within paragraphs
+        return `<p>${para.replace(/\n/g, '<br>')}</p>`;
+      }).filter(p => p).join('\n');
+
+      return html;
+    }
+  </script>
+
+  <!-- Navigation toggle -->
+  <script>
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

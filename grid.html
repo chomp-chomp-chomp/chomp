@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chomp recipes</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------------------------------------------------- */
+    /* === BASE STYLES & LAYOUT === */
+    /* ---------------------------------------------------- */
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fdfdfd;
+      color: #353535;
+      line-height: 1.7;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 300px;
+      background-color: #f5f5f5;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recipe-list-container {
+      position: relative;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      flex-grow: 1;
+      /* Mask for fading effect at the bottom */
+      mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
+    }
+
+    .sidebar-header {
+      padding: 30px 20px 20px 20px;
+      text-align: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .sidebar-title {
+      font-size: 1.6em;
+      font-weight: 500;
+      color: #e73b42;
+      flex-shrink: 0;
+    }
+
+    /* ---------------------------------------------------- */
+    /* === SEARCH, SORT & LIST ITEMS (SIDEBAR) === */
+    /* ---------------------------------------------------- */
+
+    .search-box {
+      width: calc(100% - 40px);
+      margin: 0 20px 20px 20px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid #434343;
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: #7d7d7d;
+      flex-shrink: 0;
+    }
+
+    .search-box:focus { outline: none; border-color: #e73b42; }
+
+    .recipe-list { list-style: none; padding: 0; margin: 0; }
+
+    .recipe-item {
+      padding: 14px 14px;
+      cursor: pointer;
+      border-bottom: 1px solid #e0e0e0;
+      transition: background-color 0.2s;
+      color: #7d7d7d;
+    }
+
+    .recipe-item:last-child { border-bottom: none; }
+
+    .recipe-item:hover { background-color: #f0f0f0; }
+
+    .recipe-item.active {
+      background-color: #e73b42;
+      color: #ffffff;
+    }
+
+    .recipe-name {
+      font-weight: 400;
+      font-size: .9em;
+    }
+
+    .recipe-item.active .recipe-time { color: rgba(255, 255, 255, 0.8); }
+
+    /* Sticky Indicator and Shadow */
+    .sticky-indicator {
+      position: sticky;
+      bottom: 0;
+      text-align: center;
+      background: rgba(253,253,253,0.9);
+      padding: 8px 0;
+      font-size: 0.85em;
+      color: #777;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+      display: none;
+    }
+
+    .top-shadow {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 24px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      background:
+        linear-gradient(to bottom,
+          rgba(253,253,253,1) 0%,
+          rgba(253,253,253,0) 90%),
+        linear-gradient(to bottom,
+          rgba(0,0,0,0.15),
+          rgba(0,0,0,0));
+    }
+
+
+    /* ---------------------------------------------------- */
+    /* === RECIPE CONTENT & HOME VIEW === */
+    /* ---------------------------------------------------- */
+
+    .recipe-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 80px 50px;
+      max-width: 1200px; 
+      margin: 0 auto;
+    }
+
+    .recipe-header { margin-bottom: 25px; }
+
+    .recipe-title {
+      font-size: 1.9em;
+      font-weight: 450;
+      color: #e73b42;
+      margin-bottom: 25px;
+      line-height: 1.2;
+    }
+
+    .recipe-meta {
+      color: #9d9d9d;
+      font-size: 0.90em;
+      margin-bottom: 25px;
+    }
+    .recipe-meta span { margin-right: 0 !important; }
+
+    /* Base styles for description (used for both recipe and manifesto) */
+    .recipe-description {
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 25px;
+      font-size: 1em;
+    }
+
+    .recipe-image {
+      display: block;
+      max-width: 50%;
+      width: auto;
+      height: auto;
+      border-radius: 8px;
+      margin: 0 auto 20px auto;
+    }
+
+    /* Home/Manifesto Specific Styles */
+    .home-text {
+      text-align: left;
+      padding: 0;
+      max-width: 750px;
+      margin: 0 auto;
+      font-size: 1.05em;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.85;
+    }
+
+    .home-text .home-image {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      margin-bottom: 30px;
+      margin-top: 10px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .home-text .recipe-title {
+      font-weight: 550 !important;
+      margin-bottom: 15px;
+    }
+
+    .home-text,
+    .home-text .recipe-description {
+      color: #353535 !important;
+      font-size: 1em !important;
+      line-height: 1.9 !important;
+    }
+
+    /* ---------------------------------------------------- */
+    /* === GRID VIEW STYLES & CONTROLS === */
+    /* ---------------------------------------------------- */
+    .grid-view {
+      padding: 40px 50px;
+      max-width: 1200px; /* Adjusted max-width */ 
+      margin: 0 auto;
+    }
+
+    .recipe-cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .recipe-card {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px; 
+      object-fit: cover;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .card-image-placeholder {
+      width: 100%;
+      height: 200px;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9em;
+      color: #9d9d9d;
+      font-weight: 300;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-title {
+      font-size: 1.15em;
+      font-weight: 600;
+      color: #353535;
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .card-description {
+      font-size: 0.9em;
+      color: #7d7d7d;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.4;
+    }
+
+    .card-time {
+      font-size: 0.8em;
+      color: #e73b42;
+      font-weight: 600;
+    }
+
+    .grid-controls {
+      display: flex;
+      flex-wrap: wrap; 
+      gap: 15px;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    .grid-controls select {
+      padding: 8px 10px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+    
+    .grid-search-box {
+      flex: 1;
+      min-width: 200px;
+      padding: 8px 12px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background-color: #ffffff;
+      color: #353535;
+    }
+    
+    .grid-search-box:focus {
+      outline: none;
+      border-color: #e73b42;
+    }
+    
+    .clear-filters-btn {
+      font-family: 'Inter', sans-serif !important;
+      font-size: 0.9em;
+      padding: 8px 12px;
+      background: transparent;
+      border: 1px solid #9d9d9d;
+      color: #7d7d7d;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .clear-filters-btn:hover {
+      border-color: #E73B42;
+      color: #7d7d7d;
+    }
+
+    /* ---------------------------------------------------- */
+    /* === RATING SPECIFIC STYLES (Kept for later use) === */
+    /* ---------------------------------------------------- */
+    /* NOTE: Display of these elements is currently disabled in JS */
+    .rating-container {
+        display: none; /* Temporarily hidden */
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    .stars-display {
+        font-size: 1.5em;
+        color: #ffc107;
+        letter-spacing: -2px;
+    }
+    /* ... (Rest of rating styles hidden) */
+
+
+    /* ---------------------------------------------------- */
+    /* === ACTIONS & SECTIONS (FULL RECIPE) === */
+    /* ---------------------------------------------------- */
+
+    .recipe-actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .recipe-action-button {
+      font-family: 'Inter', sans-serif !important;
+      font-size: 0.95em;
+      padding: 6px 10px;
+      background: transparent;
+      border: 1px solid #E73B42;
+      color: #E73B42;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .recipe-action-button:hover {
+      background-color: #E73B42;
+      color: white;
+    }
+
+    .section-title {
+      color: #E73B42;
+      font-size: 1.2em;
+      font-weight: 700;
+      margin: 20px 0 20px 0;
+    }
+
+    .ingredients-list { list-style: none; margin-bottom: 25px; }
+
+    .ingredient-item {
+      padding: 6px 0 6px 16px;
+      border-left: 3px solid #E73B42;
+      margin-bottom: 8px;
+      font-weight: 300;
+    }
+    
+    .ingredient-item h1,
+    .ingredient-item h2,
+    .ingredient-item h3 {
+      border-left: none;
+      padding-left: 0;
+      margin-left: -16px;
+    }
+
+    .instructions-list { list-style: none; counter-reset: step-counter; }
+
+    .instruction-item {
+      counter-increment: step-counter;
+      margin-bottom: 20px;
+      padding-left: 40px;
+      position: relative;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .instruction-item::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 28px;
+      height: 28px;
+      background-color: #E73B42;
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 400;
+      font-size: 0.9em;
+    }
+
+    .notes-section {
+      background-color: #f8f8f8;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-weight: 300;
+    }
+
+    .no-recipe {
+      padding: 20px;
+      text-align: center;
+      color: #666666;
+      font-size: 0.95em;
+    }
+
+    a.email-link { color: #E73B42; font-weight: 700; text-decoration: none; }
+
+    /* Links in recipe content (from markdown parsing) */
+    .recipe-content a { color: #E73B42; font-weight: 400; text-decoration: none; }
+
+    /* ---------------------------------------------------- */
+    /* === MEDIA QUERIES === */
+    /* ---------------------------------------------------- */
+
+    @media (max-width: 768px) {
+      .recipe-list-container { max-height: calc(56px * 4); }
+      
+      /* Mobile header image - clickable */
+      body::before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 180px;
+        background-image: url('images/Chomp Chomp logos.jpeg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      
+      /* Hide the home-image inside home-text on mobile */
+      .home-text .home-image {
+        display: none;
+      }
+      
+      body { flex-direction: column; }
+      .sidebar { 
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        max-height: 45vh;
+      }
+      .recipe-content { padding: 20px; }
+      .recipe-image { max-width: 80%; }
+      
+      .recipe-cards-container { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
+      .grid-controls { flex-direction: column; align-items: stretch; }
+    }
+
+    @media print {
+      .sidebar, .search-box, .print-button, .copy-link-button, .sidebar-header, .recipe-list-container, .recipe-actions, .recipe-action-button, .grid-controls, .pagination-area, .rating-container {
+        display: none !important;
+      }
+      body { display: block; min-height: auto; color: #000000; }
+      .recipe-content { width: 100%; max-width: 100%; margin: 0; padding: 0; }
+      .recipe-title { color: #000000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .recipe-meta, .recipe-description { color: #333333; }
+      .section-title { color: #333333 !important; }
+      .notes-section { background-color: transparent; border: 1px dashed #cccccc; }
+      .ingredient-item { border-left-color: #cccccc !important; }
+      .instruction-item::before { background-color: #000000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header" onclick="window.resetRecipeView()" style="cursor: pointer;">
+      <div class="sidebar-title">Rituals / Recipes</div>
+      <a href="#grid" id="gridViewLink" style="font-size:0.85em; color: #E73B42; margin-top: 5px; display: block; text-decoration: none;">View All Recipes (Grid)</a>
+    </div>
+
+<div style="padding: 0 20px 10px 20px; flex-shrink: 0;">
+  <select id="sidebar-sort-by" style="width:100%; padding: 8px 10px; border: 1px solid #e0e0e0; border-radius: 4px;">
+      <option value="alphabetical">Sort: A-Z</option>
+      <option value="newest">Sort: Newest</option>
+      <option value="time">Sort: Quickest Time</option>
+  </select>
+</div>
+
+<input type="text" class="search-box" id="searchBox" placeholder="search recipes...">
+
+<div class="recipe-list-container">
+    <ul class="recipe-list" id="recipeList"></ul>
+    <div id="stickyIndicator" class="sticky-indicator"></div>
+    <div class="top-shadow"></div>
+    <div class="no-results" id="noResults" style="display: none;">no recipes found</div>
+</div>
+
+  </div>
+
+  <div class="recipe-content" id="recipeContent"></div>
+
+  <script type="module">
+    // --- FIREBASE IMPORTS ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, onSnapshot, collection, query, updateDoc, setDoc, getDoc, runTransaction, getDocs, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // --- FIREBASE CONFIGURATION (LIVE PUBLIC KEYS INJECTION) ---
+    // This configuration is now correctly set using your live credentials.
+    const firebaseConfig = {
+        apiKey: "AIzaSyAKsgXbyjSSG08B2PuV3Ihva272t8ou1Tw", 
+        authDomain: "chomp-chomp-recipes.firebaseapp.com", 
+        projectId: "chomp-chomp-recipes", 
+        storageBucket: "chomp-chomp-recipes.firebasestorage.app", 
+        messagingSenderId: "225432495618",
+        appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const appId = firebaseConfig.projectId; // Use projectId as a reliable App ID
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    
+    let userId = null;
+    let recipes = [];
+    let currentRecipe = null;
+    let currentGridPage = 0;
+    const RECIPES_PER_PAGE = 15;
+    let isAuthReady = false;
+    
+    // --- FIREBASE COLLECTION PATHS ---
+    function getRecipesCollectionPath() {
+        return `artifacts/${appId}/public/data/recipes`;
+    }
+    
+    // --- AUTHENTICATION & INITIALIZATION ---
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            userId = user.uid;
+        }
+        isAuthReady = true;
+        setupRecipeListener(); 
+        initAuth(); 
+    });
+
+    async function initAuth() {
+        // Wrap in try/catch to prevent SecurityError in some sandbox environments
+        try {
+            await signInAnonymously(auth);
+        } catch (e) {
+            console.error("Anonymous sign-in failed:", e);
+        }
+    }
+    
+    // --- REAL-TIME RECIPE LISTENER (Pulls ALL content from Firestore) ---
+    function setupRecipeListener() {
+        const recipesRef = collection(db, getRecipesCollectionPath());
+        const q = query(recipesRef);
+
+        onSnapshot(q, (snapshot) => {
+            let initialLoad = recipes.length === 0;
+            
+            recipes = snapshot.docs.map(doc => {
+                const data = doc.data();
+                
+                // Safely handle serialized JSON fields created by the migration script
+                if (typeof data.ingredients === 'string' && isSafeJson(data.ingredients)) {
+                    try { data.ingredients = JSON.parse(data.ingredients); } catch (e) { data.ingredients = []; console.error("Failed to parse ingredients JSON string:", e); }
+                }
+                
+                // Check and parse source
+                if (typeof data.source === 'string') {
+                    if (isSafeJson(data.source)) {
+                        try { data.source = JSON.parse(data.source); } catch (e) { data.source = String(data.source); console.error("Failed to parse source JSON string:", e); }
+                    }
+                } else if (data.source === null || data.source === undefined) {
+                    data.source = null;
+                }
+                // If the source is a plain string, it remains a plain string.
+
+                return {
+                    ...data,
+                    // Ensure slug exists for linking
+                    slug: data.slug || generateSlug(data.title),
+                    totalTimeInMinutes: parseTime(data.totalTime || data.cookTime),
+                    dishType: assignDishType(data.title),
+                };
+            });
+
+            sortRecipes(recipes, 'alphabetical');
+            displayRecipeList(recipes);
+            updateStickyIndicator(); 
+            
+            if (initialLoad) {
+                if (window.location.hash === '#grid') {
+                    displayGridPage(recipes);
+                } else if (!openRecipeFromURL()) {
+                    // FIX 2: Added try/catch around resetRecipeView
+                    try {
+                        window.resetRecipeView();
+                    } catch (e) {
+                         console.error("Error resetting recipe view:", e);
+                         document.getElementById('recipeContent').innerHTML = HOME_CONTENT_HTML;
+                    }
+                }
+            }
+        }, (error) => {
+            console.error("Error setting up recipe listener:", error);
+            document.getElementById('recipeContent').innerHTML = `<div class="no-recipe"><p>Failed to load recipes from the database. Check your Firebase Project ID and security rules.</p></div>`;
+        });
+    }
+
+    // --- UTILITIES ---
+    
+    // Helper function to safely check if a string looks like JSON
+    function isSafeJson(str) {
+        if (typeof str !== 'string') return false;
+        str = str.trim();
+        // Return true if it starts with [ or { AND ends with ] or }
+        return (str.startsWith('{') && str.endsWith('}')) || (str.startsWith('[') && str.endsWith(']'));
+    }
+
+    window.printRecipe = function () { window.print(); }
+
+    function generateSlug(title) {
+        return title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim('-');
+    }
+
+    function parseMarkdown(text) {
+        if (!text) return text;
+        
+        // Handle complex array/object structures (Source links, ingredients)
+        if (Array.isArray(text)) {
+            return text.map(item => {
+                if (typeof item === 'string') {
+                    return parseMarkdownString(item);
+                }
+                
+                // Handle nested arrays/objects (like complex ingredients or source links)
+                if (Array.isArray(item)) {
+                    return item.map(subItem => {
+                        // Check if subItem has the link structure
+                        if (subItem && subItem.text && subItem.href) {
+                            return `<a href="${subItem.href}" target="_blank" rel="noopener noreferrer">${subItem.text}</a>`;
+                        }
+                        return parseMarkdownString(String(subItem));
+                    }).join(' ');
+                }
+                // Handle single link object (like source)
+                if (item && item.text && item.href) {
+                    return `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${item.text}</a>`;
+                }
+                return parseMarkdownString(String(item));
+            }).join('<br>'); 
+        }
+        
+        return parseMarkdownString(String(text));
+    }
+    
+    function parseMarkdownString(text) {
+        if (!text) return text;
+        
+        // Convert headers (###, ##, #) - just the tags, styling added during render
+        text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+        text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+        
+        // Convert markdown links [text](url)
+        text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        
+        // Convert bold **text**
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        
+        // Convert italic *text*
+        text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        
+        return text;
+    }
+
+    window.copyPermalink = function () {
+        if (!currentRecipe || !currentRecipe.slug) return;
+        const url = `${window.location.origin}${window.location.pathname}?slug=${encodeURIComponent(currentRecipe.slug)}`;
+        
+        // --- FIX: Using the older execCommand method which is allowed in iFrames ---
+        try {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = url;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Link copied to clipboard!');
+        } catch (e) {
+            console.error('Could not copy text to clipboard using execCommand:', e);
+            alert('Failed to copy link. Please copy manually: ' + url);
+        }
+        // --- END FIX ---
+    }
+
+    function parseTime(timeString) {
+        if (!timeString) return Infinity; 
+        const rangeMatch = String(timeString).match(/^(\d+)/);
+        const rangeMinutes = rangeMatch ? parseInt(rangeMatch[1]) : 0;
+        const hoursMatch = String(timeString).match(/(\d+)\s*h/);
+        const hours = hoursMatch ? parseInt(hoursMatch[1]) * 60 : 0;
+        const minutesMatch = String(timeString).match(/(\d+)\s*min/);
+        const minutes = minutesMatch ? parseInt(minutesMatch[1]) : 0;
+        
+        if (hours + minutes > 0) {
+            return hours + minutes;
+        } else if (rangeMinutes > 0) {
+            return rangeMinutes;
+        }
+        return Infinity;
+    }
+
+    function assignDishType(title) {
+        const lower = title.toLowerCase();
+        if (lower.includes('cake') || lower.includes('torte') || lower.includes('pie') || lower.includes('brûlée')) return 'Dessert/Pastry';
+        if (lower.includes('cookie') || lower.includes('cookies')) return 'Cookie/Bar';
+        if (lower.includes('custard')) return 'Frozen Dessert';
+        if (lower.includes('pudding')) return 'Pudding/Cream';
+        if (lower.includes('taco') || lower.includes('main dish')) return 'Main Dish'; 
+        if (lower.includes('soup')) return 'Soup'; 
+        return 'Other Baked Goods';
+    }
+    
+    function sortRecipes(recipesToSort, sortBy) {
+        switch (sortBy) {
+            case 'time':
+                recipesToSort.sort((a, b) => a.totalTimeInMinutes - b.totalTimeInMinutes);
+                break;
+            case 'newest':
+                recipesToSort.reverse(); 
+                break;
+            case 'alphabetical':
+            default:
+                recipesToSort.sort((a, b) => 
+                    a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 
+                    a.title.toLowerCase() > b.title.toLowerCase() ? 1 : 0
+                );
+                break;
+        }
+    }
+
+    const HOME_CONTENT_HTML = `
+      <div class="home-text">
+          <img src="images/Chomp Chomp logos.jpeg" alt="Chomp Recipes Logo" class="home-image">
+          <h1 class="recipe-title" style="font-size:1.8em;">Recipes & Rituals</h1>
+          <h2 class="section-title manifesto-title" style="font-size:1.2em;">
+            <span class="manifesto-line-1">A Baking Manifesto</span>
+          </h2>
+          <p class="recipe-description">
+          Baking. What is baking, <em>really</em>?
+          It is not simply the combination of flour, sugar, butter, and eggs.
+          No: this would be far too naïve.
+          Baking is the materialization of <span style="color:#e73b42;">comfort itself</span>.
+          When we bake, we engage in a ritual that attempts to suspend the chaos of the world through the illusion of control: precise measurements, preheated ovens, perfectly timed rotations of trays.
+          And yet, as any baker knows, this control is always incomplete. The cake may rise, or it may collapse;
+          </p>
+
+          <p class="recipe-description">
+          But in this gap (between intention and outcome) lies the <span style="color:#e73b42;">zen of baking</span>.
+          We submit ourselves to a process that resists total mastery. The mind quiets as the hands work.
+          The self dissolves into the rhythm of kneading, folding, and whisking.
+          In baking, the most mundane gestures become philosophical: the transformation of raw matter into something tender, fragrant, <span style="color:#e73b42;">shareable</span>.
+          Is this not, in a way, an allegory of all human creation?
+          We impose form upon chaos, and call it dessert.
+          </p>
+
+          <p class="recipe-description">
+          Culturally, baking binds us in a way that predates language.
+          Across centuries and continents, <span style="color:#e73b42;">the act of sharing</span> bread, cake, or cookie functions as a social contract - a small edible utopia.
+          You offer someone a slice, a biscuit, a still-warm loaf, and for a fleeting moment the alienation of modern life is suspended.
+          Even the recipes themselves - whether original inventions, found online, or passed from one colleague's grandmother to another's notebook - form a <span style="color:#e73b42;">network</span> of borrowed gestures and shared <span style="color:#e73b42;">community</span>.
+          </p>
+
+          <p class="recipe-description">
+          So, as you explore these recipes, remember: you are not merely reproducing instructions.
+          You are reenacting an ancient dialectic between chaos and order, solitude and <span style="color:#e73b42;">community</span>, scarcity and indulgence.
+          You are, in the truest sense, baking the <span style="color:#e73b42;">striving toward transcendence</span>.
+          </p>
+
+          <h2 class="section-title" style="font-size:1.2em;">Bake first, theorize later</h2>
+
+          <p class="recipe-description">
+          Scroll through the recipes, or search by keyword.
+          </p>
+
+          <p class="recipe-description">
+          Of course, as with all things in life, the search itself may be more revealing than the finding—the keyword is merely <span style="color:#e73b42;">the symptom of desire</span>!
+          </p>
+
+          <p class="recipe-description">
+          Because baking, like theory, thrives on exchange and variation, I'm always looking for something new.
+          If you have a recipe - your grandmother's secret torte, your own <span style="color:#e73b42;">subversive</span> take on the cookie, or something you found in a forgotten corner of the internet - please send it to me.
+          I'll add it here, with full credit, so that our <span style="color:#e73b42;">collective archive</span> of baked transcendence may continue to grow.
+          </p>
+
+          <p class="recipe-description">
+          <a href="mailto:baking@chomp.ltd" class="email-link">baking@chomp.ltd</a>
+          </p>
+  
+          <p class="recipe-description">
+          <a href="https://www.chomp.ltd" class="email-link">chomp chomp: cookies, etc.</a>
+          </p>
+   
+          <p class="recipe-description">
+          <a href="https://chomp.be/tools" class="email-link">chomp chomp: tools</a>
+          </p> 
+      </div>
+    `;
+
+    window.resetRecipeView = function () {
+        document.querySelectorAll('.recipe-item').forEach(item => item.classList.remove('active'));
+        document.getElementById('recipeContent').innerHTML = HOME_CONTENT_HTML;
+        currentRecipe = null;
+        
+        // Clear hash without triggering hashchange event
+        if (window.location.hash) {
+            history.replaceState(null, null, window.location.pathname);
+        }
+    }
+
+    function updateStickyIndicator() {
+        const list = document.querySelector('.recipe-list-container');
+        const indicator = document.getElementById('stickyIndicator');
+        const topShadow = document.querySelector('.top-shadow');
+        if (!list || !indicator) return;
+
+        const isScrollable = list.scrollHeight > list.clientHeight;
+        if (!isScrollable) {
+            indicator.style.display = 'none';
+            if (topShadow) topShadow.style.opacity = 0;
+            return;
+        }
+
+        indicator.style.display = 'block';
+        const isMobile = window.innerWidth < 768;
+        indicator.textContent = isMobile ?
+            "↓ scroll for more" : "↓ scroll for more recipes";
+
+        const atTop = list.scrollTop <= 1;
+        indicator.style.opacity = atTop ? 1 : 0;
+        if (topShadow) topShadow.style.opacity = atTop ? 0 : 1;
+        if (!list._hasStickyScrollHandler) {
+            list.addEventListener('scroll', () => {
+                const nowAtTop = list.scrollTop <= 1;
+                indicator.style.opacity = nowAtTop ? 1 : 0;
+                if (topShadow) {
+                    topShadow.style.opacity = nowAtTop ? 0 : 1;
+                }
+            });
+            list._hasStickyScrollHandler = true;
+        }
+    }
+
+
+    function openRecipeFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const slugParam = params.get('slug');
+
+        if (!slugParam || slugParam.trim() === '') return false;
+        let target = recipes.find(r => r.slug === slugParam.trim());
+
+        if (!target) return false;
+        const recipeList = document.getElementById('recipeList');
+        const items = recipeList.querySelectorAll('.recipe-item');
+
+        items.forEach(item => {
+            const nameEl = item.querySelector('.recipe-name');
+            if (nameEl && nameEl.textContent.trim() === target.title) {
+                window.selectRecipe(target, item);
+            }
+        });
+        return true;
+    }
+    
+    // Renders the interactive rating UI (now disabled)
+    async function renderRatingUI(recipeSlug) {
+        // NOTE: Functionality removed for stability.
+        const container = document.getElementById('rating-ui-container');
+        if (container) container.innerHTML = '';
+    }
+    
+    // --- DISPLAY FUNCTIONS ---
+
+    function displayRecipeList(recipesToShow) {
+        const recipeList = document.getElementById('recipeList');
+        const noResults = document.getElementById('noResults');
+        recipeList.innerHTML = '';
+        if (!recipesToShow.length) { 
+            noResults.style.display = 'block';
+            return;
+        }
+        noResults.style.display = 'none';
+        recipesToShow.forEach(recipe => {
+            const li = document.createElement('li');
+            li.className = 'recipe-item';
+            li.onclick = () => window.selectRecipe(recipe, li);
+            li.innerHTML = `<div class="recipe-name">${recipe.title}</div>`;
+            
+            if (currentRecipe && currentRecipe.slug === recipe.slug) {
+                li.classList.add('active');
+            }
+
+            recipeList.appendChild(li);
+        });
+    }
+
+    window.selectRecipe = function (recipe, element) {
+      currentRecipe = recipe;
+      document.querySelectorAll('.recipe-item').forEach(item=>item.classList.remove('active'));
+      if (element && element.classList) { 
+          element.classList.add('active');
+      }
+
+      const content = document.getElementById('recipeContent');
+
+      let metaInfo = [];
+      if (recipe.prepTime) metaInfo.push(`<span>prep: ${recipe.prepTime}</span>`);
+      if (recipe.cookTime) metaInfo.push(`<span>cook: ${recipe.cookTime}</span>`);
+      if (recipe.totalTime) metaInfo.push(`<span>total: ${recipe.totalTime}</span>`);
+      if (recipe.servings) metaInfo.push(`<span>servings: ${recipe.servings}</span>`);
+      if (recipe.source) metaInfo.push(`<span>source: ${parseMarkdown(recipe.source)}</span>`);
+      if (recipe.category && recipe.category !== 'null') metaInfo.push(`<span>category: ${recipe.category}</span>`);
+
+      // Handle image path - support both local images and Firebase Storage URLs
+      let imageHTML = '';
+      if (recipe.image) {
+        const imagePath = recipe.image.startsWith('http') 
+          ? recipe.image 
+          : `images/${recipe.image}`;
+        imageHTML = `<img src="${imagePath}" alt="${recipe.title}" class="recipe-image">`;
+      }
+      let descriptionHTML = recipe.description?`<div class="recipe-description">${parseMarkdown(recipe.description)}</div>`:'';
+      
+      // Use parseMarkdown to safely handle ingredients (which should be arrays or null)
+      const safeIngredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
+      const ingredientsHTML = safeIngredients.map(i => {
+          const parsed = parseMarkdown(i);
+          // Check if this is a header (starts with <h1, <h2, or <h3)
+          if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
+              // Return header without li wrapper
+              return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
+                           .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
+                           .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+          }
+          // Regular ingredient with red bar
+          return `<li class="ingredient-item">${parsed}</li>`;
+      }).join('');
+
+      const safeInstructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
+      const instructionsHTML = safeInstructions.map(i => {
+          const parsed = parseMarkdown(i);
+          // Check if this is a header (starts with <h1, <h2, or <h3)
+          if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
+              // Return header without li wrapper
+              return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
+                           .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
+                           .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+          }
+          // Regular instruction with numbering
+          return `<li class="instruction-item">${parsed}</li>`;
+      }).join('');
+      let notesHTML = recipe.notes?`<div class="section-title">notes</div><div class="notes-section">${parseMarkdown(recipe.notes)}</div>`:'';
+
+      if (recipe.slug) {
+        // NOTE: Removed history.replaceState
+      }
+      
+      content.innerHTML = `
+        <div class="recipe-header">
+          <h1 class="recipe-title">${recipe.title}</h1>
+          <div class="recipe-meta">${metaInfo.join(' | ')}</div>
+          
+          <div id="rating-ui-container"></div>
+          
+          <div class="recipe-actions">
+            <button onclick="window.printRecipe()" class="recipe-action-button">Print</button>
+            <button onclick="window.copyPermalink()" class="recipe-action-button">Copy Link</button>
+          </div>
+        </div>
+        ${descriptionHTML}${imageHTML}
+        <div class="section-title">ingredients</div>
+        <ul class="ingredients-list">${ingredientsHTML}</ul>
+        <div class="section-title">instructions</div>
+        <ol class="instructions-list">${instructionsHTML}</ol>
+        ${notesHTML}
+      `;
+      
+      renderRatingUI(recipe.slug);
+    }
+
+    // --- GRID VIEW FUNCTIONS (SAME) ---
+    
+    function getUniqueFilterOptions(key) {
+        const options = new Set();
+        recipes.forEach(r => {
+            if (r[key]) options.add(r[key]);
+        });
+        return Array.from(options).sort();
+    }
+
+    function renderCards(recipesToRender) {
+        return recipesToRender.map(recipe => {
+            const timeText = recipe.totalTimeInMinutes === Infinity ? 'Time N/A' : `${recipe.totalTimeInMinutes} min`;
+            
+            // Handle both local images and Firebase Storage URLs
+            const imagePath = recipe.image 
+              ? (recipe.image.startsWith('http') ? recipe.image : `images/${recipe.image}`)
+              : null;
+            
+            const imageHTML = imagePath 
+                ? `<img src="${imagePath}" alt="${recipe.title}" class="card-image">`
+                : `<div class="card-image-placeholder">No Image Available</div>`;
+            
+            // Removed rating display
+            const infoText = timeText;
+
+            return `
+                <div class="recipe-card" onclick="window.selectRecipeFromGrid('${recipe.slug}')">
+                    ${imageHTML}
+                    <div class="card-content">
+                        <div class="card-title">${recipe.title}</div>
+                        <div class="card-description">${recipe.description || 'A delicious recipe waiting to be made!'}</div>
+                        <div class="card-time">${infoText}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    window.selectRecipeFromGrid = function (slug) {
+        const target = recipes.find(r => r.slug === slug);
+        if (!target) return;
+        
+        // NOTE: Removed history.replaceState
+        
+        const recipeList = document.getElementById('recipeList');
+        const item = Array.from(recipeList.querySelectorAll('.recipe-item'))
+            .find(el => el.querySelector('.recipe-name').textContent.trim() === target.title);
+            
+        selectRecipe(target, item || {}); 
+    }
+
+    function filterAndSortGrid() {
+        const sortBy = document.getElementById('grid-sort-by').value;
+        const categoryFilter = document.getElementById('filter-category').value;
+        const typeFilter = document.getElementById('filter-type').value;
+        const searchTerm = document.getElementById('gridSearchBox')?.value.toLowerCase() || '';
+
+        let recipesToFilter = [...recipes]; 
+
+        // Apply search filter
+        if (searchTerm) {
+            recipesToFilter = recipesToFilter.filter(r =>
+                r.title.toLowerCase().includes(searchTerm) ||
+                (r.description && r.description.toLowerCase().includes(searchTerm)) ||
+                r.ingredients.some(i => i.toLowerCase().includes(searchTerm))
+            );
+        }
+
+        // Apply category filter
+        if (categoryFilter !== 'all') {
+            recipesToFilter = recipesToFilter.filter(r => r.category === categoryFilter);
+        }
+        
+        // Apply type filter
+        if (typeFilter !== 'all') {
+            recipesToFilter = recipesToFilter.filter(r => r.dishType === typeFilter);
+        }
+
+        sortRecipes(recipesToFilter, sortBy);
+
+        currentGridPage = 0;
+        const initialCards = renderCards(recipesToFilter.slice(0, RECIPES_PER_PAGE));
+        
+        const container = document.getElementById('gridCardsContainer');
+        if (container) container.innerHTML = initialCards;
+
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        if (loadMoreBtn) {
+            if (recipesToFilter.length <= RECIPES_PER_PAGE) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-block';
+                loadMoreBtn.onclick = () => loadMoreRecipes(recipesToFilter);
+            }
+        }
+    }
+
+    function loadMoreRecipes(filteredRecipes) {
+        currentGridPage++;
+        const startIndex = currentGridPage * RECIPES_PER_PAGE;
+        const endIndex = startIndex + RECIPES_PER_PAGE;
+        const nextBatch = filteredRecipes.slice(startIndex, endIndex);
+
+        const container = document.getElementById('gridCardsContainer');
+        if (container) container.insertAdjacentHTML('beforeend', renderCards(nextBatch));
+        
+        if (endIndex >= filteredRecipes.length) {
+            document.getElementById('load-more-btn').style.display = 'none';
+        }
+    }
+
+    function clearAllFilters() {
+        document.getElementById('filter-category').value = 'all';
+        document.getElementById('filter-type').value = 'all';
+        document.getElementById('grid-sort-by').value = 'alphabetical';
+        if (document.getElementById('gridSearchBox')) {
+            document.getElementById('gridSearchBox').value = '';
+        }
+        filterAndSortGrid();
+    }
+
+
+    function displayGridPage(initialRecipes) {
+        const content = document.getElementById('recipeContent');
+
+        const categories = getUniqueFilterOptions('category');
+        const dishTypes = getUniqueOptions('dishType'); // Fixed typo from getUniqueFilterOptions
+
+        const filterOptionsHTML = (options, id, label) => `
+            <select id="${id}" onchange="filterAndSortGrid()">
+                <option value="all">Filter by ${label}</option>
+                ${options.map(o => `<option value="${o}">${o}</option>`).join('')}
+            </select>
+        `;
+
+        const gridControlsHTML = `
+          <div class="grid-controls">
+            <input type="text" class="grid-search-box" id="gridSearchBox" placeholder="search recipes...">
+            ${filterOptionsHTML(categories, 'filter-category', 'Category')}
+            ${filterOptionsHTML(dishTypes, 'filter-type', 'Type')}
+            
+            <select id="grid-sort-by" onchange="filterAndSortGrid()">
+              <option value="alphabetical">Sort: A-Z</option>
+              <option value="newest">Sort: Newest</option>
+              <option value="time">Sort: Quickest Time</option>
+            </select>
+
+            <button class="clear-filters-btn" onclick="clearAllFilters()">Clear Filters</button>
+          </div>
+        `;
+
+        let recipesToDisplay = [...initialRecipes];
+        sortRecipes(recipesToDisplay, 'alphabetical');
+        currentGridPage = 0;
+        const initialCards = renderCards(recipesToDisplay.slice(0, RECIPES_PER_PAGE));
+        
+        content.innerHTML = `
+            <div class="grid-view">
+                <h1 class="recipe-title" style="text-align:center;">All Recipes / Rituals</h1>
+                <div style="text-align:center; margin-bottom: 20px;">
+                  <a href="#" onclick="window.resetRecipeView(); return false;" style="color: #e73b42; text-decoration: none; font-size: 0.9em;">← Switch to Scroll View</a>
+                </div>
+                ${gridControlsHTML}
+                <div class="recipe-cards-container" id="gridCardsContainer">
+                    ${initialCards}
+                </div>
+                <div class="pagination-area" style="text-align:center; margin-top: 40px;">
+                  <button id="load-more-btn" class="recipe-action-button" 
+                          ${recipesToDisplay.length <= RECIPES_PER_PAGE ? 'style="display:none;"' : ''}>Load More Recipes</button>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('load-more-btn').onclick = () => loadMoreRecipes(recipesToDisplay);
+        
+        // Add grid search functionality
+        document.getElementById('gridSearchBox').addEventListener('input', (e) => {
+          filterAndSortGrid();
+        });
+        // NOTE: Removed history.replaceState
+    }
+    
+    // Helper for grid page to reuse getUniqueFilterOptions logic (used to fix a typo)
+    function getUniqueOptions(key) {
+        return getUniqueFilterOptions(key);
+    }
+    
+    // --- GLOBAL LISTENERS & INIT ---
+
+    document.getElementById('searchBox').addEventListener('input', e=>{
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = recipes.filter(r=>
+        r.title.toLowerCase().includes(searchTerm) ||
+        (r.description&&r.description.toLowerCase().includes(searchTerm)) ||
+        r.ingredients.some(i=>i.toLowerCase().includes(searchTerm))
+      );
+      displayRecipeList(filtered);
+      updateStickyIndicator();
+    });
+
+    document.getElementById('sidebar-sort-by').addEventListener('change', e => {
+        sortRecipes(recipes, e.target.value);
+        displayRecipeList(recipes); 
+    });
+
+    window.addEventListener('hashchange', () => {
+        if (window.location.hash === '#grid' && recipes.length > 0) {
+            displayGridPage(recipes);
+        } else if (window.location.hash === '' || window.location.hash === '#home') {
+            window.resetRecipeView();
+        }
+    });
+
+    // Handle initial hash on page load
+    if (window.location.hash === '#grid' && recipes.length > 0) {
+        // Grid will be shown after recipes load
+    } else if (window.location.hash && window.location.hash !== '#home') {
+        // There's a hash but it's not grid or home, might be a recipe
+    }
+
+    initAuth();
+    
+    window.addEventListener('resize', () => {
+      updateStickyIndicator();
+    });
+    
+    // Mobile header click handler
+    document.body.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && e.clientY < 200) {
+        window.resetRecipeView();
+      }
+    });
+  </script>
+
+</body>
+</html>

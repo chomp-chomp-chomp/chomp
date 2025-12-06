@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Chomp Chomp</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes_logo.jpeg?alt=media">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Chomp Chomp Recipes">
+  <meta name="description" content="Baking is the materialization of comfort itself.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/">
+  <meta property="og:title" content="Chomp Chomp Recipes">
+  <meta property="og:description" content="Baking is the materialization of comfort itself.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/">
+  <meta property="twitter:title" content="Chomp Chomp Recipes">
+  <meta property="twitter:description" content="Baking is the materialization of comfort itself.">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Open Graph / Social Media Preview Tags -->
+  <meta property="og:title" content="About Chomp Chomp Recipes">
+  <meta property="og:description" content="Baking is the materialization of comfort itself. Learn about our philosophy and approach to recipes and rituals.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes.png?alt=media">
+  <meta property="og:url" content="https://chomp.be/about.html">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Page-specific styles */
+    .manifesto-section {
+      max-width: 700px;
+      margin: 0 auto 60px auto;
+    }
+
+    .manifesto-section p {
+      line-height: 1.8;
+      margin-bottom: 25px;
+      font-weight: 300;
+    }
+
+    .highlight {
+      color: var(--color-accent);
+      font-weight: 400;
+    }
+
+    .about-image {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      margin: 0 auto 30px auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 60px auto;
+      max-width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="recipes.html" title="Recipes" class="header-icon-link">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764687494472_MagicEraser_251202_001040.png?alt=media&token=97b7e1ec-632a-4dea-8037-e54789b4e2fd"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-default">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-hover">
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="index.html" title="Home">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right"><div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-container">
+
+    <!-- Hero Section -->
+    <section class="content-wrapper text-center mb-xl">
+      <h1>About Chomp Chomp Recipes</h1>
+
+      <p class="text-muted" style="max-width: 600px; margin: 20px auto;">
+        A collection of baking recipes and culinary rituals, approached with philosophical curiosity and care.
+      </p>
+    </section>
+
+    <!-- Manifesto Section -->
+    <section class="manifesto-section">
+      <h2 style="font-size: 1.4em; margin-bottom: 30px;">A Baking Manifesto</h2>
+
+      <p>
+        Baking. What is baking, <em>really</em>?
+        It is not simply the combination of flour, sugar, butter, and eggs.
+        No: this would be far too naïve.
+        Baking is the materialization of <span class="highlight">comfort itself</span>.
+        When we bake, we engage in a ritual that attempts to suspend the chaos of the world through the illusion of control: precise measurements, preheated ovens, perfectly timed rotations of trays.
+        And yet, as any baker knows, this control is always incomplete. The cake may rise, or it may collapse;
+      </p>
+
+      <p>
+        But in this gap (between intention and outcome) lies the <span class="highlight">zen of baking</span>.
+        We submit ourselves to a process that resists total mastery. The mind quiets as the hands work.
+        The self dissolves into the rhythm of kneading, folding, and whisking.
+        In baking, the most mundane gestures become philosophical: the transformation of raw matter into something tender, fragrant, <span class="highlight">shareable</span>.
+        Is this not, in a way, an allegory of all human creation?
+        We impose form upon chaos, and call it dessert.
+      </p>
+
+      <p>
+        Culturally, baking binds us in a way that predates language.
+        Across centuries and continents, <span class="highlight">the act of sharing</span> bread, cake, or cookie functions as a social contract - a small edible utopia.
+        You offer someone a slice, a biscuit, a still-warm loaf, and for a fleeting moment the alienation of modern life is suspended.
+        Even the recipes themselves - whether original inventions, found online, or passed from one colleague's grandmother to another's notebook - form a <span class="highlight">network</span> of borrowed gestures and shared <span class="highlight">community</span>.
+      </p>
+
+      <p>
+        So, as you explore these recipes, remember: you are not merely reproducing instructions.
+        You are reenacting an ancient dialectic between chaos and order, solitude and <span class="highlight">community</span>, scarcity and indulgence.
+        You are, in the truest sense, baking the <span class="highlight">striving toward transcendence</span>.
+      </p>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Bake First Section -->
+    <section class="manifesto-section">
+      <h2 style="font-size: 1.4em; margin-bottom: 30px;">Bake first, theorize later</h2>
+
+      <p>
+        Scroll through the <a href="recipes.html">recipes</a>, or search by keyword.
+      </p>
+
+      <p>
+        Of course, as with all things in life, the search itself may be more revealing than the finding—the keyword is merely <span class="highlight">the symptom of desire</span>!
+      </p>
+
+      <p>
+        Because baking, like theory, thrives on exchange and variation, I'm always looking for something new.
+        If you have a recipe - your grandmother's secret torte, your own <span class="highlight">subversive</span> take on the cookie, or something you found in a forgotten corner of the internet - please send it to me.
+        I'll add it here, with full credit, so that our <span class="highlight">collective archive</span> of baked transcendence may continue to grow.
+      </p>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Contact Section -->
+    <section class="content-wrapper text-center">
+      <h2 style="font-size: 1.4em; margin-bottom: 30px;">Get in Touch</h2>
+
+      <p style="font-size: 1.05em; margin-bottom: 20px;">
+        Have a recipe to share? A story about your baking rituals?<br>
+        Questions about a technique or ingredient?
+      </p>
+
+      <p style="margin-bottom: 30px;">
+        <a href="mailto:hi@chomp.ltd" class="btn btn-primary" style="color: white; text-decoration: none;">
+          Email: hi@chomp.ltd
+        </a>
+      </p>
+
+      <div style="max-width: 500px; margin: 40px auto;">
+        <h3 style="font-size: 1.2em; margin-bottom: 20px; color: var(--color-text);">
+          Related Projects
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <a href="https://www.chomp.ltd" target="_blank" class="btn btn-outline" style="display: block;">
+            chomp chomp: cookies, etc.
+          </a>
+          <a href="https://chomp.be/tools" target="_blank" class="btn btn-outline" style="display: block;">
+            chomp chomp: tools
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>Baking is the materialization of comfort itself.</p>
+      <div class="footer-links">
+        <a href="mailto:hi@chomp.ltd">hi@chomp.ltd</a>
+        <a href="https://www.chomp.ltd" target="_blank">chomp chomp: cookies, etc.</a>
+        <a href="https://chomp.be/tools" target="_blank">chomp chomp: tools</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <!-- Navigation toggle -->
+  <script>
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

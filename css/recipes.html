@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - Chomp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/chomp-recipes.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🍴 CHOMP</a>
+            <button class="nav-toggle" onclick="toggleNav()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html" class="active">Recipes</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+```
+<!-- Main Content -->
+<div class="container-wide">
+    <div class="recipe-grid">
+        
+        <!-- Sidebar -->
+        <aside class="recipe-sidebar">
+            <input type="search" 
+                   class="recipe-search" 
+                   id="searchInput" 
+                   placeholder="Search recipes..."
+                   onkeyup="filterRecipes()">
+            
+            <div class="recipe-filters">
+                <h3>Category</h3>
+                <div class="filter-group" id="categoryFilters">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="recipe-filters">
+                <h3>Type</h3>
+                <div class="filter-group" id="typeFilters">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="recipe-filters">
+                <h3>Dietary</h3>
+                <div class="filter-group" id="dietaryFilters">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="clearFilters()">
+                Clear Filters
+            </button>
+        </aside>
+
+        <!-- Recipe List -->
+        <div>
+            <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0;">All Recipes</h2>
+                <span id="recipeCount" style="color: #666666;">Loading...</span>
+            </div>
+            
+            <div class="recipe-list" id="recipeList">
+                <!-- Recipes will be loaded here by JavaScript -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666666;">
+                    <p>Loading recipes...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="footer-content">
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="https://chomp.be/tools">Tools</a></li>
+        </ul>
+        <div class="footer-copyright">
+            © 2024 Chomp. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Global state
+    let allRecipes = [];
+    let activeFilters = {
+        category: new Set(),
+        type: new Set(),
+        dietary: new Set()
+    };
+
+    // Load recipes from Firestore
+    async function loadRecipes() {
+        try {
+            const querySnapshot = await getDocs(collection(db, "recipes"));
+            allRecipes = [];
+            
+            querySnapshot.forEach((doc) => {
+                allRecipes.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+
+            // Sort alphabetically
+            allRecipes.sort((a, b) => a.name.localeCompare(b.name));
+
+            // Build filter options
+            buildFilterOptions();
+            
+            // Display recipes
+            displayRecipes(allRecipes);
+            
+            // Update count
+            updateRecipeCount(allRecipes.length);
+
+            // Make functions globally available
+            window.filterRecipes = filterRecipes;
+            window.clearFilters = clearFilters;
+            window.toggleFilter = toggleFilter;
+            
+        } catch (error) {
+            console.error("Error loading recipes:", error);
+            document.getElementById('recipeList').innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666666;">
+                    <p>Error loading recipes. Please try again later.</p>
+                </div>
+            `;
+        }
+    }
+
+    // Build filter checkbox options
+    function buildFilterOptions() {
+        const categories = new Set();
+        const types = new Set();
+        const dietary = new Set();
+
+        allRecipes.forEach(recipe => {
+            if (recipe.category) categories.add(recipe.category);
+            if (recipe.type) types.add(recipe.type);
+            if (recipe.dietary && Array.isArray(recipe.dietary)) {
+                recipe.dietary.forEach(d => dietary.add(d));
+            }
+        });
+
+        // Build category filters
+        const categoryHTML = Array.from(categories).sort().map(cat => `
+            <div class="filter-checkbox">
+                <input type="checkbox" id="cat-${cat}" value="${cat}" onchange="toggleFilter('category', '${cat}')">
+                <label for="cat-${cat}">${cat}</label>
+            </div>
+        `).join('');
+        document.getElementById('categoryFilters').innerHTML = categoryHTML;
+
+        // Build type filters
+        const typeHTML = Array.from(types).sort().map(type => `
+            <div class="filter-checkbox">
+                <input type="checkbox" id="type-${type}" value="${type}" onchange="toggleFilter('type', '${type}')">
+                <label for="type-${type}">${type}</label>
+            </div>
+        `).join('');
+        document.getElementById('typeFilters').innerHTML = typeHTML;
+
+        // Build dietary filters
+        const dietaryHTML = Array.from(dietary).sort().map(diet => `
+            <div class="filter-checkbox">
+                <input type="checkbox" id="diet-${diet}" value="${diet}" onchange="toggleFilter('dietary', '${diet}')">
+                <label for="diet-${diet}">${diet}</label>
+            </div>
+        `).join('');
+        document.getElementById('dietaryFilters').innerHTML = dietaryHTML;
+    }
+
+    // Toggle filter
+    window.toggleFilter = function(filterType, value) {
+        if (activeFilters[filterType].has(value)) {
+            activeFilters[filterType].delete(value);
+        } else {
+            activeFilters[filterType].add(value);
+        }
+        filterRecipes();
+    };
+
+    // Filter recipes
+    window.filterRecipes = function() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        let filtered = allRecipes.filter(recipe => {
+            // Search filter
+            const matchesSearch = !searchTerm || 
+                recipe.name.toLowerCase().includes(searchTerm) ||
+                (recipe.description && recipe.description.toLowerCase().includes(searchTerm));
+
+            // Category filter
+            const matchesCategory = activeFilters.category.size === 0 || 
+                activeFilters.category.has(recipe.category);
+
+            // Type filter
+            const matchesType = activeFilters.type.size === 0 || 
+                activeFilters.type.has(recipe.type);
+
+            // Dietary filter
+            const matchesDietary = activeFilters.dietary.size === 0 || 
+                (recipe.dietary && recipe.dietary.some(d => activeFilters.dietary.has(d)));
+
+            return matchesSearch && matchesCategory && matchesType && matchesDietary;
+        });
+
+        displayRecipes(filtered);
+        updateRecipeCount(filtered.length);
+    };
+
+    // Clear all filters
+    window.clearFilters = function() {
+        // Clear search
+        document.getElementById('searchInput').value = '';
+        
+        // Clear checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        
+        // Clear filter sets
+        activeFilters.category.clear();
+        activeFilters.type.clear();
+        activeFilters.dietary.clear();
+        
+        // Reset display
+        displayRecipes(allRecipes);
+        updateRecipeCount(allRecipes.length);
+    };
+
+    // Display recipes
+    function displayRecipes(recipes) {
+        const recipeList = document.getElementById('recipeList');
+        
+        if (recipes.length === 0) {
+            recipeList.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666666;">
+                    <p>No recipes found. Try adjusting your filters.</p>
+                </div>
+            `;
+            return;
+        }
+
+        recipeList.innerHTML = recipes.map(recipe => `
+            <div class="recipe-card" onclick="window.location.href='recipe.html?id=${recipe.id}'">
+                ${recipe.imageUrl ? `
+                    <img src="${recipe.imageUrl}" alt="${recipe.name}" class="recipe-card-image">
+                ` : ''}
+                <div class="recipe-card-content">
+                    <h3 class="recipe-card-title">${recipe.name}</h3>
+                    ${recipe.description ? `
+                        <p style="color: #b0b0b0; font-size: 0.9rem;">${recipe.description}</p>
+                    ` : ''}
+                    <div class="recipe-card-tags">
+                        ${recipe.category ? `<span class="tag">${recipe.category}</span>` : ''}
+                        ${recipe.type ? `<span class="tag">${recipe.type}</span>` : ''}
+                        ${recipe.dietary && recipe.dietary.length > 0 ? 
+                            recipe.dietary.map(d => `<span class="tag">${d}</span>`).join('') : ''
+                        }
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Update recipe count
+    function updateRecipeCount(count) {
+        document.getElementById('recipeCount').textContent = 
+            `${count} recipe${count !== 1 ? 's' : ''}`;
+    }
+
+    // Initialize
+    loadRecipes();
+</script>
+
+<script>
+    function toggleNav() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+</script>
+```
+
+</body>
+</html>

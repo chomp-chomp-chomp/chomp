@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chomp Chomp: Recipes & Rituals</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes_logo.jpeg?alt=media">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Chomp Chomp Recipes">
+  <meta name="description" content="Baking is the materialization of comfort itself.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/">
+  <meta property="og:title" content="Chomp Chomp Recipes">
+  <meta property="og:description" content="Baking is the materialization of comfort itself.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/">
+  <meta property="twitter:title" content="Chomp Chomp Recipes">
+  <meta property="twitter:description" content="Baking is the materialization of comfort itself.">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="recipes.html" title="Recipes" class="header-icon-link">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764687494472_MagicEraser_251202_001040.png?alt=media&token=97b7e1ec-632a-4dea-8037-e54789b4e2fd"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-default">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-hover">
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="recipes.html" title="Recipes">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right"><div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="page-container">
+
+    <!-- Intro Section -->
+    <div class="intro-section" style="text-align: center; margin-bottom: 50px; padding: 30px 20px; border-bottom: 1px solid #e0e0e0;">
+      <h2 style="font-size: 1.5em; font-weight: 400; color: #353535; margin-bottom: 20px;">Chomp Chomp presents:</h2>
+      <p style="font-size: 1.1em; color: #666; margin-bottom: 25px; line-height: 1.6;">
+        Recipes, Stories, Rituals, Meditations, & Observations
+      </p>
+      <p style="font-size: 1em; color: #666; margin-bottom: 15px; line-height: 1.7;">
+        Baking is Personal Zen and Communal Joy. We are Chomp Chomp.
+      </p>
+      <p style="font-size: 0.95em; color: #666;">
+        Send us your recipes and stories: <a href="mailto:hi@chomp.ltd" style="color: #e73b42; text-decoration: none;">hi@chomp.ltd</a>
+      </p>
+    </div>
+
+    <!-- Two Column Landing Page Layout -->
+    <div class="landing-page-grid">
+
+      <!-- Left Column: Stories & Meditations -->
+      <div class="landing-column">
+        <div class="landing-section-header">
+          <h1><a href="stories.html" style="text-decoration: none; color: inherit;">Stories & Meditations</a></h1>
+          <p class="text-muted">
+            Explore the philosophy of baking through cultural history, personal stories, and mindful practice.
+            Because baking is more than a recipe—it's a ritual, a meditation, a connection to community.
+          </p>
+        </div>
+
+        <!-- Featured Story -->
+        <div id="featuredStory" class="featured-card">
+          <p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">Loading featured story...</p>
+        </div>
+
+        <div class="text-center mt-lg">
+          <a href="stories.html" class="btn btn-outline">View All Stories →</a>
+        </div>
+      </div>
+
+      <!-- Mobile divider -->
+      <hr class="mobile-divider">
+
+      <!-- Right Column: Recipes & Rituals -->
+      <div class="landing-column">
+        <div class="landing-section-header">
+          <h1><a href="recipes.html" style="text-decoration: none; color: inherit;">Recipes & Rituals</a></h1>
+          <p class="text-muted">
+            Browse, search, and discover your next baking adventure through our collection of recipes and culinary rituals.
+          </p>
+        </div>
+
+        <!-- Featured Recipe -->
+        <div id="featuredRecipe" class="featured-card">
+          <p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">Loading featured recipe...</p>
+        </div>
+
+        <div class="text-center mt-lg">
+          <a href="recipes.html" class="btn btn-outline">View All Recipes →</a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>Baking is the materialization of comfort itself.</p>
+      <div class="footer-links">
+        <a href="mailto:hi@chomp.ltd">hi@chomp.ltd</a>
+        <a href="https://www.chomp.ltd" target="_blank">chomp chomp: cookies, etc.</a>
+        <a href="https://chomp.be/tools" target="_blank">chomp chomp: tools</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, getDocs, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const appId = firebaseConfig.projectId;
+
+
+    // Display featured story
+    function displayFeaturedStory(post) {
+      const container = document.getElementById('featuredStory');
+
+      if (!post) {
+        container.innerHTML = '<p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">No stories available yet.</p>';
+        return;
+      }
+
+      container.innerHTML = `
+        <a href="post.html?slug=${post.slug}">
+          ${post.featured_image
+            ? `<img src="${post.featured_image}" alt="${post.title}">`
+            : '<div style="height: 280px; background-color: var(--color-sidebar-bg); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">Image Coming Soon</div>'
+          }
+          <div class="featured-card-content">
+            <div class="featured-card-tag">${formatCategory(post.category)}</div>
+            <h3>${post.title}</h3>
+            <p>${post.excerpt || ''}</p>
+            <div class="featured-card-meta">
+              <span>by ${post.author || 'Anonymous'}</span>
+              <span>${formatDate(post.date)}</span>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    // Display featured recipe
+    function displayFeaturedRecipe(recipe) {
+      const container = document.getElementById('featuredRecipe');
+
+      if (!recipe) {
+        container.innerHTML = '<p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">No recipes available yet.</p>';
+        return;
+      }
+
+      container.innerHTML = `
+        <a href="recipe.html?slug=${recipe.slug || recipe.id}">
+          ${recipe.image
+            ? `<img src="${recipe.image.startsWith('http') ? recipe.image : 'images/' + recipe.image}" alt="${recipe.title}">`
+            : '<div style="height: 280px; background-color: var(--color-sidebar-bg); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">Image Coming Soon</div>'
+          }
+          <div class="featured-card-content">
+            <div class="featured-card-tag">${recipe.dishType || 'Recipe'}</div>
+            <h3>${recipe.title}</h3>
+            <p>${recipe.description || ''}</p>
+            <div class="featured-card-meta">
+              <span>${recipe.category || 'Recipe'}</span>
+              ${recipe.totalTime ? `<span>${recipe.totalTime}</span>` : ''}
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+
+    // Format category for display
+    function formatCategory(cat) {
+      const categories = {
+        'rituals': 'Stories & Meditations',
+        'anthropologies': 'Histories & Meditations',
+        'zen': 'Zen of Baking'
+      };
+      return categories[cat] || cat;
+    }
+
+    // Format date
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // Load featured story (most recent published post)
+    async function loadFeaturedStory() {
+      try {
+        const postsRef = collection(db, `artifacts/${appId}/public/data/posts`);
+        const q = query(postsRef, where('status', '==', 'published'));
+
+        const snapshot = await getDocs(q);
+        const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+        displayFeaturedStory(posts[0]);
+      } catch (error) {
+        console.error("Error loading featured story:", error);
+        document.getElementById('featuredStory').innerHTML = '<p style="text-align: center; color: #c62828; padding: 40px 20px;">Error loading story</p>';
+      }
+    }
+
+    // Load featured recipe (random)
+    async function loadFeaturedRecipe() {
+      try {
+        const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
+        const snapshot = await getDocs(recipesRef);
+        const recipes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        if (recipes.length > 0) {
+          const randomIndex = Math.floor(Math.random() * recipes.length);
+          displayFeaturedRecipe(recipes[randomIndex]);
+        }
+      } catch (error) {
+        console.error("Error loading featured recipe:", error);
+        document.getElementById('featuredRecipe').innerHTML = '<p style="text-align: center; color: #c62828; padding: 40px 20px;">Error loading recipe</p>';
+      }
+    }
+
+    // Initialize
+    loadFeaturedStory();
+    loadFeaturedRecipe();
+  </script>
+
+  <!-- Navigation toggle -->
+  <script>
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

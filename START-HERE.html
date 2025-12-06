@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Preview - Start Here</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #e73b42;
+      margin-bottom: 10px;
+      font-size: 2em;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 0.95em;
+    }
+    .page-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .page-link {
+      display: block;
+      padding: 20px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #353535;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .page-link:hover {
+      background: #fff;
+      border-color: #e73b42;
+      transform: translateX(5px);
+    }
+    .page-title {
+      font-weight: 600;
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      color: #e73b42;
+    }
+    .page-desc {
+      font-size: 0.9em;
+      color: #666;
+    }
+    .info-box {
+      background: #e8f5e9;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #4caf50;
+      margin-top: 20px;
+    }
+    .info-box h3 {
+      color: #2e7d32;
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+    .info-box p {
+      color: #1b5e20;
+      font-size: 0.9em;
+      line-height: 1.6;
+    }
+    .warning-box {
+      background: #fff3e0;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #ff9800;
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #e65100;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🍰 Chomp Recipes Preview</h1>
+    <p class="subtitle">Your new multi-page site foundation</p>
+
+    <div class="page-links">
+      <a href="index.html" class="page-link">
+        <div class="page-title">📝 Blog Homepage</div>
+        <div class="page-desc">Post grid with categories: Stories, Anthropology, Mindfulness</div>
+      </a>
+
+      <a href="about.html" class="page-link">
+        <div class="page-title">ℹ️ About / Manifesto</div>
+        <div class="page-desc">Your baking philosophy and contact information</div>
+      </a>
+
+      <a href="recipes.html" class="page-link">
+        <div class="page-title">🧁 Recipe Browser</div>
+        <div class="page-desc">Search, filter, and browse all recipes</div>
+      </a>
+    </div>
+
+    <div class="info-box">
+      <h3>✅ What Works Right Now</h3>
+      <p>
+        • All page layouts and navigation<br>
+        • Responsive design (try resizing!)<br>
+        • Dark mode (check your system settings)<br>
+        • Recipe grid (connects to your Firestore)
+      </p>
+    </div>
+
+    <div class="warning-box">
+      <strong>⚠️ What Needs Setup:</strong><br>
+      Blog posts require Firestore collection setup.<br>
+      See <strong>FIRESTORE-SETUP-GUIDE.md</strong> for instructions.
+    </div>
+
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center; color: #999; font-size: 0.85em;">
+      <p>Files created: Nov 30, 2025</p>
+      <p style="margin-top: 5px;">See <strong>README.md</strong> for complete documentation</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

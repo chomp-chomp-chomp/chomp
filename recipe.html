@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe | Recipes & Rituals</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes_logo.jpeg?alt=media">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Chomp Chomp Recipes">
+  <meta name="description" content="Baking is the materialization of comfort itself.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/">
+  <meta property="og:title" content="Chomp Chomp Recipes">
+  <meta property="og:description" content="Baking is the materialization of comfort itself.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/">
+  <meta property="twitter:title" content="Chomp Chomp Recipes">
+  <meta property="twitter:description" content="Baking is the materialization of comfort itself.">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .recipe-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .recipe-meta {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      color: var(--color-text-muted);
+      font-size: 0.95em;
+    }
+
+    .recipe-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .recipe-image {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 8px;
+      margin: 30px auto;
+      display: block;
+    }
+
+    .recipe-section {
+      max-width: 700px;
+      margin: 0 auto 40px auto;
+    }
+
+    .recipe-section h2 {
+      color: var(--color-accent);
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--color-accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="recipes.html" title="Recipes" class="header-icon-link">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764687494472_MagicEraser_251202_001040.png?alt=media&token=97b7e1ec-632a-4dea-8037-e54789b4e2fd"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-default">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b"
+               alt="Chomp Chomp"
+               class="header-icon header-icon-hover">
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="index.html" title="Home">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right"><div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-container">
+    <div id="recipeContainer">
+      <p style="text-align: center; color: var(--color-text-muted);">Loading recipe...</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>Baking is the materialization of comfort itself.</p>
+      <div class="footer-links">
+        <a href="mailto:baking@chomp.ltd">baking@chomp.ltd</a>
+        <a href="https://www.chomp.ltd" target="_blank">chomp chomp: cookies, etc.</a>
+        <a href="https://chomp.be/tools" target="_blank">chomp chomp: tools</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const appId = firebaseConfig.projectId;
+
+    // Get slug from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    if (!slug) {
+      showError('No recipe specified', 'No recipe slug provided in URL.');
+    } else {
+      loadRecipe(slug);
+    }
+
+    // Load recipe from Firestore
+    async function loadRecipe(slug) {
+      try {
+        const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
+        const q = query(recipesRef, where('slug', '==', slug));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          showError('Recipe not found', 'The recipe you\'re looking for doesn\'t exist or has been removed.');
+          return;
+        }
+
+        const recipe = snapshot.docs[0].data();
+        displayRecipe(recipe);
+      } catch (error) {
+        console.error("Error loading recipe:", error);
+        showError('Error loading recipe', error.message);
+      }
+    }
+
+    // Display recipe
+    function displayRecipe(recipe) {
+      document.title = `${recipe.title} | Recipes & Rituals`;
+
+      const container = document.getElementById('recipeContainer');
+
+      // Build metadata string (including source and dish type)
+      const metaParts = [];
+      const dishType = recipe.dishType;
+      if (dishType) metaParts.push(`Type: ${dishType}`);
+      if (recipe.prepTime) metaParts.push(`Prep: ${recipe.prepTime}`);
+      if (recipe.cookTime) metaParts.push(`Cook: ${recipe.cookTime}`);
+      if (recipe.totalTime) metaParts.push(`Total: ${recipe.totalTime}`);
+      if (recipe.servings) metaParts.push(`Servings: ${recipe.servings}`);
+      if (recipe.source) metaParts.push(`Source: ${formatSource(recipe.source)}`);
+      const metaString = metaParts.join(' | ');
+
+      // Handle ingredients with markdown headers
+      const safeIngredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
+      const ingredientsHTML = safeIngredients.map(i => {
+        const parsed = parseMarkdown(i);
+        // Check if this is a header (starts with <h1, <h2, or <h3)
+        if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
+          // Return header without li wrapper, with inline styling
+          return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+        }
+        // Regular ingredient with red bar
+        return `<li class="ingredient-item">${parsed}</li>`;
+      }).join('');
+
+      // Handle instructions with markdown headers
+      const safeInstructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
+      const instructionsHTML = safeInstructions.map(i => {
+        const parsed = parseMarkdown(i);
+        // Check if this is a header (starts with <h1, <h2, or <h3)
+        if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
+          // Return header without li wrapper, with inline styling
+          return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+        }
+        // Regular instruction with numbering
+        return `<li class="instruction-item">${parsed}</li>`;
+      }).join('');
+
+      container.innerHTML = `
+        <article class="content-wrapper">
+          <!-- Recipe Header -->
+          <header class="post-header">
+            <h1>${recipe.title}</h1>
+            ${metaString ? `<div class="post-meta">${metaString}</div>` : ''}
+            ${recipe.description ? `<p class="text-muted" style="font-size: 1.05em; margin-top: 20px; text-align: left;">${parseMarkdown(recipe.description)}</p>` : ''}
+          </header>
+
+          <!-- Recipe Image -->
+          ${recipe.image ? `
+            <img src="${getImagePath(recipe.image)}" alt="${recipe.title}" class="post-featured-image">
+          ` : ''}
+
+          <!-- Ingredients -->
+          <section class="recipe-section">
+            <h2>Ingredients</h2>
+            <ul class="ingredients-list">
+              ${ingredientsHTML}
+            </ul>
+          </section>
+
+          <!-- Instructions -->
+          <section class="recipe-section">
+            <h2>Instructions</h2>
+            <ol class="instructions-list">
+              ${instructionsHTML}
+            </ol>
+          </section>
+
+          <!-- Notes -->
+          ${recipe.notes ? `
+            <section class="recipe-section">
+              <h2>Notes</h2>
+              <div class="notes-section">
+                ${parseMarkdown(recipe.notes)}
+              </div>
+            </section>
+          ` : ''}
+        </article>
+      `;
+    }
+
+    // Show error
+    function showError(title, message) {
+      document.getElementById('recipeContainer').innerHTML = `
+        <div style="text-align: center; padding: 60px 20px;">
+          <h2 style="color: var(--color-accent);">${title}</h2>
+          <p style="color: var(--color-text-muted); margin-top: 20px;">${message}</p>
+          <a href="recipes.html" class="btn btn-primary" style="margin-top: 30px; display: inline-block;">
+            View All Recipes
+          </a>
+        </div>
+      `;
+    }
+
+    // Get image path
+    function getImagePath(image) {
+      if (!image) return '';
+      if (image.startsWith('http')) return image;
+      return `images/${image}`;
+    }
+
+    // Format source
+    function formatSource(source) {
+      if (!source) return '';
+
+      // Handle object format {text, href}
+      if (typeof source === 'object' && source.text && source.href) {
+        return `<a href="${source.href}" target="_blank" rel="noopener noreferrer">${source.text}</a>`;
+      }
+
+      // Handle array of objects
+      if (Array.isArray(source)) {
+        return source.map(item => {
+          if (item && item.text && item.href) {
+            return `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${item.text}</a>`;
+          }
+          return parseMarkdown(String(item));
+        }).join(' ');
+      }
+
+      // Handle string (may contain markdown)
+      return parseMarkdown(String(source));
+    }
+
+    // Parse markdown (simple version)
+    function parseMarkdown(text) {
+      if (!text) return '';
+      let html = String(text);
+
+      // Headers
+      html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+      html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+      // Bold and italic
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+      return html;
+    }
+
+  </script>
+
+  <!-- Navigation toggle -->
+  <script>
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

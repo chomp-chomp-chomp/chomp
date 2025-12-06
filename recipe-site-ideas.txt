@@ -1,0 +1,292 @@
+CHOMP RECIPES - FUTURE IDEAS & ENHANCEMENTS
+==============================================
+
+Based on the repository analysis, here are ideas that align with the site's
+philosophical approach to baking and community:
+
+
+COMMUNITY & SOCIAL FEATURES
+============================
+
+Recipe Genealogy/Provenance
+----------------------------
+- Track recipe origins and variations ("This is adapted from Maria's grandmother's
+  version, which originally came from...")
+- Visual family tree of recipe modifications
+- Show how recipes travel through communities
+- Fits perfectly with the manifesto's theme of "borrowed gestures and shared community"
+
+Collaborative Recipe Testing
+-----------------------------
+- Community members can submit their results/modifications
+- "I tried this with almond flour instead..." type contributions
+- Success rate tracking
+- Collective wisdom about common pitfalls
+
+Recipe Stories & Rituals
+-------------------------
+- Beyond just ingredients: document the *ritual* of making it
+- "I always make this on Sunday mornings with coffee"
+- Cultural context and memories
+- Photo essays of the baking process
+- Fits the "Recipes & Rituals" theme perfectly
+
+
+DISCOVERY & EXPLORATION
+========================
+
+Ingredient-Based Discovery
+--------------------------
+- "I have these 5 ingredients, what can I make?"
+- Substitution suggestions
+- Seasonal ingredient highlighting
+
+Mood/Occasion-Based Search
+---------------------------
+- "Comfort baking for a rainy day"
+- "Impressive dessert for dinner party"
+- "Meditative, slow weekend project"
+- "Quick weeknight treat"
+- Aligns with the philosophical "symptom of desire" concept
+
+Recipe Pairing Suggestions
+---------------------------
+- "People who loved this also loved..."
+- Flavor profile connections
+- Complementary recipes for a full menu
+
+
+LEARNING & SKILL DEVELOPMENT
+=============================
+
+Technique Library
+-----------------
+- Video/photo tutorials for common techniques
+- "How to fold egg whites"
+- "Tempering chocolate"
+- Linked from recipes that use those techniques
+
+Difficulty Progression Paths
+-----------------------------
+- "Start here if you're new to pie crusts"
+- Skill trees showing progression
+- "Master these 3 recipes, then try this advanced one"
+
+Failure Documentation
+----------------------
+- "Common mistakes and how to fix them"
+- Photo gallery of what went wrong and why
+- Troubleshooting guide
+- Normalizes failure as part of the learning process
+
+
+PLANNING & ORGANIZATION
+========================
+
+Baking Calendar/Planning
+------------------------
+- Plan weekly baking projects
+- Prep timeline breakdown ("Make dough day 1, chill overnight, bake day 2")
+- Holiday baking scheduler
+- Batch baking optimizer (make 3 things that use the same ingredients)
+
+Shopping List Generator
+-----------------------
+- Aggregate ingredients from multiple recipes
+- Pantry staples vs. specialty items
+- Local supplier suggestions
+- Seasonal availability notes
+
+Mise en Place Helper
+--------------------
+- Pre-baking checklist for each recipe
+- "Bring butter to room temperature 2 hours before"
+- Equipment checklist
+- Timeline visualization
+
+
+CULTURAL & STORYTELLING
+========================
+
+Recipe Anthropology
+-------------------
+- Deep dives into recipe history
+- Cultural significance
+- How recipes evolved across geographies
+- Migration patterns of desserts
+
+Baker Profiles
+--------------
+- Highlight community contributors
+- "A conversation with [baker name]"
+- Their baking philosophy
+- Signature recipes and adaptations
+
+Seasonal/Cultural Calendar
+---------------------------
+- Recipes tied to holidays and traditions
+- "What people bake for Lunar New Year around the world"
+- Regional specialties
+- Baking as cultural preservation
+
+
+PRACTICAL ASSISTANCE
+=====================
+
+Real-Time Baking Companion
+---------------------------
+- Step-by-step mode with voice commands
+- Timers for each step
+- "Tap when you've finished this step"
+- Hands-free navigation (voice control)
+
+Conversion & Scaling Tools
+---------------------------
+- Automatic metric/imperial conversion
+- Scale recipes up/down intelligently
+- Adjust for different pan sizes
+- Altitude adjustments
+
+Ingredient Substitution Database
+---------------------------------
+- "Out of buttermilk? Try this instead"
+- Dietary modification suggestions
+- How substitutions affect outcome
+- Community-tested alternatives
+
+
+DATA & INSIGHTS
+================
+
+Personal Baking Journal
+-----------------------
+- Track what you've made
+- Note modifications and results
+- Photo diary
+- Success patterns ("I always nail cookies but struggle with bread")
+
+Seasonal Baking Trends
+----------------------
+- What the community is baking right now
+- Trending ingredients
+- Rediscovered vintage recipes
+- "This week everyone is making..."
+
+Time Investment Analysis
+------------------------
+- "Active time vs. passive time" breakdown
+- "Recipes you can make in under 30 minutes active time"
+- Complexity scoring beyond just time
+
+
+CONTRIBUTION & COLLABORATION
+=============================
+
+Recipe Workshop/Critique
+-------------------------
+- Submit recipes for community feedback
+- Refinement through collective testing
+- Version control for recipe evolution
+- "Beta testing" new recipes
+
+Translation & Localization
+--------------------------
+- Community-translated recipes
+- Ingredient availability by region
+- Cultural adaptation notes
+- Language learning through recipes
+
+Recipe Rescue Service
+---------------------
+- "Help! My cake fell, what happened?"
+- Community troubleshooting
+- Photo-based diagnosis
+- Emergency baking hotline concept
+
+
+PHILOSOPHICAL/EXPERIMENTAL
+===========================
+
+Mindful Baking Guides
+---------------------
+- Baking as meditation
+- Sensory focus exercises
+- "Notice the texture changes as you knead"
+- Connects to "zen of baking" from manifesto
+
+Recipe Randomizer/Surprise
+--------------------------
+- "Mystery recipe of the week"
+- Ingredient challenge generator
+- "Try something completely outside your comfort zone"
+- Serendipitous discovery
+
+Baking Experiments
+------------------
+- Documented experiments (what if we try X?)
+- Scientific approach to baking
+- Variable testing
+- Community participation in experiments
+
+
+ECONOMIC/SUSTAINABILITY
+========================
+
+Cost Calculator
+---------------
+- Estimate cost per serving
+- Budget-friendly alternatives
+- Bulk buying optimization
+- Cost comparison across recipes
+
+Zero-Waste Baking
+-----------------
+- Use up leftover ingredients
+- Compost-friendly recipes
+- Packaging reduction tips
+- Sustainability scoring
+
+Preserve & Share
+----------------
+- Recipes designed for gifting
+- Packaging ideas
+- Shelf life information
+- "Bake extra to share" community initiatives
+
+
+===============================================================================
+MOST ALIGNED WITH CURRENT PHILOSOPHY
+===============================================================================
+
+Given the site's manifesto about "baking as comfort," "borrowed gestures,"
+and "shared community," these features would be particularly powerful:
+
+1. RECIPE GENEALOGY
+   Perfect for the "collective archive" concept. Shows how recipes travel
+   through communities and evolve through shared practice.
+
+2. RECIPE STORIES & RITUALS
+   Directly supports the "Recipes & Rituals" theme. Goes beyond ingredients
+   to capture the meaning and practice of baking.
+
+3. MOOD-BASED DISCOVERY
+   Embraces the "symptom of desire" idea from the manifesto. Recognizes that
+   recipe search is about emotional needs, not just ingredients.
+
+4. MINDFUL BAKING GUIDES
+   Extends the "zen of baking" philosophy. Helps bakers engage with the
+   meditative, transformative aspects of the practice.
+
+5. COMMUNITY RECIPE WORKSHOP
+   Enables the "exchange and variation" mentioned in manifesto. Creates space
+   for collective refinement and shared wisdom.
+
+These enhancements would deepen the site's unique philosophical approach
+rather than just adding generic recipe site features.
+
+
+===============================================================================
+Generated: 2025-11-27
+Site: https://recipes.chomp.ltd
+Contact: baking@chomp.ltd
+===============================================================================

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subnet Calculator - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="index.html" class="site-logo">
+                <div class="site-logo-icon">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+                </div>
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="ip.html">Your IP</a></li>
+                    <li><a href="convert.html">Convert</a></li>
+                    <li><a href="encode.html">Encode</a></li>
+                    <li><a href="dante.html">Inferno Ipsum</a></li>
+                    <li><a href="nautical.html">Nautical Ipsum</a></li>
+                    <li><a href="subnet.html">Subnet Calculator</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764737719378_snet.jpg?alt=media&token=643b47dc-66a0-4ff6-ab3a-cde3b3d0162e" alt="subnet calculator">
+                <p class="tool-subtitle">Calculate subnet masks, CIDR notation & network ranges</p>
+            </div>
+
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label class="control-label">IP Address</label>
+                    <input type="text" id="ipAddress" class="form-input" placeholder="192.168.1.0" value="192.168.1.0">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">CIDR / Subnet Mask</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="cidr" class="form-input" placeholder="24" value="24" min="0" max="32" style="flex: 1;">
+                        <input type="text" id="subnetMask" class="form-input" placeholder="255.255.255.0" value="255.255.255.0" style="flex: 2;">
+                    </div>
+                </div>
+
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="calculate()">Calculate</button>
+                    <button class="tool-button tool-button-secondary" onclick="reset()">Reset</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results" style="display: none;">
+                <div class="result-item">
+                    <div class="result-label">Network Address</div>
+                    <div class="result-value" id="networkAddress">192.168.1.0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Broadcast Address</div>
+                    <div class="result-value" id="broadcastAddress">192.168.1.255</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">First Usable IP</div>
+                    <div class="result-value" id="firstIP">192.168.1.1</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Last Usable IP</div>
+                    <div class="result-value" id="lastIP">192.168.1.254</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Hosts</div>
+                    <div class="result-value" id="totalHosts">256</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Usable Hosts</div>
+                    <div class="result-value" id="usableHosts">254</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">CIDR Notation</div>
+                    <div class="result-value" id="cidrNotation">/24</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Subnet Mask</div>
+                    <div class="result-value" id="subnetMaskResult">255.255.255.0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Wildcard Mask</div>
+                    <div class="result-value" id="wildcardMask">0.0.0.255</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>How to use:</strong> Enter an IP address and either a CIDR notation (0-32) or subnet mask. The calculator will automatically compute all subnet details including network address, broadcast address, and usable host range.</p>
+            </div>
+
+            <!-- CIDR Range Calculator -->
+            <div style="margin-top: 60px;">
+                <h2 style="text-align: center; color: var(--color-accent); margin-bottom: 30px;">CIDR Range Calculator</h2>
+
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label">Network CIDR Block</label>
+                        <input type="text" id="cidrBlock" class="form-input" placeholder="192.168.0.0/16" value="192.168.0.0/16">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Subnet Into (New CIDR)</label>
+                        <input type="number" id="targetCidr" class="form-input" placeholder="24" value="24" min="0" max="32">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Max Subnets to Display</label>
+                        <input type="number" id="maxSubnets" class="form-input" placeholder="100" value="100" min="1" max="1000">
+                    </div>
+
+                    <div class="tool-actions">
+                        <button class="tool-button" onclick="calculateCIDRRange()">Calculate Subnets</button>
+                        <button class="tool-button tool-button-secondary" onclick="resetCIDR()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="tool-results" id="cidrResults" style="display: none;">
+                    <div class="result-item">
+                        <div class="result-label">Total Subnets</div>
+                        <div class="result-value" id="totalSubnets">-</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Hosts per Subnet</div>
+                        <div class="result-value" id="hostsPerSubnet">-</div>
+                    </div>
+                    <div class="result-item" style="border-bottom: none;">
+                        <div class="result-label">Subnet List</div>
+                        <div id="subnetList" style="max-height: 400px; overflow-y: auto; margin-top: 10px; font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8;"></div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>CIDR Range Calculator:</strong> This tool helps you subdivide a larger network into smaller subnets. Enter a CIDR block (e.g., 192.168.0.0/16) and specify the new subnet size (e.g., /24) to see all possible subnets.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hi@chomp.ltd">hi@chomp.ltd</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://chomp.be">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tools dropdown toggle
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
+        }
+
+        // Subnet calculation logic
+        function ipToInt(ip) {
+            return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0) >>> 0;
+        }
+
+        function intToIp(int) {
+            return [
+                (int >>> 24) & 0xFF,
+                (int >>> 16) & 0xFF,
+                (int >>> 8) & 0xFF,
+                int & 0xFF
+            ].join('.');
+        }
+
+        function cidrToMask(cidr) {
+            const mask = ~(2 ** (32 - cidr) - 1);
+            return intToIp(mask >>> 0);
+        }
+
+        function maskToCidr(mask) {
+            const binary = ipToInt(mask).toString(2);
+            return binary.split('1').length - 1;
+        }
+
+        function calculate() {
+            const ipInput = document.getElementById('ipAddress').value;
+            const cidrInput = document.getElementById('cidr').value;
+            const maskInput = document.getElementById('subnetMask').value;
+
+            // Validate IP
+            const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipPattern.test(ipInput)) {
+                alert('Invalid IP address format');
+                return;
+            }
+
+            let cidr;
+            if (cidrInput) {
+                cidr = parseInt(cidrInput);
+                if (cidr < 0 || cidr > 32) {
+                    alert('CIDR must be between 0 and 32');
+                    return;
+                }
+                document.getElementById('subnetMask').value = cidrToMask(cidr);
+            } else if (maskInput && ipPattern.test(maskInput)) {
+                cidr = maskToCidr(maskInput);
+                document.getElementById('cidr').value = cidr;
+            } else {
+                alert('Please provide either CIDR or a valid subnet mask');
+                return;
+            }
+
+            const ipInt = ipToInt(ipInput);
+            const maskInt = ipToInt(cidrToMask(cidr));
+            const wildcardInt = ~maskInt >>> 0;
+
+            const networkInt = (ipInt & maskInt) >>> 0;
+            const broadcastInt = (networkInt | wildcardInt) >>> 0;
+            const firstUsableInt = networkInt + 1;
+            const lastUsableInt = broadcastInt - 1;
+
+            const totalHosts = Math.pow(2, 32 - cidr);
+            const usableHosts = totalHosts > 2 ? totalHosts - 2 : totalHosts;
+
+            // Display results
+            document.getElementById('networkAddress').textContent = intToIp(networkInt);
+            document.getElementById('broadcastAddress').textContent = intToIp(broadcastInt);
+            document.getElementById('firstIP').textContent = intToIp(firstUsableInt);
+            document.getElementById('lastIP').textContent = intToIp(lastUsableInt);
+            document.getElementById('totalHosts').textContent = totalHosts.toLocaleString();
+            document.getElementById('usableHosts').textContent = usableHosts.toLocaleString();
+            document.getElementById('cidrNotation').textContent = `/${cidr}`;
+            document.getElementById('subnetMaskResult').textContent = cidrToMask(cidr);
+            document.getElementById('wildcardMask').textContent = intToIp(wildcardInt);
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function reset() {
+            document.getElementById('ipAddress').value = '192.168.1.0';
+            document.getElementById('cidr').value = '24';
+            document.getElementById('subnetMask').value = '255.255.255.0';
+            document.getElementById('results').style.display = 'none';
+        }
+
+        // Update mask when CIDR changes
+        document.getElementById('cidr').addEventListener('input', (e) => {
+            const cidr = parseInt(e.target.value);
+            if (cidr >= 0 && cidr <= 32) {
+                document.getElementById('subnetMask').value = cidrToMask(cidr);
+            }
+        });
+
+        // Update CIDR when mask changes
+        document.getElementById('subnetMask').addEventListener('input', (e) => {
+            const mask = e.target.value;
+            const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (ipPattern.test(mask)) {
+                document.getElementById('cidr').value = maskToCidr(mask);
+            }
+        });
+
+        // CIDR Range Calculator functions
+        function calculateCIDRRange() {
+            const cidrBlock = document.getElementById('cidrBlock').value.trim();
+            const targetCidr = parseInt(document.getElementById('targetCidr').value);
+            const maxSubnets = parseInt(document.getElementById('maxSubnets').value) || 100;
+
+            // Parse CIDR block
+            const parts = cidrBlock.split('/');
+            if (parts.length !== 2) {
+                alert('Invalid CIDR format. Use format: 192.168.0.0/16');
+                return;
+            }
+
+            const baseIP = parts[0];
+            const baseCidr = parseInt(parts[1]);
+
+            if (baseCidr < 0 || baseCidr > 32 || targetCidr < 0 || targetCidr > 32) {
+                alert('CIDR values must be between 0 and 32');
+                return;
+            }
+
+            if (targetCidr <= baseCidr) {
+                alert('Target CIDR must be larger (more specific) than base CIDR');
+                return;
+            }
+
+            const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipPattern.test(baseIP)) {
+                alert('Invalid IP address format');
+                return;
+            }
+
+            // Calculate subnets
+            const baseIpInt = ipToInt(baseIP);
+            const baseMaskInt = ipToInt(cidrToMask(baseCidr));
+            const networkInt = (baseIpInt & baseMaskInt) >>> 0;
+
+            const subnetBits = targetCidr - baseCidr;
+            const totalSubnets = Math.pow(2, subnetBits);
+            const hostsPerSubnet = Math.pow(2, 32 - targetCidr);
+            const subnetSize = Math.pow(2, 32 - targetCidr);
+
+            // Generate subnet list
+            let subnetHtml = '';
+            const displayCount = Math.min(totalSubnets, maxSubnets);
+
+            for (let i = 0; i < displayCount; i++) {
+                const subnetIpInt = (networkInt + (i * subnetSize)) >>> 0;
+                const subnetIp = intToIp(subnetIpInt);
+                const broadcastInt = (subnetIpInt + subnetSize - 1) >>> 0;
+                const broadcastIp = intToIp(broadcastInt);
+
+                subnetHtml += `<div style="padding: 8px 0; border-bottom: 1px solid var(--color-border);">
+                    <strong>${subnetIp}/${targetCidr}</strong><br>
+                    <span style="color: var(--color-text-muted); font-size: 0.85em;">
+                        Range: ${subnetIp} - ${broadcastIp}
+                    </span>
+                </div>`;
+            }
+
+            if (totalSubnets > maxSubnets) {
+                subnetHtml += `<div style="padding: 12px; text-align: center; color: var(--color-text-muted); font-style: italic;">
+                    Showing ${displayCount} of ${totalSubnets.toLocaleString()} total subnets
+                </div>`;
+            }
+
+            // Display results
+            document.getElementById('totalSubnets').textContent = totalSubnets.toLocaleString();
+            document.getElementById('hostsPerSubnet').textContent = hostsPerSubnet.toLocaleString();
+            document.getElementById('subnetList').innerHTML = subnetHtml;
+            document.getElementById('cidrResults').style.display = 'block';
+        }
+
+        function resetCIDR() {
+            document.getElementById('cidrBlock').value = '192.168.0.0/16';
+            document.getElementById('targetCidr').value = '24';
+            document.getElementById('maxSubnets').value = '100';
+            document.getElementById('cidrResults').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

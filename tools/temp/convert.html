@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="index.html" class="site-logo">
+                <div class="site-logo-icon">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+                </div>
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="ip.html">Your IP</a></li>
+                    <li><a href="convert.html">Convert</a></li>
+                    <li><a href="encode.html">Encode</a></li>
+                    <li><a href="dante.html">Inferno Ipsum</a></li>
+                    <li><a href="nautical.html">Nautical Ipsum</a></li>
+                    <li><a href="subnet.html">Subnet Calculator</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764737720669_vert.jpg?alt=media&token=9a276212-47dd-47e6-9dad-df36898d2f11" alt="convert">
+                <p class="tool-subtitle">Universal unit converter for length, weight, volume & more</p>
+            </div>
+
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label class="control-label">Conversion Type</label>
+                    <select id="conversionType" class="form-select">
+                        <option value="length">Length</option>
+                        <option value="weight">Weight</option>
+                        <option value="volume">Volume</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="area">Area</option>
+                        <option value="speed">Speed</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">From</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="inputValue" class="form-input" placeholder="Enter value" value="1" style="flex: 1;">
+                        <select id="fromUnit" class="form-select" style="flex: 1;">
+                            <option value="m">Meters</option>
+                            <option value="km">Kilometers</option>
+                            <option value="ft">Feet</option>
+                            <option value="mi">Miles</option>
+                            <option value="in">Inches</option>
+                            <option value="cm">Centimeters</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">To</label>
+                    <select id="toUnit" class="form-select">
+                        <option value="m">Meters</option>
+                        <option value="km">Kilometers</option>
+                        <option value="ft" selected>Feet</option>
+                        <option value="mi">Miles</option>
+                        <option value="in">Inches</option>
+                        <option value="cm">Centimeters</option>
+                    </select>
+                </div>
+
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="convert()">Convert</button>
+                    <button class="tool-button tool-button-secondary" onclick="reset()">Reset</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results" style="display: none;">
+                <div class="result-item">
+                    <div class="result-label">Result</div>
+                    <div class="result-value" id="resultValue">3.28084 ft</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Note:</strong> This converter supports common units for length, weight, volume, temperature, area, and speed. Select a conversion type to see available units.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hi@chomp.ltd">hi@chomp.ltd</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://chomp.be">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tools dropdown toggle
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
+        }
+
+        // Conversion logic
+        const units = {
+            length: {
+                m: { name: 'Meters', factor: 1 },
+                km: { name: 'Kilometers', factor: 0.001 },
+                ft: { name: 'Feet', factor: 3.28084 },
+                mi: { name: 'Miles', factor: 0.000621371 },
+                in: { name: 'Inches', factor: 39.3701 },
+                cm: { name: 'Centimeters', factor: 100 }
+            },
+            weight: {
+                kg: { name: 'Kilograms', factor: 1 },
+                g: { name: 'Grams', factor: 1000 },
+                lb: { name: 'Pounds', factor: 2.20462 },
+                oz: { name: 'Ounces', factor: 35.274 },
+                ton: { name: 'Metric Tons', factor: 0.001 }
+            },
+            volume: {
+                l: { name: 'Liters', factor: 1 },
+                ml: { name: 'Milliliters', factor: 1000 },
+                gal: { name: 'Gallons', factor: 0.264172 },
+                qt: { name: 'Quarts', factor: 1.05669 },
+                cup: { name: 'Cups', factor: 4.22675 },
+                tbsp: { name: 'Tablespoons', factor: 67.628 }
+            },
+            temperature: {
+                c: { name: 'Celsius' },
+                f: { name: 'Fahrenheit' },
+                k: { name: 'Kelvin' }
+            },
+            area: {
+                m2: { name: 'Square Meters', factor: 1 },
+                km2: { name: 'Square Kilometers', factor: 0.000001 },
+                ft2: { name: 'Square Feet', factor: 10.7639 },
+                acre: { name: 'Acres', factor: 0.000247105 },
+                ha: { name: 'Hectares', factor: 0.0001 }
+            },
+            speed: {
+                mps: { name: 'Meters/Second', factor: 1 },
+                kph: { name: 'Kilometers/Hour', factor: 3.6 },
+                mph: { name: 'Miles/Hour', factor: 2.23694 },
+                knot: { name: 'Knots', factor: 1.94384 }
+            }
+        };
+
+        function updateUnitOptions() {
+            const type = document.getElementById('conversionType').value;
+            const fromUnit = document.getElementById('fromUnit');
+            const toUnit = document.getElementById('toUnit');
+
+            fromUnit.innerHTML = '';
+            toUnit.innerHTML = '';
+
+            for (const [key, value] of Object.entries(units[type])) {
+                fromUnit.add(new Option(value.name, key));
+                toUnit.add(new Option(value.name, key));
+            }
+
+            if (toUnit.options.length > 1) {
+                toUnit.selectedIndex = 1;
+            }
+        }
+
+        function convert() {
+            const value = parseFloat(document.getElementById('inputValue').value);
+            const type = document.getElementById('conversionType').value;
+            const from = document.getElementById('fromUnit').value;
+            const to = document.getElementById('toUnit').value;
+
+            if (isNaN(value)) {
+                alert('Please enter a valid number');
+                return;
+            }
+
+            let result;
+
+            if (type === 'temperature') {
+                result = convertTemperature(value, from, to);
+            } else {
+                const fromFactor = units[type][from].factor;
+                const toFactor = units[type][to].factor;
+                result = (value / fromFactor) * toFactor;
+            }
+
+            document.getElementById('resultValue').textContent =
+                `${result.toFixed(6)} ${units[type][to].name}`;
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function convertTemperature(value, from, to) {
+            let celsius;
+
+            if (from === 'c') celsius = value;
+            else if (from === 'f') celsius = (value - 32) * 5/9;
+            else if (from === 'k') celsius = value - 273.15;
+
+            if (to === 'c') return celsius;
+            if (to === 'f') return celsius * 9/5 + 32;
+            if (to === 'k') return celsius + 273.15;
+        }
+
+        function reset() {
+            document.getElementById('inputValue').value = '1';
+            document.getElementById('conversionType').selectedIndex = 0;
+            updateUnitOptions();
+            document.getElementById('results').style.display = 'none';
+        }
+
+        document.getElementById('conversionType').addEventListener('change', updateUnitOptions);
+        document.getElementById('inputValue').addEventListener('input', () => {
+            if (document.getElementById('results').style.display === 'block') {
+                convert();
+            }
+        });
+        document.getElementById('fromUnit').addEventListener('change', () => {
+            if (document.getElementById('results').style.display === 'block') {
+                convert();
+            }
+        });
+        document.getElementById('toUnit').addEventListener('change', () => {
+            if (document.getElementById('results').style.display === 'block') {
+                convert();
+            }
+        });
+    </script>
+</body>
+</html>
