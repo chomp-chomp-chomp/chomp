@@ -661,6 +661,13 @@
             }))
         : [];
 
+      // Build comprehensive description including notes
+      let fullDescription = recipe.description ? stripHTML(parseMarkdown(recipe.description)) : recipe.title;
+      if (recipe.notes) {
+        const notesText = stripHTML(parseMarkdown(recipe.notes));
+        fullDescription += `\n\nNotes: ${notesText}`;
+      }
+
       // Build schema object
       const schema = {
         "@context": "https://schema.org/",
@@ -671,7 +678,7 @@
           "name": "Chomp Chomp Recipes"
         },
         "datePublished": recipe.date || new Date().toISOString().split('T')[0],
-        "description": recipe.description ? stripHTML(parseMarkdown(recipe.description)) : recipe.title,
+        "description": fullDescription,
         "recipeIngredient": ingredients
       };
 
@@ -868,6 +875,14 @@
         setTimeout(() => toast.remove(), 300);
       }, 3000);
     }
+
+    // Expose functions to global scope for onclick handlers
+    window.copyIngredients = copyIngredients;
+    window.copyPermalink = copyPermalink;
+    window.emailRecipe = emailRecipe;
+    window.downloadPDF = downloadPDF;
+    window.toggleCookMode = toggleCookMode;
+    window.toggleShareDropdown = toggleShareDropdown;
 
   </script>
 
