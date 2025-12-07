@@ -725,10 +725,21 @@
         : [];
 
       // Build comprehensive description including notes
-      let fullDescription = recipe.description ? stripHTML(parseMarkdown(recipe.description)) : recipe.title;
+      let fullDescription = '';
+      if (recipe.description) {
+        fullDescription = stripHTML(parseMarkdown(recipe.description));
+      }
       if (recipe.notes) {
         const notesText = stripHTML(parseMarkdown(recipe.notes));
-        fullDescription += `\n\nNotes: ${notesText}`;
+        if (fullDescription) {
+          fullDescription += '\n\n' + notesText;
+        } else {
+          fullDescription = notesText;
+        }
+      }
+      // Fallback to title if no description or notes
+      if (!fullDescription) {
+        fullDescription = recipe.title;
       }
 
       // Build schema object
@@ -744,6 +755,16 @@
         "description": fullDescription,
         "recipeIngredient": ingredients
       };
+
+      // Add additional description field for better compatibility
+      if (recipe.description) {
+        schema["about"] = stripHTML(parseMarkdown(recipe.description));
+      }
+
+      // Add notes as separate field for scrapers that support it
+      if (recipe.notes) {
+        schema["recipeNotes"] = stripHTML(parseMarkdown(recipe.notes));
+      }
 
       // Add image
       if (recipe.image) {
