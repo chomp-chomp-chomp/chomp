@@ -393,6 +393,7 @@
             }
             <div class="recipe-card-content">
               <h3 class="recipe-card-title">${recipe.title}</h3>
+              ${recipe.dishType ? `<div style="font-size: 0.85em; color: var(--color-accent); font-weight: 500; margin: 5px 0;">${recipe.dishType}</div>` : ''}
               <p class="card-description" style="font-size: 0.9em; color: var(--color-text-muted); margin: 8px 0;">
                 ${recipe.description ? recipe.description.substring(0, 100) + '...' : 'A delicious recipe waiting to be made!'}
               </p>

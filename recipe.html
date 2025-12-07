@@ -204,10 +204,12 @@
 
       const container = document.getElementById('recipeContainer');
 
-      // Build metadata string (including source and dish type)
+      // Build metadata string (including source, dish type, and category)
       const metaParts = [];
       const dishType = recipe.dishType;
+      const category = recipe.category;
       if (dishType) metaParts.push(`Type: ${dishType}`);
+      if (category) metaParts.push(`Category: ${category}`);
       if (recipe.prepTime) metaParts.push(`Prep: ${recipe.prepTime}`);
       if (recipe.cookTime) metaParts.push(`Cook: ${recipe.cookTime}`);
       if (recipe.totalTime) metaParts.push(`Total: ${recipe.totalTime}`);
