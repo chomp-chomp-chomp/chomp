@@ -200,6 +200,13 @@
     nav a:hover {
       color: #333;
     }
+
+    /* Dark mode - invert header image colors */
+    @media (prefers-color-scheme: dark) {
+      .header img {
+        filter: invert(1) hue-rotate(180deg);
+      }
+    }
   </style>
 </head>
 <body>
