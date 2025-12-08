@@ -2,10 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chomp Chomp Recipes – Recipe Index</title>
-  <meta name="description" content="Browse all recipes from Chomp Chomp: cookies, biscuits, and baking rituals. Filter, search, and discover your next baking project.">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chomp Chomp: Recipes & Rituals</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes_logo.jpeg?alt=media">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Chomp Chomp Recipes">
+  <meta name="description" content="Baking is the materialization of comfort itself.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/">
+  <meta property="og:title" content="Chomp Chomp Recipes">
+  <meta property="og:description" content="Baking is the materialization of comfort itself.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/">
+  <meta property="twitter:title" content="Chomp Chomp Recipes">
+  <meta property="twitter:description" content="Baking is the materialization of comfort itself.">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Open Graph / Social Media Preview Tags -->
+  <meta property="og:title" content="Chomp Chomp: Recipes & Rituals">
+  <meta property="og:description" content="Browse our complete collection of baking recipes and culinary rituals.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes.png?alt=media">
+  <meta property="og:url" content="https://chomp.be/recipes.html">
+  <meta property="og:type" content="website">
 
   <style>
     :root {
@@ -15,7 +41,7 @@
       --color-text-muted: #7a7a7a;
       --color-accent: #ea7480;
       --color-border: #e0e0e0;
-      --color-header-bg: #ffffff;
+      --color-header-bg: rgba(255, 255, 255, 0.95);
       --color-footer-bg: #f5f5f5;
       --color-card-bg: #ffffff;
       --color-chip-bg: #f1f1f1;
@@ -45,7 +71,7 @@
         --color-text-muted: #b3b3b3;
         --color-accent: #ea7480;
         --color-border: #333333;
-        --color-header-bg: #111111;
+        --color-header-bg: rgba(17, 17, 17, 0.9);
         --color-footer-bg: #111111;
         --color-card-bg: #181818;
         --color-chip-bg: #1f1f1f;
@@ -96,14 +122,14 @@
       z-index: 50;
       background-color: var(--color-header-bg);
       border-bottom: 1px solid var(--color-border);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .header-inner {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 20px var(--spacing-md);
+      padding: 14px var(--spacing-md);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -136,11 +162,11 @@
     .site-logo-title {
       font-weight: 700;
       letter-spacing: -0.03em;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
     }
 
     .site-logo-subtitle {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--color-text-muted);
     }
 
@@ -192,12 +218,16 @@
       border: 1px solid var(--color-border);
       background-color: var(--color-bg-alt);
       padding: 6px 12px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--color-text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .tools-dropdown-btn span.icon {
+      font-size: 0.85rem;
     }
 
     .tools-dropdown {
@@ -259,6 +289,7 @@
 
     .page-header {
       margin-bottom: var(--spacing-lg);
+      text-align: center;
     }
 
     .page-kicker {
@@ -270,15 +301,16 @@
     }
 
     .page-title {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       letter-spacing: -0.03em;
-      margin-bottom: var(--spacing-sm);
+      margin-bottom: 6px;
     }
 
     .page-subtitle {
       color: var(--color-text-muted);
       font-size: 0.95rem;
       max-width: 620px;
+      margin: 0 auto;
     }
 
     .filter-panel {
@@ -297,9 +329,10 @@
     .filter-search {
       display: flex;
       gap: 8px;
+      align-items: center;
     }
 
-    .filter-search input {
+    .recipe-search-box {
       flex: 1;
       padding: 10px 12px;
       border-radius: 999px;
@@ -309,19 +342,19 @@
       font-size: 0.9rem;
     }
 
-    .filter-search input::placeholder {
+    .recipe-search-box::placeholder {
       color: var(--color-text-muted);
     }
 
-    .filter-group {
+    .filter-controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      justify-content: flex-start;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
     }
 
-    .filter-group select {
+    .filter-select {
       padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid var(--color-border);
@@ -370,18 +403,6 @@
       border-color: var(--color-border);
     }
 
-    .btn-ghost {
-      background-color: transparent;
-      border-color: transparent;
-      color: var(--color-text);
-      padding-left: 0;
-    }
-
-    .btn-ghost:hover {
-      color: var(--color-accent);
-      background-color: transparent;
-    }
-
     .pill {
       display: inline-flex;
       align-items: center;
@@ -408,6 +429,8 @@
       margin: var(--spacing-md) 0 var(--spacing-sm);
       font-size: 0.85rem;
       color: var(--color-text-muted);
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .recipe-grid {
@@ -571,46 +594,6 @@
     .footer-links a:hover {
       color: var(--color-accent);
     }
-
-    .recipe-count-summary {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .recipe-count-summary strong {
-      color: var(--color-text);
-    }
-
-    .recipe-count-summary span {
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-    }
-
-    .active-filter-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-    }
-
-    .active-filter-badges .pill {
-      background-color: transparent;
-      border-style: dashed;
-    }
-
-    .active-filter-badges .pill-label {
-      font-weight: 500;
-      color: var(--color-text);
-    }
-
-    .helper-text {
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      margin-top: 4px;
-    }
   </style>
 </head>
 
@@ -619,7 +602,7 @@
     <div class="header-inner">
       <a href="/" class="site-logo">
         <div class="site-logo-icon">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/chomp_recipes.png?alt=media" alt="Chomp Chomp logo">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes.png?alt=media" alt="Chomp Chomp logo">
         </div>
         <div class="site-logo-text">
           <span class="site-logo-title">chomp chomp recipes</span>
@@ -628,14 +611,17 @@
       </a>
 
       <nav class="site-nav">
-        <button class="menu-toggle">☰</button>
+        <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
         <div class="nav-links">
-          <a href="/" class="active">Recipes</a>
+          <a href="/recipes.html" class="active">Recipes</a>
           <a href="https://www.chomp.ltd" target="_blank">Baking Manifesto</a>
           <a href="https://chomp.be" target="_blank">Tools</a>
         </div>
         <div class="header-tools">
-          <button class="tools-dropdown-btn">Menu ▼</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">
+            <span class="icon">☰</span>
+            Menu
+          </button>
           <div class="tools-dropdown" id="toolsDropdown">
             <a href="https://chomp.be/tools" target="_blank">Baking Tools &amp; Calculators</a>
             <a href="https://chomp.be/your-ip" target="_blank">Your IP Address</a>
@@ -657,19 +643,21 @@
       </p>
     </section>
 
+    <!-- Filters -->
     <section class="filter-panel">
       <div class="filter-search">
         <input
           type="search"
           id="recipeSearch"
-          placeholder="Search by recipe name, description, or ingredient…"
+          class="recipe-search-box"
+          placeholder="Search by recipe name or description…"
           aria-label="Search recipes"
         />
         <button class="btn btn-outline" id="searchBtn">Search</button>
       </div>
 
-      <div class="filter-group">
-        <select id="categoryFilter" aria-label="Filter by category">
+      <div class="filter-controls">
+        <select id="categoryFilter" class="filter-select" aria-label="Filter by category">
           <option value="all">All Categories</option>
           <option value="biscuit">Biscuits / Cookies</option>
           <option value="bar">Bars &amp; Traybakes</option>
@@ -677,7 +665,7 @@
           <option value="other">Other / Miscellaneous</option>
         </select>
 
-        <select id="dishTypeFilter" aria-label="Filter by dish type">
+        <select id="dishTypeFilter" class="filter-select" aria-label="Filter by dish type">
           <option value="all">All Dish Types</option>
           <option value="shortbread">Shortbread</option>
           <option value="sablé">Sablé</option>
@@ -687,7 +675,7 @@
           <option value="cake">Cake</option>
         </select>
 
-        <select id="sortBy" aria-label="Sort recipes">
+        <select id="sortBy" class="filter-select" aria-label="Sort recipes">
           <option value="alphabetical">Sort: A-Z</option>
           <option value="time">Sort: Quickest Time</option>
         </select>
@@ -696,29 +684,31 @@
       </div>
     </section>
 
+    <!-- Recipe Count -->
     <div class="recipe-count-bar">
-      <div class="recipe-count-summary">
-        <span class="pill">
-          <span class="pill-dot"></span>
-          <span id="recipeCount">Loading recipes…</span>
-        </span>
+      <div class="pill">
+        <span class="pill-dot"></span>
+        <span id="recipeCount">Loading recipes…</span>
       </div>
-      <div class="active-filter-badges" id="activeFilters"></div>
     </div>
 
+    <!-- Recipe Grid -->
     <section class="recipe-grid" id="recipeGrid">
       <div class="no-results" id="noResults" style="display: none; grid-column: 1 / -1;">
         No recipes found. Try adjusting your filters.
       </div>
     </section>
 
+    <!-- Load More Button -->
     <div class="text-center mt-xl">
       <button class="btn btn-primary" id="loadMoreBtn" style="display: none;">
         Load More Recipes
       </button>
     </div>
+
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
       <p>Baking is the materialization of comfort itself.</p>
@@ -730,10 +720,12 @@
     </div>
   </footer>
 
+  <!-- Firebase & Recipes Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getFirestore, collection, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
       authDomain: "chomp-chomp-recipes.firebaseapp.com",
@@ -750,6 +742,7 @@
     let displayedRecipes = 0;
     const RECIPES_PER_PAGE = 15;
 
+    // Helper: Map Firestore doc to recipe object
     function mapRecipe(doc) {
       const data = doc.data() || {};
       const prep = Number(data.prepTimeInMinutes || 0);
@@ -771,15 +764,14 @@
       };
     }
 
+    // Helper: Update recipe count text
     function updateRecipeCount(filteredCount, totalCount) {
       const recipeCountEl = document.getElementById('recipeCount');
-      const activeFiltersEl = document.getElementById('activeFilters');
 
       if (!recipeCountEl) return;
 
       if (!recipes.length) {
         recipeCountEl.textContent = 'Loading recipes…';
-        if (activeFiltersEl) activeFiltersEl.innerHTML = '';
         return;
       }
 
@@ -788,42 +780,9 @@
       } else {
         recipeCountEl.textContent = `${filteredCount} of ${totalCount} recipes`;
       }
-
-      const searchInput = document.getElementById('recipeSearch');
-      const categorySelect = document.getElementById('categoryFilter');
-      const dishTypeSelect = document.getElementById('dishTypeFilter');
-      const sortSelect = document.getElementById('sortBy');
-
-      const activeFilters = [];
-
-      if (searchInput && searchInput.value.trim().length > 0) {
-        activeFilters.push({ label: 'Search', value: searchInput.value.trim() });
-      }
-      if (categorySelect && categorySelect.value !== 'all') {
-        activeFilters.push({ label: 'Category', value: categorySelect.options[categorySelect.selectedIndex].textContent });
-      }
-      if (dishTypeSelect && dishTypeSelect.value !== 'all') {
-        activeFilters.push({ label: 'Dish Type', value: dishTypeSelect.options[dishTypeSelect.selectedIndex].textContent });
-      }
-      if (sortSelect && sortSelect.value !== 'alphabetical') {
-        activeFilters.push({ label: 'Sort', value: sortSelect.options[sortSelect.selectedIndex].textContent });
-      }
-
-      if (!activeFiltersEl) return;
-
-      if (!activeFilters.length) {
-        activeFiltersEl.innerHTML = '';
-        return;
-      }
-
-      activeFiltersEl.innerHTML = activeFilters.map(filter => `
-        <div class="pill">
-          <span class="pill-label">${filter.label}:</span>
-          <span>${filter.value}</span>
-        </div>
-      `).join('');
     }
 
+    // Render recipes into the grid
     function displayRecipes(recipesToShow) {
       const grid = document.getElementById('recipeGrid');
       const noResults = document.getElementById('noResults');
@@ -856,14 +815,14 @@
           : null;
 
         return `
-          <article class="recipe-card" data-slug="${recipe.slug}">
+          <article class="recipe-card" onclick="window.location.href='recipe.html?slug=${recipe.slug}'">
             ${imagePath
               ? `<img src="${imagePath}" alt="${recipe.title}" class="recipe-card-image">`
               : '<div class="post-tile-placeholder">No Image Available</div>'
             }
             <div class="recipe-card-content">
               <h3 class="recipe-card-title">${recipe.title}</h3>
-              <p class="card-description" style="font-size: 0.9em; color: var(--color-text-muted); margin: 8px 0;">
+              <p style="font-size: 0.9em; color: var(--color-text-muted); margin: 8px 0;">
                 ${recipe.description ? recipe.description.substring(0, 100) + '...' : 'A delicious recipe waiting to be made!'}
               </p>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; font-size: 0.85em; color: var(--color-text-muted);">
@@ -875,17 +834,6 @@
         `;
       }).join('');
 
-      // Attach click listeners to recipe cards
-      const cards = grid.querySelectorAll('.recipe-card');
-      cards.forEach(card => {
-        const slug = card.getAttribute('data-slug');
-        if (slug) {
-          card.addEventListener('click', () => {
-            window.location.href = `recipe.html?slug=${encodeURIComponent(slug)}`;
-          });
-        }
-      });
-
       if (loadMoreBtn) {
         loadMoreBtn.style.display = displayedRecipes < recipesToShow.length ? 'inline-block' : 'none';
       }
@@ -893,6 +841,7 @@
       window.currentFilteredRecipes = recipesToShow;
     }
 
+    // Apply filters and display
     function applyFiltersAndDisplay() {
       const searchInput = document.getElementById('recipeSearch');
       const categorySelect = document.getElementById('categoryFilter');
@@ -901,6 +850,7 @@
 
       let filtered = [...recipes];
 
+      // Search term filter
       if (searchInput && searchInput.value.trim()) {
         const term = searchInput.value.trim().toLowerCase();
         filtered = filtered.filter(recipe =>
@@ -909,18 +859,21 @@
         );
       }
 
+      // Category filter
       if (categorySelect && categorySelect.value !== 'all') {
         filtered = filtered.filter(recipe =>
           (recipe.category || 'other').toLowerCase() === categorySelect.value.toLowerCase()
         );
       }
 
+      // Dish type filter
       if (dishTypeSelect && dishTypeSelect.value !== 'all') {
         filtered = filtered.filter(recipe =>
           (recipe.dishType || '').toLowerCase() === dishTypeSelect.value.toLowerCase()
         );
       }
 
+      // Sorting
       if (sortSelect && sortSelect.value === 'time') {
         filtered.sort((a, b) =>
           (a.totalTimeInMinutes || Infinity) - (b.totalTimeInMinutes || Infinity)
@@ -936,12 +889,7 @@
       displayRecipes(filtered);
     }
 
-    function loadMoreRecipes() {
-      const recipesToShow = window.currentFilteredRecipes || recipes;
-      displayedRecipes += RECIPES_PER_PAGE;
-      displayRecipes(recipesToShow);
-    }
-
+    // Clear filters and reset
     function clearFilters() {
       const searchInput = document.getElementById('recipeSearch');
       const categorySelect = document.getElementById('categoryFilter');
@@ -953,11 +901,57 @@
       if (dishTypeSelect) dishTypeSelect.value = 'all';
       if (sortSelect) sortSelect.value = 'alphabetical';
 
-      displayedRecipes = 0;
-      updateRecipeCount(recipes.length, recipes.length);
-      displayRecipes(recipes);
+      applyFiltersAndDisplay();
     }
 
+    // --- EVENT LISTENERS (DIALED BACK) ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('recipeSearch');
+      const searchBtn = document.getElementById('searchBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      const categorySelect = document.getElementById('categoryFilter');
+      const dishTypeSelect = document.getElementById('dishTypeFilter');
+      const sortSelect = document.getElementById('sortBy');
+
+      if (searchBtn) {
+        searchBtn.addEventListener('click', applyFiltersAndDisplay);
+      }
+
+      // Enter key in search box
+      if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            applyFiltersAndDisplay();
+          }
+        });
+      }
+
+      // Category / dish type / sort changes filter immediately
+      if (categorySelect) {
+        categorySelect.addEventListener('change', applyFiltersAndDisplay);
+      }
+      if (dishTypeSelect) {
+        dishTypeSelect.addEventListener('change', applyFiltersAndDisplay);
+      }
+      if (sortSelect) {
+        sortSelect.addEventListener('change', applyFiltersAndDisplay);
+      }
+
+      if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+          if (window.loadMoreRecipes) {
+            window.loadMoreRecipes();
+          }
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', clearFilters);
+      }
+    });
+
+    // Firestore listener
     function setupRecipeListener() {
       const recipesRef = collection(db, "recipes");
       const q = query(recipesRef);
@@ -985,63 +979,24 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.getElementById('recipeSearch');
-      const searchBtn = document.getElementById('searchBtn');
-      const clearBtn = document.getElementById('clearBtn');
-      const categorySelect = document.getElementById('categoryFilter');
-      const dishTypeSelect = document.getElementById('dishTypeFilter');
-      const sortSelect = document.getElementById('sortBy');
-      const loadMoreBtn = document.getElementById('loadMoreBtn');
+    // Expose loadMoreRecipes on window for compatibility (still used by listener)
+    window.loadMoreRecipes = function() {
+      const recipesToShow = window.currentFilteredRecipes || recipes;
+      displayedRecipes += RECIPES_PER_PAGE;
+      displayRecipes(recipesToShow);
+    }
 
-      if (searchBtn) {
-        searchBtn.addEventListener('click', applyFiltersAndDisplay);
-      }
-
-      if (searchInput) {
-        searchInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            applyFiltersAndDisplay();
-          }
-        });
-      }
-
-      if (categorySelect) {
-        categorySelect.addEventListener('change', applyFiltersAndDisplay);
-      }
-      if (dishTypeSelect) {
-        dishTypeSelect.addEventListener('change', applyFiltersAndDisplay);
-      }
-      if (sortSelect) {
-        sortSelect.addEventListener('change', applyFiltersAndDisplay);
-      }
-
-      if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', loadMoreRecipes);
-      }
-
-      if (clearBtn) {
-        clearBtn.addEventListener('click', clearFilters);
-      }
-    });
-
+    // Initialize
     setupRecipeListener();
   </script>
 
-  <!-- Navigation toggle via event listeners -->
+  <!-- Navigation toggle -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    function toggleToolsDropdown() {
       const dropdown = document.getElementById('toolsDropdown');
-      const toggleButtons = document.querySelectorAll('.menu-toggle, .tools-dropdown-btn');
-
-      if (!dropdown || !toggleButtons.length) return;
-
-      toggleButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          dropdown.classList.toggle('active');
-        });
-      });
-    });
+      dropdown.classList.toggle('active');
+    }
   </script>
+
 </body>
 </html>
