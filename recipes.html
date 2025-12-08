@@ -83,6 +83,21 @@
       color: var(--color-text-muted);
       font-size: 1.1em;
     }
+
+    /* Recipe count with fade animation */
+    #recipeCount {
+      margin-bottom: 15px;
+      color: var(--color-text-muted);
+      font-size: 0.9em;
+      text-align: center;
+      display: none;
+      opacity: 1;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    #recipeCount.fade-out {
+      opacity: 0;
+    }
   </style>
 </head>
 <body>
@@ -107,7 +122,8 @@
         </a>
       </div>
 
-      <div class="header-right"><div class="nav-tools-dropdown">
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
           <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
           <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
           <ul class="tools-dropdown-menu" id="toolsDropdown">
@@ -163,6 +179,7 @@
                id="recipeSearch"
                placeholder="Search recipes by name, ingredient, or keyword..."
                style="flex: 1; min-width: 200px; max-width: 500px; margin: 0;">
+
         <select id="categoryFilter">
           <option value="all">All Categories</option>
           <!-- Categories will be populated dynamically -->
@@ -179,13 +196,16 @@
           <option value="time">Sort: Quickest Time</option>
         </select>
 
-        <button class="btn btn-outline" onclick="clearFilters()">Clear Filters</button>
+        <button class="btn btn-outline" id="searchBtn">Search Recipes</button>
+        <button class="btn btn-outline" id="clearBtn">Clear Filters</button>
       </div>
     </section>
 
+    <!-- Recipe Count -->
+    <div id="recipeCount"></div>
+
     <!-- Recipe Grid -->
     <section class="recipe-grid" id="recipeGrid">
-      <!-- Recipes will be dynamically loaded here -->
       <div class="no-results" id="noResults" style="display: none; grid-column: 1 / -1;">
         No recipes found. Try adjusting your filters.
       </div>
@@ -238,7 +258,7 @@
 
     // Helper: Generate slug from title
     function generateSlug(title) {
-      return title
+      return String(title || '')
         .toLowerCase()
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-')
@@ -263,7 +283,7 @@
 
     // Helper: Assign dish type based on title
     function assignDishType(title) {
-      const lower = title.toLowerCase();
+      const lower = String(title || '').toLowerCase();
       if (lower.includes('cake') || lower.includes('torte') || lower.includes('pie') || lower.includes('brûlée')) return 'Dessert/Pastry';
       if (lower.includes('cookie') || lower.includes('cookies')) return 'Cookie/Bar';
       if (lower.includes('custard')) return 'Frozen Dessert';
@@ -280,14 +300,40 @@
       return (str.startsWith('{') && str.endsWith('}')) || (str.startsWith('[') && str.endsWith(']'));
     }
 
-    // Load recipes from Firestore
+    // Recipe count with fade animation
+    function updateRecipeCount(filteredCount, totalCount) {
+      const el = document.getElementById('recipeCount');
+      if (!el) return;
+
+      if (totalCount === 0) {
+        el.style.display = 'none';
+        return;
+      }
+
+      // First time: no fade, just set
+      if (el.style.display === 'none' || el.textContent === '') {
+        el.textContent = `Showing ${filteredCount} of ${totalCount} recipes`;
+        el.style.display = 'block';
+        return;
+      }
+
+      // Fade out -> change text -> fade in
+      el.classList.add('fade-out');
+
+      setTimeout(() => {
+        el.textContent = `Showing ${filteredCount} of ${totalCount} recipes`;
+        el.classList.remove('fade-out');
+      }, 250); // match CSS transition
+    }
+
+    // Load recipes from Firestore (live updates)
     function setupRecipeListener() {
       const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
       const q = query(recipesRef);
 
       onSnapshot(q, (snapshot) => {
         recipes = snapshot.docs.map(doc => {
-          const data = doc.data();
+          const data = doc.data() || {};
 
           // Parse serialized JSON fields
           if (typeof data.ingredients === 'string' && isSafeJson(data.ingredients)) {
@@ -309,11 +355,14 @@
         });
 
         populateFilters();
-        applyFiltersAndDisplay();
+        applyFiltersAndDisplay(); // will call updateRecipeCount
       }, (error) => {
         console.error("Error loading recipes:", error);
-        document.getElementById('noResults').style.display = 'block';
-        document.getElementById('noResults').textContent = 'Failed to load recipes. Please check your connection.';
+        const noResults = document.getElementById('noResults');
+        if (noResults) {
+          noResults.style.display = 'block';
+          noResults.textContent = 'Failed to load recipes. Please check your connection.';
+        }
       });
     }
 
@@ -325,6 +374,8 @@
       const categoryFilter = document.getElementById('categoryFilter');
       const dishTypeFilter = document.getElementById('dishTypeFilter');
 
+      if (!categoryFilter || !dishTypeFilter) return;
+
       categoryFilter.innerHTML = '<option value="all">All Categories</option>' +
         categories.map(c => `<option value="${c}">${c}</option>`).join('');
 
@@ -334,17 +385,33 @@
 
     // Apply filters and sort, then display
     function applyFiltersAndDisplay() {
-      const searchTerm = document.getElementById('recipeSearch').value.toLowerCase();
-      const category = document.getElementById('categoryFilter').value;
-      const dishType = document.getElementById('dishTypeFilter').value;
-      const sortBy = document.getElementById('sortBy').value;
+      const searchInput = document.getElementById('recipeSearch');
+      const categorySelect = document.getElementById('categoryFilter');
+      const dishTypeSelect = document.getElementById('dishTypeFilter');
+      const sortSelect = document.getElementById('sortBy');
 
-      // Filter recipes
+      if (!searchInput || !categorySelect || !dishTypeSelect || !sortSelect) return;
+
+      const searchTerm = searchInput.value.toLowerCase();
+      const category = categorySelect.value;
+      const dishType = dishTypeSelect.value;
+      const sortBy = sortSelect.value;
+
       let filtered = recipes.filter(r => {
-        const matchesSearch = !searchTerm ||
-          r.title.toLowerCase().includes(searchTerm) ||
-          (r.description && r.description.toLowerCase().includes(searchTerm)) ||
-          (Array.isArray(r.ingredients) && r.ingredients.some(i => i.toLowerCase().includes(searchTerm)));
+        const title = String(r.title || '').toLowerCase();
+        const description = String(r.description || '').toLowerCase();
+
+        const matchesSearch =
+          !searchTerm ||
+          title.includes(searchTerm) ||
+          description.includes(searchTerm) ||
+          (
+            Array.isArray(r.ingredients) &&
+            r.ingredients.some(i =>
+              typeof i === 'string' &&
+              i.toLowerCase().includes(searchTerm)
+            )
+          );
 
         const matchesCategory = category === 'all' || r.category === category;
         const matchesDishType = dishType === 'all' || r.dishType === dishType;
@@ -354,13 +421,17 @@
 
       // Sort recipes
       if (sortBy === 'time') {
-        filtered.sort((a, b) => a.totalTimeInMinutes - b.totalTimeInMinutes);
+        filtered.sort((a, b) => (a.totalTimeInMinutes || Infinity) - (b.totalTimeInMinutes || Infinity));
       } else if (sortBy === 'newest') {
-        filtered.reverse();
+        filtered = filtered.slice().reverse(); // assuming newest last in snapshot order
       } else {
-        filtered.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
+        filtered.sort((a, b) =>
+          String(a.title || '').toLowerCase().localeCompare(String(b.title || '').toLowerCase())
+        );
       }
 
+      // Update count + display
+      updateRecipeCount(filtered.length, recipes.length);
       displayRecipes(filtered);
     }
 
@@ -370,18 +441,22 @@
       const noResults = document.getElementById('noResults');
       const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-      if (recipesToShow.length === 0) {
+      if (!grid) return;
+
+      if (!recipesToShow || recipesToShow.length === 0) {
         grid.innerHTML = '';
-        noResults.style.display = 'block';
-        loadMoreBtn.style.display = 'none';
+        if (noResults) noResults.style.display = 'block';
+        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
         return;
       }
 
-      noResults.style.display = 'none';
+      if (noResults) noResults.style.display = 'none';
       displayedRecipes = Math.min(RECIPES_PER_PAGE, recipesToShow.length);
 
       grid.innerHTML = recipesToShow.slice(0, displayedRecipes).map(recipe => {
-        const timeText = recipe.totalTimeInMinutes === Infinity ? 'Time N/A' : `${recipe.totalTimeInMinutes} min`;
+        const timeText = recipe.totalTimeInMinutes === Infinity || recipe.totalTimeInMinutes == null
+          ? 'Time N/A'
+          : `${recipe.totalTimeInMinutes} min`;
         const imagePath = recipe.image
           ? (recipe.image.startsWith('http') ? recipe.image : `images/${recipe.image}`)
           : null;
@@ -406,7 +481,10 @@
         `;
       }).join('');
 
-      loadMoreBtn.style.display = displayedRecipes < recipesToShow.length ? 'inline-block' : 'none';
+      if (loadMoreBtn) {
+        loadMoreBtn.style.display = displayedRecipes < recipesToShow.length ? 'inline-block' : 'none';
+      }
+
       window.currentFilteredRecipes = recipesToShow;
     }
 
@@ -417,20 +495,58 @@
       displayRecipes(recipesToShow);
     }
 
-    // Clear all filters
-    window.clearFilters = function() {
-      document.getElementById('recipeSearch').value = '';
-      document.getElementById('categoryFilter').value = 'all';
-      document.getElementById('dishTypeFilter').value = 'all';
-      document.getElementById('sortBy').value = 'alphabetical';
+    // Clear all filters and re-run
+    function clearFilters() {
+      const searchInput = document.getElementById('recipeSearch');
+      const categorySelect = document.getElementById('categoryFilter');
+      const dishTypeSelect = document.getElementById('dishTypeFilter');
+      const sortSelect = document.getElementById('sortBy');
+
+      if (searchInput) searchInput.value = '';
+      if (categorySelect) categorySelect.value = 'all';
+      if (dishTypeSelect) dishTypeSelect.value = 'all';
+      if (sortSelect) sortSelect.value = 'alphabetical';
+
       applyFiltersAndDisplay();
     }
 
-    // Event listeners
-    document.getElementById('recipeSearch').addEventListener('input', applyFiltersAndDisplay);
-    document.getElementById('categoryFilter').addEventListener('change', applyFiltersAndDisplay);
-    document.getElementById('dishTypeFilter').addEventListener('change', applyFiltersAndDisplay);
-    document.getElementById('sortBy').addEventListener('change', applyFiltersAndDisplay);
+    // --- EVENT LISTENERS (DIALED BACK) ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('recipeSearch');
+      const searchBtn = document.getElementById('searchBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const categorySelect = document.getElementById('categoryFilter');
+      const dishTypeSelect = document.getElementById('dishTypeFilter');
+      const sortSelect = document.getElementById('sortBy');
+
+      if (searchBtn) {
+        searchBtn.addEventListener('click', applyFiltersAndDisplay);
+      }
+
+      // Enter key in search box
+      if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            applyFiltersAndDisplay();
+          }
+        });
+      }
+
+      // Category / dish type / sort changes filter immediately
+      if (categorySelect) {
+        categorySelect.addEventListener('change', applyFiltersAndDisplay);
+      }
+      if (dishTypeSelect) {
+        dishTypeSelect.addEventListener('change', applyFiltersAndDisplay);
+      }
+      if (sortSelect) {
+        sortSelect.addEventListener('change', applyFiltersAndDisplay);
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', clearFilters);
+      }
+    });
 
     // Initialize
     setupRecipeListener();
