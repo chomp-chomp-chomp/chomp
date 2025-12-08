@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe | Recipes & Rituals</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fchomp_recipes_logo.jpeg?alt=media">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Chomp Chomp Recipes">
+  <meta name="description" content="Baking is the materialization of comfort itself.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/">
+  <meta property="og:title" content="Chomp Chomp Recipes">
+  <meta property="og:description" content="Baking is the materialization of comfort itself.">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/">
+  <meta property="twitter:title" content="Chomp Chomp Recipes">
+  <meta property="twitter:description" content="Baking is the materialization of comfort itself.">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .recipe-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .recipe-meta {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      color: var(--color-text-muted);
+      font-size: 0.95em;
+    }
+
+    .recipe-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .recipe-image {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 8px;
+      margin: 30px auto;
+      display: block;
+    }
+
+    .recipe-section {
+      max-width: 700px;
+      margin: 0 auto 40px auto;
+    }
+
+    .recipe-section h2 {
+      color: var(--color-accent);
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--color-accent);
+    }
+
+    /* Recipe Action Buttons */
+    .recipe-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 30px 0 40px 0;
+      padding: 20px 0;
+      border-top: 1px solid var(--color-border, #e0e0e0);
+      border-bottom: 1px solid var(--color-border, #e0e0e0);
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95em;
+      font-weight: 500;
+      color: var(--color-text, #353535);
+      background-color: white;
+      border: 1px solid var(--color-border, #e0e0e0);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      background-color: var(--color-accent, #e73b42);
+      color: white;
+      border-color: var(--color-accent, #e73b42);
+    }
+
+    .action-btn-primary {
+      background-color: var(--color-accent, #e73b42);
+      color: white;
+      border-color: var(--color-accent, #e73b42);
+    }
+
+    .action-btn-primary:hover {
+      background-color: #d0323a;
+      border-color: #d0323a;
+    }
+
+    /* Share Dropdown */
+    .share-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .share-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 5px;
+      background-color: white;
+      border: 1px solid var(--color-border, #e0e0e0);
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .share-dropdown-menu.active {
+      display: block;
+    }
+
+    .share-dropdown-menu button {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95em;
+      color: var(--color-text, #353535);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .share-dropdown-menu button:first-child {
+      border-radius: 6px 6px 0 0;
+    }
+
+    .share-dropdown-menu button:last-child {
+      border-radius: 0 0 6px 6px;
+    }
+
+    .share-dropdown-menu button:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* Cook Mode */
+    body.cook-mode .site-header,
+    body.cook-mode .site-footer,
+    body.cook-mode .recipe-actions {
+      display: none;
+    }
+
+    body.cook-mode {
+      background-color: #fafafa;
+      color: #1a1a1a;
+    }
+
+    body.cook-mode .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    body.cook-mode .recipe-section h2 {
+      font-size: 2em;
+      margin-bottom: 25px;
+      color: #1a1a1a;
+    }
+
+    body.cook-mode .ingredients-list li,
+    body.cook-mode .instructions-list li {
+      font-size: 1.2em;
+      line-height: 1.8;
+      margin-bottom: 15px;
+      color: #1a1a1a;
+    }
+
+    body.cook-mode h1,
+    body.cook-mode p,
+    body.cook-mode .post-meta {
+      color: #1a1a1a;
+    }
+
+    .cook-mode-exit {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background-color: var(--color-accent, #e73b42);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1em;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      z-index: 1001;
+    }
+
+    body.cook-mode .cook-mode-exit {
+      display: block;
+    }
+
+    .cook-mode-exit:hover {
+      background-color: #d0323a;
+    }
+
+    /* Dark mode styles */
+    @media (prefers-color-scheme: dark) {
+      .action-btn {
+        background-color: #2b2626;
+        color: #d9d4d4;
+        border-color: #3b3636;
+      }
+
+      .action-btn:hover {
+        background-color: #ff6b7a;
+        color: #231f1f;
+        border-color: #ff6b7a;
+      }
+
+      .action-btn-primary {
+        background-color: #ff6b7a;
+        color: #231f1f;
+        border-color: #ff6b7a;
+      }
+
+      .action-btn-primary:hover {
+        background-color: #ff8590;
+        border-color: #ff8590;
+      }
+
+      .share-dropdown-menu {
+        background-color: #2b2626;
+        border-color: #3b3636;
+      }
+
+      .share-dropdown-menu button {
+        color: #d9d4d4;
+      }
+
+      .share-dropdown-menu button:hover {
+        background-color: #3b3636;
+      }
+
+      .cook-mode-exit {
+        background-color: #ff6b7a;
+        color: #231f1f;
+      }
+
+      .cook-mode-exit:hover {
+        background-color: #ff8590;
+      }
+
+      .toast {
+        background-color: #2b2626;
+        color: #d9d4d4;
+      }
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .recipe-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .share-dropdown {
+        width: 100%;
+      }
+
+      .share-dropdown-menu {
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #353535;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95em;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="index.html" title="Home" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="index.html" title="Home">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html">About</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Ipsum</a>
+              <ul class="submenu">
+                <li><a href="tools/dante.html">Inferno</a></li>
+                <li><a href="tools/nautical.html">Nautical</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Tools</a>
+              <ul class="submenu">
+                <li><a href="tools/ip.html">Whois</a></li>
+                <li><a href="tools/convert.html">Convert</a></li>
+                <li><a href="tools/encode.html">Encode</a></li>
+                <li><a href="tools/subnet.html">Subnet</a></li>
+                <li><a href="tools/temperature.html">Temperature</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Cook Mode Exit Button -->
+  <button class="cook-mode-exit" onclick="toggleCookMode()">Exit Cook Mode</button>
+
+  <!-- Main Content -->
+  <main class="page-container">
+    <div id="recipeContainer">
+      <p style="text-align: center; color: var(--color-text-muted);">Loading recipe...</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>Baking is the materialization of comfort itself.</p>
+      <div class="footer-links">
+        <a href="mailto:hi@chomp.be">hi@chomp.be</a>
+        <a href="https://www.chomp.ltd" target="_blank">chomp chomp: cookies, etc.</a>
+        <a href="https://chomp.be/tools" target="_blank">chomp chomp: tools</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const appId = firebaseConfig.projectId;
+
+    // Get slug from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    if (!slug) {
+      showError('No recipe specified', 'No recipe slug provided in URL.');
+    } else {
+      loadRecipe(slug);
+    }
+
+    // Helper: Assign dish type based on title
+    function assignDishType(title) {
+      const lower = title.toLowerCase();
+      if (lower.includes('cake') || lower.includes('torte') || lower.includes('pie') || lower.includes('brûlée')) return 'Dessert/Pastry';
+      if (lower.includes('cookie') || lower.includes('cookies')) return 'Cookie/Bar';
+      if (lower.includes('custard')) return 'Frozen Dessert';
+      if (lower.includes('pudding')) return 'Pudding/Cream';
+      if (lower.includes('taco') || lower.includes('main dish')) return 'Main Dish';
+      if (lower.includes('soup')) return 'Soup';
+      return 'Other Baked Goods';
+    }
+
+    // Load recipe from Firestore
+    async function loadRecipe(slug) {
+      try {
+        const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
+        const q = query(recipesRef, where('slug', '==', slug));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          showError('Recipe not found', 'The recipe you\'re looking for doesn\'t exist or has been removed.');
+          return;
+        }
+
+        const recipe = snapshot.docs[0].data();
+        // Ensure dishType is set
+        if (!recipe.dishType) {
+          recipe.dishType = assignDishType(recipe.title);
+        }
+        displayRecipe(recipe);
+      } catch (error) {
+        console.error("Error loading recipe:", error);
+        showError('Error loading recipe', error.message);
+      }
+    }
+
+    // Display recipe
+    function displayRecipe(recipe) {
+      document.title = `${recipe.title} | Recipes & Rituals`;
+
+      const container = document.getElementById('recipeContainer');
+
+      // Build metadata string (Type first, then times/servings, then category, then source)
+      const metaParts = [];
+      const dishType = recipe.dishType;
+      const category = recipe.category;
+      if (dishType) metaParts.push(`Type: ${dishType}`);
+      if (recipe.prepTime) metaParts.push(`Prep: ${recipe.prepTime}`);
+      if (recipe.cookTime) metaParts.push(`Cook: ${recipe.cookTime}`);
+      if (recipe.totalTime) metaParts.push(`Total: ${recipe.totalTime}`);
+      if (recipe.servings) metaParts.push(`Servings: ${recipe.servings}`);
+      if (category) metaParts.push(`Category: ${category}`);
+      if (recipe.source) metaParts.push(`Source: ${formatSource(recipe.source)}`);
+      const metaString = metaParts.join(' | ');
+
+      // Handle ingredients with markdown headers
+      const safeIngredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
+      const ingredientsHTML = safeIngredients.map(i => {
+        const parsed = parseMarkdown(i);
+        // Check if this is a header (starts with <h1, <h2, or <h3)
+        if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
+          // Return header without li wrapper, with inline styling
+          return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+        }
+        // Regular ingredient with red bar
+        return `<li class="ingredient-item">${parsed}</li>`;
+      }).join('');
+
+      // Handle instructions with markdown headers
+      const safeInstructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
+      const instructionsHTML = safeInstructions.map(i => {
+        const parsed = parseMarkdown(i);
+        // Check if this is a header (starts with <h1, <h2, or <h3)
+        if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
+          // Return header without li wrapper, with inline styling
+          return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
+                       .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+        }
+        // Regular instruction with numbering
+        return `<li class="instruction-item">${parsed}</li>`;
+      }).join('');
+
+      container.innerHTML = `
+        <article class="content-wrapper">
+          <!-- Recipe Header -->
+          <header class="post-header">
+            <h1>${recipe.title}</h1>
+            ${metaString ? `<div class="post-meta">${metaString}</div>` : ''}
+            ${recipe.description ? `<p class="text-muted" style="font-size: 1.05em; margin-top: 20px; text-align: left;">${parseMarkdown(recipe.description)}</p>` : ''}
+          </header>
+
+          <!-- Recipe Actions -->
+          <div class="recipe-actions">
+            <button class="action-btn action-btn-primary" onclick="copyIngredients()">
+              📋 Copy Ingredients
+            </button>
+
+            <div class="share-dropdown">
+              <button class="action-btn" onclick="toggleShareDropdown(event)">
+                🔗 Share ▼
+              </button>
+              <div class="share-dropdown-menu" id="shareDropdown">
+                <button onclick="copyPermalink()">📎 Copy Link</button>
+                <button onclick="emailRecipe()">✉️ Email Recipe</button>
+                <button onclick="downloadPDF()">📄 Download PDF</button>
+              </div>
+            </div>
+
+            <button class="action-btn" onclick="toggleCookMode()">
+              👨‍🍳 Cook Mode
+            </button>
+          </div>
+
+          <!-- Recipe Image -->
+          ${recipe.image ? `
+            <img src="${getImagePath(recipe.image)}" alt="${recipe.title}" class="post-featured-image">
+          ` : ''}
+
+          <!-- Ingredients -->
+          <section class="recipe-section">
+            <h2>Ingredients</h2>
+            <ul class="ingredients-list">
+              ${ingredientsHTML}
+            </ul>
+          </section>
+
+          <!-- Instructions -->
+          <section class="recipe-section">
+            <h2>Instructions</h2>
+            <ol class="instructions-list">
+              ${instructionsHTML}
+            </ol>
+          </section>
+
+          <!-- Notes -->
+          ${recipe.notes ? `
+            <section class="recipe-section">
+              <h2>Notes</h2>
+              <div class="notes-section">
+                ${parseMarkdown(recipe.notes)}
+              </div>
+            </section>
+          ` : ''}
+        </article>
+      `;
+
+      // Add Schema.org JSON-LD structured data
+      addRecipeSchema(recipe);
+
+      // Store recipe data globally for action functions
+      window.currentRecipe = recipe;
+    }
+
+    // Show error
+    function showError(title, message) {
+      document.getElementById('recipeContainer').innerHTML = `
+        <div style="text-align: center; padding: 60px 20px;">
+          <h2 style="color: var(--color-accent);">${title}</h2>
+          <p style="color: var(--color-text-muted); margin-top: 20px;">${message}</p>
+          <a href="recipes.html" class="btn btn-primary" style="margin-top: 30px; display: inline-block;">
+            View All Recipes
+          </a>
+        </div>
+      `;
+    }
+
+    // Get image path
+    function getImagePath(image) {
+      if (!image) return '';
+      if (image.startsWith('http')) return image;
+      return `images/${image}`;
+    }
+
+    // Format source
+    function formatSource(source) {
+      if (!source) return '';
+
+      // Handle object format {text, href}
+      if (typeof source === 'object' && source.text && source.href) {
+        return `<a href="${source.href}" target="_blank" rel="noopener noreferrer">${source.text}</a>`;
+      }
+
+      // Handle array of objects
+      if (Array.isArray(source)) {
+        return source.map(item => {
+          if (item && item.text && item.href) {
+            return `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${item.text}</a>`;
+          }
+          return parseMarkdown(String(item));
+        }).join(' ');
+      }
+
+      // Handle string (may contain markdown)
+      return parseMarkdown(String(source));
+    }
+
+    // Parse markdown (simple version)
+    function parseMarkdown(text) {
+      if (!text) return '';
+      let html = String(text);
+
+      // Headers
+      html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+      html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+      // Bold and italic
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+      return html;
+    }
+
+    // Convert time string to ISO 8601 duration format
+    function convertToISO8601Duration(timeStr) {
+      if (!timeStr) return null;
+
+      // Parse various formats: "20min", "1h 30min", "65-80 minutes", etc.
+      const timeString = timeStr.toLowerCase().trim();
+
+      // Extract hours
+      const hoursMatch = timeString.match(/(\d+)\s*h/);
+      const hours = hoursMatch ? parseInt(hoursMatch[1]) : 0;
+
+      // Extract minutes
+      const minutesMatch = timeString.match(/(\d+)\s*m/);
+      let minutes = minutesMatch ? parseInt(minutesMatch[1]) : 0;
+
+      // Handle ranges (use lower bound)
+      const rangeMatch = timeString.match(/(\d+)\s*-\s*\d+/);
+      if (rangeMatch && !minutes && !hours) {
+        minutes = parseInt(rangeMatch[1]);
+      }
+
+      // Build ISO 8601 duration
+      if (hours === 0 && minutes === 0) return null;
+
+      let duration = 'PT';
+      if (hours > 0) duration += `${hours}H`;
+      if (minutes > 0) duration += `${minutes}M`;
+
+      return duration;
+    }
+
+    // Strip HTML tags for plain text
+    function stripHTML(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    }
+
+    // Normalize rich-text-ish fields (strings or arrays) into a clean, one-line string
+    function normalizeRichTextField(value) {
+      if (!value) return '';
+
+      // If it's an array (e.g., multiple paragraphs), join with blank lines
+      const asString = Array.isArray(value)
+        ? value.map(v => String(v)).join('\n\n')
+        : String(value);
+
+      // Use markdown → HTML → plain text pipeline
+      let text = stripHTML(parseMarkdown(asString));
+
+      // Collapse newlines/spaces so description becomes a single, tidy line
+      text = text
+        .replace(/\s*\n+\s*/g, ' ')   // newlines → single space
+        .replace(/\s{2,}/g, ' ')      // multiple spaces → one
+        .trim();
+
+      return text;
+    }
+
+    // Add Schema.org Recipe structured data
+    function addRecipeSchema(recipe) {
+      // Remove existing schema if present
+      const existingSchema = document.getElementById('recipeSchema');
+      if (existingSchema) {
+        existingSchema.remove();
+      }
+
+      // Ingredients: strip headers and HTML, as before
+      const ingredients = Array.isArray(recipe.ingredients)
+        ? recipe.ingredients
+            .map(i => parseMarkdown(String(i)))
+            .filter(i => !i.startsWith('<h1') && !i.startsWith('<h2') && !i.startsWith('<h3'))
+            .map(i => stripHTML(i).trim())
+            .filter(i => i.length > 0)
+        : [];
+
+      // Instructions: HowToStep array with clean text, skipping header-only items
+      const instructions = Array.isArray(recipe.instructions)
+        ? recipe.instructions
+            .map(i => parseMarkdown(String(i)))
+            .filter(i => !i.startsWith('<h1') && !i.startsWith('<h2') && !i.startsWith('<h3'))
+            .map((i, index) => {
+              const text = stripHTML(i).trim();
+              return text
+                ? {
+                    "@type": "HowToStep",
+                    "position": index + 1,
+                    "text": text
+                  }
+                : null;
+            })
+            .filter(Boolean)
+        : [];
+
+      // Description + notes merged and flattened
+      const descriptionText = normalizeRichTextField(recipe.description);
+      const notesText = normalizeRichTextField(recipe.notes);
+
+      let fullDescription = descriptionText;
+      if (notesText) {
+        fullDescription = fullDescription
+          ? `${fullDescription} Notes: ${notesText}`
+          : notesText;
+      }
+      if (!fullDescription) {
+        fullDescription = recipe.title || '';
+      }
+
+      const pageUrl = window.location.href;
+
+      // Base schema object
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "Recipe",
+        "name": recipe.title,
+        "description": fullDescription,
+        "recipeIngredient": ingredients,
+        "author": {
+          "@type": "Organization",
+          "name": "Chomp Chomp Recipes"
+        },
+        "datePublished": recipe.date || new Date().toISOString().split('T')[0],
+        "url": pageUrl,
+        "mainEntityOfPage": pageUrl
+      };
+
+      // Image
+      if (recipe.image) {
+        const imagePath = getImagePath(recipe.image);
+        schema.image = imagePath.startsWith('http')
+          ? imagePath
+          : `https://chomp.be/${imagePath}`;
+      }
+
+      // Times (ISO 8601)
+      if (recipe.prepTime) {
+        const prepISO = convertToISO8601Duration(recipe.prepTime);
+        if (prepISO) schema.prepTime = prepISO;
+      }
+      if (recipe.cookTime) {
+        const cookISO = convertToISO8601Duration(recipe.cookTime);
+        if (cookISO) schema.cookTime = cookISO;
+      }
+      if (recipe.totalTime) {
+        const totalISO = convertToISO8601Duration(recipe.totalTime);
+        if (totalISO) schema.totalTime = totalISO;
+      }
+
+      // Servings / yield
+      if (recipe.servings) {
+        schema.recipeYield = recipe.servings;
+      }
+
+      // Category / cuisine
+      if (recipe.category) {
+        schema.recipeCategory = recipe.category;
+      }
+      if (recipe.dishType) {
+        schema.recipeCuisine = recipe.dishType;
+      }
+
+      // Instructions
+      if (instructions.length > 0) {
+        schema.recipeInstructions = instructions;
+      }
+
+      // Keywords: include category, dishType, tags
+      const keywords = [];
+      if (recipe.category) keywords.push(recipe.category);
+      if (recipe.dishType) keywords.push(recipe.dishType);
+      if (Array.isArray(recipe.tags)) {
+        keywords.push(...recipe.tags.map(String));
+      }
+      if (keywords.length > 0) {
+        schema.keywords = keywords.join(', ');
+      }
+
+      // “Pure” description as about
+      if (descriptionText) {
+        schema.about = descriptionText;
+      }
+
+      // Notes as Comment array
+      if (notesText) {
+        schema.comment = [{
+          "@type": "Comment",
+          "text": notesText
+        }];
+      }
+
+      // Source, if present
+      if (recipe.source) {
+        if (typeof recipe.source === 'string') {
+          schema.isBasedOn = recipe.source;
+        } else if (recipe.source.url) {
+          schema.isBasedOn = recipe.source.url;
+        }
+      }
+
+      // Create and inject script tag
+      const script = document.createElement('script');
+      script.id = 'recipeSchema';
+      script.type = 'application/ld+json';
+      script.text = JSON.stringify(schema, null, 2);
+      document.head.appendChild(script);
+    }
+
+    // Copy ingredients to clipboard
+    function copyIngredients() {
+      if (!window.currentRecipe) return;
+
+      const ingredients = Array.isArray(window.currentRecipe.ingredients)
+        ? window.currentRecipe.ingredients : [];
+
+      // Filter out headers and get plain text
+      const ingredientsList = ingredients
+        .map(i => parseMarkdown(i))
+        .filter(i => !i.startsWith('<h1') && !i.startsWith('<h2') && !i.startsWith('<h3'))
+        .map(i => stripHTML(i))
+        .map(i => `• ${i}`)
+        .join('\n');
+
+      const text = `${window.currentRecipe.title}\n\nIngredients:\n${ingredientsList}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('✓ Ingredients copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        showToast('❌ Failed to copy ingredients');
+      });
+    }
+
+    // Copy permalink to clipboard
+    function copyPermalink() {
+      const url = window.location.href;
+
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('✓ Link copied to clipboard!');
+        toggleShareDropdown();
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        showToast('❌ Failed to copy link');
+      });
+    }
+
+    // Email recipe
+    function emailRecipe() {
+      if (!window.currentRecipe) return;
+
+      const subject = encodeURIComponent(`Recipe: ${window.currentRecipe.title}`);
+      const body = encodeURIComponent(`Check out this recipe from Chomp Chomp:\n\n${window.currentRecipe.title}\n${window.location.href}\n\nBaking is the materialization of comfort itself.`);
+
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+      toggleShareDropdown();
+    }
+
+    // Download recipe as PDF
+    function downloadPDF() {
+      if (!window.currentRecipe) return;
+
+      // Use browser's print functionality to save as PDF
+      // Hide action buttons and show print styles
+      const style = document.createElement('style');
+      style.id = 'printStyle';
+      style.textContent = `
+        @media print {
+          .recipe-actions,
+          .site-header,
+          .site-footer,
+          .cook-mode-exit,
+          .toast {
+            display: none !important;
+          }
+          body {
+            background: white !important;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+
+      toggleShareDropdown();
+
+      // Wait a moment before opening print dialog
+      setTimeout(() => {
+        window.print();
+        // Remove print style after printing
+        setTimeout(() => {
+          const printStyle = document.getElementById('printStyle');
+          if (printStyle) printStyle.remove();
+        }, 1000);
+      }, 100);
+    }
+
+    // Toggle cook mode
+    function toggleCookMode() {
+      document.body.classList.toggle('cook-mode');
+
+      if (document.body.classList.contains('cook-mode')) {
+        // Scroll to top when entering cook mode
+        window.scrollTo(0, 0);
+      }
+    }
+
+    // Toggle share dropdown
+    function toggleShareDropdown(event) {
+      if (event) event.stopPropagation();
+      const dropdown = document.getElementById('shareDropdown');
+      if (dropdown) {
+        dropdown.classList.toggle('active');
+      }
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('shareDropdown');
+      if (dropdown && dropdown.classList.contains('active')) {
+        if (!e.target.closest('.share-dropdown')) {
+          dropdown.classList.remove('active');
+        }
+      }
+    });
+
+    // Show toast notification
+    function showToast(message) {
+      // Remove existing toast if present
+      const existingToast = document.querySelector('.toast');
+      if (existingToast) {
+        existingToast.remove();
+      }
+
+      // Create new toast
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      // Show toast
+      setTimeout(() => toast.classList.add('show'), 100);
+
+      // Hide and remove toast
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Expose functions to global scope for onclick handlers
+    window.copyIngredients = copyIngredients;
+    window.copyPermalink = copyPermalink;
+    window.emailRecipe = emailRecipe;
+    window.downloadPDF = downloadPDF;
+    window.toggleCookMode = toggleCookMode;
+    window.toggleShareDropdown = toggleShareDropdown;
+
+  </script>
+
+  <!-- Navigation toggle -->
+  <script>
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
