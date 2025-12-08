@@ -212,7 +212,7 @@
 
     <!-- Load More Button -->
     <div class="text-center mt-xl">
-      <button class="btn btn-primary" id="loadMoreBtn" onclick="loadMoreRecipes()" style="display: none;">
+      <button class="btn btn-primary" id="loadMoreBtn" style="display: none;">
         Load More Recipes
       </button>
     </div>
@@ -448,8 +448,15 @@
       }
 
       if (noResults) noResults.style.display = 'none';
-      displayedRecipes = Math.min(RECIPES_PER_PAGE, recipesToShow.length);
-
+      
+// Only set the initial page size the first time,
+// otherwise just clamp it so it never goes past the list length
+if (displayedRecipes === 0) {
+  displayedRecipes = Math.min(RECIPES_PER_PAGE, recipesToShow.length);
+} else {
+  displayedRecipes = Math.min(displayedRecipes, recipesToShow.length);
+}
+      
       grid.innerHTML = recipesToShow.slice(0, displayedRecipes).map(recipe => {
         const timeText = recipe.totalTimeInMinutes === Infinity || recipe.totalTimeInMinutes == null
           ? 'Time N/A'
@@ -515,6 +522,7 @@
       const categorySelect = document.getElementById('categoryFilter');
       const dishTypeSelect = document.getElementById('dishTypeFilter');
       const sortSelect = document.getElementById('sortBy');
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
 
       if (searchBtn) {
         searchBtn.addEventListener('click', applyFiltersAndDisplay);
@@ -540,6 +548,14 @@
         sortSelect.addEventListener('change', applyFiltersAndDisplay);
       }
 
+if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      if (window.loadMoreRecipes) {
+        window.loadMoreRecipes();
+      }
+    });
+  }
+      
       if (clearBtn) {
         clearBtn.addEventListener('click', clearFilters);
       }
