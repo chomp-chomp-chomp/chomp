@@ -16,7 +16,9 @@
 
   <style>
     /* --- FILTER SECTION LAYOUT --- */
-    /* These styles control the positioning of the new search layout */
+    /* Only keeping layout-specific styles here. Visual styles (colors/borders) 
+       are now pulled from styles.css */
+
     .filter-container {
       display: flex;
       flex-direction: column;
@@ -42,35 +44,36 @@
       justify-content: center;
     }
 
+    /* Override the default margin from styles.css to fit this specific flex layout */
     .recipe-search-box {
-      padding: 12px 16px;
-      font-size: 15px;
-      font-family: 'Inter', sans-serif;
-      border: 1px solid var(--color-border, #ddd);
-      border-radius: 8px;
-      background-color: white;
-      color: var(--color-text, #333);
+      margin: 0 !important; 
       flex: 2;
       min-width: 250px;
     }
 
     .filter-select {
-      padding: 12px 16px;
-      border: 1px solid var(--color-border, #ddd);
+      /* Matches styles.css .form-select and .filter-controls select */
+      padding: 12px 16px; 
+      border: 1px solid var(--color-border);
       border-radius: 8px;
       font-family: 'Inter', sans-serif;
       font-size: 15px;
       background-color: white;
-      color: var(--color-text, #333);
+      color: var(--color-text);
       flex: 1;
       min-width: 150px;
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: var(--color-accent);
     }
 
     /* Helper for loading state */
     .no-results {
       text-align: center;
       padding: 40px 20px;
-      color: #888;
+      color: var(--color-text-muted);
       font-size: 1.1em;
     }
   </style>
@@ -166,7 +169,7 @@
       </div>
     </section>
 
-    <section class="recipe-grid" id="recipeGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
+    <section class="recipe-grid" id="recipeGrid">
       
       <div id="loadingMsg" style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">
         <h3>Loading Recipes...</h3>
@@ -383,14 +386,14 @@
           : null;
 
         return `
-          <article class="recipe-card" style="border:1px solid #eee; border-radius:8px; overflow:hidden; cursor:pointer;" onclick="window.location.href='recipe.html?slug=${recipe.slug}'">
+          <article class="recipe-card" onclick="window.location.href='recipe.html?slug=${recipe.slug}'">
             ${imagePath
-              ? `<img src="${imagePath}" alt="${recipe.title}" style="width:100%; height:200px; object-fit:cover;">`
-              : `<div style="width:100%; height:200px; background:#f5f5f5; display:flex; align-items:center; justify-content:center; color:#999;">No Image</div>`
+              ? `<img src="${imagePath}" alt="${recipe.title}" class="recipe-card-image">`
+              : `<div class="post-tile-placeholder">No Image Available</div>`
             }
-            <div class="recipe-card-content" style="padding:15px;">
-              <h3 class="recipe-card-title" style="margin:0 0 10px 0; font-size:1.1em; color:#333;">${recipe.title}</h3>
-              <p style="font-size:0.9em; color:#666; margin-bottom:15px;">
+            <div class="recipe-card-content">
+              <h3 class="recipe-card-title">${recipe.title}</h3>
+              <p class="card-description" style="font-size: 0.9em; color: var(--color-text-muted); margin: 8px 0;">
                  ${recipe.description ? recipe.description.substring(0, 100) + '...' : ''}
               </p>
               <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #888;">
