@@ -65,6 +65,7 @@
       min-width: 150px;
     }
 
+    /* Button Styles */
     .btn-search {
         background-color: #333; /* Dark button for Search */
         color: white;
@@ -74,8 +75,8 @@
         font-weight: 500;
         cursor: pointer;
         font-size: 15px;
+        transition: background-color 0.2s;
     }
-
     .btn-search:hover { background-color: #000; }
 
     .btn-clear {
@@ -86,6 +87,7 @@
         border-radius: 6px;
         cursor: pointer;
         font-size: 15px;
+        transition: all 0.2s;
     }
     .btn-clear:hover { background-color: #f5f5f5; color: #333; }
 
@@ -193,7 +195,7 @@
       
       <div id="loadingMsg" style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">
         <h3>Loading Recipes...</h3>
-        <p>Connecting to Chomp Database</p>
+        <p>Connecting to Chomp Database...</p>
       </div>
 
       <div class="no-results" id="noResults" style="display: none; grid-column: 1 / -1;">
@@ -223,9 +225,9 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, query, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // Firebase Configuration
+    // 1. Config
     const firebaseConfig = {
       apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
       authDomain: "chomp-chomp-recipes.firebaseapp.com",
@@ -235,6 +237,7 @@
       appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
     };
 
+    // 2. Initialize
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const appId = firebaseConfig.projectId;
@@ -242,6 +245,16 @@
     let recipes = [];
     let displayedRecipes = 0;
     const RECIPES_PER_PAGE = 15;
+
+    // --- LOGGING HELPER ---
+    function logStatus(msg, isError = false) {
+        console.log(msg);
+        const loadingText = document.querySelector('#loadingMsg p');
+        if (loadingText) {
+            loadingText.innerHTML = msg;
+            if (isError) loadingText.style.color = "red";
+        }
+    }
 
     // --- HELPERS ---
     function generateSlug(title) {
@@ -278,42 +291,57 @@
       return (str.startsWith('{') && str.endsWith('}')) || (str.startsWith('[') && str.endsWith(']'));
     }
 
-    // --- MAIN DATA LOADING ---
-    function setupRecipeListener() {
-      // Using the path that worked in your test
-      const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
-      const q = query(recipesRef);
+    // --- MAIN FETCH LOGIC ---
+    async function loadRecipes() {
+      logStatus("Fetching recipes...");
+      
+      try {
+          // Explicit path that worked in testing
+          const collectionPath = "artifacts/chomp-chomp-recipes/public/data/recipes";
+          const recipesRef = collection(db, collectionPath);
+          
+          // Use getDocs (Fetch) instead of onSnapshot (Live Listener) to avoid hanging
+          const snapshot = await getDocs(recipesRef);
 
-      onSnapshot(q, (snapshot) => {
-        recipes = snapshot.docs.map(doc => {
-          const data = doc.data();
-
-          if (typeof data.ingredients === 'string' && isSafeJson(data.ingredients)) {
-            try { data.ingredients = JSON.parse(data.ingredients); } catch (e) { data.ingredients = []; }
+          if (snapshot.empty) {
+              logStatus("No recipes found in database.", true);
+              return;
           }
-          if (typeof data.source === 'string' && isSafeJson(data.source)) {
-            try { data.source = JSON.parse(data.source); } catch (e) { data.source = String(data.source); }
-          }
 
-          return {
-            ...data,
-            slug: data.slug || generateSlug(data.title),
-            totalTimeInMinutes: parseTime(data.totalTime || data.cookTime),
-            dishType: data.dishType || assignDishType(data.title)
-          };
-        });
+          recipes = snapshot.docs.map(doc => {
+            const data = doc.data();
 
-        // Hide loading message
-        const loadingMsg = document.getElementById('loadingMsg');
-        if(loadingMsg) loadingMsg.style.display = 'none';
+            // JSON Parsing Safety
+            let parsedIngredients = [];
+            if (typeof data.ingredients === 'string' && isSafeJson(data.ingredients)) {
+               try { parsedIngredients = JSON.parse(data.ingredients); } catch (e) {}
+            } else if (Array.isArray(data.ingredients)) {
+               parsedIngredients = data.ingredients;
+            }
 
-        populateFilters();
-        applyFiltersAndDisplay();
-      }, (error) => {
-        console.error("Error loading recipes:", error);
-      });
+            return {
+              ...data,
+              ingredients: parsedIngredients,
+              slug: data.slug || generateSlug(data.title || "Untitled"),
+              totalTimeInMinutes: parseTime(data.totalTime || data.cookTime),
+              dishType: data.dishType || assignDishType(data.title || "")
+            };
+          });
+          
+          // Data Loaded Successfully: Hide Loading Message
+          const loadingMsg = document.getElementById('loadingMsg');
+          if(loadingMsg) loadingMsg.style.display = 'none';
+
+          populateFilters();
+          applyFiltersAndDisplay();
+
+      } catch (error) {
+          console.error("Critical Error:", error);
+          logStatus(`Error: ${error.message}`, true);
+      }
     }
 
+    // --- FILTER & DISPLAY LOGIC ---
     function populateFilters() {
       const categories = [...new Set(recipes.map(r => r.category).filter(c => c))].sort();
       const dishTypes = [...new Set(recipes.map(r => r.dishType).filter(d => d))].sort();
@@ -321,26 +349,30 @@
       const categoryFilter = document.getElementById('categoryFilter');
       const dishTypeFilter = document.getElementById('dishTypeFilter');
 
-      categoryFilter.innerHTML = '<option value="all">All Categories</option>' +
-        categories.map(c => `<option value="${c}">${c}</option>`).join('');
+      if(categoryFilter) {
+          categoryFilter.innerHTML = '<option value="all">All Categories</option>' +
+            categories.map(c => `<option value="${c}">${c}</option>`).join('');
+      }
 
-      dishTypeFilter.innerHTML = '<option value="all">All Dish Types</option>' +
-        dishTypes.map(d => `<option value="${d}">${d}</option>`).join('');
+      if(dishTypeFilter) {
+          dishTypeFilter.innerHTML = '<option value="all">All Dish Types</option>' +
+            dishTypes.map(d => `<option value="${d}">${d}</option>`).join('');
+      }
     }
 
-    // --- FILTER LOGIC (Updated: Removed SortBy) ---
     function applyFiltersAndDisplay() {
-      const searchTerm = document.getElementById('recipeSearch').value.toLowerCase();
-      const category = document.getElementById('categoryFilter').value;
-      const dishType = document.getElementById('dishTypeFilter').value;
-      // removed sortBy variable
+      const searchEl = document.getElementById('recipeSearch');
+      const catEl = document.getElementById('categoryFilter');
+      const dishEl = document.getElementById('dishTypeFilter');
 
-      // Filter
+      const searchTerm = searchEl ? searchEl.value.toLowerCase() : '';
+      const category = catEl ? catEl.value : 'all';
+      const dishType = dishEl ? dishEl.value : 'all';
+
       let filtered = recipes.filter(r => {
         const matchesSearch = !searchTerm ||
-          r.title.toLowerCase().includes(searchTerm) ||
-          (r.description && r.description.toLowerCase().includes(searchTerm)) ||
-          (Array.isArray(r.ingredients) && r.ingredients.some(i => i.toLowerCase().includes(searchTerm)));
+          (r.title && r.title.toLowerCase().includes(searchTerm)) ||
+          (r.description && r.description.toLowerCase().includes(searchTerm));
 
         const matchesCategory = category === 'all' || r.category === category;
         const matchesDishType = dishType === 'all' || r.dishType === dishType;
@@ -349,7 +381,7 @@
       });
 
       // Default Sort: Alphabetical
-      filtered.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
+      filtered.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
 
       displayRecipes(filtered);
     }
@@ -359,18 +391,20 @@
       const noResults = document.getElementById('noResults');
       const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-      // Clear existing cards (manual clear so we don't kill hidden divs)
+      if (!grid) return;
+
+      // Clean grid (remove cards, keep helpers)
       Array.from(grid.children).forEach(child => {
           if (child.id !== 'loadingMsg' && child.id !== 'noResults') child.remove();
       });
 
       if (recipesToShow.length === 0) {
-        noResults.style.display = 'block';
-        loadMoreBtn.style.display = 'none';
+        if(noResults) noResults.style.display = 'block';
+        if(loadMoreBtn) loadMoreBtn.style.display = 'none';
         return;
       }
 
-      noResults.style.display = 'none';
+      if(noResults) noResults.style.display = 'none';
       displayedRecipes = Math.min(RECIPES_PER_PAGE, recipesToShow.length);
 
       const cardsHTML = recipesToShow.slice(0, displayedRecipes).map(recipe => {
@@ -383,10 +417,58 @@
           <article class="recipe-card" style="border:1px solid #eee; border-radius:8px; overflow:hidden; cursor:pointer;" onclick="window.location.href='recipe.html?slug=${recipe.slug}'">
             ${imagePath
               ? `<img src="${imagePath}" alt="${recipe.title}" style="width:100%; height:200px; object-fit:cover;">`
-              : `<div style="width:100%; height:200px; background:#f5f5f5; display:flex; align-items:center; justify-content:center; color:#999;">No Image Available</div>`
+              : `<div style="width:100%; height:200px; background:#f5f5f5; display:flex; align-items:center; justify-content:center; color:#999;">No Image</div>`
             }
             <div class="recipe-card-content" style="padding:15px;">
-              <h3 class="recipe-card-title" style="margin:0 0 10px 0; font-size:1.1em;">${recipe.title}</h3>
+              <h3 class="recipe-card-title" style="margin:0 0 10px 0; font-size:1.1em; color:#333;">${recipe.title}</h3>
               <p style="font-size:0.9em; color:#666; margin-bottom:15px;">
                  ${recipe.description ? recipe.description.substring(0, 100) + '...' : ''}
-              </
+              </p>
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #888;">
+                <span style="color: #e73b42; font-weight: 500;">${recipe.dishType || 'Recipe'}</span>
+                <span>${timeText}</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      grid.insertAdjacentHTML('beforeend', cardsHTML);
+
+      if(loadMoreBtn) loadMoreBtn.style.display = displayedRecipes < recipesToShow.length ? 'inline-block' : 'none';
+      window.currentFilteredRecipes = recipesToShow;
+    }
+
+    // --- EVENT LISTENERS ---
+    window.loadMoreRecipes = function() {
+      const recipesToShow = window.currentFilteredRecipes || recipes;
+      displayedRecipes += RECIPES_PER_PAGE;
+      displayRecipes(recipesToShow);
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', applyFiltersAndDisplay);
+    
+    document.getElementById('recipeSearch').addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') applyFiltersAndDisplay();
+    });
+    
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        document.getElementById('recipeSearch').value = '';
+        document.getElementById('categoryFilter').value = 'all';
+        document.getElementById('dishTypeFilter').value = 'all';
+        applyFiltersAndDisplay();
+    });
+
+    // Start
+    loadRecipes();
+  </script>
+
+  <script>
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
