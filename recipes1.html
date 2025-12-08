@@ -16,9 +16,6 @@
 
   <style>
     /* --- FILTER SECTION LAYOUT --- */
-    /* Only keeping layout-specific styles here. Visual styles (colors/borders) 
-       are now pulled from styles.css */
-
     .filter-container {
       display: flex;
       flex-direction: column;
@@ -44,15 +41,8 @@
       justify-content: center;
     }
 
-    /* Override the default margin from styles.css to fit this specific flex layout */
-    .recipe-search-box {
-      margin: 0 !important; 
-      flex: 2;
-      min-width: 250px;
-    }
-
+    /* Custom sizing for dropdowns within this flex layout */
     .filter-select {
-      /* Matches styles.css .form-select and .filter-controls select */
       padding: 12px 16px; 
       border: 1px solid var(--color-border);
       border-radius: 8px;
@@ -142,11 +132,12 @@
     <section class="content-wrapper">
       <div class="filter-container">
         
-        <div class="filter-row-inputs">
+        <div class="filter-row-inputs filter-controls">
             <input type="text"
                    class="recipe-search-box"
                    id="recipeSearch"
-                   placeholder="Search recipes by name, ingredient, or keyword...">
+                   placeholder="Search recipes by name, ingredient, or keyword..."
+                   style="flex: 1; min-width: 200px; max-width: 500px; margin: 0;">
             
             <select id="categoryFilter" class="filter-select">
                 <option value="all">All Categories</option>
