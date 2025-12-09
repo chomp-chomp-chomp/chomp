@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temperature - Chomp Tools</title>
+    <title>Weather - Chomp Tools</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tools-recipes-style.css">
 </head>
@@ -38,7 +38,7 @@
                             <li><a href="convert.html">Convert</a></li>
                             <li><a href="encode.html">Encode</a></li>
                             <li><a href="subnet.html">Subnet</a></li>
-                            <li><a href="temperature.html">Temperature</a></li>
+                            <li><a href="temperature.html">Weather</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -49,7 +49,10 @@
     <div class="page-container">
         <div class="tool-page">
             <div class="tool-header">
-                <h1>Temperature & Weather Comfort</h1>
+                <picture>
+                    <source srcset="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FWeather%20-%20dark.JPG?alt=media&token=2ee4f730-a289-4d56-8295-6721ffa1ead3" media="(prefers-color-scheme: dark)">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FWeather%20-%20light.JPG?alt=media&token=ace15775-54bb-4566-9d7f-ba9effdbb871" alt="weather tools">
+                </picture>
                 <p class="tool-subtitle">Convert temperatures and calculate heat index, apparent temperature & comfort levels</p>
             </div>
 
@@ -130,6 +133,182 @@
                     <div class="result-item">
                         <span class="result-label">Dew Point Comfort Index:</span>
                         <span class="result-value" id="dewComfort">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wind Chill Calculator -->
+            <div class="tool-section">
+                <h2 class="section-title">Wind Chill Calculator</h2>
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label">Temperature</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="windChillTemp" class="form-input" placeholder="Enter temperature" style="flex: 2;">
+                            <select id="windChillUnit" class="form-select" style="flex: 1;">
+                                <option value="F">°F</option>
+                                <option value="C">°C</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Wind Speed (mph)</label>
+                        <input type="number" id="windSpeed" class="form-input" placeholder="Enter wind speed">
+                    </div>
+
+                    <div class="tool-actions">
+                        <button class="tool-button" onclick="calculateWindChill()">Calculate</button>
+                        <button class="tool-button tool-button-secondary" onclick="resetWindChill()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="tool-result" id="windChillResults" style="display: none;">
+                    <h3 style="margin-bottom: 15px;">Results</h3>
+                    <div class="result-item">
+                        <span class="result-label">Wind Chill Temperature:</span>
+                        <span class="result-value" id="windChillValue">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Comfort Level:</span>
+                        <span class="result-value" id="windChillComfort">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UV Index Calculator -->
+            <div class="tool-section">
+                <h2 class="section-title">UV Index Calculator</h2>
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label">Latitude</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="uvLat" class="form-input" placeholder="e.g., 40.7128" step="0.0001" style="flex: 1;">
+                            <button class="tool-button tool-button-secondary" onclick="getLocationForUV()" style="flex: 0 0 auto; white-space: nowrap;">Get My Location</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Date</label>
+                        <input type="date" id="uvDate" class="form-input">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Time of Day</label>
+                        <input type="time" id="uvTime" class="form-input">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Cloud Cover (%)</label>
+                        <input type="number" id="uvCloud" class="form-input" placeholder="0-100" value="0" min="0" max="100">
+                    </div>
+
+                    <div class="tool-actions">
+                        <button class="tool-button" onclick="calculateUV()">Calculate UV Index</button>
+                        <button class="tool-button tool-button-secondary" onclick="resetUV()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="tool-result" id="uvResults" style="display: none;">
+                    <h3 style="margin-bottom: 15px;">Results</h3>
+                    <div class="result-item">
+                        <span class="result-label">Estimated UV Index:</span>
+                        <span class="result-value" id="uvIndex">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Risk Level:</span>
+                        <span class="result-value" id="uvRisk">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Protection Recommended:</span>
+                        <span class="result-value" id="uvProtection">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sunrise/Sunset Calculator -->
+            <div class="tool-section">
+                <h2 class="section-title">Sunrise & Sunset Calculator</h2>
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label">Location</label>
+                        <button class="tool-button tool-button-secondary" onclick="getLocationForSun()" style="width: 100%;">Get My Location</button>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Latitude</label>
+                        <input type="number" id="sunLat" class="form-input" placeholder="e.g., 40.7128" step="0.0001">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Longitude</label>
+                        <input type="number" id="sunLon" class="form-input" placeholder="e.g., -74.0060" step="0.0001">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Date</label>
+                        <input type="date" id="sunDate" class="form-input">
+                    </div>
+
+                    <div class="tool-actions">
+                        <button class="tool-button" onclick="calculateSunTimes()">Calculate</button>
+                        <button class="tool-button tool-button-secondary" onclick="resetSunTimes()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="tool-result" id="sunResults" style="display: none;">
+                    <h3 style="margin-bottom: 15px;">Results</h3>
+                    <div class="result-item">
+                        <span class="result-label">Sunrise:</span>
+                        <span class="result-value" id="sunrise">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Sunset:</span>
+                        <span class="result-value" id="sunset">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Daylight Hours:</span>
+                        <span class="result-value" id="daylight">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Solar Noon:</span>
+                        <span class="result-value" id="solarNoon">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moon Phase Calculator -->
+            <div class="tool-section">
+                <h2 class="section-title">Moon Phase Calculator</h2>
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label">Date</label>
+                        <input type="date" id="moonDate" class="form-input">
+                    </div>
+
+                    <div class="tool-actions">
+                        <button class="tool-button" onclick="calculateMoonPhase()">Calculate</button>
+                        <button class="tool-button tool-button-secondary" onclick="resetMoonPhase()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="tool-result" id="moonResults" style="display: none;">
+                    <h3 style="margin-bottom: 15px;">Results</h3>
+                    <div class="result-item">
+                        <span class="result-label">Moon Phase:</span>
+                        <span class="result-value" id="moonPhase">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Illumination:</span>
+                        <span class="result-value" id="moonIllumination">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Age (days):</span>
+                        <span class="result-value" id="moonAge">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Phase Emoji:</span>
+                        <span class="result-value" id="moonEmoji" style="font-size: 2em;">--</span>
                     </div>
                 </div>
             </div>
@@ -260,6 +439,350 @@
             const dropdown = document.getElementById('toolsDropdown');
             dropdown.classList.toggle('active');
         }
+
+        // Wind Chill Calculator
+        function calculateWindChill() {
+            const temp = parseFloat(document.getElementById('windChillTemp').value);
+            const unit = document.getElementById('windChillUnit').value;
+            const windSpeed = parseFloat(document.getElementById('windSpeed').value);
+
+            if (isNaN(temp) || isNaN(windSpeed)) {
+                alert('Please enter valid temperature and wind speed values.');
+                return;
+            }
+
+            // Convert to Fahrenheit for calculation
+            const tempF = unit === 'C' ? (temp * 9/5 + 32) : temp;
+
+            // Wind chill formula (valid for temps ≤ 50°F and wind speed ≥ 3 mph)
+            let windChill;
+            if (tempF > 50 || windSpeed < 3) {
+                windChill = tempF;
+            } else {
+                windChill = 35.74 + (0.6215 * tempF) - (35.75 * Math.pow(windSpeed, 0.16)) + (0.4275 * tempF * Math.pow(windSpeed, 0.16));
+            }
+
+            // Convert back to selected unit
+            const windChillDisplay = unit === 'C' ? (windChill - 32) * 5/9 : windChill;
+
+            document.getElementById('windChillValue').textContent = `${windChillDisplay.toFixed(2)} °${unit}`;
+
+            // Comfort assessment
+            let comfort;
+            if (windChillDisplay < -18) comfort = "Extreme danger: Frostbite in minutes";
+            else if (windChillDisplay < -9) comfort = "Danger: Frostbite possible";
+            else if (windChillDisplay < 0) comfort = "Very cold: Exposed skin uncomfortable";
+            else if (windChillDisplay < 10) comfort = "Cold: Dress warmly";
+            else comfort = "Chilly: Light jacket recommended";
+
+            document.getElementById('windChillComfort').textContent = comfort;
+            document.getElementById('windChillResults').style.display = 'block';
+        }
+
+        function resetWindChill() {
+            document.getElementById('windChillTemp').value = '';
+            document.getElementById('windSpeed').value = '';
+            document.getElementById('windChillResults').style.display = 'none';
+        }
+
+        // UV Index Calculator
+        function calculateUV() {
+            const lat = parseFloat(document.getElementById('uvLat').value);
+            const dateStr = document.getElementById('uvDate').value;
+            const timeStr = document.getElementById('uvTime').value;
+            const cloudCover = parseFloat(document.getElementById('uvCloud').value) || 0;
+
+            if (isNaN(lat) || !dateStr || !timeStr) {
+                alert('Please enter latitude, date, and time.');
+                return;
+            }
+
+            const date = new Date(dateStr + 'T' + timeStr);
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
+            const hour = date.getHours() + date.getMinutes() / 60;
+
+            // Solar declination angle (approximation)
+            const declination = 23.45 * Math.sin((360/365) * (dayOfYear - 81) * Math.PI / 180);
+
+            // Hour angle
+            const hourAngle = 15 * (hour - 12);
+
+            // Solar elevation angle
+            const latRad = lat * Math.PI / 180;
+            const decRad = declination * Math.PI / 180;
+            const hourRad = hourAngle * Math.PI / 180;
+
+            const sinElevation = Math.sin(latRad) * Math.sin(decRad) +
+                                 Math.cos(latRad) * Math.cos(decRad) * Math.cos(hourRad);
+            const elevation = Math.asin(sinElevation) * 180 / Math.PI;
+
+            // Base UV index calculation (simplified)
+            let uvIndex = 0;
+            if (elevation > 0) {
+                uvIndex = 12 * Math.sin(elevation * Math.PI / 180);
+
+                // Adjust for cloud cover
+                uvIndex *= (1 - cloudCover / 200);
+
+                // Seasonal adjustment
+                const seasonFactor = 0.8 + 0.4 * Math.sin((dayOfYear - 172) * Math.PI / 182.5);
+                uvIndex *= seasonFactor;
+            }
+
+            uvIndex = Math.max(0, Math.round(uvIndex * 10) / 10);
+
+            document.getElementById('uvIndex').textContent = uvIndex.toFixed(1);
+
+            // Risk assessment
+            let risk, protection;
+            if (uvIndex < 3) {
+                risk = "Low";
+                protection = "Minimal protection needed";
+            } else if (uvIndex < 6) {
+                risk = "Moderate";
+                protection = "Wear sunscreen, seek shade during midday";
+            } else if (uvIndex < 8) {
+                risk = "High";
+                protection = "Sunscreen, hat, and shade essential";
+            } else if (uvIndex < 11) {
+                risk = "Very High";
+                protection = "Extra protection required, avoid sun 10am-4pm";
+            } else {
+                risk = "Extreme";
+                protection = "Minimize sun exposure, full protection necessary";
+            }
+
+            document.getElementById('uvRisk').textContent = risk;
+            document.getElementById('uvProtection').textContent = protection;
+            document.getElementById('uvResults').style.display = 'block';
+        }
+
+        function resetUV() {
+            document.getElementById('uvLat').value = '';
+            document.getElementById('uvDate').value = '';
+            document.getElementById('uvTime').value = '';
+            document.getElementById('uvCloud').value = '0';
+            document.getElementById('uvResults').style.display = 'none';
+        }
+
+        // Sunrise/Sunset Calculator
+        function calculateSunTimes() {
+            const lat = parseFloat(document.getElementById('sunLat').value);
+            const lon = parseFloat(document.getElementById('sunLon').value);
+            const dateStr = document.getElementById('sunDate').value;
+
+            if (isNaN(lat) || isNaN(lon) || !dateStr) {
+                alert('Please enter latitude, longitude, and date.');
+                return;
+            }
+
+            const date = new Date(dateStr);
+            const julianDay = Math.floor((date / 86400000) + 2440587.5);
+            const n = julianDay - 2451545.0 + 0.0008;
+
+            // Mean solar time
+            const J = n - lon / 360;
+
+            // Solar mean anomaly
+            const M = (357.5291 + 0.98560028 * J) % 360;
+            const Mrad = M * Math.PI / 180;
+
+            // Equation of center
+            const C = 1.9148 * Math.sin(Mrad) + 0.0200 * Math.sin(2 * Mrad) + 0.0003 * Math.sin(3 * Mrad);
+
+            // Ecliptic longitude
+            const lambda = (M + C + 180 + 102.9372) % 360;
+            const lambdaRad = lambda * Math.PI / 180;
+
+            // Solar transit
+            const Jtransit = 2451545.0 + J + 0.0053 * Math.sin(Mrad) - 0.0069 * Math.sin(2 * lambdaRad);
+
+            // Declination of the sun
+            const delta = Math.asin(Math.sin(lambdaRad) * Math.sin(23.44 * Math.PI / 180));
+
+            // Hour angle
+            const latRad = lat * Math.PI / 180;
+            const cosOmega = (Math.sin(-0.833 * Math.PI / 180) - Math.sin(latRad) * Math.sin(delta)) /
+                             (Math.cos(latRad) * Math.cos(delta));
+
+            if (cosOmega > 1 || cosOmega < -1) {
+                alert('No sunrise/sunset at this location on this date (polar day/night).');
+                return;
+            }
+
+            const omega = Math.acos(cosOmega) * 180 / Math.PI;
+
+            // Sunrise and sunset
+            const Jrise = Jtransit - omega / 360;
+            const Jset = Jtransit + omega / 360;
+
+            // Convert to local time
+            const msInDay = 86400000;
+            const sunriseDate = new Date((Jrise - 2440587.5) * msInDay);
+            const sunsetDate = new Date((Jset - 2440587.5) * msInDay);
+            const solarNoonDate = new Date((Jtransit - 2440587.5) * msInDay);
+
+            const daylightMs = sunsetDate - sunriseDate;
+            const daylightHours = Math.floor(daylightMs / 3600000);
+            const daylightMinutes = Math.floor((daylightMs % 3600000) / 60000);
+
+            document.getElementById('sunrise').textContent = sunriseDate.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+            document.getElementById('sunset').textContent = sunsetDate.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+            document.getElementById('daylight').textContent = `${daylightHours}h ${daylightMinutes}m`;
+            document.getElementById('solarNoon').textContent = solarNoonDate.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+            document.getElementById('sunResults').style.display = 'block';
+        }
+
+        function resetSunTimes() {
+            document.getElementById('sunLat').value = '';
+            document.getElementById('sunLon').value = '';
+            document.getElementById('sunDate').value = '';
+            document.getElementById('sunResults').style.display = 'none';
+        }
+
+        // Moon Phase Calculator
+        function calculateMoonPhase() {
+            const dateStr = document.getElementById('moonDate').value;
+
+            if (!dateStr) {
+                alert('Please enter a date.');
+                return;
+            }
+
+            const date = new Date(dateStr);
+
+            // Known new moon: January 6, 2000, 18:14 UTC
+            const knownNewMoon = new Date('2000-01-06T18:14:00Z');
+            const synodicMonth = 29.53058867; // days
+
+            // Calculate days since known new moon
+            const daysSince = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+
+            // Calculate current position in lunar cycle
+            const cyclePosition = daysSince % synodicMonth;
+            const age = cyclePosition < 0 ? cyclePosition + synodicMonth : cyclePosition;
+
+            // Calculate illumination
+            const illumination = (1 - Math.cos(age / synodicMonth * 2 * Math.PI)) / 2;
+
+            // Determine phase name
+            let phaseName, emoji;
+            if (age < 1.84566) {
+                phaseName = "New Moon";
+                emoji = "🌑";
+            } else if (age < 5.53699) {
+                phaseName = "Waxing Crescent";
+                emoji = "🌒";
+            } else if (age < 9.22831) {
+                phaseName = "First Quarter";
+                emoji = "🌓";
+            } else if (age < 12.91963) {
+                phaseName = "Waxing Gibbous";
+                emoji = "🌔";
+            } else if (age < 16.61096) {
+                phaseName = "Full Moon";
+                emoji = "🌕";
+            } else if (age < 20.30228) {
+                phaseName = "Waning Gibbous";
+                emoji = "🌖";
+            } else if (age < 23.99361) {
+                phaseName = "Last Quarter";
+                emoji = "🌗";
+            } else if (age < 27.68493) {
+                phaseName = "Waning Crescent";
+                emoji = "🌘";
+            } else {
+                phaseName = "New Moon";
+                emoji = "🌑";
+            }
+
+            document.getElementById('moonPhase').textContent = phaseName;
+            document.getElementById('moonIllumination').textContent = `${(illumination * 100).toFixed(1)}%`;
+            document.getElementById('moonAge').textContent = age.toFixed(2);
+            document.getElementById('moonEmoji').textContent = emoji;
+            document.getElementById('moonResults').style.display = 'block';
+        }
+
+        function resetMoonPhase() {
+            document.getElementById('moonDate').value = '';
+            document.getElementById('moonResults').style.display = 'none';
+        }
+
+        // Geolocation functions
+        function getLocationForUV() {
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser');
+                return;
+            }
+
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Getting location...';
+            button.disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    document.getElementById('uvLat').value = position.coords.latitude.toFixed(4);
+                    button.textContent = 'Location Found!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                    }, 2000);
+                },
+                (error) => {
+                    let errorMsg = 'Unable to get location';
+                    if (error.code === 1) errorMsg = 'Location access denied';
+                    else if (error.code === 2) errorMsg = 'Location unavailable';
+                    else if (error.code === 3) errorMsg = 'Location request timed out';
+
+                    alert(errorMsg);
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }
+            );
+        }
+
+        function getLocationForSun() {
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser');
+                return;
+            }
+
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Getting location...';
+            button.disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    document.getElementById('sunLat').value = position.coords.latitude.toFixed(4);
+                    document.getElementById('sunLon').value = position.coords.longitude.toFixed(4);
+                    button.textContent = 'Location Found!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                    }, 2000);
+                },
+                (error) => {
+                    let errorMsg = 'Unable to get location';
+                    if (error.code === 1) errorMsg = 'Location access denied. Please allow location access or enter coordinates manually.';
+                    else if (error.code === 2) errorMsg = 'Location unavailable';
+                    else if (error.code === 3) errorMsg = 'Location request timed out';
+
+                    alert(errorMsg);
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }
+            );
+        }
+
+        // Set default dates to today
+        window.addEventListener('load', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('uvDate').value = today;
+            document.getElementById('sunDate').value = today;
+            document.getElementById('moonDate').value = today;
+        });
     </script>
 </body>
 </html>

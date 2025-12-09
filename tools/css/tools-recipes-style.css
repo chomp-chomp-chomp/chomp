@@ -749,12 +749,6 @@ textarea.control-input {
   .tool-name u {
     color: #ff6b7a;
   }
-
-  /* Invert tool header image colors in dark mode */
-  .tools-index .tool-header img,
-  .tool-page .tool-header img {
-    filter: invert(1) hue-rotate(180deg);
-  }
 }
 
 /* ---------------------------------------------------- */
