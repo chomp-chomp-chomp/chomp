@@ -484,6 +484,13 @@ p {
   font-size: 14px;
 }
 
+/* Date and time input constraints */
+input[type="date"],
+input[type="time"] {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 /* ---------------------------------------------------- */
 /* === TOOL PAGE LAYOUT === */
 /* ---------------------------------------------------- */
