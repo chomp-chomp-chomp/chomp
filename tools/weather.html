@@ -95,6 +95,11 @@
                     </div>
 
                     <div class="result-item">
+                        <span class="result-label">Today's High / Low:</span>
+                        <span class="result-value" id="currentHighLow">--</span>
+                    </div>
+
+                    <div class="result-item">
                         <span class="result-label">Feels Like:</span>
                         <span class="result-value" id="currentFeelsLike">--</span>
                     </div>
@@ -120,7 +125,7 @@
                     </div>
 
                     <div class="result-item">
-                        <span class="result-label">Precipitation:</span>
+                        <span class="result-label">Precipitation (last hour):</span>
                         <span class="result-value" id="currentPrecip">--</span>
                     </div>
 
@@ -180,7 +185,7 @@
 
             <!-- Comprehensive Comfort Calculator -->
             <div class="tool-section">
-                <h2 class="section-title">Weather Comfort Calculator</h2>
+                <h2 class="section-title">Heat Index Calculator</h2>
                 <div class="tool-controls">
                     <div class="control-group">
                         <label class="control-label">Temperature</label>
@@ -949,7 +954,7 @@
                     'visibility'
                 ];
 
-                const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=${params.join(',')}&daily=sunrise,sunset,uv_index_max,precipitation_sum&timezone=auto&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`;
+                const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=${params.join(',')}&daily=sunrise,sunset,uv_index_max,precipitation_sum,temperature_2m_max,temperature_2m_min&timezone=auto&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`;
 
                 const response = await fetch(apiUrl);
                 const data = await response.json();
@@ -970,6 +975,15 @@
 
                     // Temperature
                     document.getElementById('currentTemp').textContent = `${current.temperature_2m.toFixed(1)}°F`;
+
+                    // Today's High / Low
+                    if (daily && daily.temperature_2m_max && daily.temperature_2m_min) {
+                        const high = daily.temperature_2m_max[0].toFixed(1);
+                        const low = daily.temperature_2m_min[0].toFixed(1);
+                        document.getElementById('currentHighLow').textContent = `${high}°F / ${low}°F`;
+                    } else {
+                        document.getElementById('currentHighLow').textContent = 'N/A';
+                    }
 
                     // Feels Like (Apparent Temperature)
                     document.getElementById('currentFeelsLike').textContent = `${current.apparent_temperature.toFixed(1)}°F`;

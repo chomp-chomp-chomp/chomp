@@ -595,12 +595,13 @@ textarea.control-input {
 /* ---------------------------------------------------- */
 /* === TOOL RESULTS === */
 /* ---------------------------------------------------- */
-.tool-results {
+.tool-results,
+.tool-result {
   background-color: var(--color-sidebar-bg);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
 }
 
 .result-item {
