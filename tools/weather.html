@@ -40,6 +40,20 @@
                         <ul class="submenu">
                             <li><a href="dante.html">Inferno</a></li>
                             <li><a href="nautical.html">Nautical</a></li>
+                        <a href="#">Ipsum</a>
+                        <ul class="submenu">
+                            <li><a href="dante.html">Inferno</a></li>
+                            <li><a href="nautical.html">Nautical</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-submenu">
+                        <a href="#">Tools</a>
+                        <ul class="submenu">
+                            <li><a href="ip.html">Whois</a></li>
+                            <li><a href="convert.html">Convert</a></li>
+                            <li><a href="encode.html">Encode</a></li>
+                            <li><a href="subnet.html">Subnet</a></li>
+                            <li><a href="temperature.html">Weather</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -235,6 +249,9 @@
             <!-- Sun & Moon Rise/Set Calculator -->
             <div class="tool-section">
                 <h2 class="section-title">Sun & Moon Rise/Set Calculator</h2>
+            <!-- Sunrise/Sunset Calculator -->
+            <div class="tool-section">
+                <h2 class="section-title">Sunrise & Sunset Calculator</h2>
                 <div class="tool-controls">
                     <div class="control-group">
                         <label class="control-label">Location</label>
@@ -269,6 +286,7 @@
 
                 <div class="tool-result" id="sunResults" style="display: none;">
                     <h3 style="margin-bottom: 15px;">Sun</h3>
+                    <h3 style="margin-bottom: 15px;">Results</h3>
                     <div class="result-item">
                         <span class="result-label">Sunrise:</span>
                         <span class="result-value" id="sunrise">--</span>
@@ -734,6 +752,9 @@
             document.getElementById('moonset').textContent = moonsetDate.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
         }
 
+            document.getElementById('sunResults').style.display = 'block';
+        }
+
         function resetSunTimes() {
             document.getElementById('sunLat').value = '';
             document.getElementById('sunLon').value = '';
@@ -813,6 +834,7 @@
 
         // Geolocation functions
         async function getLocationForUV() {
+        function getLocationForUV() {
             if (!navigator.geolocation) {
                 alert('Geolocation is not supported by your browser');
                 return;
@@ -848,6 +870,8 @@
                         console.error('Reverse geocoding error:', err);
                     }
 
+                (position) => {
+                    document.getElementById('uvLat').value = position.coords.latitude.toFixed(4);
                     button.textContent = 'Location Found!';
                     setTimeout(() => {
                         button.textContent = originalText;
@@ -868,6 +892,7 @@
         }
 
         async function getLocationForSun() {
+        function getLocationForSun() {
             if (!navigator.geolocation) {
                 alert('Geolocation is not supported by your browser');
                 return;
@@ -904,6 +929,9 @@
                         console.error('Reverse geocoding error:', err);
                     }
 
+                (position) => {
+                    document.getElementById('sunLat').value = position.coords.latitude.toFixed(4);
+                    document.getElementById('sunLon').value = position.coords.longitude.toFixed(4);
                     button.textContent = 'Location Found!';
                     setTimeout(() => {
                         button.textContent = originalText;
