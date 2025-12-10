@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chomp Chomp Store - Cookies, etc.</title>
+
+  <!-- Primary favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+
+  <!-- PNG favicons -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+
+  <!-- Apple iOS home screen -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Web App Manifest (Android / PWA) -->
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
+
+  <!-- iOS web app behavior (optional but recommended) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Chomp Chomp">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Chomp Chomp Store - Cookies & More">
+  <meta name="description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/store">
+  <meta property="og:title" content="Chomp Chomp Store - Cookies & More">
+  <meta property="og:description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/store">
+  <meta property="twitter:title" content="Chomp Chomp Store - Cookies & More">
+  <meta property="twitter:description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Store page specific styles */
+    .store-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .store-logo {
+      max-width: 500px;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 40px auto;
+      display: block;
+    }
+
+    .store-tagline {
+      font-size: 1.4em;
+      font-weight: 300;
+      color: var(--color-text);
+      margin-bottom: 10px;
+    }
+
+    .store-subtitle {
+      font-size: 1.1em;
+      font-weight: 300;
+      color: var(--color-text-muted);
+      margin-bottom: 5px;
+    }
+
+    .store-location {
+      font-size: 1em;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      margin-bottom: 50px;
+    }
+
+    .menu-section {
+      margin: 50px 0;
+    }
+
+    .section-title {
+      font-size: 1.3em;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: 20px;
+      text-transform: lowercase;
+    }
+
+    .section-subtitle {
+      font-size: 0.95em;
+      font-weight: 300;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin-bottom: 25px;
+    }
+
+    .menu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 500px;
+    }
+
+    .menu-item {
+      font-size: 1em;
+      font-weight: 300;
+      color: var(--color-text);
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .menu-item-name {
+      font-weight: 400;
+    }
+
+    .menu-item-description {
+      font-size: 0.9em;
+      color: var(--color-text-muted);
+      font-style: italic;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .contact-section {
+      margin: 60px 0 40px 0;
+    }
+
+    .contact-title {
+      font-size: 1.2em;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: 15px;
+    }
+
+    .contact-email {
+      font-size: 1.1em;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .contact-email:hover {
+      color: var(--color-accent-hover);
+    }
+
+    .inquiry-text {
+      font-size: 0.95em;
+      font-weight: 300;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .song-links {
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .song-link {
+      font-size: 0.9em;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 300;
+      transition: color 0.2s;
+    }
+
+    .song-link:hover {
+      color: var(--color-accent-hover);
+      text-decoration: underline;
+    }
+
+    .store-divider {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 50px auto;
+      max-width: 300px;
+    }
+
+    .footer-text {
+      font-size: 0.85em;
+      color: var(--color-text-light);
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .store-container {
+        padding: 40px 20px;
+      }
+
+      .store-logo {
+        max-width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .store-tagline {
+        font-size: 1.2em;
+      }
+
+      .store-subtitle {
+        font-size: 1em;
+      }
+
+      .menu-section {
+        margin: 40px 0;
+      }
+
+      .section-title {
+        font-size: 1.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="https://chomp.be" title="Home" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="index.html" title="Home">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="store.html" class="active">Store</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Tools</a>
+              <ul class="submenu">
+                <li><a href="tools/index.html">Index</a></li>
+                <li><a href="tools/ip.html">Whois</a></li>
+                <li><a href="tools/weather.html">Weather</a></li>
+                <li><a href="tools/convert.html">Convert</a></li>
+                <li><a href="tools/encode.html">Encode</a></li>
+                <li><a href="tools/subnet.html">Subnet</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Ipsum</a>
+              <ul class="submenu">
+                <li><a href="tools/dante.html">Inferno</a></li>
+                <li><a href="tools/nautical.html">Nautical</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Store Content -->
+  <div class="store-container">
+
+    <!-- Logo Image (you can replace this with your actual logo) -->
+    <img src="images/Chomp Chomp logos.jpeg" alt="chomp chomp - cookies, etc." class="store-logo">
+
+    <!-- Tagline & Location -->
+    <p class="store-tagline">small batches</p>
+    <p class="store-subtitle">made to order in small ovens</p>
+    <p class="store-location">baked in brooklyn, ny</p>
+
+    <hr class="store-divider">
+
+    <!-- Current Cookie Rotation -->
+    <section class="menu-section">
+      <h2 class="section-title">current cookie rotation</h2>
+      <ul class="menu-list" id="cookieRotation">
+        <!-- Cookies will be populated by JavaScript -->
+      </ul>
+    </section>
+
+    <hr class="store-divider">
+
+    <!-- Limited Editions -->
+    <section class="menu-section">
+      <h2 class="section-title">limited editions</h2>
+      <p class="section-subtitle">seasonal / arbitrary</p>
+    </section>
+
+    <hr class="store-divider">
+
+    <!-- Pup Cookie Rotation -->
+    <section class="menu-section">
+      <h2 class="section-title">current pup cookie rotation</h2>
+      <ul class="menu-list" id="pupCookieRotation">
+        <!-- Pup cookies will be populated by JavaScript -->
+      </ul>
+    </section>
+
+    <hr class="store-divider">
+
+    <!-- Full Menu Link -->
+    <section class="menu-section">
+      <h2 class="section-title">full menu</h2>
+      <p class="section-subtitle">liste des chomps</p>
+    </section>
+
+    <hr class="store-divider">
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+      <h2 class="contact-title">say hi</h2>
+      <a href="mailto:hi@chomp.ltd" class="contact-email">hi@chomp.ltd</a>
+
+      <p class="inquiry-text">
+        inquiries, incidents and accidents, hints and allegations:
+      </p>
+
+      <!-- Song Links -->
+      <div class="song-links">
+        <a href="https://www.youtube.com/watch?v=WccfbPQNMbg" class="song-link" target="_blank" rel="noopener">it ain't no fun</a>
+        <a href="https://www.youtube.com/watch?v=xLVChRVfZ74" class="song-link" target="_blank" rel="noopener">trill, working the wheel</a>
+        <a href="https://www.youtube.com/watch?v=Z5wURKqHSHY" class="song-link" target="_blank" rel="noopener">you don't have to call me darlin', darlin'</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer-text">
+      copyright © 2025 chomp ltd - all rights reserved
+    </div>
+
+  </div>
+
+  <!-- JavaScript for dynamic content -->
+  <script>
+    // ============================================
+    // EDIT YOUR COOKIE ROTATIONS HERE
+    // ============================================
+    // To update your cookie menu, simply edit the arrays below.
+    // Each item can have a 'name' and optional 'description'
+
+    const cookieRotation = [
+      { name: 'Five-Spice Molasses' },
+      { name: 'Cardamom Espresso' },
+      { name: 'Cobanero Chocolate' },
+      { name: 'Matcha Amaretti' },
+      { name: 'Ube Brûlée' }
+    ];
+
+    const pupCookieRotation = [
+      {
+        name: 'Jordie Chomp Chomps',
+        description: 'bananas | carrots | oat bran'
+      },
+      {
+        name: 'Bonzer Bites',
+        description: 'peanut butter | apples'
+      }
+    ];
+
+    // ============================================
+    // DON'T EDIT BELOW THIS LINE
+    // (unless you want to change the rendering)
+    // ============================================
+
+    // Function to render menu items
+    function renderMenu(items, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = items.map(item => {
+        const description = item.description
+          ? `<span class="menu-item-description">${item.description}</span>`
+          : '';
+        return `<li class="menu-item">• <span class="menu-item-name">${item.name}</span>${description}</li>`;
+      }).join('');
+    }
+
+    // Render menus on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      renderMenu(cookieRotation, 'cookieRotation');
+      renderMenu(pupCookieRotation, 'pupCookieRotation');
+    });
+
+    // Toggle dropdown menu
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('toolsDropdown');
+      const toggleBtn = document.querySelector('.tools-dropdown-btn');
+      const menuToggle = document.querySelector('.menu-toggle');
+
+      if (!dropdown.contains(event.target) &&
+          event.target !== toggleBtn &&
+          event.target !== menuToggle) {
+        dropdown.classList.remove('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
