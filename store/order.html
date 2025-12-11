@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order - Chomp Chomp Store</title>
+
+  <!-- Primary favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+
+  <!-- PNG favicons -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+
+  <!-- Apple iOS home screen -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Web App Manifest (Android / PWA) -->
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
+
+  <!-- iOS web app behavior -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Chomp Chomp">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Order - Chomp Chomp Store">
+  <meta name="description" content="Order small batch cookies and pup chomps from Chomp Chomp">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chomp.be/store/order">
+  <meta property="og:title" content="Order - Chomp Chomp Store">
+  <meta property="og:description" content="Order small batch cookies and pup chomps from Chomp Chomp">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FChomp%20Chomp%20store%20logo-compressed.jpeg?alt=media&token=0def1f6e-93c6-4097-9fbf-2f445274f5e1">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://chomp.be/store/order">
+  <meta property="twitter:title" content="Order - Chomp Chomp Store">
+  <meta property="twitter:description" content="Order small batch cookies and pup chomps from Chomp Chomp">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FChomp%20Chomp%20store%20logo-compressed.jpeg?alt=media&token=0def1f6e-93c6-4097-9fbf-2f445274f5e1">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="../styles.css">
+
+  <style>
+    /* Order page specific styles */
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    .order-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .order-header img {
+      max-width: 400px;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 40px auto;
+    }
+
+    .order-header h1 {
+      font-size: 2em;
+      font-weight: 600;
+      color: var(--color-accent);
+      margin-bottom: 20px;
+    }
+
+    .menu-category {
+      margin-bottom: 80px;
+    }
+
+    .category-title {
+      font-size: 1.8em;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-align: center;
+      margin-bottom: 40px;
+      text-transform: lowercase;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .product-tile {
+      background-color: white;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .product-tile:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .product-content {
+      padding: 20px;
+    }
+
+    .product-name {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .product-description {
+      font-size: 0.95em;
+      font-weight: 300;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .back-link {
+      text-align: center;
+      margin: 60px 0 40px 0;
+    }
+
+    .back-link a {
+      font-size: 1.1em;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .back-link a:hover {
+      color: var(--color-accent-hover);
+      text-decoration: underline;
+    }
+
+    /* Dark mode adjustments */
+    @media (prefers-color-scheme: dark) {
+      .product-tile {
+        background-color: var(--color-sidebar-bg);
+        border-color: var(--color-border);
+      }
+
+      .product-tile:hover {
+        box-shadow: 0 6px 16px rgba(255, 107, 122, 0.2);
+      }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .page-container {
+        padding: 40px 20px;
+      }
+
+      .order-header {
+        margin-bottom: 40px;
+      }
+
+      .order-header img {
+        max-width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .order-header h1 {
+        font-size: 1.6em;
+      }
+
+      .category-title {
+        font-size: 1.5em;
+        margin-bottom: 30px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .menu-category {
+        margin-bottom: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="../store.html" title="Store" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <!-- No banner image -->
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../stories.html">Stories</a></li>
+            <li><a href="../recipes.html">Recipes</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../store.html" class="active">Store</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Tools</a>
+              <ul class="submenu">
+                <li><a href="../tools/index.html">Index</a></li>
+                <li><a href="../tools/ip.html">Whois</a></li>
+                <li><a href="../tools/weather.html">Weather</a></li>
+                <li><a href="../tools/convert.html">Convert</a></li>
+                <li><a href="../tools/encode.html">Encode</a></li>
+                <li><a href="../tools/subnet.html">Subnet</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Ipsum</a>
+              <ul class="submenu">
+                <li><a href="../tools/dante.html">Inferno</a></li>
+                <li><a href="../tools/nautical.html">Nautical</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Order Page Content -->
+  <div class="page-container">
+
+    <!-- Page Header -->
+    <div class="order-header">
+      <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FChomp%20Chomp%20store%20logo-compressed.jpeg?alt=media&token=0def1f6e-93c6-4097-9fbf-2f445274f5e1" alt="Chomp Chomp Store">
+      <h1>Menu</h1>
+    </div>
+
+    <!-- Cookies Section -->
+    <section class="menu-category">
+      <h2 class="category-title">Cookies</h2>
+      <div class="product-grid">
+
+        <!-- Blackstrap Five-Spice -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FBlackstrap%20Five-Spice-compressed.jpeg?alt=media&token=0cba4f01-86f2-4e00-b087-1bbb4a86d2c7" alt="Blackstrap Five-Spice" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Blackstrap Five-Spice</h3>
+            <p class="product-description">A very elegant treat. The spices are captivating and put you in a dreamy state. There is something hot-spicy and slightly astringent that lingers in your mouth. Thought provoking and very enjoyable and even exciting.</p>
+          </div>
+        </div>
+
+        <!-- Cardamom Espresso -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FCardamom%20Espresso-compressed.jpeg?alt=media&token=9aa65937-a24e-4b0c-b86b-047acd676cac" alt="Cardamom Espresso" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Cardamom Espresso</h3>
+            <p class="product-description">I am a salt fan more than sweet, so the salt had me going crazy. The mysterious subtle spice and the texture.</p>
+          </div>
+        </div>
+
+        <!-- Caffè & Rose -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FCaffee%CC%80%20%26%20Rose-compressed.jpeg?alt=media&token=b11fe833-5f52-4e89-a09f-8a338073d9b3" alt="Caffè & Rose" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Caffè & Rose</h3>
+            <p class="product-description">An amaretti cookie described as:<br><br>Rose in the bean, got that floral note,<br>Bittersweet, strange, like a velvet coat.<br>Soft bloom, dark bite, what a twisted dream.</p>
+          </div>
+        </div>
+
+        <!-- Cobanero Chocolate -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FCobanero%20Chocolate-compressed.jpeg?alt=media&token=5f0444bd-67ea-4638-8b73-717a75401e4e" alt="Cobanero Chocolate" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Cobanero Chocolate</h3>
+            <p class="product-description">Ek Chuah presides over this shortbread-esque cookie with a spicy hot afterkick from Cobanero chiles out of Cobán, Guatemala. Hunahpuh didn't make this, but it's kind of Mayan old school. In a way. Maybe.<br><br>Might be excellent with some ice cream.</p>
+          </div>
+        </div>
+
+        <!-- Matcha Amaretti -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FMatcha%20Amaretti-compressed.jpeg?alt=media&token=e8b827b4-2d0f-4ea8-b977-5e0f5c8e9091" alt="Matcha Amaretti" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Matcha Amaretti</h3>
+            <p class="product-description">Where are you? I want a cookie.</p>
+          </div>
+        </div>
+
+        <!-- Ube Brûlée -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FUbe%20Bru%CC%82le%CC%81e-compressed.jpeg?alt=media&token=77bac967-3bc9-438f-9f6f-b6e9f0764786" alt="Ube Brûlée" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Ube Brûlée</h3>
+            <p class="product-description">You brought me a cookie in the middle of the night didn't you?! Next time I'll put it in your pillow case. Along with the brûlée blow torch.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Pup Chomps Section -->
+    <section class="menu-category">
+      <h2 class="category-title">Pup Chomps</h2>
+      <div class="product-grid">
+
+        <!-- Bébé's Breath Mints -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FBe%CC%81be%CC%81%E2%80%99s%20Breath%20Mints-compressed.jpeg?alt=media&token=076829dd-3432-4b87-a10d-85ff16537e5f" alt="Bébé's Breath Mints" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Bébé's Breath Mints</h3>
+            <p class="product-description">Presenting Bébé's Breath Mints! Delightful, wholesome morsels crafted with nature's finest parsley, mint, and oats—perfect for Fido's freshest breath! These crisp, bone-shaped tidbits cleanse and comfort, rendering even the heartiest hound a pleasure to be near. Grant your faithful companion a genteel gift; Bébé's Breath Mints, for breath as pure as devotion!<br><br>(Parsley, mint, and oats)</p>
+          </div>
+        </div>
+
+        <!-- Bonzer's Bones -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FBonzer%E2%80%99s%20Bones-compressed.jpeg?alt=media&token=45bbc1bb-6f58-4ba4-8738-d9f8c6e318df" alt="Bonzer's Bones" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Bonzer's Bones</h3>
+            <p class="product-description">Bonzer was a fiend for peanut butter. He once ate half a block of peanut butter suet, darn those seeds.<br><br>(Peanut butter, applesauce, parsley, and whole wheat.)</p>
+          </div>
+        </div>
+
+        <!-- Jordie's Chomp Chomps -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FJordie%E2%80%99s%20Chomp%20Chomps-compressed.jpeg?alt=media&token=2bdd9e5e-cbc6-45d8-b06e-10e043474e76" alt="Jordie's Chomp Chomps" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Jordie's Chomp Chomps</h3>
+            <p class="product-description">This whole Chomp Chomp thing comes out of a song sung to Jordie & Jack, when given their evening fun treats. I daresay Jordie might be the mascot for this entire endeavor.<br><br>Chomp chomp chomp, pa-chewy chomp. Chomp chomp chomp, ba dompa domp. Chomp chomp chomp, pa-chewy chomp. Chompa dompa dompa, chomp chomp chomp.<br><br>(Pumpkin, apples, peanut butter, whole wheat.)</p>
+          </div>
+        </div>
+
+        <!-- Linus's Lite Bites -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FLinus%E2%80%99s%20Lite%20Bites-compressed.jpeg?alt=media&token=e2537a01-c7fd-4300-92ed-fef8f9004c89" alt="Linus's Lite Bites" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Linus's Lite Bites</h3>
+            <p class="product-description">Every spring, tiny little leaves fall from the trees in the neighborhood. Linus was not a fan and tiptoed with a hop skip every time he had to walk across them.<br><br>(Carrots, apples, oats, whole wheat.)</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Multi-Packs Section -->
+    <section class="menu-category">
+      <h2 class="category-title">Multi-Packs</h2>
+      <div class="product-grid">
+
+        <!-- Half-Dozen Cookies -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fi%20heart%20chomp%20chomp-compressed.jpeg?alt=media&token=e1c0f4b8-1795-4863-9615-5875d923c4b0" alt="Half-Dozen Cookies" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Half-Dozen Cookies</h3>
+            <p class="product-description">It's a half-dozen of your choice! Stack them on top of each other because you like to put things on top of other things.</p>
+          </div>
+        </div>
+
+        <!-- A Dozen Cookies -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fi%20heart%20chomp%20chomp-compressed.jpeg?alt=media&token=e1c0f4b8-1795-4863-9615-5875d923c4b0" alt="A Dozen Cookies" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">A Dozen Cookies</h3>
+            <p class="product-description">It's a dozen of your choice! Twelve cookies stack higher than a half-dozen, and we know you like to put things on top of other things.</p>
+          </div>
+        </div>
+
+        <!-- Half-Dozen Cookies, Mixed, Baker's Choice -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fquestion%20mark%20chomp.png?alt=media&token=37339b12-b6ec-4f8c-b455-bfa884e40f4d" alt="Half-Dozen Cookies, Mixed, Baker's Choice" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">Half-Dozen Cookies, Mixed, Baker's Choice</h3>
+            <p class="product-description">It's a half-dozen of the baker's choice! Stack them up. Cookie cairns are used as navigational markers for hikers and chomp aficionados. Cookie stacking can also be therapeutic. (Comes with at least two types of cookies.)</p>
+          </div>
+        </div>
+
+        <!-- A Dozen Cookies, Mixed, Baker's Choice -->
+        <div class="product-tile">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fquestion%20mark%20chomp.png?alt=media&token=37339b12-b6ec-4f8c-b455-bfa884e40f4d" alt="A Dozen Cookies, Mixed, Baker's Choice" class="product-image">
+          <div class="product-content">
+            <h3 class="product-name">A Dozen Cookies, Mixed, Baker's Choice</h3>
+            <p class="product-description">It's a dozen of the baker's choice! Stack them up. Cookie cairns are used as navigational markers for hikers and chomp aficionados. Cookie stacking can also be therapeutic. Twelve cookies makes for much better navigation and therapy than a half-dozen. We're just saying. (Comes with at least two types of cookies.)</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Back Link -->
+    <div class="back-link">
+      <a href="../store.html">← Back to Store</a>
+    </div>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Toggle dropdown menu
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('toolsDropdown');
+      const toggleBtn = document.querySelector('.tools-dropdown-btn');
+      const menuToggle = document.querySelector('.menu-toggle');
+
+      if (!dropdown.contains(event.target) &&
+          event.target !== toggleBtn &&
+          event.target !== menuToggle) {
+        dropdown.classList.remove('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
