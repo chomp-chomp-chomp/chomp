@@ -79,6 +79,24 @@
       margin-bottom: 20px;
     }
 
+    .order-info {
+      font-size: 1.1em;
+      color: var(--color-text-muted);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .order-info a {
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 400;
+    }
+
+    .order-info a:hover {
+      color: var(--color-accent-hover);
+      text-decoration: underline;
+    }
+
     .menu-category {
       margin-bottom: 80px;
     }
@@ -262,8 +280,12 @@
 
     <!-- Page Header -->
     <div class="order-header">
-      <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FChomp%20Chomp%20store%20logo-compressed.jpeg?alt=media&token=0def1f6e-93c6-4097-9fbf-2f445274f5e1" alt="Chomp Chomp Store">
+      <picture>
+        <source srcset="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fchomp%20store%20dark.PNG?alt=media&token=c525572f-6033-4ef0-b0ce-97c6b61542b8" media="(prefers-color-scheme: dark)">
+        <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fchomp%20store%20light.PNG?alt=media&token=02a043ed-45ea-4f8b-bea0-bf92c1112af0" alt="Chomp Chomp Store">
+      </picture>
       <h1>Menu</h1>
+      <p class="order-info">For pricing inquiries and to place orders, please email <a href="mailto:orders@chomp.be">orders@chomp.be</a></p>
     </div>
 
     <!-- Cookies Section -->
@@ -344,7 +366,7 @@
 
         <!-- Bonzer's Bones -->
         <div class="product-tile">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FBonzer%E2%80%99s%20Bones-compressed.jpeg?alt=media&token=45bbc1bb-6f58-4ba4-8738-d9f8c6e318df" alt="Bonzer's Bones" class="product-image">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3847.jpeg?alt=media&token=b41e6b6c-67a3-4eba-825c-b1dcb18dcc4f" alt="Bonzer's Bones" class="product-image">
           <div class="product-content">
             <h3 class="product-name">Bonzer's Bones</h3>
             <p class="product-description">Bonzer was a fiend for peanut butter. He once ate half a block of peanut butter suet, darn those seeds.<br><br>(Peanut butter, applesauce, parsley, and whole wheat.)</p>
@@ -379,7 +401,7 @@
 
         <!-- Half-Dozen Cookies -->
         <div class="product-tile">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fi%20heart%20chomp%20chomp-compressed.jpeg?alt=media&token=e1c0f4b8-1795-4863-9615-5875d923c4b0" alt="Half-Dozen Cookies" class="product-image">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3849.jpeg?alt=media&token=ccc42889-2af3-41d6-a2b9-36c28def5b7b" alt="Half-Dozen Cookies" class="product-image">
           <div class="product-content">
             <h3 class="product-name">Half-Dozen Cookies</h3>
             <p class="product-description">It's a half-dozen of your choice! Stack them on top of each other because you like to put things on top of other things.</p>
@@ -388,7 +410,7 @@
 
         <!-- A Dozen Cookies -->
         <div class="product-tile">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fi%20heart%20chomp%20chomp-compressed.jpeg?alt=media&token=e1c0f4b8-1795-4863-9615-5875d923c4b0" alt="A Dozen Cookies" class="product-image">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3848.jpeg?alt=media&token=de47f5cb-306c-4aa9-8607-17e501b037dc" alt="A Dozen Cookies" class="product-image">
           <div class="product-content">
             <h3 class="product-name">A Dozen Cookies</h3>
             <p class="product-description">It's a dozen of your choice! Twelve cookies stack higher than a half-dozen, and we know you like to put things on top of other things.</p>
@@ -397,7 +419,7 @@
 
         <!-- Half-Dozen Cookies, Mixed, Baker's Choice -->
         <div class="product-tile">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fquestion%20mark%20chomp.png?alt=media&token=37339b12-b6ec-4f8c-b455-bfa884e40f4d" alt="Half-Dozen Cookies, Mixed, Baker's Choice" class="product-image">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3846.jpeg?alt=media&token=61eccccd-9a55-4803-8bfe-36d76aa24d45" alt="Half-Dozen Cookies, Mixed, Baker's Choice" class="product-image">
           <div class="product-content">
             <h3 class="product-name">Half-Dozen Cookies, Mixed, Baker's Choice</h3>
             <p class="product-description">It's a half-dozen of the baker's choice! Stack them up. Cookie cairns are used as navigational markers for hikers and chomp aficionados. Cookie stacking can also be therapeutic. (Comes with at least two types of cookies.)</p>
@@ -406,7 +428,7 @@
 
         <!-- A Dozen Cookies, Mixed, Baker's Choice -->
         <div class="product-tile">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2Fquestion%20mark%20chomp.png?alt=media&token=37339b12-b6ec-4f8c-b455-bfa884e40f4d" alt="A Dozen Cookies, Mixed, Baker's Choice" class="product-image">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3847.jpeg?alt=media&token=b41e6b6c-67a3-4eba-825c-b1dcb18dcc4f" alt="A Dozen Cookies, Mixed, Baker's Choice" class="product-image">
           <div class="product-content">
             <h3 class="product-name">A Dozen Cookies, Mixed, Baker's Choice</h3>
             <p class="product-description">It's a dozen of the baker's choice! Stack them up. Cookie cairns are used as navigational markers for hikers and chomp aficionados. Cookie stacking can also be therapeutic. Twelve cookies makes for much better navigation and therapy than a half-dozen. We're just saying. (Comes with at least two types of cookies.)</p>
@@ -418,7 +440,7 @@
 
     <!-- Back Link -->
     <div class="back-link">
-      <a href="../store.html">← Back to Store</a>
+      <a href="../store.html">Return to Chomp Chomp</a>
     </div>
 
   </div>
