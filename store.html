@@ -36,14 +36,14 @@
   <meta property="og:url" content="https://chomp.be/store">
   <meta property="og:title" content="Chomp Chomp Store - Cookies & More">
   <meta property="og:description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
-  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FChomp%20Chomp%20store%20logo-compressed.jpeg?alt=media&token=0def1f6e-93c6-4097-9fbf-2f445274f5e1">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://chomp.be/store">
   <meta property="twitter:title" content="Chomp Chomp Store - Cookies & More">
   <meta property="twitter:description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
-  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743197557_IMG_3460.jpeg?alt=media&token=ead0f58a-8584-48a8-b1ed-ac29962d5c3e">
+  <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FChomp%20Chomp%20store%20logo-compressed.jpeg?alt=media&token=0def1f6e-93c6-4097-9fbf-2f445274f5e1">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -53,26 +53,36 @@
 
   <style>
     /* Store page specific styles */
-    .store-container {
+    .page-container {
       max-width: 800px;
       margin: 0 auto;
       padding: 60px 40px;
-      text-align: center;
     }
 
-    .store-logo {
+    .store-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .store-header picture {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .store-header img {
       max-width: 500px;
       width: 100%;
       height: auto;
-      margin: 0 auto 40px auto;
       display: block;
+      margin: 0 auto;
     }
 
     .store-tagline {
       font-size: 1.4em;
       font-weight: 300;
       color: var(--color-text);
-      margin-bottom: 10px;
+      margin: 30px 0 10px 0;
+      text-align: center;
     }
 
     .store-subtitle {
@@ -80,6 +90,7 @@
       font-weight: 300;
       color: var(--color-text-muted);
       margin-bottom: 5px;
+      text-align: center;
     }
 
     .store-location {
@@ -87,10 +98,12 @@
       font-weight: 400;
       color: var(--color-text-muted);
       margin-bottom: 50px;
+      text-align: center;
     }
 
     .menu-section {
       margin: 50px 0;
+      text-align: center;
     }
 
     .section-title {
@@ -122,6 +135,7 @@
       color: var(--color-text);
       margin-bottom: 10px;
       line-height: 1.6;
+      text-align: center;
     }
 
     .menu-item-name {
@@ -138,6 +152,7 @@
 
     .contact-section {
       margin: 60px 0 40px 0;
+      text-align: center;
     }
 
     .contact-title {
@@ -153,6 +168,8 @@
       text-decoration: none;
       font-weight: 400;
       transition: color 0.2s;
+      display: block;
+      margin-bottom: 10px;
     }
 
     .contact-email:hover {
@@ -168,24 +185,30 @@
       line-height: 1.7;
     }
 
-    .song-links {
-      margin: 30px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .order-link-section {
+      margin: 40px 0;
+      text-align: center;
     }
 
-    .song-link {
-      font-size: 0.9em;
-      color: var(--color-accent);
-      text-decoration: none;
-      font-weight: 300;
-      transition: color 0.2s;
+    .order-link-text {
+      font-size: 1.1em;
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: 15px;
     }
 
-    .song-link:hover {
-      color: var(--color-accent-hover);
-      text-decoration: underline;
+    .order-link-image {
+      display: block;
+      max-width: 400px;
+      width: 100%;
+      margin: 30px auto;
+      border-radius: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .order-link-image:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .store-divider {
@@ -201,17 +224,17 @@
       margin-top: 60px;
       padding-top: 30px;
       border-top: 1px solid var(--color-border);
+      text-align: center;
     }
 
     /* Mobile adjustments */
     @media (max-width: 768px) {
-      .store-container {
+      .page-container {
         padding: 40px 20px;
       }
 
-      .store-logo {
+      .store-header img {
         max-width: 100%;
-        margin-bottom: 30px;
       }
 
       .store-tagline {
@@ -229,16 +252,20 @@
       .section-title {
         font-size: 1.2em;
       }
+
+      .order-link-image {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Site Header / Navigation -->
+  <!-- Site Header / Navigation (no banner in header-center) -->
   <header class="site-header">
     <nav class="site-nav">
       <div class="header-left">
-        <a href="https://chomp.be" title="Home" class="site-logo">
+        <a href="store.html" title="Store" class="site-logo">
           <div class="site-logo-icon">
             <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
             <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
@@ -247,11 +274,7 @@
       </div>
 
       <div class="header-center">
-        <a href="index.html" title="Home">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
-               alt="Chomp Chomp Recipes"
-               class="header-banner">
-        </a>
+        <!-- No banner image here, like tools pages -->
       </div>
 
       <div class="header-right">
@@ -289,10 +312,15 @@
   </header>
 
   <!-- Main Store Content -->
-  <div class="store-container">
+  <div class="page-container">
 
-    <!-- Logo Image (you can replace this with your actual logo) -->
-    <img src="images/Chomp Chomp logos.jpeg" alt="chomp chomp - cookies, etc." class="store-logo">
+    <!-- Store Logo with Light/Dark Mode Support -->
+    <div class="store-header">
+      <picture>
+        <source srcset="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3837.jpeg?alt=media&token=764e18c6-1fc2-4ac2-bd37-496bdd705a7c" media="(prefers-color-scheme: dark)">
+        <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FChomp%20Chomp%20store%20logo-compressed.jpeg?alt=media&token=0def1f6e-93c6-4097-9fbf-2f445274f5e1" alt="chomp chomp - cookies, etc.">
+      </picture>
+    </div>
 
     <!-- Tagline & Location -->
     <p class="store-tagline">small batches</p>
@@ -329,29 +357,26 @@
 
     <hr class="store-divider">
 
-    <!-- Full Menu Link -->
-    <section class="menu-section">
-      <h2 class="section-title">full menu</h2>
-      <p class="section-subtitle">liste des chomps</p>
+    <!-- Contact Section (moved here after Pup Chomps) -->
+    <section class="contact-section">
+      <h2 class="contact-title">say hi</h2>
+      <a href="mailto:hi@chomp.ltd" class="contact-email">hi@chomp.ltd</a>
+      <p class="inquiry-text">
+        inquiries, incidents and accidents, hints and allegations
+      </p>
     </section>
 
     <hr class="store-divider">
 
-    <!-- Contact Section -->
-    <section class="contact-section">
-      <h2 class="contact-title">say hi</h2>
-      <a href="mailto:hi@chomp.ltd" class="contact-email">hi@chomp.ltd</a>
-
-      <p class="inquiry-text">
-        inquiries, incidents and accidents, hints and allegations:
-      </p>
-
-      <!-- Song Links -->
-      <div class="song-links">
-        <a href="https://www.youtube.com/watch?v=WccfbPQNMbg" class="song-link" target="_blank" rel="noopener">it ain't no fun</a>
-        <a href="https://www.youtube.com/watch?v=xLVChRVfZ74" class="song-link" target="_blank" rel="noopener">trill, working the wheel</a>
-        <a href="https://www.youtube.com/watch?v=Z5wURKqHSHY" class="song-link" target="_blank" rel="noopener">you don't have to call me darlin', darlin'</a>
-      </div>
+    <!-- Full Menu and Ordering Link -->
+    <section class="order-link-section">
+      <p class="order-link-text">Full menu and ordering:</p>
+      <a href="store/order.html">
+        <picture>
+          <source srcset="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3837.jpeg?alt=media&token=764e18c6-1fc2-4ac2-bd37-496bdd705a7c" media="(prefers-color-scheme: dark)">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipe-images%2FIMG_3836.jpeg?alt=media&token=f24a5e3b-8999-4959-b7f6-31a2312d9d33" alt="Order from Chomp Chomp" class="order-link-image">
+        </picture>
+      </a>
     </section>
 
     <!-- Footer -->
@@ -370,8 +395,9 @@
     // Each item can have a 'name' and optional 'description'
 
     const cookieRotation = [
-      { name: 'Five-Spice Molasses' },
+      { name: 'Blackstrap Five-Spice' },
       { name: 'Cardamom Espresso' },
+      { name: 'Caffè & Rose' },
       { name: 'Cobanero Chocolate' },
       { name: 'Matcha Amaretti' },
       { name: 'Ube Brûlée' }
@@ -379,12 +405,20 @@
 
     const pupCookieRotation = [
       {
-        name: 'Jordie Chomp Chomps',
-        description: 'bananas | carrots | oat bran'
+        name: 'Bébé\'s Breath Mints',
+        description: 'parsley | mint | oats'
       },
       {
-        name: 'Bonzer Bites',
-        description: 'peanut butter | apples'
+        name: 'Bonzer\'s Bones',
+        description: 'peanut butter | applesauce | parsley | whole wheat'
+      },
+      {
+        name: 'Jordie\'s Chomp Chomps',
+        description: 'pumpkin | apples | peanut butter | whole wheat'
+      },
+      {
+        name: 'Linus\'s Lite Bites',
+        description: 'carrots | apples | oats | whole wheat'
       }
     ];
 
