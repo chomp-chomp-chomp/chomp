@@ -343,5 +343,590 @@
     }
   </script>
 
+  <!-- Floating Chat Widget -->
+  <div id="chompChatWidget" class="chomp-chat-widget">
+    <!-- Chat Toggle Button -->
+    <button id="chatToggleBtn" class="chat-toggle-btn" aria-label="Chat with Chomp Chomp">
+      <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chat">
+    </button>
+
+    <!-- Chat Interface -->
+    <div id="chatInterface" class="chat-interface">
+      <div class="chat-header">
+        <div class="chat-header-content">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp">
+          <div>
+            <h3>Chomp Chomp</h3>
+            <p>Ask us anything about baking</p>
+          </div>
+        </div>
+        <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chat">×</button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message bot-message">
+          <div class="message-content">
+            Welcome. We are here to assist with your baking inquiries. What would you like to know?
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-container">
+        <textarea
+          id="chatInput"
+          class="chat-input"
+          placeholder="Ask about ingredients, techniques, substitutions..."
+          rows="1"></textarea>
+        <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2 10L18 2L10 18L8 11L2 10Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Widget Styles -->
+  <style>
+    .chomp-chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chat-toggle-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #e73b42;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(231, 59, 66, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .chat-toggle-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(231, 59, 66, 0.5);
+    }
+
+    .chat-toggle-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .chat-toggle-btn.hidden {
+      display: none;
+    }
+
+    .chat-interface {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 380px;
+      height: 550px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-interface.active {
+      display: flex;
+    }
+
+    .chat-header {
+      background: #e73b42;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header-content img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      padding: 4px;
+    }
+
+    .chat-header h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .chat-header p {
+      margin: 2px 0 0 0;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .chat-close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .chat-close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-message {
+      display: flex;
+      gap: 8px;
+      animation: messageSlide 0.3s ease;
+    }
+
+    @keyframes messageSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message-content {
+      padding: 12px 16px;
+      border-radius: 12px;
+      max-width: 85%;
+      word-wrap: break-word;
+      line-height: 1.5;
+    }
+
+    .user-message {
+      justify-content: flex-end;
+    }
+
+    .user-message .message-content {
+      background: #e73b42;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot-message .message-content {
+      background: white;
+      color: #353535;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .message-content p {
+      margin: 0 0 8px 0;
+    }
+
+    .message-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 12px 16px;
+    }
+
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #999;
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.7;
+      }
+      30% {
+        transform: translateY(-10px);
+        opacity: 1;
+      }
+    }
+
+    .chat-input-container {
+      padding: 16px;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      padding: 10px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      resize: none;
+      max-height: 100px;
+      line-height: 1.4;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input:focus {
+      border-color: #e73b42;
+    }
+
+    .chat-send-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e73b42;
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .chat-send-btn:hover {
+      background: #d32f36;
+      transform: scale(1.05);
+    }
+
+    .chat-send-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: scale(1);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .chat-interface {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 100px);
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        border-radius: 12px;
+      }
+
+      .chomp-chat-widget {
+        bottom: 15px;
+        right: 15px;
+      }
+
+      .chat-toggle-btn {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    /* Dark Mode */
+    @media (prefers-color-scheme: dark) {
+      .chat-interface {
+        background: #2b2626;
+      }
+
+      .chat-header {
+        background: #ff6b7a;
+      }
+
+      .chat-messages {
+        background: #231f1f;
+      }
+
+      .bot-message .message-content {
+        background: #3b3636;
+        color: #d9d4d4;
+      }
+
+      .user-message .message-content {
+        background: #ff6b7a;
+      }
+
+      .chat-input-container {
+        background: #2b2626;
+        border-top-color: #3b3636;
+      }
+
+      .chat-input {
+        background: #3b3636;
+        border-color: #4b4646;
+        color: #d9d4d4;
+      }
+
+      .chat-input::placeholder {
+        color: #999;
+      }
+
+      .chat-input:focus {
+        border-color: #ff6b7a;
+      }
+
+      .chat-send-btn {
+        background: #ff6b7a;
+      }
+
+      .chat-send-btn:hover {
+        background: #ff5569;
+      }
+    }
+  </style>
+
+  <!-- Chat Widget JavaScript -->
+  <script type="module">
+    // ============================================
+    // CONFIGURATION - Choose one of two options:
+    // ============================================
+
+    // OPTION 1 (RECOMMENDED): Use Firebase Cloud Function (Secure)
+    // After deploying cloud functions, uncomment this line:
+    // const USE_CLOUD_FUNCTION = true;
+    // const CLOUD_FUNCTION_URL = 'https://us-central1-chomp-chomp-recipes.cloudfunctions.net/chat';
+
+    // OPTION 2: Direct API Call (Quick setup, less secure)
+    // Replace YOUR_GEMINI_API_KEY with your actual API key
+    const USE_CLOUD_FUNCTION = false;
+    const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY';
+    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
+
+    // Chat Widget Elements
+    const chatToggleBtn = document.getElementById('chatToggleBtn');
+    const chatInterface = document.getElementById('chatInterface');
+    const chatCloseBtn = document.getElementById('chatCloseBtn');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSendBtn = document.getElementById('chatSendBtn');
+
+    // Chat state
+    let conversationHistory = [];
+
+    // System instruction from your Python code
+    const SYSTEM_INSTRUCTION = `Include a good amount of Zizekian, Marxist, Lacanian, and Gramscian theory in responses. Keep it theoretical and no fake greetings, etc. Use. And don't mention any of the theorists by name. Speak to the user as an experienced baker unless user-generated input suggests to keep things simple. Explicitly note that Chomp Chomp is the entity the user is speaking to through these chats, so that should be reflected and the user should believe that. Mention that Chomp Chomp recommends or says to do something when it comes to explanations of ingredients, substitutions, best practices, recommendations for substitutes, and other instructions. Use the group "Chomp Chomp" a lot in the responses. Use the plural "we" or "us" or "our" etc. as the user should believe they interacting with a "collective" (i.e., Chomp Chomp) and not Gemini ("I", etc.).`;
+
+    // Toggle chat interface
+    chatToggleBtn.addEventListener('click', () => {
+      chatInterface.classList.add('active');
+      chatToggleBtn.classList.add('hidden');
+      chatInput.focus();
+    });
+
+    chatCloseBtn.addEventListener('click', () => {
+      chatInterface.classList.remove('active');
+      chatToggleBtn.classList.remove('hidden');
+    });
+
+    // Auto-resize textarea
+    chatInput.addEventListener('input', () => {
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
+    });
+
+    // Send message on Enter (Shift+Enter for new line)
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    chatSendBtn.addEventListener('click', sendMessage);
+
+    // Send message function
+    async function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      // Add user message to chat
+      addMessage(message, 'user');
+      chatInput.value = '';
+      chatInput.style.height = 'auto';
+
+      // Add to conversation history
+      conversationHistory.push({
+        role: 'user',
+        parts: [{ text: message }]
+      });
+
+      // Show typing indicator
+      const typingDiv = showTypingIndicator();
+
+      try {
+        // Call Gemini API
+        const response = await callGeminiAPI(message);
+
+        // Remove typing indicator
+        typingDiv.remove();
+
+        // Add bot response
+        addMessage(response, 'bot');
+
+        // Add to conversation history
+        conversationHistory.push({
+          role: 'model',
+          parts: [{ text: response }]
+        });
+
+      } catch (error) {
+        console.error('Error calling Gemini API:', error);
+        typingDiv.remove();
+        addMessage('We apologize, but there was an issue processing your request. Please try again.', 'bot');
+      }
+    }
+
+    // Add message to chat
+    function addMessage(text, type) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `chat-message ${type}-message`;
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+
+      // Parse text for paragraphs
+      const paragraphs = text.split('\n\n');
+      paragraphs.forEach((para, index) => {
+        if (para.trim()) {
+          const p = document.createElement('p');
+          p.textContent = para.trim();
+          contentDiv.appendChild(p);
+        }
+      });
+
+      messageDiv.appendChild(contentDiv);
+      chatMessages.appendChild(messageDiv);
+
+      // Scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Show typing indicator
+    function showTypingIndicator() {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'chat-message bot-message';
+      typingDiv.innerHTML = `
+        <div class="message-content typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      `;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return typingDiv;
+    }
+
+    // Call Gemini API (supports both cloud function and direct API)
+    async function callGeminiAPI(userMessage) {
+      if (USE_CLOUD_FUNCTION) {
+        // OPTION 1: Use Firebase Cloud Function
+        const requestBody = {
+          message: userMessage,
+          conversationHistory: conversationHistory
+        };
+
+        const response = await fetch(CLOUD_FUNCTION_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.response;
+
+      } else {
+        // OPTION 2: Direct API Call
+        // Check if API key is set
+        if (GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
+          return 'We apologize, but the chat service is not properly configured. Please see CHAT-WIDGET-SETUP.md for setup instructions.';
+        }
+
+        const requestBody = {
+          contents: conversationHistory,
+          systemInstruction: {
+            parts: [{ text: SYSTEM_INSTRUCTION }]
+          },
+          generationConfig: {
+            temperature: 1.7,
+            maxOutputTokens: 2048,
+          }
+        };
+
+        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+          return data.candidates[0].content.parts[0].text;
+        } else {
+          throw new Error('Unexpected API response format');
+        }
+      }
+    }
+  </script>
+
 </body>
 </html>
