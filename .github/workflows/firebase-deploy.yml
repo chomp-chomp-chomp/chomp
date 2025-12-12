@@ -25,6 +25,10 @@ jobs:
       - name: Install dependencies
         run: cd functions && npm ci
 
+      - name: Setup Gemini API key
+        run: |
+          echo 'GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}"' > functions/.env.yaml
+
       - name: Setup service account
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHOMP_CHOMP_RECIPES }}' > /tmp/gcloud-service-key.json

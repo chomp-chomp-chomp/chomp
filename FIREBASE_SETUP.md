@@ -21,41 +21,28 @@
 7. Download the JSON file
 8. Open the file and copy the entire contents
 
-### Step 2: Add Service Account to GitHub
+### Step 2: Add Secrets to GitHub
 
 1. Go to your GitHub repository
 2. Navigate to: **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Name: `FIREBASE_SERVICE_ACCOUNT_CHOMP_CHOMP_RECIPES`
-5. Value: Paste the entire JSON contents from Step 1
-6. Click **Add secret**
+3. Add **First Secret** (Firebase Service Account):
+   - Click **New repository secret**
+   - Name: `FIREBASE_SERVICE_ACCOUNT_CHOMP_CHOMP_RECIPES`
+   - Value: Paste the entire JSON contents from Step 1
+   - Click **Add secret**
+4. Add **Second Secret** (Gemini API Key):
+   - Click **New repository secret**
+   - Name: `GEMINI_API_KEY`
+   - Value: `AIzaSyA_-Jt-sE0LGDlEWCIBehN2HLrVHEcGYj8`
+   - Click **Add secret**
 
-### Step 3: Set Gemini API Key in Firebase
+### Step 3: Deploy Your Code
 
-Since you mentioned environment variables aren't showing up in the Firebase Console, use one of these alternatives:
+That's it! The Gemini API key is already configured:
+- ✅ The `functions/.env.yaml` file is set up locally (gitignored for security)
+- ✅ GitHub Actions will automatically inject the API key from your secret during deployment
 
-#### Option A: Using .env.yaml file (Recommended)
-1. Create a file: `functions/.env.yaml`
-2. Add this content:
-   ```yaml
-   GEMINI_API_KEY: "AIzaSyBOAWcmJsm4bwf1Sx4KbcGmULA65x_PNEo"
-   ```
-3. This file will be used during deployment
-
-#### Option B: Using Firebase CLI (if you have it installed)
-```bash
-firebase functions:config:set gemini.api_key="AIzaSyBOAWcmJsm4bwf1Sx4KbcGmULA65x_PNEo"
-```
-
-#### Option C: Google Cloud Secret Manager
-1. Go to [Google Cloud Console](https://console.cloud.google.com)
-2. Select project: **chomp-chomp-recipes**
-3. Search for "Secret Manager" in the top search bar
-4. Enable the API if needed
-5. Click **Create Secret**
-6. Name: `GEMINI_API_KEY`
-7. Value: `AIzaSyBOAWcmJsm4bwf1Sx4KbcGmULA65x_PNEo`
-8. Click **Create**
+You're all set! Just push your code or merge this branch to `main` and GitHub Actions will handle the deployment automatically.
 
 ## How It Works
 
