@@ -650,7 +650,8 @@
     @media (max-width: 768px) {
       .chat-interface {
         width: calc(100vw - 20px);
-        height: calc(100vh - 100px);
+        height: 500px;
+        max-height: 70vh;
         bottom: 10px;
         right: 10px;
         left: 10px;
@@ -665,6 +666,18 @@
       .chat-toggle-btn {
         width: 56px;
         height: 56px;
+      }
+
+      .chat-header {
+        padding: 14px 16px;
+      }
+
+      .chat-messages {
+        padding: 16px;
+      }
+
+      .chat-input-container {
+        padding: 12px;
       }
     }
 
