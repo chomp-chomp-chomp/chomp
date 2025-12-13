@@ -360,7 +360,10 @@
             <p>Ask us anything about baking</p>
           </div>
         </div>
-        <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chat">×</button>
+        <div class="chat-header-actions">
+          <button id="copyAllBtn" class="chat-action-btn" aria-label="Copy conversation" title="Copy entire conversation">📋</button>
+          <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chat">×</button>
+        </div>
       </div>
 
       <div class="chat-messages" id="chatMessages">
@@ -480,6 +483,36 @@
       opacity: 0.9;
     }
 
+    .chat-header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .chat-action-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .chat-action-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .chat-action-btn:active {
+      transform: scale(0.9);
+    }
+
     .chat-close-btn {
       background: none;
       border: none;
@@ -558,6 +591,44 @@
 
     .message-content p:last-child {
       margin-bottom: 0;
+    }
+
+    .copy-message-btn {
+      background: transparent;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .copy-message-btn:hover {
+      background: #f5f5f5;
+      border-color: #e73b42;
+      color: #e73b42;
+    }
+
+    .copy-message-btn:active {
+      transform: scale(0.95);
+    }
+
+    .copy-message-btn.copied {
+      background: #e7f7ed;
+      border-color: #4caf50;
+      color: #4caf50;
+    }
+
+    .bot-message {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .typing-indicator {
@@ -700,6 +771,23 @@
         color: #d9d4d4;
       }
 
+      .copy-message-btn {
+        border-color: #4a4545;
+        color: #d9d4d4;
+      }
+
+      .copy-message-btn:hover {
+        background: #3b3636;
+        border-color: #ff6b7a;
+        color: #ff6b7a;
+      }
+
+      .copy-message-btn.copied {
+        background: #2d4a32;
+        border-color: #66bb6a;
+        color: #66bb6a;
+      }
+
       .user-message .message-content {
         background: #ff6b7a;
       }
@@ -747,6 +835,7 @@
     const chatToggleBtn = document.getElementById('chatToggleBtn');
     const chatInterface = document.getElementById('chatInterface');
     const chatCloseBtn = document.getElementById('chatCloseBtn');
+    const copyAllBtn = document.getElementById('copyAllBtn');
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const chatSendBtn = document.getElementById('chatSendBtn');
@@ -770,6 +859,35 @@
     chatCloseBtn.addEventListener('click', () => {
       chatInterface.classList.remove('active');
       chatToggleBtn.classList.remove('hidden');
+    });
+
+    // Copy entire conversation
+    copyAllBtn.addEventListener('click', () => {
+      const messages = chatMessages.querySelectorAll('.chat-message');
+      let conversationText = 'Conversation with Chomp Chomp\n';
+      conversationText += '='.repeat(50) + '\n\n';
+
+      messages.forEach((msg) => {
+        const isUser = msg.classList.contains('user-message');
+        const content = msg.querySelector('.message-content');
+        if (content && !content.classList.contains('typing-indicator')) {
+          const speaker = isUser ? 'You' : 'Chomp Chomp';
+          const text = content.textContent.trim();
+          conversationText += `${speaker}:\n${text}\n\n`;
+        }
+      });
+
+      navigator.clipboard.writeText(conversationText).then(() => {
+        const originalText = copyAllBtn.innerHTML;
+        copyAllBtn.innerHTML = '✓';
+        copyAllBtn.style.fontSize = '20px';
+        setTimeout(() => {
+          copyAllBtn.innerHTML = originalText;
+          copyAllBtn.style.fontSize = '18px';
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy conversation:', err);
+      });
     });
 
     // Auto-resize textarea
@@ -849,6 +967,32 @@
       });
 
       messageDiv.appendChild(contentDiv);
+
+      // Add copy button for bot messages
+      if (type === 'bot') {
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'copy-message-btn';
+        copyBtn.innerHTML = '📋 Copy';
+        copyBtn.setAttribute('aria-label', 'Copy message');
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(text).then(() => {
+            copyBtn.innerHTML = '✓ Copied!';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+              copyBtn.innerHTML = '📋 Copy';
+              copyBtn.classList.remove('copied');
+            }, 2000);
+          }).catch(err => {
+            console.error('Failed to copy:', err);
+            copyBtn.innerHTML = '✗ Failed';
+            setTimeout(() => {
+              copyBtn.innerHTML = '📋 Copy';
+            }, 2000);
+          });
+        };
+        messageDiv.appendChild(copyBtn);
+      }
+
       chatMessages.appendChild(messageDiv);
 
       // Scroll to bottom
