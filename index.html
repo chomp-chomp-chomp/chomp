@@ -360,7 +360,10 @@
             <p>Ask us anything about baking</p>
           </div>
         </div>
-        <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chat">×</button>
+        <div class="chat-header-actions">
+          <button id="copyAllBtn" class="chat-action-btn" aria-label="Copy conversation" title="Copy entire conversation">📋</button>
+          <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chat">×</button>
+        </div>
       </div>
 
       <div class="chat-messages" id="chatMessages">
@@ -478,6 +481,36 @@
       margin: 2px 0 0 0;
       font-size: 12px;
       opacity: 0.9;
+    }
+
+    .chat-header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .chat-action-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .chat-action-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .chat-action-btn:active {
+      transform: scale(0.9);
     }
 
     .chat-close-btn {
@@ -802,6 +835,7 @@
     const chatToggleBtn = document.getElementById('chatToggleBtn');
     const chatInterface = document.getElementById('chatInterface');
     const chatCloseBtn = document.getElementById('chatCloseBtn');
+    const copyAllBtn = document.getElementById('copyAllBtn');
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const chatSendBtn = document.getElementById('chatSendBtn');
@@ -825,6 +859,35 @@
     chatCloseBtn.addEventListener('click', () => {
       chatInterface.classList.remove('active');
       chatToggleBtn.classList.remove('hidden');
+    });
+
+    // Copy entire conversation
+    copyAllBtn.addEventListener('click', () => {
+      const messages = chatMessages.querySelectorAll('.chat-message');
+      let conversationText = 'Conversation with Chomp Chomp\n';
+      conversationText += '='.repeat(50) + '\n\n';
+
+      messages.forEach((msg) => {
+        const isUser = msg.classList.contains('user-message');
+        const content = msg.querySelector('.message-content');
+        if (content && !content.classList.contains('typing-indicator')) {
+          const speaker = isUser ? 'You' : 'Chomp Chomp';
+          const text = content.textContent.trim();
+          conversationText += `${speaker}:\n${text}\n\n`;
+        }
+      });
+
+      navigator.clipboard.writeText(conversationText).then(() => {
+        const originalText = copyAllBtn.innerHTML;
+        copyAllBtn.innerHTML = '✓';
+        copyAllBtn.style.fontSize = '20px';
+        setTimeout(() => {
+          copyAllBtn.innerHTML = originalText;
+          copyAllBtn.style.fontSize = '18px';
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy conversation:', err);
+      });
     });
 
     // Auto-resize textarea
