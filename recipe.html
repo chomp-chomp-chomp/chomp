@@ -551,8 +551,9 @@
           <header class="post-header">
             <h1>${recipe.title}</h1>
             ${metaString ? `<div class="post-meta">${metaString}</div>` : ''}
-            ${recipe.description ? `<p class="text-muted" style="font-size: 1.05em; margin-top: 20px; text-align: justify;">${parseMarkdown(recipe.description)}</p>` : ''}
           </header>
+
+          ${recipe.description ? `<p class="text-muted" style="font-size: 1.05em; margin-bottom: 30px; text-align: justify; max-width: 700px; margin-left: auto; margin-right: auto;">${parseMarkdown(recipe.description)}</p>` : ''}
 
           <!-- Recipe Actions -->
           <div class="recipe-actions">
