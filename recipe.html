@@ -659,12 +659,12 @@
       return parseMarkdown(String(source));
     }
 
-    // Parse markdown (simple version)
+    // Parse markdown (enhanced version with paragraph support)
     function parseMarkdown(text) {
       if (!text) return '';
       let html = String(text);
 
-      // Headers
+      // Headers (must be processed before paragraphs)
       html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
       html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
       html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
@@ -675,6 +675,29 @@
 
       // Links
       html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+      // Line breaks (two or more newlines = paragraph break)
+      // First, normalize line endings
+      html = html.replace(/\r\n/g, '\n');
+
+      // Split by double newlines to create paragraphs
+      const paragraphs = html.split(/\n\n+/);
+
+      // Wrap non-header content in paragraph tags
+      html = paragraphs.map(para => {
+        para = para.trim();
+        if (!para) return '';
+
+        // Don't wrap if it's already a block element (h1-h6, ul, ol, div, etc.)
+        if (para.match(/^<(h[1-6]|ul|ol|div|blockquote)/)) {
+          return para;
+        }
+
+        // Replace single newlines within paragraphs with <br>
+        para = para.replace(/\n/g, '<br>');
+
+        return `<p>${para}</p>`;
+      }).join('\n');
 
       return html;
     }
