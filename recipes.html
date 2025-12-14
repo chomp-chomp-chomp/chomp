@@ -495,7 +495,7 @@ if (displayedRecipes === 0) {
             <div class="recipe-card-content">
               <h3 class="recipe-card-title">${recipe.title}</h3>
               <p class="card-description" style="font-size: 0.9em; color: var(--color-text-muted); margin: 8px 0;">
-                ${recipe.description || 'A delicious recipe waiting to be made!'}
+                ${recipe.description ? (recipe.description.length > 250 ? recipe.description.substring(0, 250) + '...' : recipe.description) : 'A delicious recipe waiting to be made!'}
               </p>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; font-size: 0.85em; color: var(--color-text-muted);">
                 <span style="color: var(--color-accent); font-weight: 500;">${recipe.dishType || 'Recipe'}</span>
