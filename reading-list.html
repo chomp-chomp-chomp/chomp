@@ -125,8 +125,8 @@
 
     .book-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
     }
 
     .book-card {
@@ -144,7 +144,7 @@
 
     .book-cover {
       width: 100%;
-      height: 350px;
+      height: 280px;
       object-fit: cover;
       background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
       display: flex;
@@ -158,6 +158,115 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    /* List view styles */
+    .book-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .book-list-item {
+      background: var(--color-sidebar-bg);
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .book-list-item:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .book-list-badge {
+      width: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .book-list-details {
+      flex: 1;
+    }
+
+    .book-list-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 8px;
+    }
+
+    .book-list-meta {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 8px 20px;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .book-list-label {
+      font-weight: 500;
+      color: var(--color-text-muted);
+    }
+
+    .book-list-value {
+      color: var(--color-text);
+    }
+
+    /* View toggle button */
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .view-toggle-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .view-toggle-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .view-toggle-btn.active {
+      background: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+
+    @media (max-width: 768px) {
+      .book-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+      }
+
+      .book-cover {
+        height: 200px;
+      }
+
+      .book-list-meta {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .book-list-label {
+        font-weight: 600;
+        margin-top: 8px;
+      }
     }
 
     .book-info {
@@ -411,6 +520,11 @@
         <label style="margin-left: 20px;">
           <input type="checkbox" id="recommendedOnly"> Recommended Only
         </label>
+
+        <div class="view-toggle">
+          <button class="view-toggle-btn active" id="gridViewBtn" onclick="switchView('grid')">Grid</button>
+          <button class="view-toggle-btn" id="listViewBtn" onclick="switchView('list')">List</button>
+        </div>
       </div>
     </div>
 
@@ -492,6 +606,17 @@
     let currentSort = 'title';
     let currentSearch = '';
     let recommendedOnly = false;
+    let currentView = 'grid'; // 'grid' or 'list'
+
+    // Helper function to extract last name from author string
+    function getLastName(authorString) {
+      if (!authorString) return '';
+      // Get first author if multiple (separated by comma or &)
+      const firstAuthor = authorString.split(/[,&]/)[0].trim();
+      // Get last word (last name)
+      const parts = firstAuthor.split(' ');
+      return parts[parts.length - 1];
+    }
 
     // Load books from Firestore
     async function loadBooks() {
@@ -541,7 +666,10 @@
         if (currentSort === 'title') {
           return a.title.localeCompare(b.title);
         } else if (currentSort === 'author') {
-          return a.authors.localeCompare(b.authors);
+          // Sort by last name
+          const lastNameA = getLastName(a.authors);
+          const lastNameB = getLastName(b.authors);
+          return lastNameA.localeCompare(lastNameB);
         } else if (currentSort === 'date') {
           return new Date(b.dateAdded) - new Date(a.dateAdded);
         }
@@ -562,25 +690,71 @@
         return;
       }
 
-      grid.innerHTML = filtered.map(book => `
-        <div class="book-card" onclick="showBookDetail('${book.id}')">
-          ${book.coverImage ? `
-            <div class="book-cover">
-              <img src="${book.coverImage}" alt="${book.title}">
+      // Toggle grid/list class
+      grid.className = currentView === 'list' ? 'book-list' : 'book-grid';
+
+      // Render based on view mode
+      if (currentView === 'list') {
+        grid.innerHTML = filtered.map(book => `
+          <div class="book-list-item" onclick="showBookDetail('${book.id}')">
+            <div class="book-list-badge">
+              ${book.recommended ? '<div class="recommended-badge">★</div>' : ''}
             </div>
-          ` : ''}
-          <div class="book-info">
-            ${book.recommended ? '<div class="recommended-badge">★ Recommended</div>' : ''}
-            <div class="book-title">${book.title}</div>
-            <div class="book-author">${book.authors}</div>
-            <div class="book-meta">
-              ${book.publisher ? `<div>${book.publisher}</div>` : ''}
-              ${book.publicationDate ? `<div>${book.publicationDate}</div>` : ''}
-              ${book.pages ? `<div>${book.pages} pages</div>` : ''}
+            <div class="book-list-details">
+              <div class="book-list-title">${book.title}</div>
+              <div class="book-list-meta">
+                <div class="book-list-label">Author:</div>
+                <div class="book-list-value">${book.authors}</div>
+                ${book.publisher ? `
+                  <div class="book-list-label">Publisher:</div>
+                  <div class="book-list-value">${book.publisher}</div>
+                ` : ''}
+                ${book.publicationDate ? `
+                  <div class="book-list-label">Date:</div>
+                  <div class="book-list-value">${book.publicationDate}</div>
+                ` : ''}
+                ${book.pages ? `
+                  <div class="book-list-label">Pages:</div>
+                  <div class="book-list-value">${book.pages}</div>
+                ` : ''}
+              </div>
             </div>
           </div>
-        </div>
-      `).join('');
+        `).join('');
+      } else {
+        // Grid view
+        grid.innerHTML = filtered.map(book => `
+          <div class="book-card" onclick="showBookDetail('${book.id}')">
+            ${book.coverImage ? `
+              <div class="book-cover">
+                <img src="${book.coverImage}" alt="${book.title}">
+              </div>
+            ` : ''}
+            <div class="book-info">
+              ${book.recommended ? '<div class="recommended-badge">★ Recommended</div>' : ''}
+              <div class="book-title">${book.title}</div>
+              <div class="book-author">${book.authors}</div>
+              <div class="book-meta">
+                ${book.publisher ? `<div>${book.publisher}</div>` : ''}
+                ${book.publicationDate ? `<div>${book.publicationDate}</div>` : ''}
+                ${book.pages ? `<div>${book.pages} pages</div>` : ''}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Switch between grid and list view
+    window.switchView = function(view) {
+      currentView = view;
+
+      // Update button states
+      document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+      document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
+
+      // Re-render
+      displayBooks();
     }
 
     // Show book detail modal
@@ -634,10 +808,22 @@
               </div>
             ` : ''}
 
+            ${book.lcCallNumber ? `
+              <div class="detail-row">
+                <div class="detail-label">LC Call Number</div>
+                <div style="font-family:monospace;font-weight:500;color:var(--color-accent);">${book.lcCallNumber}</div>
+              </div>
+            ` : ''}
+
             ${book.subjects && book.subjects.length > 0 ? `
               <div class="detail-row">
-                <div class="detail-label">Subjects</div>
-                <div>${book.subjects.join(', ')}</div>
+                <div class="detail-label">LC Subject Headings</div>
+                <div style="line-height:1.8;">
+                  ${book.subjectLinks && book.subjectLinks.length > 0
+                    ? book.subjectLinks.map(s => `<a href="${s.url}" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:underline;">${s.name}</a>`).join(' · ')
+                    : book.subjects.join(' · ')
+                  }
+                </div>
               </div>
             ` : ''}
 
