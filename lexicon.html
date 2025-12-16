@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baking Lexicon - Chomp Chomp</title>
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Meta tags -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
+  <meta name="description" content="A philosophical lexicon of baking ingredients, techniques, and concepts.">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .lexicon-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .lexicon-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .lexicon-header h1 {
+      font-size: 2.5em;
+      color: var(--color-accent);
+      margin-bottom: 10px;
+    }
+
+    .lexicon-header p {
+      color: var(--color-text-muted);
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+
+    .search-filter-controls {
+      background: var(--color-sidebar-bg);
+      padding: 25px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-family: var(--font-primary);
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .filter-btn.active {
+      background: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+
+    .lexicon-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .lexicon-entry {
+      background: var(--color-sidebar-bg);
+      padding: 25px;
+      border-radius: 8px;
+      border-left: 4px solid var(--color-accent);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .lexicon-entry:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .lexicon-entry h3 {
+      color: var(--color-accent);
+      font-size: 1.5em;
+      margin-bottom: 8px;
+    }
+
+    .lexicon-entry .type {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--color-accent);
+      color: white;
+      border-radius: 12px;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    .lexicon-entry .description {
+      line-height: 1.8;
+      color: var(--color-text);
+      margin-bottom: 15px;
+    }
+
+    .lexicon-entry img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--color-text-muted);
+    }
+
+    .no-results h3 {
+      margin-bottom: 10px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--color-text-muted);
+    }
+
+    .stats {
+      text-align: center;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 768px) {
+      .lexicon-header h1 {
+        font-size: 2em;
+      }
+
+      .lexicon-container {
+        padding: 20px 15px;
+      }
+
+      .search-filter-controls {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="store.html" title="Store" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="index.html" title="Home">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="lexicon.html">Lexicon</a></li>
+            <li><a href="reading-list.html">Reading List</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="store.html">Store</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Tools</a>
+              <ul class="submenu">
+                <li><a href="tools/index.html">Index</a></li>
+                <li><a href="tools/ip.html">Whois</a></li>
+                <li><a href="tools/weather.html">Weather</a></li>
+                <li><a href="tools/convert.html">Convert</a></li>
+                <li><a href="tools/encode.html">Encode</a></li>
+                <li><a href="tools/subnet.html">Subnet</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Ipsum</a>
+              <ul class="submenu">
+                <li><a href="tools/dante.html">Inferno</a></li>
+                <li><a href="tools/nautical.html">Nautical</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="lexicon-container">
+
+    <div class="lexicon-header">
+      <h1>📖 Baking Lexicon</h1>
+      <p>A philosophical guide to ingredients, techniques, and concepts that make baking both material and meaningful.</p>
+    </div>
+
+    <div class="search-filter-controls">
+      <input type="text"
+             id="searchBox"
+             class="search-box"
+             placeholder="Search terms and definitions..."
+             autocomplete="off">
+
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-type="all">All</button>
+        <button class="filter-btn" data-type="ingredient">Ingredients</button>
+        <button class="filter-btn" data-type="technique">Techniques</button>
+        <button class="filter-btn" data-type="concept">Concepts</button>
+      </div>
+    </div>
+
+    <div class="stats" id="stats">Loading...</div>
+
+    <div id="lexiconGrid" class="lexicon-grid">
+      <div class="loading">
+        <p>Loading lexicon...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>Baking is the materialization of comfort itself.</p>
+      <div class="footer-links">
+        <a href="mailto:hi@chomp.be">hi@chomp.be</a>
+        <a href="https://www.chomp.ltd" target="_blank">chomp chomp: cookies, etc.</a>
+        <a href="https://chomp.be/tools" target="_blank">chomp chomp: tools</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <!-- Navigation toggle -->
+  <script>
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+
+  <!-- Firebase & Lexicon Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const appId = firebaseConfig.projectId;
+
+    let allEntries = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    // Load lexicon from Firestore
+    async function loadLexicon() {
+      try {
+        const lexiconRef = collection(db, `artifacts/${appId}/public/data/lexicon`);
+        const q = query(lexiconRef, orderBy('term'));
+        const snapshot = await getDocs(q);
+
+        allEntries = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        displayEntries();
+      } catch (error) {
+        console.error("Error loading lexicon:", error);
+        document.getElementById('lexiconGrid').innerHTML = `
+          <div class="no-results">
+            <h3>Error loading lexicon</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // Display filtered entries
+    function displayEntries() {
+      const grid = document.getElementById('lexiconGrid');
+      const stats = document.getElementById('stats');
+
+      let filtered = allEntries;
+
+      // Apply type filter
+      if (currentFilter !== 'all') {
+        filtered = filtered.filter(entry => entry.type === currentFilter);
+      }
+
+      // Apply search
+      if (currentSearch) {
+        const search = currentSearch.toLowerCase();
+        filtered = filtered.filter(entry =>
+          entry.term.toLowerCase().includes(search) ||
+          entry.description.toLowerCase().includes(search)
+        );
+      }
+
+      // Update stats
+      stats.textContent = `Showing ${filtered.length} of ${allEntries.length} entries`;
+
+      // Display entries
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="no-results">
+            <h3>No entries found</h3>
+            <p>Try adjusting your search or filters</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(entry => `
+        <div class="lexicon-entry">
+          <h3>${entry.term}</h3>
+          <span class="type">${entry.type}</span>
+          <div class="description">${entry.description}</div>
+          ${entry.image ? `<img src="${entry.image}" alt="${entry.term}">` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Filter button handlers
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.type;
+        displayEntries();
+      });
+    });
+
+    // Search handler
+    document.getElementById('searchBox').addEventListener('input', (e) => {
+      currentSearch = e.target.value.trim();
+      displayEntries();
+    });
+
+    // Initialize
+    loadLexicon();
+  </script>
+
+</body>
+</html>
