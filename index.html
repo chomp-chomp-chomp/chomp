@@ -215,6 +215,19 @@
 
   </main>
 
+  <!-- Book Detail Modal -->
+  <div id="bookModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Book Details</h2>
+        <button class="modal-close" onclick="closeBookModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="bookModalBody">
+        <!-- Book details will be inserted here -->
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
@@ -405,6 +418,9 @@
       }
     }
 
+    // Store current book for modal
+    let currentBook = null;
+
     // Load random book
     async function loadRandomBook() {
       try {
@@ -414,25 +430,25 @@
 
         if (books.length > 0) {
           const randomIndex = Math.floor(Math.random() * books.length);
-          const book = books[randomIndex];
+          currentBook = books[randomIndex];
 
           document.getElementById('randomBook').innerHTML = `
-            <a href="reading-list.html" style="display: block; text-decoration: none; color: inherit;">
-              ${book.coverImage
-                ? `<img src="${book.coverImage}" alt="${book.title}" style="width:100%;height:350px;object-fit:cover;border-radius:8px 8px 0 0;">`
+            <div onclick="openBookModal()" style="cursor: pointer; display: block; text-decoration: none; color: inherit;">
+              ${currentBook.coverImage
+                ? `<img src="${currentBook.coverImage}" alt="${currentBook.title}" style="width:100%;height:280px;object-fit:cover;border-radius:8px 8px 0 0;">`
                 : '<div style="height: 280px; background: linear-gradient(135deg, var(--color-sidebar-bg) 0%, var(--color-bg) 100%); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);"></div>'
               }
               <div class="featured-card-content">
-                <div class="featured-card-tag">${book.recommended ? '★ Recommended' : 'Reading List'}</div>
-                <h3>${book.title}</h3>
-                <p style="font-size: 0.95em; color: var(--color-text-muted); margin-bottom: 10px;">${book.authors}</p>
-                ${book.description ? `<p>${book.description.substring(0, 120)}${book.description.length > 120 ? '...' : ''}</p>` : ''}
+                <div class="featured-card-tag">${currentBook.recommended ? '★ Recommended' : 'Reading List'}</div>
+                <h3>${currentBook.title}</h3>
+                <p style="font-size: 0.95em; color: var(--color-text-muted); margin-bottom: 10px;">${currentBook.authors}</p>
+                ${currentBook.description ? `<p>${currentBook.description.substring(0, 120)}${currentBook.description.length > 120 ? '...' : ''}</p>` : ''}
                 <div class="featured-card-meta">
-                  ${book.publisher ? `<span>${book.publisher}</span>` : ''}
-                  ${book.publicationDate ? `<span>${book.publicationDate}</span>` : ''}
+                  ${currentBook.publisher ? `<span>${currentBook.publisher}</span>` : ''}
+                  ${currentBook.publicationDate ? `<span>${currentBook.publicationDate}</span>` : ''}
                 </div>
               </div>
-            </a>
+            </div>
           `;
         }
       } catch (error) {
@@ -440,6 +456,104 @@
         document.getElementById('randomBook').innerHTML = '<p style="text-align: center; color: #c62828; padding: 40px 20px;">Error loading book</p>';
       }
     }
+
+    // Open book modal
+    window.openBookModal = function() {
+      if (!currentBook) return;
+
+      const modalBody = document.getElementById('bookModalBody');
+      modalBody.innerHTML = `
+        <div class="modal-book-layout">
+          ${currentBook.coverImage ? `
+            <div class="modal-cover">
+              <img src="${currentBook.coverImage}" alt="${currentBook.title}">
+            </div>
+          ` : ''}
+          <div class="modal-details">
+            ${currentBook.recommended ? '<div class="recommended-badge">★ Recommended</div>' : ''}
+            <h2>${currentBook.title}</h2>
+            ${currentBook.subtitle ? `<p style="font-size:1.1em;color:var(--color-text-muted);margin-top:-5px;">${currentBook.subtitle}</p>` : ''}
+
+            <div class="detail-row">
+              <div class="detail-label">Author(s)</div>
+              <div>${currentBook.authors}</div>
+            </div>
+
+            ${currentBook.publisher ? `
+              <div class="detail-row">
+                <div class="detail-label">Publisher</div>
+                <div>${currentBook.publisher}</div>
+              </div>
+            ` : ''}
+
+            ${currentBook.publicationDate ? `
+              <div class="detail-row">
+                <div class="detail-label">Publication Date</div>
+                <div>${currentBook.publicationDate}</div>
+              </div>
+            ` : ''}
+
+            ${currentBook.pages ? `
+              <div class="detail-row">
+                <div class="detail-label">Pages</div>
+                <div>${currentBook.pages}</div>
+              </div>
+            ` : ''}
+
+            ${currentBook.isbn ? `
+              <div class="detail-row">
+                <div class="detail-label">ISBN</div>
+                <div style="font-family:monospace;">${currentBook.isbn}</div>
+              </div>
+            ` : ''}
+
+            ${currentBook.lcCallNumber ? `
+              <div class="detail-row">
+                <div class="detail-label">LC Call Number</div>
+                <div style="font-family:monospace;font-weight:500;color:var(--color-accent);">${currentBook.lcCallNumber}</div>
+              </div>
+            ` : ''}
+
+            ${currentBook.subjects && currentBook.subjects.length > 0 ? `
+              <div class="detail-row">
+                <div class="detail-label">LC Subject Headings</div>
+                <div style="line-height:1.8;">${currentBook.subjects.join(' · ')}</div>
+              </div>
+            ` : ''}
+
+            ${currentBook.description ? `
+              <div class="detail-row" style="margin-top:20px;">
+                <div class="detail-label">Description</div>
+                <div style="line-height:1.7;">${currentBook.description}</div>
+              </div>
+            ` : ''}
+
+            ${currentBook.yourNotes ? `
+              <div class="detail-row" style="margin-top:20px;padding:15px;background:var(--color-sidebar-bg);border-radius:6px;">
+                <div class="detail-label" style="color:var(--color-accent);">Notes</div>
+                <div style="line-height:1.7;">${currentBook.yourNotes}</div>
+              </div>
+            ` : ''}
+
+            <a href="reading-list.html" class="explore-link">Explore Full Reading List →</a>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('bookModal').classList.add('active');
+    };
+
+    // Close book modal
+    window.closeBookModal = function() {
+      document.getElementById('bookModal').classList.remove('active');
+    };
+
+    // Close modal on background click
+    document.getElementById('bookModal')?.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeBookModal();
+      }
+    });
 
     // Initialize
     loadFeaturedStory();
@@ -930,6 +1044,127 @@
 
       .chat-send-btn:hover {
         background: #ff5569;
+      }
+    }
+
+    /* Book Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: var(--color-bg);
+      max-width: 800px;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 25px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .modal-header h2 {
+      color: var(--color-accent);
+      margin: 0;
+      font-size: 1.3em;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--color-accent);
+    }
+
+    .modal-body {
+      padding: 25px;
+    }
+
+    .modal-book-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 30px;
+      margin-bottom: 25px;
+    }
+
+    .modal-cover img {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .modal-details h2 {
+      color: var(--color-accent);
+      margin-bottom: 10px;
+    }
+
+    .modal-details p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .detail-row {
+      margin: 10px 0;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .explore-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: var(--color-accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .explore-link:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .modal-book-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-cover {
+        max-width: 200px;
+        margin: 0 auto;
       }
     }
   </style>
