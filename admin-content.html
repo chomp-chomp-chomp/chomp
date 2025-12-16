@@ -409,6 +409,11 @@
           </div>
 
           <div class="form-group">
+            <label>LC Call Number</label>
+            <input type="text" id="bookLCCallNumber" placeholder="TX763 .F63 2008">
+          </div>
+
+          <div class="form-group">
             <label>Your Notes (Markdown supported)</label>
             <textarea id="bookNotes"></textarea>
           </div>
@@ -720,6 +725,7 @@
           document.getElementById('bookPublisher').value = book.publishers ? book.publishers[0].name : '';
           document.getElementById('bookPubDate').value = book.publish_date || '';
           document.getElementById('bookCover').value = book.cover?.large || book.cover?.medium || book.cover?.small || '';
+          document.getElementById('bookLCCallNumber').value = book.lc_classifications && book.lc_classifications.length > 0 ? book.lc_classifications[0] : '';
           showStatus('book', 'Book data fetched successfully!', 'success');
         } else {
           showStatus('book', 'No data found for this ISBN', 'error');
@@ -738,6 +744,7 @@
       const publisher = document.getElementById('bookPublisher').value.trim();
       const publicationDate = document.getElementById('bookPubDate').value.trim();
       const coverImage = document.getElementById('bookCover').value.trim();
+      const lcCallNumber = document.getElementById('bookLCCallNumber').value.trim();
       const yourNotes = document.getElementById('bookNotes').value.trim();
       const recommended = document.getElementById('bookRecommended').checked;
 
@@ -748,6 +755,7 @@
         publisher: publisher || null,
         publicationDate: publicationDate || null,
         coverImage: coverImage || null,
+        lcCallNumber: lcCallNumber || null,
         yourNotes: yourNotes || '',
         recommended,
         slug: generateSlug(title),
@@ -787,6 +795,7 @@
               <h3>${book.title}</h3>
               <div style="color:#666;font-size:0.9em;margin-bottom:8px;">${book.authors} ${book.recommended ? '★' : ''}</div>
               <div style="font-size:0.85em;color:#999;">${book.publisher || ''} ${book.publicationDate || ''}</div>
+              ${book.lcCallNumber ? `<div style="font-size:0.85em;color:#e73b42;font-weight:500;margin-top:4px;">LC: ${book.lcCallNumber}</div>` : ''}
             </div>
             <div class="entry-actions">
               <button class="secondary" onclick="editBookEntry('${book.id}')">Edit</button>
@@ -812,6 +821,7 @@
           document.getElementById('bookPublisher').value = book.publisher || '';
           document.getElementById('bookPubDate').value = book.publicationDate || '';
           document.getElementById('bookCover').value = book.coverImage || '';
+          document.getElementById('bookLCCallNumber').value = book.lcCallNumber || '';
           document.getElementById('bookNotes').value = book.yourNotes || '';
           document.getElementById('bookRecommended').checked = book.recommended || false;
           window.scrollTo({ top: 0, behavior: 'smooth' });
