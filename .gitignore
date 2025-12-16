@@ -3,3 +3,10 @@
 .env.local
 .env.yaml
 functions/.env.yaml
+
+# Admin tools with sensitive credentials
+recipe-admin*.html
+content-admin*.html
+
+# Data files (used for bulk import)
+data-*.txt
