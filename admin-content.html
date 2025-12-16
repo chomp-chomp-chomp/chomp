@@ -948,6 +948,30 @@
           if (data[bookKey]) {
             const book = data[bookKey];
 
+            let coverImage = book.cover?.large || book.cover?.medium || book.cover?.small || null;
+
+            // If no cover from Open Library, try Google Books API
+            if (!coverImage) {
+              try {
+                progress.innerHTML += `<div>   → Trying Google Books for cover...</div>`;
+                const gbResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
+                const gbData = await gbResponse.json();
+
+                if (gbData.items && gbData.items[0]) {
+                  const volumeInfo = gbData.items[0].volumeInfo;
+                  if (volumeInfo.imageLinks) {
+                    coverImage = volumeInfo.imageLinks.large ||
+                                volumeInfo.imageLinks.medium ||
+                                volumeInfo.imageLinks.thumbnail ||
+                                volumeInfo.imageLinks.smallThumbnail ||
+                                null;
+                  }
+                }
+              } catch (gbError) {
+                // Silently fail - just won't have a cover
+              }
+            }
+
             const bookData = {
               isbn: isbn,
               title: book.title || 'Unknown Title',
@@ -958,7 +982,7 @@
               pages: book.number_of_pages || null,
               subjects: book.subjects ? book.subjects.map(s => s.name) : [],
               description: book.notes || null,
-              coverImage: book.cover?.large || book.cover?.medium || book.cover?.small || null,
+              coverImage: coverImage,
               slug: generateSlug(book.title),
               yourNotes: '',
               yourTags: [],
@@ -968,7 +992,7 @@
             };
 
             fetchedBulkBooks.push(bookData);
-            progress.innerHTML += `<div>✓ Found: ${bookData.title}</div>`;
+            progress.innerHTML += `<div>✓ Found: ${bookData.title}${coverImage ? ' (with cover)' : ''}</div>`;
           } else {
             progress.innerHTML += `<div>⚠️ No data found for ${isbn}</div>`;
           }
