@@ -431,7 +431,9 @@
         <h2>Existing Books</h2>
         <div class="actions">
           <button onclick="loadBooks()">Refresh List</button>
+          <button onclick="refreshLCData()" class="secondary">Refresh LC Call Numbers</button>
         </div>
+        <div id="lcRefreshStatus" class="status"></div>
         <div id="bookList" class="entry-list"></div>
       </div>
 
@@ -995,7 +997,9 @@
             };
 
             fetchedBulkBooks.push(bookData);
-            progress.innerHTML += `<div>✓ Found: ${bookData.title}${coverImage ? ' (with cover)' : ''}</div>`;
+            const coverInfo = coverImage ? ' | cover ✓' : ' | no cover';
+            const lcInfo = bookData.lcCallNumber ? ' | LC# ✓' : ' | no LC#';
+            progress.innerHTML += `<div>✓ Found: ${bookData.title}${coverInfo}${lcInfo}</div>`;
           } else {
             progress.innerHTML += `<div>⚠️ No data found for ${isbn}</div>`;
           }
@@ -1051,6 +1055,92 @@
         showStatus('bulkBooks', 'Upload error: ' + error.message, 'error');
       } finally {
         btn.disabled = false;
+      }
+    }
+
+    // Refresh LC Call Numbers for existing books
+    async function refreshLCData() {
+      const statusDiv = document.getElementById('lcRefreshStatus');
+      statusDiv.innerHTML = '<div style="padding:15px;background:#e3f2fd;border-radius:6px;margin:15px 0;">Starting LC data refresh...</div>';
+
+      try {
+        // Get all existing books
+        const booksRef = collection(db, `artifacts/${appId}/public/data/reading-list`);
+        const snapshot = await getDocs(booksRef);
+        const books = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        let updated = 0;
+        let skipped = 0;
+        let errors = 0;
+
+        statusDiv.innerHTML += `<div>Found ${books.length} books. Checking for LC data...</div>`;
+
+        for (let book of books) {
+          if (!book.isbn) {
+            statusDiv.innerHTML += `<div style="color:#999;">⊘ Skipped "${book.title}" (no ISBN)</div>`;
+            skipped++;
+            continue;
+          }
+
+          // Check if already has LC call number
+          if (book.lcCallNumber) {
+            statusDiv.innerHTML += `<div style="color:#999;">⊘ Skipped "${book.title}" (already has LC#: ${book.lcCallNumber})</div>`;
+            skipped++;
+            continue;
+          }
+
+          try {
+            statusDiv.innerHTML += `<div>⏳ Fetching LC data for "${book.title}"...</div>`;
+
+            // Fetch from Open Library
+            const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${book.isbn}&format=json&jscmd=data`);
+            const data = await response.json();
+            const bookKey = `ISBN:${book.isbn}`;
+
+            if (data[bookKey]) {
+              const olBook = data[bookKey];
+              const lcCallNumber = olBook.lc_classifications && olBook.lc_classifications.length > 0
+                ? olBook.lc_classifications[0]
+                : null;
+              const lccn = olBook.lccn && olBook.lccn.length > 0
+                ? olBook.lccn[0]
+                : null;
+
+              if (lcCallNumber || lccn) {
+                // Update book in Firestore
+                await setDoc(doc(booksRef, book.id), {
+                  ...book,
+                  lcCallNumber: lcCallNumber,
+                  lccn: lccn
+                }, { merge: true });
+
+                statusDiv.innerHTML += `<div style="color:#2e7d32;">✓ Updated "${book.title}" ${lcCallNumber ? `(LC#: ${lcCallNumber})` : '(LCCN only)'}</div>`;
+                updated++;
+              } else {
+                statusDiv.innerHTML += `<div style="color:#f57c00;">⚠ No LC data available for "${book.title}"</div>`;
+                skipped++;
+              }
+            } else {
+              statusDiv.innerHTML += `<div style="color:#f57c00;">⚠ No data found for ISBN ${book.isbn}</div>`;
+              skipped++;
+            }
+
+            // Rate limiting
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          } catch (error) {
+            statusDiv.innerHTML += `<div style="color:#c62828;">❌ Error fetching "${book.title}": ${error.message}</div>`;
+            errors++;
+          }
+        }
+
+        statusDiv.innerHTML += `<div style="margin-top:15px;padding:15px;background:#e8f5e9;border-radius:6px;"><strong>Refresh Complete!</strong><br>Updated: ${updated} | Skipped: ${skipped} | Errors: ${errors}</div>`;
+
+        // Reload book list
+        if (updated > 0) {
+          loadBooks();
+        }
+      } catch (error) {
+        statusDiv.innerHTML += `<div style="color:#c62828;padding:15px;background:#ffebee;border-radius:6px;margin:15px 0;">Error: ${error.message}</div>`;
       }
     }
   </script>
