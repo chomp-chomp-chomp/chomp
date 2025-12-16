@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Admin - Chomp Chomp</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      color: #353535;
+    }
+
+    /* Login Screen */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .login-overlay.hidden {
+      display: none;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .login-box h2 {
+      color: #e73b42;
+      margin-bottom: 10px;
+    }
+
+    .login-box p {
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #e73b42;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background: #d32f36;
+    }
+
+    .login-error {
+      color: #c62828;
+      font-size: 14px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .login-error.show {
+      display: block;
+    }
+
+    /* Main Admin Interface */
+    .admin-content {
+      display: none;
+    }
+
+    .admin-content.visible {
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #e73b42;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #353535;
+      margin: 30px 0 15px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e73b42;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 16px;
+      color: #666;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: #e73b42;
+      border-bottom-color: #e73b42;
+    }
+
+    .tab:hover {
+      color: #e73b42;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    button {
+      background: #e73b42;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #d32f36;
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    button.secondary {
+      background: #666;
+    }
+
+    button.secondary:hover {
+      background: #555;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      margin: 20px 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #353535;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      resize: vertical;
+    }
+
+    .status {
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status.success {
+      background: #e7f7ed;
+      color: #2e7d32;
+      border: 1px solid #4caf50;
+      display: block;
+    }
+
+    .status.error {
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #ef5350;
+      display: block;
+    }
+
+    .status.info {
+      background: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #2196f3;
+      display: block;
+    }
+
+    .entry-list {
+      margin: 20px 0;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .entry-item {
+      background: #f9f9f9;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border-left: 4px solid #e73b42;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .entry-content {
+      flex: 1;
+    }
+
+    .entry-content h3 {
+      color: #e73b42;
+      margin-bottom: 8px;
+    }
+
+    .entry-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .entry-actions button {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <p>Enter password to manage content</p>
+      <input type="password" id="passwordInput" placeholder="Password" autofocus>
+      <button onclick="checkPassword()">Login</button>
+      <div id="loginError" class="login-error">Incorrect password</div>
+    </div>
+  </div>
+
+  <!-- Main Admin Content -->
+  <div id="adminContent" class="admin-content">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+    <div class="container">
+      <h1>Content Admin</h1>
+      <p style="color: #666; margin-bottom: 20px;">Manage Lexicon & Reading List</p>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('lexicon')">Lexicon</button>
+        <button class="tab" onclick="switchTab('books')">Reading List</button>
+      </div>
+
+      <!-- LEXICON TAB -->
+      <div id="lexicon" class="tab-content active">
+        <h2>Add New Term</h2>
+        <form id="lexiconForm" onsubmit="saveLexiconEntry(event)">
+          <div class="form-group">
+            <label>Term Name *</label>
+            <input type="text" id="termName" required>
+          </div>
+
+          <div class="form-group">
+            <label>Type *</label>
+            <select id="termType" required>
+              <option value="ingredient">Ingredient</option>
+              <option value="technique">Technique</option>
+              <option value="concept">Concept</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Description *</label>
+            <textarea id="termDescription" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Image URL (optional)</label>
+            <input type="url" id="termImage" placeholder="https://...">
+          </div>
+
+          <div class="actions">
+            <button type="submit">Save Term</button>
+            <button type="button" class="secondary" onclick="clearLexiconForm()">Clear</button>
+          </div>
+        </form>
+
+        <div id="lexiconStatus" class="status"></div>
+
+        <h2>Existing Terms</h2>
+        <div class="actions">
+          <button onclick="loadLexicon()">Refresh List</button>
+        </div>
+        <div id="lexiconList" class="entry-list"></div>
+      </div>
+
+      <!-- BOOKS TAB -->
+      <div id="books" class="tab-content">
+        <h2>Add New Book</h2>
+        <form id="bookForm" onsubmit="saveBookEntry(event)">
+          <div class="form-group">
+            <label>ISBN *</label>
+            <input type="text" id="bookISBN" required placeholder="9781234567890">
+            <button type="button" class="secondary" style="margin-top: 10px;" onclick="fetchBookFromISBN()">Fetch Data from ISBN</button>
+          </div>
+
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" id="bookTitle" required>
+          </div>
+
+          <div class="form-group">
+            <label>Author(s) *</label>
+            <input type="text" id="bookAuthors" required>
+          </div>
+
+          <div class="form-group">
+            <label>Publisher</label>
+            <input type="text" id="bookPublisher">
+          </div>
+
+          <div class="form-group">
+            <label>Publication Date</label>
+            <input type="text" id="bookPubDate" placeholder="2024">
+          </div>
+
+          <div class="form-group">
+            <label>Cover Image URL</label>
+            <input type="url" id="bookCover" placeholder="https://...">
+          </div>
+
+          <div class="form-group">
+            <label>Your Notes (Markdown supported)</label>
+            <textarea id="bookNotes"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="bookRecommended">
+              Mark as Recommended
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Save Book</button>
+            <button type="button" class="secondary" onclick="clearBookForm()">Clear</button>
+          </div>
+        </form>
+
+        <div id="bookStatus" class="status"></div>
+
+        <h2>Existing Books</h2>
+        <div class="actions">
+          <button onclick="loadBooks()">Refresh List</button>
+        </div>
+        <div id="bookList" class="entry-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const appId = firebaseConfig.projectId;
+
+    // Password - Store this securely or use Firebase Remote Config
+    const ADMIN_PASSWORD = "chompbake2025"; // Change this!
+
+    // Check if already logged in
+    const isLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
+    if (isLoggedIn) {
+      showAdminContent();
+    }
+
+    // Make functions global
+    window.checkPassword = checkPassword;
+    window.logout = logout;
+    window.switchTab = switchTab;
+    window.saveLexiconEntry = saveLexiconEntry;
+    window.saveBookEntry = saveBookEntry;
+    window.clearLexiconForm = clearLexiconForm;
+    window.clearBookForm = clearBookForm;
+    window.loadLexicon = loadLexicon;
+    window.loadBooks = loadBooks;
+    window.fetchBookFromISBN = fetchBookFromISBN;
+    window.editLexiconEntry = editLexiconEntry;
+    window.deleteLexiconEntry = deleteLexiconEntry;
+    window.editBookEntry = editBookEntry;
+    window.deleteBookEntry = deleteBookEntry;
+
+    // Authentication
+    function checkPassword() {
+      const input = document.getElementById('passwordInput').value;
+      if (input === ADMIN_PASSWORD) {
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        showAdminContent();
+      } else {
+        document.getElementById('loginError').classList.add('show');
+        setTimeout(() => {
+          document.getElementById('loginError').classList.remove('show');
+        }, 3000);
+      }
+    }
+
+    function showAdminContent() {
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('adminContent').classList.add('visible');
+      loadLexicon();
+      loadBooks();
+    }
+
+    function logout() {
+      sessionStorage.removeItem('adminLoggedIn');
+      location.reload();
+    }
+
+    // Password on Enter key
+    document.getElementById('passwordInput')?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkPassword();
+    });
+
+    // Tab switching
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(tabName).classList.add('active');
+    }
+
+    // Helper functions
+    function generateSlug(text) {
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+    }
+
+    function showStatus(type, message, status) {
+      const statusEl = document.getElementById(type + 'Status');
+      statusEl.className = 'status ' + status;
+      statusEl.textContent = message;
+      setTimeout(() => {
+        if (status !== 'error') {
+          statusEl.className = 'status';
+        }
+      }, 5000);
+    }
+
+    // === LEXICON FUNCTIONS ===
+
+    async function saveLexiconEntry(event) {
+      event.preventDefault();
+
+      const term = document.getElementById('termName').value.trim();
+      const type = document.getElementById('termType').value;
+      const description = document.getElementById('termDescription').value.trim();
+      const image = document.getElementById('termImage').value.trim();
+
+      const entry = {
+        term,
+        slug: generateSlug(term),
+        type,
+        description,
+        image: image || null,
+        dateAdded: new Date().toISOString()
+      };
+
+      try {
+        await setDoc(doc(db, `artifacts/${appId}/public/data/lexicon`, entry.slug), entry);
+        showStatus('lexicon', 'Term saved successfully!', 'success');
+        clearLexiconForm();
+        loadLexicon();
+      } catch (error) {
+        showStatus('lexicon', 'Error saving term: ' + error.message, 'error');
+      }
+    }
+
+    function clearLexiconForm() {
+      document.getElementById('lexiconForm').reset();
+    }
+
+    async function loadLexicon() {
+      try {
+        const lexiconRef = collection(db, `artifacts/${appId}/public/data/lexicon`);
+        const snapshot = await getDocs(lexiconRef);
+        const entries = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        entries.sort((a, b) => a.term.localeCompare(b.term));
+
+        const list = document.getElementById('lexiconList');
+        list.innerHTML = entries.map(entry => `
+          <div class="entry-item">
+            <div class="entry-content">
+              <h3>${entry.term}</h3>
+              <div style="color:#666;font-size:0.9em;margin-bottom:8px;">Type: ${entry.type}</div>
+              <div style="font-size:0.95em;line-height:1.6;">${entry.description.substring(0, 150)}...</div>
+            </div>
+            <div class="entry-actions">
+              <button class="secondary" onclick="editLexiconEntry('${entry.id}')">Edit</button>
+              <button class="secondary" onclick="deleteLexiconEntry('${entry.id}', '${entry.term}')">Delete</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        showStatus('lexicon', 'Error loading terms: ' + error.message, 'error');
+      }
+    }
+
+    async function editLexiconEntry(id) {
+      try {
+        const lexiconRef = collection(db, `artifacts/${appId}/public/data/lexicon`);
+        const snapshot = await getDocs(lexiconRef);
+        const entry = snapshot.docs.find(doc => doc.id === id)?.data();
+
+        if (entry) {
+          document.getElementById('termName').value = entry.term;
+          document.getElementById('termType').value = entry.type;
+          document.getElementById('termDescription').value = entry.description;
+          document.getElementById('termImage').value = entry.image || '';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } catch (error) {
+        showStatus('lexicon', 'Error loading term: ' + error.message, 'error');
+      }
+    }
+
+    async function deleteLexiconEntry(id, name) {
+      if (!confirm(`Delete "${name}"?`)) return;
+
+      try {
+        await deleteDoc(doc(db, `artifacts/${appId}/public/data/lexicon`, id));
+        showStatus('lexicon', 'Term deleted successfully', 'success');
+        loadLexicon();
+      } catch (error) {
+        showStatus('lexicon', 'Error deleting term: ' + error.message, 'error');
+      }
+    }
+
+    // === BOOKS FUNCTIONS ===
+
+    async function fetchBookFromISBN() {
+      const isbn = document.getElementById('bookISBN').value.trim();
+      if (!isbn) return;
+
+      showStatus('book', 'Fetching book data...', 'info');
+
+      try {
+        const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
+        const data = await response.json();
+        const bookKey = `ISBN:${isbn}`;
+
+        if (data[bookKey]) {
+          const book = data[bookKey];
+          document.getElementById('bookTitle').value = book.title || '';
+          document.getElementById('bookAuthors').value = book.authors ? book.authors.map(a => a.name).join(', ') : '';
+          document.getElementById('bookPublisher').value = book.publishers ? book.publishers[0].name : '';
+          document.getElementById('bookPubDate').value = book.publish_date || '';
+          document.getElementById('bookCover').value = book.cover?.large || book.cover?.medium || book.cover?.small || '';
+          showStatus('book', 'Book data fetched successfully!', 'success');
+        } else {
+          showStatus('book', 'No data found for this ISBN', 'error');
+        }
+      } catch (error) {
+        showStatus('book', 'Error fetching book: ' + error.message, 'error');
+      }
+    }
+
+    async function saveBookEntry(event) {
+      event.preventDefault();
+
+      const isbn = document.getElementById('bookISBN').value.trim();
+      const title = document.getElementById('bookTitle').value.trim();
+      const authors = document.getElementById('bookAuthors').value.trim();
+      const publisher = document.getElementById('bookPublisher').value.trim();
+      const publicationDate = document.getElementById('bookPubDate').value.trim();
+      const coverImage = document.getElementById('bookCover').value.trim();
+      const yourNotes = document.getElementById('bookNotes').value.trim();
+      const recommended = document.getElementById('bookRecommended').checked;
+
+      const entry = {
+        isbn,
+        title,
+        authors,
+        publisher: publisher || null,
+        publicationDate: publicationDate || null,
+        coverImage: coverImage || null,
+        yourNotes: yourNotes || '',
+        recommended,
+        slug: generateSlug(title),
+        dateAdded: new Date().toISOString()
+      };
+
+      try {
+        await setDoc(doc(db, `artifacts/${appId}/public/data/reading-list`, entry.slug), entry);
+        showStatus('book', 'Book saved successfully!', 'success');
+        clearBookForm();
+        loadBooks();
+      } catch (error) {
+        showStatus('book', 'Error saving book: ' + error.message, 'error');
+      }
+    }
+
+    function clearBookForm() {
+      document.getElementById('bookForm').reset();
+    }
+
+    async function loadBooks() {
+      try {
+        const booksRef = collection(db, `artifacts/${appId}/public/data/reading-list`);
+        const snapshot = await getDocs(booksRef);
+        const books = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        books.sort((a, b) => a.title.localeCompare(b.title));
+
+        const list = document.getElementById('bookList');
+        list.innerHTML = books.map(book => `
+          <div class="entry-item">
+            <div class="entry-content">
+              <h3>${book.title}</h3>
+              <div style="color:#666;font-size:0.9em;margin-bottom:8px;">${book.authors} ${book.recommended ? '★' : ''}</div>
+              <div style="font-size:0.85em;color:#999;">${book.publisher || ''} ${book.publicationDate || ''}</div>
+            </div>
+            <div class="entry-actions">
+              <button class="secondary" onclick="editBookEntry('${book.id}')">Edit</button>
+              <button class="secondary" onclick="deleteBookEntry('${book.id}', '${book.title.replace(/'/g, "\\'")}')">Delete</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        showStatus('book', 'Error loading books: ' + error.message, 'error');
+      }
+    }
+
+    async function editBookEntry(id) {
+      try {
+        const booksRef = collection(db, `artifacts/${appId}/public/data/reading-list`);
+        const snapshot = await getDocs(booksRef);
+        const book = snapshot.docs.find(doc => doc.id === id)?.data();
+
+        if (book) {
+          document.getElementById('bookISBN').value = book.isbn;
+          document.getElementById('bookTitle').value = book.title;
+          document.getElementById('bookAuthors').value = book.authors;
+          document.getElementById('bookPublisher').value = book.publisher || '';
+          document.getElementById('bookPubDate').value = book.publicationDate || '';
+          document.getElementById('bookCover').value = book.coverImage || '';
+          document.getElementById('bookNotes').value = book.yourNotes || '';
+          document.getElementById('bookRecommended').checked = book.recommended || false;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } catch (error) {
+        showStatus('book', 'Error loading book: ' + error.message, 'error');
+      }
+    }
+
+    async function deleteBookEntry(id, title) {
+      if (!confirm(`Delete "${title}"?`)) return;
+
+      try {
+        await deleteDoc(doc(db, `artifacts/${appId}/public/data/reading-list`, id));
+        showStatus('book', 'Book deleted successfully', 'success');
+        loadBooks();
+      } catch (error) {
+        showStatus('book', 'Error deleting book: ' + error.message, 'error');
+      }
+    }
+  </script>
+
+</body>
+</html>
