@@ -1,0 +1,224 @@
+Term: Alienation
+Type: Concept
+Description: Separation between labor and enjoyment. The baker often works hardest at the moment they cannot yet consume, producing pleasure that belongs briefly to others.
+Image:
+
+Term: All-purpose flour
+Type: Ingredient
+Description: Standard wheat flour with moderate protein. Its neutrality is ideological: presented as universal, it quietly enforces a norm.
+Image:
+
+Term: Almond flour
+Type: Ingredient
+Description: Finely ground almonds used in place of wheat flour. Almond flour signals substitution as ideology: absence reframed as virtue.
+Image:
+
+Term: Blind baking
+Type: Technique
+Description: Pre-baking a crust before filling. This is preparation without content, form insisting on its autonomy before meaning arrives.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlind%20baking.jpg?alt=media&token=5fb23e40-e467-436d-8a19-a086b8398c1b
+
+Term: Blooming
+Type: Technique
+Description: Hydrating gelatin or activating cocoa or yeast in warm liquid. Blooming reminds us that latent potential requires submission to heat before it can perform.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlooming.jpg?alt=media&token=16894f53-0c4a-4693-bed6-c149dc8fb6e3
+
+Term: Bread flour
+Type: Ingredient
+Description: High-protein flour for strength and chew. Structure demands sacrifice; elasticity is born from constraint.
+Image:
+
+Term: Brown sugar
+Type: Ingredient
+Description: Sugar with added molasses. Brown sugar admits residue, flavor emerging from what refinement tried to remove.
+Image:
+
+Term: Butterfat
+Type: Ingredient
+Description: The fat content of butter or dairy. Butterfat is enjoyment quantified, pleasure measured and standardized.
+Image:
+
+Term: Cake flour
+Type: Ingredient
+Description: Low-protein flour for tender crumb. Tenderness here is engineered fragility, softness achieved through deliberate subtraction.
+Image:
+
+Term: Contradiction
+Type: Concept
+Description: The coexistence of opposing truths within the same object. A baked good is both fragile and stable, ephemeral and repeatable, indulgent and ritualized.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FContradiction.JPG?alt=media&token=cfb62dbc-2854-4390-a05b-c4d502950950
+
+Term: Creaming
+Type: Technique
+Description: Beating butter and sugar together to incorporate air. What appears as simple mixing is in fact the violent reconciliation of fat and crystal, where pleasure is aerated through disciplined force.
+Image:
+
+Term: Crumb coat
+Type: Technique
+Description: A thin initial frosting layer to trap crumbs. The crumb coat functions as ideology: an imperfect first layer that hides the mess necessary for a polished surface.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FCrumb%20coat.jpg?alt=media&token=7a2c34a1-53b8-4371-8e3c-236cac58e310
+
+Term: Cultured butter
+Type: Ingredient
+Description: Butter made from fermented cream. Time here becomes flavor, decay transformed into refinement.
+Image:
+
+Term: Dialectic
+Type: Concept
+Description: The process by which opposing elements are held in tension to produce something new. Baking is dialectical because raw and cooked, order and decay, pleasure and discipline are not eliminated but transformed through heat.
+Image:
+
+Term: Docking
+Type: Technique
+Description: Pricking dough to prevent bubbles during baking. Docking is preemptive sabotage, a reminder that unchecked expansion leads not to liberation but collapse.
+Image:
+
+Term: Egg wash
+Type: Technique
+Description: Beaten egg brushed on dough for shine and color. Egg wash is pure appearance, proof that surface matters even when substance is unchanged.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEgg%20wash.jpg?alt=media&token=aac9178a-8329-4303-8da5-5ee3797a69f0
+
+Term: Emulsifier
+Type: Ingredient
+Description: Ingredient that binds fat and water. The emulsifier is the mediator, preventing antagonistic elements from separating into open conflict.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEmulsifier.jpg?alt=media&token=e7d0c6e9-6029-4f28-a76f-e9df5e35905e
+
+Term: Enjoyment (Jouissance)
+Type: Concept
+Description: Pleasure that exceeds comfort and becomes almost uncomfortable. Baking promises enjoyment not just in eating, but in the obsessive precision and delayed gratification of the process itself.
+Image:
+
+Term: Excess
+Type: Concept
+Description: That which goes beyond necessity. Baking thrives on excess, because pleasure is never justified by hunger alone.
+Image:
+
+Term: Extract
+Type: Ingredient
+Description: Concentrated flavoring. Extracts promise essence without context, authenticity in miniature.
+Image:
+
+Term: Fetish
+Type: Concept
+Description: An object invested with meaning beyond its material function. A perfect loaf or cookie becomes a fetishized endpoint, concealing the messy labor and failure that produced it.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FFetish.JPG?alt=media&token=58fa505e-6a8b-4b60-8cad-049f189397e7
+
+Term: Form and Content
+Type: Concept
+Description: The distinction between structure and substance. In baking, form often precedes content, as molds, pans, and crusts demand obedience before flavor arrives.
+Image:
+
+Term: Granulated sugar
+Type: Ingredient
+Description: Refined white sugar. Pure sweetness conceals its own violence, the history of refinement erased in crystalline innocence.
+Image:
+
+Term: Heavy cream
+Type: Ingredient
+Description: High-fat dairy used for richness. Excess is not accidental but structural; richness is the point.
+Image:
+
+Term: Honey
+Type: Ingredient
+Description: Natural sweetener with hygroscopic properties. Honey embodies surplus enjoyment, sweetness that refuses to dry out or behave.
+Image:
+
+Term: Hydration
+Type: Technique
+Description: The ratio of liquid to flour in a dough. Hydration measures not abundance but tolerance—how much chaos structure can absorb before dissolving.
+Image:
+
+Term: Invert sugar
+Type: Ingredient
+Description: Liquid sugar that resists crystallization. Stability here is achieved by breakdown, unity preserved through division.
+Image:
+
+Term: Lack
+Type: Concept
+Description: The constitutive absence that drives desire. Baking begins with lack—the missing sweetness, warmth, or comfort that the finished object promises to resolve but never fully does.
+Image:
+
+Term: Lamination
+Type: Technique
+Description: Folding butter into dough to create layers. Here contradiction is preserved rather than resolved: fat and dough remain distinct, yet together produce transcendence.
+Image:
+
+Term: Leavening agent
+Type: Ingredient
+Description: Ingredients that cause dough to rise. Leavening is the promise that emptiness—air, gas, absence—can be productive.
+Image:
+
+Term: Materiality
+Type: Concept
+Description: The insistence that ideas must pass through matter. Baking refuses abstraction; philosophy must be kneaded, measured, and baked to exist.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FMateriality.JPG?alt=media&token=fd7109fa-765f-491c-82eb-476820634504
+
+Term: Mediation
+Type: Concept
+Description: The process by which elements are reconciled through an intervening force. Heat mediates between raw matter and edible form, enforcing transformation without negotiation.
+Image:
+
+Term: Molasses
+Type: Ingredient
+Description: Thick byproduct of sugar refining. Molasses is what capitalism leaves behind: dense, bitter, and oddly indispensable.
+Image:
+
+Term: Negation
+Type: Concept
+Description: The act of defining something by what it is not. Baking negates the raw state of ingredients, and in doing so produces meaning rather than mere destruction.
+Image:
+
+Term: Proofing
+Type: Technique
+Description: Allowing yeast dough to rise before baking. Proofing stages the illusion of freedom: the dough expands on its own, yet only within the strict conditions imposed by temperature and time.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FProofing.jpg?alt=media&token=45581b7a-9d99-4877-af3b-f90cc13e4426
+
+Term: Repetition
+Type: Concept
+Description: The return of the same action under slightly altered conditions. Each bake repeats the last, yet difference insists on emerging through time, temperature, and error.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRepetition.JPG?alt=media&token=d6922752-2533-4cce-9b99-90f23d23310c
+
+Term: Ritual
+Type: Concept
+Description: Repeated action invested with meaning beyond utility. Baking rituals transform labor into identity, making repetition feel necessary rather than redundant.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRitual.JPG?alt=media&token=2b7e49e1-ebbe-427b-8a9e-195588cbecba
+
+Term: Salt
+Type: Ingredient
+Description: Enhances flavor and controls fermentation. Salt is the negative force that makes meaning possible by withholding excess.
+Image:
+
+Term: Seeds & nuts
+Type: Ingredient
+Description: Ingredients that add texture, fat, and flavor. They interrupt smoothness, insisting that resistance is necessary for interest.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FSeeds%20and%20nuts.jpg?alt=media&token=b4aa5730-c36a-43bc-8f0d-6d57ec025ff8
+
+Term: Shortening
+Type: Ingredient
+Description: Fat that limits gluten development. Shortening interrupts excessive structure, proving that too much coherence produces toughness, not strength.
+Image:
+
+Term: Spice blend
+Type: Ingredient
+Description: A mixture of warming spices. The blend stages false unity, many voices speaking as one aroma.
+Image:
+
+Term: Sublation
+Type: Concept
+Description: The Hegelian process of canceling and preserving at the same time. Dough is sublated in the oven: it ceases to be dough, yet everything essential to it survives as bread or cake.
+Image:
+
+Term: Temporality
+Type: Concept
+Description: The experience of time as structured and irreversible. Baking exposes time as material: rush it and it fails, wait too long and it collapses.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FTemporality.JPG?alt=media&token=6bf568cf-fcad-46ca-b6cc-327c44a8e8e8
+
+Term: Whole wheat flour
+Type: Ingredient
+Description: Flour containing bran and germ. Wholeness resists refinement, insisting that nutrition and roughness arrive together.
+Image:
+
+Term: Zest
+Type: Ingredient
+Description: The outer peel of citrus. Zest privileges surface over depth, aroma over substance, and is all the better for it.
+Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FZest.jpg?alt=media&token=b1071f08-55b9-4aa1-98fa-6c7d77ac6cbf
