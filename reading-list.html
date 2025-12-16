@@ -818,12 +818,7 @@
             ${book.subjects && book.subjects.length > 0 ? `
               <div class="detail-row">
                 <div class="detail-label">LC Subject Headings</div>
-                <div style="line-height:1.8;">
-                  ${book.subjectLinks && book.subjectLinks.length > 0
-                    ? book.subjectLinks.map(s => `<a href="${s.url}" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:underline;">${s.name}</a>`).join(' · ')
-                    : book.subjects.join(' · ')
-                  }
-                </div>
+                <div style="line-height:1.8;">${book.subjects.join(' · ')}</div>
               </div>
             ` : ''}
 
