@@ -878,6 +878,7 @@
         preview.innerHTML = `<h3 style="margin-top:20px;">Preview (${parsedBulkLexicon.length} entries)</h3>` +
           parsedBulkLexicon.map(entry => `
             <div class="entry-item">
+              ${entry.image ? `<img src="${entry.image}" alt="${entry.term}" style="width:100px;height:100px;object-fit:cover;border-radius:6px;margin-right:15px;">` : ''}
               <div class="entry-content">
                 <h3>${entry.term}</h3>
                 <div style="color:#666;font-size:0.9em;margin-bottom:8px;">Type: ${entry.type}</div>
@@ -987,6 +988,7 @@
         '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px;margin-top:15px;">' +
         fetchedBulkBooks.map(book => `
           <div style="background:#f9f9f9;padding:10px;border-radius:6px;font-size:0.85em;">
+            ${book.coverImage ? `<img src="${book.coverImage}" alt="${book.title}" style="width:100%;height:200px;object-fit:cover;border-radius:4px;margin-bottom:10px;">` : '<div style="width:100%;height:200px;background:#e0e0e0;border-radius:4px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;color:#999;">No Cover</div>'}
             <strong>${book.title}</strong><br>
             <span style="color:#666;">${book.authors}</span><br>
             <span style="color:#999;font-size:0.9em;">${book.publisher || ''} ${book.publicationDate || ''}</span>
