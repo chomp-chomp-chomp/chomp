@@ -324,6 +324,7 @@
       <div class="tabs">
         <button class="tab active" onclick="switchTab('lexicon')">Lexicon</button>
         <button class="tab" onclick="switchTab('books')">Reading List</button>
+        <button class="tab" onclick="switchTab('bulk')">Bulk Upload</button>
       </div>
 
       <!-- LEXICON TAB -->
@@ -434,6 +435,50 @@
         <div id="bookList" class="entry-list"></div>
       </div>
 
+      <!-- BULK UPLOAD TAB -->
+      <div id="bulk" class="tab-content">
+        <h2>Bulk Upload Lexicon Terms</h2>
+        <p style="color:#666;margin-bottom:15px;">Paste your lexicon data in the format below. Each entry should be separated by a blank line.</p>
+        <p style="color:#666;margin-bottom:15px;font-family:monospace;font-size:0.9em;">
+          Term: [Name]<br>
+          Type: [ingredient|technique|concept]<br>
+          Description: [Text]<br>
+          Image: [URL or leave blank]
+        </p>
+
+        <div class="form-group">
+          <label>Lexicon Data</label>
+          <textarea id="bulkLexiconInput" style="min-height:300px;font-family:monospace;" placeholder="Term: Salt&#10;Type: ingredient&#10;Description: Enhances flavor...&#10;Image:&#10;&#10;Term: Lamination&#10;Type: technique&#10;Description: Folding butter...&#10;Image: https://..."></textarea>
+        </div>
+
+        <div class="actions">
+          <button onclick="parseBulkLexicon()">Parse & Preview</button>
+          <button class="secondary" onclick="uploadBulkLexicon()" id="uploadLexiconBtn" disabled>Upload All Terms</button>
+        </div>
+
+        <div id="bulkLexiconStatus" class="status"></div>
+        <div id="bulkLexiconPreview"></div>
+
+        <hr style="margin:40px 0;border:none;border-top:2px solid #e0e0e0;">
+
+        <h2>Bulk Upload Books (from ISBNs)</h2>
+        <p style="color:#666;margin-bottom:15px;">Paste ISBNs (one per line). Click "Fetch" to retrieve book data from Open Library API.</p>
+
+        <div class="form-group">
+          <label>ISBNs (one per line)</label>
+          <textarea id="bulkISBNInput" style="min-height:200px;font-family:monospace;" placeholder="9781234567890&#10;9780987654321&#10;9781111111111"></textarea>
+        </div>
+
+        <div class="actions">
+          <button onclick="fetchBulkBooks()">Fetch Book Data</button>
+          <button class="secondary" onclick="uploadBulkBooks()" id="uploadBooksBtn" disabled>Upload All Books</button>
+        </div>
+
+        <div id="bulkBooksStatus" class="status"></div>
+        <div id="bulkBooksProgress" style="margin:15px 0;padding:10px;background:#f0f0f0;border-radius:4px;font-family:monospace;font-size:12px;max-height:300px;overflow-y:auto;display:none;"></div>
+        <div id="bulkBooksPreview"></div>
+      </div>
+
     </div>
   </div>
 
@@ -522,6 +567,13 @@
     window.deleteLexiconEntry = deleteLexiconEntry;
     window.editBookEntry = editBookEntry;
     window.deleteBookEntry = deleteBookEntry;
+    window.parseBulkLexicon = parseBulkLexicon;
+    window.uploadBulkLexicon = uploadBulkLexicon;
+    window.fetchBulkBooks = fetchBulkBooks;
+    window.uploadBulkBooks = uploadBulkBooks;
+
+    let parsedBulkLexicon = [];
+    let fetchedBulkBooks = [];
 
     // Tab switching
     function switchTab(tabName) {
@@ -782,6 +834,194 @@
         loadBooks();
       } catch (error) {
         showStatus('book', 'Error deleting book: ' + error.message, 'error');
+      }
+    }
+
+    // === BULK UPLOAD FUNCTIONS ===
+
+    function parseBulkLexicon() {
+      const input = document.getElementById('bulkLexiconInput').value.trim();
+      if (!input) {
+        showStatus('bulkLexicon', 'Please paste lexicon data first', 'error');
+        return;
+      }
+
+      try {
+        parsedBulkLexicon = [];
+        const entries = input.split('\n\n').filter(e => e.trim());
+
+        entries.forEach(entry => {
+          const lines = entry.split('\n');
+          const term = {};
+
+          lines.forEach(line => {
+            if (line.startsWith('Term: ')) term.term = line.replace('Term: ', '').trim();
+            if (line.startsWith('Type: ')) term.type = line.replace('Type: ', '').trim().toLowerCase();
+            if (line.startsWith('Description: ')) term.description = line.replace('Description: ', '').trim();
+            if (line.startsWith('Image: ')) {
+              const img = line.replace('Image: ', '').trim();
+              term.image = img || null;
+            }
+          });
+
+          if (term.term && term.description) {
+            term.slug = generateSlug(term.term);
+            term.dateAdded = new Date().toISOString();
+            parsedBulkLexicon.push(term);
+          }
+        });
+
+        showStatus('bulkLexicon', `Parsed ${parsedBulkLexicon.length} entries successfully!`, 'success');
+
+        // Display preview
+        const preview = document.getElementById('bulkLexiconPreview');
+        preview.innerHTML = `<h3 style="margin-top:20px;">Preview (${parsedBulkLexicon.length} entries)</h3>` +
+          parsedBulkLexicon.map(entry => `
+            <div class="entry-item">
+              <div class="entry-content">
+                <h3>${entry.term}</h3>
+                <div style="color:#666;font-size:0.9em;margin-bottom:8px;">Type: ${entry.type}</div>
+                <div style="font-size:0.95em;line-height:1.6;">${entry.description.substring(0, 150)}...</div>
+              </div>
+            </div>
+          `).join('');
+
+        document.getElementById('uploadLexiconBtn').disabled = false;
+      } catch (error) {
+        showStatus('bulkLexicon', 'Parse error: ' + error.message, 'error');
+      }
+    }
+
+    async function uploadBulkLexicon() {
+      if (parsedBulkLexicon.length === 0) {
+        showStatus('bulkLexicon', 'No data to upload. Parse first!', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('uploadLexiconBtn');
+      btn.disabled = true;
+
+      try {
+        const lexiconRef = collection(db, `artifacts/${appId}/public/data/lexicon`);
+
+        for (let entry of parsedBulkLexicon) {
+          await setDoc(doc(lexiconRef, entry.slug), entry);
+        }
+
+        showStatus('bulkLexicon', `Successfully uploaded ${parsedBulkLexicon.length} entries!`, 'success');
+        document.getElementById('bulkLexiconInput').value = '';
+        document.getElementById('bulkLexiconPreview').innerHTML = '';
+        parsedBulkLexicon = [];
+        loadLexicon();
+      } catch (error) {
+        showStatus('bulkLexicon', 'Upload error: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function fetchBulkBooks() {
+      const input = document.getElementById('bulkISBNInput').value.trim();
+      if (!input) {
+        showStatus('bulkBooks', 'Please paste ISBNs first', 'error');
+        return;
+      }
+
+      const isbns = input.split('\n').map(i => i.trim()).filter(i => i);
+      const btn = document.getElementById('uploadBooksBtn');
+      const progress = document.getElementById('bulkBooksProgress');
+
+      progress.style.display = 'block';
+      progress.innerHTML = `<div>Fetching data for ${isbns.length} books...</div>`;
+
+      fetchedBulkBooks = [];
+
+      for (let isbn of isbns) {
+        try {
+          progress.innerHTML += `<div>⏳ Fetching ${isbn}...</div>`;
+
+          const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
+          const data = await response.json();
+
+          const bookKey = `ISBN:${isbn}`;
+          if (data[bookKey]) {
+            const book = data[bookKey];
+
+            const bookData = {
+              isbn: isbn,
+              title: book.title || 'Unknown Title',
+              subtitle: book.subtitle || null,
+              authors: book.authors ? book.authors.map(a => a.name).join(', ') : 'Unknown Author',
+              publisher: book.publishers ? book.publishers.map(p => p.name).join(', ') : null,
+              publicationDate: book.publish_date || null,
+              pages: book.number_of_pages || null,
+              subjects: book.subjects ? book.subjects.map(s => s.name) : [],
+              description: book.notes || null,
+              coverImage: book.cover?.large || book.cover?.medium || book.cover?.small || null,
+              slug: generateSlug(book.title),
+              yourNotes: '',
+              yourTags: [],
+              recommended: false,
+              inYourLibrary: false,
+              dateAdded: new Date().toISOString()
+            };
+
+            fetchedBulkBooks.push(bookData);
+            progress.innerHTML += `<div>✓ Found: ${bookData.title}</div>`;
+          } else {
+            progress.innerHTML += `<div>⚠️ No data found for ${isbn}</div>`;
+          }
+
+          // Rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        } catch (error) {
+          progress.innerHTML += `<div>❌ Error with ${isbn}: ${error.message}</div>`;
+        }
+      }
+
+      showStatus('bulkBooks', `Fetched ${fetchedBulkBooks.length} of ${isbns.length} books`, 'success');
+
+      // Display preview
+      const preview = document.getElementById('bulkBooksPreview');
+      preview.innerHTML = `<h3 style="margin-top:20px;">Preview (${fetchedBulkBooks.length} books)</h3>` +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px;margin-top:15px;">' +
+        fetchedBulkBooks.map(book => `
+          <div style="background:#f9f9f9;padding:10px;border-radius:6px;font-size:0.85em;">
+            <strong>${book.title}</strong><br>
+            <span style="color:#666;">${book.authors}</span><br>
+            <span style="color:#999;font-size:0.9em;">${book.publisher || ''} ${book.publicationDate || ''}</span>
+          </div>
+        `).join('') + '</div>';
+
+      btn.disabled = false;
+    }
+
+    async function uploadBulkBooks() {
+      if (fetchedBulkBooks.length === 0) {
+        showStatus('bulkBooks', 'No data to upload. Fetch first!', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('uploadBooksBtn');
+      btn.disabled = true;
+
+      try {
+        const booksRef = collection(db, `artifacts/${appId}/public/data/reading-list`);
+
+        for (let book of fetchedBulkBooks) {
+          await setDoc(doc(booksRef, book.slug), book);
+        }
+
+        showStatus('bulkBooks', `Successfully uploaded ${fetchedBulkBooks.length} books!`, 'success');
+        document.getElementById('bulkISBNInput').value = '';
+        document.getElementById('bulkBooksPreview').innerHTML = '';
+        document.getElementById('bulkBooksProgress').style.display = 'none';
+        fetchedBulkBooks = [];
+        loadBooks();
+      } catch (error) {
+        showStatus('bulkBooks', 'Upload error: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
       }
     }
   </script>
