@@ -228,6 +228,19 @@
     </div>
   </div>
 
+  <!-- Lexicon Term Modal -->
+  <div id="lexiconModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Lexicon Term</h2>
+        <button class="modal-close" onclick="closeLexiconModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="lexiconModalBody">
+        <!-- Term details will be inserted here -->
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
@@ -387,6 +400,9 @@
       }
     }
 
+    // Store current term for modal
+    let currentTerm = null;
+
     // Load random lexicon term
     async function loadRandomTerm() {
       try {
@@ -396,20 +412,20 @@
 
         if (terms.length > 0) {
           const randomIndex = Math.floor(Math.random() * terms.length);
-          const term = terms[randomIndex];
+          currentTerm = terms[randomIndex];
 
           document.getElementById('randomTerm').innerHTML = `
-            <a href="lexicon.html" style="display: block; text-decoration: none; color: inherit;">
-              ${term.image
-                ? `<img src="${term.image}" alt="${term.term}" style="width:100%;height:280px;object-fit:cover;border-radius:8px 8px 0 0;">`
+            <div onclick="openLexiconModal()" style="cursor: pointer; display: block; text-decoration: none; color: inherit;">
+              ${currentTerm.image
+                ? `<img src="${currentTerm.image}" alt="${currentTerm.term}" style="width:100%;height:280px;object-fit:cover;border-radius:8px 8px 0 0;">`
                 : ''
               }
               <div class="featured-card-content">
-                <div class="featured-card-tag">Term · ${term.type}</div>
-                <h3>${term.term}</h3>
-                <p>${term.description.substring(0, 150)}${term.description.length > 150 ? '...' : ''}</p>
+                <div class="featured-card-tag">Term · ${currentTerm.type}</div>
+                <h3>${currentTerm.term}</h3>
+                <p>${currentTerm.description.substring(0, 150)}${currentTerm.description.length > 150 ? '...' : ''}</p>
               </div>
-            </a>
+            </div>
           `;
         }
       } catch (error) {
@@ -552,6 +568,51 @@
     document.getElementById('bookModal')?.addEventListener('click', function(e) {
       if (e.target === this) {
         closeBookModal();
+      }
+    });
+
+    // Open lexicon modal
+    window.openLexiconModal = function() {
+      if (!currentTerm) return;
+
+      const modalBody = document.getElementById('lexiconModalBody');
+      modalBody.innerHTML = `
+        <div class="modal-book-layout ${!currentTerm.image ? 'no-cover' : ''}">
+          ${currentTerm.image ? `
+            <div class="modal-cover">
+              <img src="${currentTerm.image}" alt="${currentTerm.term}">
+            </div>
+          ` : ''}
+          <div class="modal-details">
+            <h2>${currentTerm.term}</h2>
+
+            <div class="detail-row">
+              <div class="detail-label">Type</div>
+              <div>${currentTerm.type}</div>
+            </div>
+
+            <div class="detail-row" style="margin-top:20px;">
+              <div class="detail-label">Description</div>
+              <div style="line-height:1.7;">${currentTerm.description}</div>
+            </div>
+
+            <a href="lexicon.html" class="explore-link">Explore Full Lexicon →</a>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('lexiconModal').classList.add('active');
+    };
+
+    // Close lexicon modal
+    window.closeLexiconModal = function() {
+      document.getElementById('lexiconModal').classList.remove('active');
+    };
+
+    // Close modal on background click
+    document.getElementById('lexiconModal')?.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLexiconModal();
       }
     });
 
