@@ -317,7 +317,7 @@ Some ISBNs may not be in Open Library's database. Try:
 ## Support
 
 For questions or issues:
-- Email: hi@chomp.be
+- Email: hey@chompchomp.cc
 - Check browser console for error messages
 - Verify Firestore collection paths in Firebase Console
 

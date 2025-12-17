@@ -1303,7 +1303,7 @@
       try {
         // Create a unique filename
         const timestamp = Date.now();
-        const filename = `book-covers/${timestamp}_${file.name}`;
+        const filename = `posts/images/${timestamp}_${file.name}`;
         const storageRef = ref(storage, filename);
 
         // Upload the file
@@ -1346,7 +1346,7 @@
         const blob = await response.blob();
 
         // Upload to Firebase Storage
-        const storageRef = ref(storage, `book-covers/${filename}`);
+        const storageRef = ref(storage, `posts/images/${filename}`);
         await uploadBytes(storageRef, blob);
 
         // Get the download URL

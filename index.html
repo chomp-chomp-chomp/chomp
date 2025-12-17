@@ -66,10 +66,8 @@
       </div>
 
       <div class="header-center">
-        <a href="recipes.html" title="Recipes">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
-               alt="Chomp Chomp Recipes"
-               class="header-banner">
+        <a href="recipes.html" title="Recipes" class="header-headline-link">
+          <h1 id="rotatingHeadline" class="header-headline"></h1>
         </a>
       </div>
 
@@ -119,7 +117,7 @@
         Baking is both personal and communal. To bake is to be. Chomp Chomp bakes. You are here: chomp.be
       </p>
       <p style="font-size: 0.95em; color: #666;">
-        Send us your recipes and stories: <a href="mailto:hi@chomp.be" style="color: #e73b42; text-decoration: none;">hi@chomp.be</a>
+        Send us your recipes and stories: <a href="mailto:hey@chompchomp.cc" style="color: #e73b42; text-decoration: none;">hey@chompchomp.cc</a>
       </p>
     </div>
 
@@ -232,12 +230,7 @@
   <footer class="site-footer">
     <div class="footer-content">
       <p>Baking is the materialization of comfort itself.</p>
-      <div class="footer-links">
-        <a href="mailto:hi@chomp.be">hi@chomp.be</a>
-        <a href="https://www.chomp.ltd" target="_blank">chomp chomp: cookies, etc.</a>
-        <a href="https://chomp.be/tools" target="_blank">chomp chomp: tools</a>
-      </div>
-      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
+            <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2025 Chomp Chomp</p>
     </div>
   </footer>
 
@@ -568,6 +561,22 @@
       const dropdown = document.getElementById('toolsDropdown');
       dropdown.classList.toggle('active');
     }
+
+    // Rotating headline on page load
+    (function() {
+      const headlines = [
+        'Baking is both personal and communal. The universal kitchen. chompchomp.cc',
+        'Baking is both personal and communal. Baking is practice. chompchomp.cc',
+        'Baking is both personal and communal. Baking happens here. chompchomp.cc'
+      ];
+
+      const randomIndex = Math.floor(Math.random() * headlines.length);
+      const headlineElement = document.getElementById('rotatingHeadline');
+
+      if (headlineElement) {
+        headlineElement.textContent = headlines[randomIndex];
+      }
+    })();
   </script>
 
   <!-- Floating Chat Widget -->

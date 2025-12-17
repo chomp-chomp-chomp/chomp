@@ -224,7 +224,7 @@ If you encounter issues:
 1. Check function logs: `firebase functions:log`
 2. Check browser console for errors
 3. Verify function URL in `index.html` matches deployed URL
-4. Email: hi@chomp.be
+4. Email: hey@chompchomp.cc
 
 ---
 
