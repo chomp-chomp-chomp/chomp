@@ -66,8 +66,10 @@
       </div>
 
       <div class="header-center">
-        <a href="recipes.html" title="Recipes" class="header-headline-link">
-          <h1 id="rotatingHeadline" class="header-headline"></h1>
+        <a href="recipes.html" title="Recipes">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
         </a>
       </div>
 
@@ -561,22 +563,6 @@
       const dropdown = document.getElementById('toolsDropdown');
       dropdown.classList.toggle('active');
     }
-
-    // Rotating headline on page load
-    (function() {
-      const headlines = [
-        'Baking is both personal and communal. The universal kitchen. chompchomp.cc',
-        'Baking is both personal and communal. Baking is practice. chompchomp.cc',
-        'Baking is both personal and communal. Baking happens here. chompchomp.cc'
-      ];
-
-      const randomIndex = Math.floor(Math.random() * headlines.length);
-      const headlineElement = document.getElementById('rotatingHeadline');
-
-      if (headlineElement) {
-        headlineElement.textContent = headlines[randomIndex];
-      }
-    })();
   </script>
 
   <!-- Floating Chat Widget -->
