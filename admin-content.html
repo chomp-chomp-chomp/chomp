@@ -1213,16 +1213,12 @@
                 ...book,
                 lcCallNumber: lcCallNumber,
                 lccn: lccn
-                }, { merge: true });
+              }, { merge: true });
 
-                statusDiv.innerHTML += `<div style="color:#2e7d32;">✓ Updated "${book.title}" ${lcCallNumber ? `(LC#: ${lcCallNumber})` : '(LCCN only)'}</div>`;
-                updated++;
-              } else {
-                statusDiv.innerHTML += `<div style="color:#f57c00;">⚠ No LC data available for "${book.title}"</div>`;
-                skipped++;
-              }
+              statusDiv.innerHTML += `<div style="color:#2e7d32;">✓ Updated "${book.title}" ${lcCallNumber ? `(LC#: ${lcCallNumber})` : '(LCCN only)'}</div>`;
+              updated++;
             } else {
-              statusDiv.innerHTML += `<div style="color:#f57c00;">⚠ No data found for ISBN ${book.isbn}</div>`;
+              statusDiv.innerHTML += `<div style="color:#f57c00;">⚠ No LC data available for "${book.title}"</div>`;
               skipped++;
             }
 
