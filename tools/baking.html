@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baking Ipsum - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="https://chomp.be" class="site-logo">
+                <div class="site-logo-icon">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+                </div>
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../stories.html">Stories</a></li>
+                    <li><a href="../recipes.html">Recipes</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li class="menu-item-has-submenu">
+                        <a href="#">Tools</a>
+                        <ul class="submenu">
+                            <li><a href="index.html">Index</a></li>
+                            <li><a href="ip.html">Whois</a></li>
+                            <li><a href="weather.html">Weather</a></li>
+                            <li><a href="convert.html">Convert</a></li>
+                            <li><a href="encode.html">Encode</a></li>
+                            <li><a href="subnet.html">Subnet</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-submenu">
+                        <a href="#">Ipsum</a>
+                        <ul class="submenu">
+                            <li><a href="baking.html">Baking</a></li>
+                            <li><a href="dante.html">Inferno</a></li>
+                            <li><a href="nautical.html">Nautical</a></li>
+                            <li><a href="philosophy.html">Philosophy</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <picture>
+                    <source srcset="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBaking%20-%20dark.JPG?alt=media&token=placeholder" media="(prefers-color-scheme: dark)">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="baking ipsum">
+                </picture>
+                <p class="tool-subtitle">Lorem ipsum generator inspired by baking traditions & southern kitchens</p>
+            </div>
+
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label class="control-label">Number of Paragraphs</label>
+                    <input type="number" id="paragraphs" class="form-input" value="3" min="1" max="20">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Baking Theme</label>
+                    <select id="theme" class="form-select">
+                        <option value="southern">Southern Sayings</option>
+                        <option value="techniques">Techniques & Methods</option>
+                        <option value="ingredients">Ingredients & Flavors</option>
+                        <option value="general">General Baking</option>
+                        <option value="mixed">Mixed (All Themes)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">
+                        <input type="checkbox" id="startWithBless" style="width: auto; margin-right: 8px;">
+                        Start with "Bless your heart..."
+                    </label>
+                </div>
+
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="generate()">Generate</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyText()">Copy</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results">
+                <div class="result-item">
+                    <textarea class="control-input" id="output" readonly style="min-height: 400px; font-family: Georgia, serif; line-height: 1.8;">Click "Generate" to create baking-inspired placeholder text...</textarea>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>About:</strong> Baking Ipsum generates placeholder text using authentic baking terms, techniques, and southern colloquialisms. Perfect for food blogs, recipe sites, and culinary projects.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://chomp.be">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tools dropdown toggle
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
+        }
+
+        // Southern baking sayings and colloquialisms
+        const southernSayings = [
+            "Bless your heart, that cake's been in the oven longer than Sunday service. You gotta watch it like a hawk watches a henhouse.",
+            "Now don't go gettin' your dough all in a twist. Room temperature butter is softer than a summer peach and twice as important.",
+            "That meringue ain't gonna whip itself, sugar. You need peaks stiffer than starched Sunday collars, I tell you what.",
+            "My grandmama always said a pinch of salt makes the sweet sweeter, and she was right as rain on that account.",
+            "Well I'll be switched, that bread's rising faster than gossip at the church social. Must be the yeast is feeling right perky today.",
+            "You fold that batter gentle-like, don't go beating it to death. Treat it tender as a baby chick, you hear?",
+            "Lord have mercy, that crust is flakier than my Aunt Pearline's promises to go on a diet. Just melts right on your tongue.",
+            "Now listen here, you can't hurry good biscuits no more than you can hurry Christmas morning. These things take their own sweet time.",
+            "That's finer than frog hair split four ways. Your lattice work would make any pie proud as punch to wear it.",
+            "Honey, if your kitchen don't smell like heaven's front porch when you're baking, you ain't doing it right.",
+            "Well butter my biscuit and call me happy, that sourdough starter's bubbling like a spring creek after the rain.",
+            "Don't you dare open that oven door, child. You'll let all the heat out faster than teenagers leave church.",
+            "That dough needs to rest longer than Papaw in his recliner after Sunday dinner. Give it time to relax and rise proper.",
+            "Mercy me, those cookies are spread out flatter than a pancake on a hot griddle. Needs more chill time, I reckon."
+        ];
+
+        // Baking techniques and methods
+        const techniquesText = [
+            "The lamination process requires precise temperature control, folding butter into dough repeatedly to create those delicate, flaky layers.",
+            "Proper gluten development depends on adequate hydration and kneading, building that essential protein network for structure and chew.",
+            "Creaming butter and sugar incorporates air into the mixture, creating tiny pockets that expand during baking for a tender crumb.",
+            "The windowpane test reveals when dough has developed sufficient gluten—stretch it thin enough to see light through without tearing.",
+            "Tempering chocolate demands patience and precision, carefully controlling crystal formation for that perfect snap and shine.",
+            "Proofing yeast activates those microscopic organisms, their fermentation producing carbon dioxide that leavens the dough.",
+            "The Maillard reaction occurs when proteins and sugars meet heat, creating complex flavors and that golden-brown exterior.",
+            "Autolyse allows flour to fully hydrate before kneading, developing gluten naturally and improving dough extensibility.",
+            "Blind baking prevents soggy bottoms in custard pies, weighing down the crust with beans or weights during pre-baking.",
+            "Scoring bread dough controls expansion during baking, creating weak points for steam to escape in decorative patterns.",
+            "The tangzhong method involves cooking a portion of flour with liquid to create a roux, yielding exceptionally soft, moist bread.",
+            "Folding incorporates delicate ingredients without deflating, using a gentle motion from bottom to top in a circular pattern.",
+            "Resting dough allows gluten strands to relax, making rolling easier and preventing shrinkage during baking.",
+            "Egg washing creates shine and promotes browning, while different ratios affect the finished appearance and texture."
+        ];
+
+        // Ingredients and flavors
+        const ingredientsText = [
+            "Vanilla extract deepens sweetness with its complex aromatic compounds, derived from cured orchid pods aged to perfection.",
+            "Dutch-processed cocoa has been alkalized for a mellower flavor and darker color, behaving differently than natural cocoa in recipes.",
+            "Cultured butter brings tangy complexity from fermentation, its higher fat content yielding superior flavor and flakiness.",
+            "Bread flour's higher protein content develops more gluten, providing structure for yeasted breads and chewy textures.",
+            "Brown sugar contains molasses for moisture and caramel notes, its hygroscopic nature keeping baked goods tender longer.",
+            "Active dry yeast must be proofed in warm water, while instant yeast can be mixed directly with dry ingredients.",
+            "Almond flour adds moisture and delicate nutty sweetness, though its lack of gluten requires binding adjustments.",
+            "Buttermilk's acidity tenderizes gluten and reacts with baking soda for lift, lending tang to cakes and biscuits.",
+            "Sea salt flakes provide bursts of salinity and textural contrast, elevating sweet applications with savory complexity.",
+            "Cake flour's low protein and fine texture create tender, delicate crumbs in layer cakes and delicate pastries.",
+            "Cream of tartar stabilizes egg whites and prevents sugar crystallization, essential for glossy meringues and frostings.",
+            "Espresso powder intensifies chocolate flavor without adding coffee taste, amplifying richness in brownies and cakes.",
+            "Orange zest contributes bright citrus oils without excess moisture, complementing both sweet and savory baked goods.",
+            "Cardamom brings floral, citrusy warmth to Scandinavian and Middle Eastern baking traditions, ground fresh for maximum impact."
+        ];
+
+        // General baking wisdom
+        const generalBakingText = [
+            "Every oven has its own personality and hot spots, requiring bakers to adjust temperatures and rotation for even results.",
+            "Mise en place ensures success, measuring and preparing all ingredients before beginning the actual mixing and baking process.",
+            "The ratio of ingredients determines structure and texture, with small variations dramatically affecting the final product.",
+            "Ambient temperature affects dough behavior significantly, influencing fermentation rates and butter incorporation in pastry.",
+            "Precision matters more in baking than cooking, where chemistry demands accurate measurements for consistent results.",
+            "Carryover cooking continues after removing items from the oven, so timing removal correctly prevents overbaking.",
+            "Fresh ingredients yield superior flavor and performance, particularly with leaveners, spices, and nuts that can go stale.",
+            "The crumb structure reveals proper technique—even air pockets indicate good mixing and fermentation control.",
+            "Scaling recipes requires understanding baker's percentages and how ingredient ratios interact at different volumes.",
+            "Patience cannot be rushed in baking, whether waiting for butter to soften or dough to prove at its own pace.",
+            "Understanding your ingredients' behavior helps troubleshoot problems and adapt recipes to available substitutions.",
+            "The sound of a properly baked loaf is hollow when tapped on the bottom, indicating full cooking throughout.",
+            "Steam in the first minutes of baking creates crispy crusts on bread while keeping the interior moist and tender.",
+            "Cooling completely before cutting allows structure to set and prevents gummy textures in cakes and quick breads."
+        ];
+
+        function getRandomFromArray(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function generate() {
+            const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
+            const theme = document.getElementById('theme').value;
+            const startWithBless = document.getElementById('startWithBless').checked;
+
+            let textSource;
+            switch(theme) {
+                case 'southern':
+                    textSource = southernSayings;
+                    break;
+                case 'techniques':
+                    textSource = techniquesText;
+                    break;
+                case 'ingredients':
+                    textSource = ingredientsText;
+                    break;
+                case 'general':
+                    textSource = generalBakingText;
+                    break;
+                case 'mixed':
+                    textSource = [...southernSayings, ...techniquesText, ...ingredientsText, ...generalBakingText];
+                    break;
+            }
+
+            let result = [];
+
+            // Add opening if requested
+            if (startWithBless) {
+                result.push("Bless your heart, let me tell you about baking.\n");
+            }
+
+            // Generate paragraphs
+            for (let i = 0; i < numParagraphs; i++) {
+                let paragraph = [];
+                const sentencesPerParagraph = Math.floor(Math.random() * 3) + 3; // 3-5 sentences
+
+                for (let j = 0; j < sentencesPerParagraph; j++) {
+                    paragraph.push(getRandomFromArray(textSource));
+                }
+
+                result.push(paragraph.join(' '));
+            }
+
+            document.getElementById('output').value = result.join('\n\n');
+        }
+
+        function copyText() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }
+
+        // Generate initial text on load
+        window.addEventListener('load', generate);
+    </script>
+</body>
+</html>
