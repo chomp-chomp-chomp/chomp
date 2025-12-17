@@ -1018,8 +1018,14 @@
               try {
                 progress.innerHTML += `<div>   → Saving cover to Firebase Storage...</div>`;
                 const filename = `${isbn}.jpg`;
-                coverImage = await downloadAndUploadImage(coverImage, filename);
-                progress.innerHTML += `<div style="color:#4caf50;">   ✓ Cover saved to Firebase Storage</div>`;
+                const uploadedUrl = await downloadAndUploadImage(coverImage, filename);
+
+                if (uploadedUrl) {
+                  coverImage = uploadedUrl;
+                  progress.innerHTML += `<div style="color:#4caf50;">   ✓ Cover saved to Firebase Storage</div>`;
+                } else {
+                  progress.innerHTML += `<div style="color:#ff9800;">   ⚠️ Could not save cover (CORS blocked), using original URL</div>`;
+                }
               } catch (uploadError) {
                 progress.innerHTML += `<div style="color:#ff9800;">   ⚠️ Could not save cover: ${uploadError.message}</div>`;
                 // Continue with original cover URL if upload fails
@@ -1302,8 +1308,17 @@
     // Download and upload image from URL to Firebase Storage
     async function downloadAndUploadImage(imageUrl, filename) {
       try {
-        // Fetch the image
-        const response = await fetch(imageUrl);
+        // Fetch the image with CORS mode
+        const response = await fetch(imageUrl, {
+          mode: 'cors',
+          credentials: 'omit'
+        });
+
+        if (!response.ok) {
+          console.error(`Failed to fetch image: ${response.status} ${response.statusText}`);
+          return null;
+        }
+
         const blob = await response.blob();
 
         // Upload to Firebase Storage
@@ -1315,6 +1330,7 @@
         return downloadURL;
       } catch (error) {
         console.error('Error downloading/uploading image:', error);
+        // If CORS fails, return null so we fall back to original URL
         return null;
       }
     }
