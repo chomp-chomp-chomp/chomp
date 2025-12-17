@@ -1013,25 +1013,6 @@
               }
             }
 
-            // Download and upload cover to Firebase Storage if found
-            if (coverImage) {
-              try {
-                progress.innerHTML += `<div>   → Saving cover to Firebase Storage...</div>`;
-                const filename = `${isbn}.jpg`;
-                const uploadedUrl = await downloadAndUploadImage(coverImage, filename);
-
-                if (uploadedUrl) {
-                  coverImage = uploadedUrl;
-                  progress.innerHTML += `<div style="color:#4caf50;">   ✓ Cover saved to Firebase Storage</div>`;
-                } else {
-                  progress.innerHTML += `<div style="color:#ff9800;">   ⚠️ Could not save cover (CORS blocked), using original URL</div>`;
-                }
-              } catch (uploadError) {
-                progress.innerHTML += `<div style="color:#ff9800;">   ⚠️ Could not save cover: ${uploadError.message}</div>`;
-                // Continue with original cover URL if upload fails
-              }
-            }
-
             // Try to get LC classification from direct ISBN endpoint
             let lcCallNumber = book.lc_classifications && book.lc_classifications.length > 0
               ? book.lc_classifications[0]
