@@ -1180,26 +1180,30 @@
 
             // If no LC data from direct endpoint, try the books API
             if (!lcCallNumber) {
-              const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${book.isbn}&format=json&jscmd=details`);
-              const data = await response.json();
-              const bookKey = `ISBN:${book.isbn}`;
+              try {
+                const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${book.isbn}&format=json&jscmd=details`);
+                const data = await response.json();
+                const bookKey = `ISBN:${book.isbn}`;
 
-              if (data[bookKey] && data[bookKey].details) {
-                const details = data[bookKey].details;
+                if (data[bookKey] && data[bookKey].details) {
+                  const details = data[bookKey].details;
 
-                if (details.classifications) {
-                  if (details.classifications.lc_classifications) {
-                    lcCallNumber = Array.isArray(details.classifications.lc_classifications)
-                      ? details.classifications.lc_classifications[0]
-                      : details.classifications.lc_classifications;
+                  if (details.classifications) {
+                    if (details.classifications.lc_classifications) {
+                      lcCallNumber = Array.isArray(details.classifications.lc_classifications)
+                        ? details.classifications.lc_classifications[0]
+                        : details.classifications.lc_classifications;
+                    }
                   }
-                }
 
-                if (!lccn && details.lccn) {
-                  lccn = Array.isArray(details.lccn) ? details.lccn[0] : details.lccn;
-                }
+                  if (!lccn && details.lccn) {
+                    lccn = Array.isArray(details.lccn) ? details.lccn[0] : details.lccn;
+                  }
 
-                statusDiv.innerHTML += `<div style="color:#666;">   → Books API: ${lcCallNumber ? 'LC# found' : 'no LC data'}</div>`;
+                  statusDiv.innerHTML += `<div style="color:#666;">   → Books API: ${lcCallNumber ? 'LC# found' : 'no LC data'}</div>`;
+                }
+              } catch (err) {
+                statusDiv.innerHTML += `<div style="color:#999;">   → Books API also failed</div>`;
               }
             }
 
