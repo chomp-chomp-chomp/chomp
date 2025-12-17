@@ -493,7 +493,7 @@ Based on the codebase structure, consider these when making improvements:
 
 ## Contact & Related Projects
 
-- **Email**: hi@chomp.be
+- **Email**: hey@chompchomp.cc
 - **Main Site**: https://www.chomp.ltd
 - **Tools**: https://chomp.be/tools
 

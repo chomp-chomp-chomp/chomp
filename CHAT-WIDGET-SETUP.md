@@ -244,7 +244,7 @@ After setup, consider:
 ## Support
 
 For issues or questions:
-- Email: hi@chomp.be
+- Email: hey@chompchomp.cc
 - Check Firebase logs: `firebase functions:log`
 - Review browser console for client-side errors
 
