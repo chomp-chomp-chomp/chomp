@@ -463,7 +463,7 @@
 
       const modalBody = document.getElementById('bookModalBody');
       modalBody.innerHTML = `
-        <div class="modal-book-layout">
+        <div class="modal-book-layout ${!currentBook.coverImage ? 'no-cover' : ''}">
           ${currentBook.coverImage ? `
             <div class="modal-cover">
               <img src="${currentBook.coverImage}" alt="${currentBook.title}">
@@ -1113,6 +1113,11 @@
       grid-template-columns: 200px 1fr;
       gap: 30px;
       margin-bottom: 25px;
+    }
+
+    /* When there's no cover, make details take full width */
+    .modal-book-layout.no-cover {
+      grid-template-columns: 1fr;
     }
 
     .modal-cover img {
