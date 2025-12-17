@@ -410,7 +410,12 @@
 
           <div class="form-group">
             <label>Cover Image URL</label>
-            <input type="url" id="bookCover" placeholder="https://...">
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input type="url" id="bookCover" placeholder="https://..." style="flex:1;">
+              <input type="file" id="bookCoverFile" accept="image/*" style="display:none;" onchange="uploadBookCover(this)">
+              <button type="button" class="secondary" onclick="document.getElementById('bookCoverFile').click()">Upload Image</button>
+            </div>
+            <div id="bookCoverUploadStatus" style="margin-top:5px;font-size:0.85em;color:#666;"></div>
           </div>
 
           <div class="form-group">
@@ -1273,6 +1278,44 @@
         document.getElementById('termImage').value = downloadURL;
 
         statusDiv.textContent = '✓ Image uploaded successfully!';
+        statusDiv.style.color = '#4CAF50';
+
+        // Clear status after 3 seconds
+        setTimeout(() => {
+          statusDiv.textContent = '';
+        }, 3000);
+      } catch (error) {
+        console.error('Upload error:', error);
+        statusDiv.textContent = '✗ Upload failed: ' + error.message;
+        statusDiv.style.color = '#c62828';
+      }
+    }
+
+    // Upload book cover to Firebase Storage
+    window.uploadBookCover = async function(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const statusDiv = document.getElementById('bookCoverUploadStatus');
+      statusDiv.textContent = 'Uploading...';
+      statusDiv.style.color = '#2196F3';
+
+      try {
+        // Create a unique filename
+        const timestamp = Date.now();
+        const filename = `book-covers/${timestamp}_${file.name}`;
+        const storageRef = ref(storage, filename);
+
+        // Upload the file
+        await uploadBytes(storageRef, file);
+
+        // Get the download URL
+        const downloadURL = await getDownloadURL(storageRef);
+
+        // Set the URL in the input field
+        document.getElementById('bookCover').value = downloadURL;
+
+        statusDiv.textContent = '✓ Cover uploaded successfully!';
         statusDiv.style.color = '#4CAF50';
 
         // Clear status after 3 seconds
