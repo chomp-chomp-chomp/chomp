@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playlist Admin - Chomp Chomp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      color: #353535;
+    }
+
+    /* Login Screen */
+    #loginScreen {
+      display: none;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    .login-box h2 {
+      color: #e73b42;
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .login-box p {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #353535;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #e73b42;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      background: #e73b42;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #d32f36;
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    button.secondary {
+      background: #666;
+      width: auto;
+    }
+
+    button.secondary:hover {
+      background: #555;
+    }
+
+    .login-error {
+      color: #c62828;
+      font-size: 14px;
+      margin-top: 10px;
+      padding: 10px;
+      background: #ffebee;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .login-error.show {
+      display: block;
+    }
+
+    /* Main Admin Interface */
+    #editorScreen {
+      display: none;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #e73b42;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #353535;
+      margin: 30px 0 15px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e73b42;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .user-info {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status.success {
+      background: #e7f7ed;
+      color: #2e7d32;
+      border: 1px solid #4caf50;
+      display: block;
+    }
+
+    .status.error {
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #ef5350;
+      display: block;
+    }
+
+    .status.info {
+      background: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #2196f3;
+      display: block;
+    }
+
+    .entry-list {
+      margin: 20px 0;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .entry-item {
+      background: #f9f9f9;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border-left: 4px solid #e73b42;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .entry-content {
+      flex: 1;
+    }
+
+    .entry-content h3 {
+      color: #e73b42;
+      margin-bottom: 8px;
+    }
+
+    .entry-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .entry-actions button {
+      padding: 6px 12px;
+      font-size: 14px;
+      width: auto;
+    }
+
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 6px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .preview-iframe {
+      margin-top: 15px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .help-text {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .inline-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .inline-group {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div id="loginScreen">
+    <div class="login-box">
+      <h2>Playlist Admin Login</h2>
+      <p>Sign in to manage playlists</p>
+
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="loginEmail" required autofocus>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+
+        <button type="submit">Sign In</button>
+      </form>
+
+      <div id="loginError" class="login-error"></div>
+    </div>
+  </div>
+
+  <!-- Main Admin Content -->
+  <div id="editorScreen">
+    <div class="container">
+      <div class="header-bar">
+        <div>
+          <h1>Playlist Admin</h1>
+          <p style="color: #666; margin: 0;">Manage Baking Playlists</p>
+        </div>
+        <div>
+          <span class="user-info" id="userEmail"></span>
+          <button class="secondary" onclick="handleLogout()" style="margin-left: 15px;">Logout</button>
+        </div>
+      </div>
+
+      <h2>Add/Edit Playlist</h2>
+      <form id="playlistForm" onsubmit="savePlaylist(event)">
+        <div class="form-group">
+          <label>Title *</label>
+          <input type="text" id="playlistTitle" required placeholder="e.g., Slow Sunday Bread">
+        </div>
+
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea id="playlistDescription" required placeholder="Describe the vibe and purpose of this playlist"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Spotify Playlist URL *</label>
+          <input type="url" id="spotifyUrl" required placeholder="https://open.spotify.com/playlist/...">
+          <p class="help-text">Paste the Spotify playlist URL. It will be automatically converted to an embed.</p>
+        </div>
+
+        <div class="form-group">
+          <label>Preview Playlist</label>
+          <button type="button" class="secondary" onclick="previewSpotify()">Load Preview</button>
+          <div id="spotifyPreview" class="preview-iframe"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Moods (select all that apply)</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="mood" value="meditative"> Meditative</label>
+            <label><input type="checkbox" name="mood" value="energetic"> Energetic</label>
+            <label><input type="checkbox" name="mood" value="cozy"> Cozy</label>
+            <label><input type="checkbox" name="mood" value="focused"> Focused</label>
+            <label><input type="checkbox" name="mood" value="calm"> Calm</label>
+            <label><input type="checkbox" name="mood" value="upbeat"> Upbeat</label>
+            <label><input type="checkbox" name="mood" value="ambient"> Ambient</label>
+            <label><input type="checkbox" name="mood" value="rhythmic"> Rhythmic</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Duration Category *</label>
+          <select id="duration" required>
+            <option value="">Select duration</option>
+            <option value="quick">Quick Bakes (&lt;30 min)</option>
+            <option value="medium">Medium Bakes (30-90 min)</option>
+            <option value="long">Long Bakes (90+ min)</option>
+            <option value="any">Any Duration</option>
+          </select>
+        </div>
+
+        <div class="inline-group">
+          <div class="form-group">
+            <label>Min Time (minutes)</label>
+            <input type="number" id="minTime" min="0" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label>Max Time (minutes)</label>
+            <input type="number" id="maxTime" min="0" placeholder="Leave empty for no limit">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Recipe Types (select all that apply)</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="recipeType" value="bread"> Bread</label>
+            <label><input type="checkbox" name="recipeType" value="sourdough"> Sourdough</label>
+            <label><input type="checkbox" name="recipeType" value="pastry"> Pastry</label>
+            <label><input type="checkbox" name="recipeType" value="cookies"> Cookies</label>
+            <label><input type="checkbox" name="recipeType" value="quick-breads"> Quick Breads</label>
+            <label><input type="checkbox" name="recipeType" value="cakes"> Cakes</label>
+            <label><input type="checkbox" name="recipeType" value="lamination"> Lamination</label>
+            <label><input type="checkbox" name="recipeType" value="any"> Any Recipe</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Vibe</label>
+          <input type="text" id="vibe" placeholder="e.g., Slow, patient, contemplative">
+          <p class="help-text">Free-form description of the playlist's energy and character</p>
+        </div>
+
+        <div class="form-group">
+          <label>Status *</label>
+          <select id="status" required>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="featured" style="width: auto; margin-right: 8px;">
+            Featured Playlist
+          </label>
+          <p class="help-text">Featured playlists appear at the top of the playlists page</p>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Save Playlist</button>
+          <button type="button" class="secondary" onclick="clearForm()">Clear Form</button>
+        </div>
+      </form>
+
+      <div id="playlistStatus" class="status"></div>
+
+      <h2>Existing Playlists</h2>
+      <div class="actions">
+        <button onclick="loadPlaylists()">Refresh List</button>
+      </div>
+      <div id="playlistList" class="entry-list"></div>
+
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const appId = firebaseConfig.projectId;
+
+    let currentUser = null;
+    let editingPlaylistId = null;
+
+    // Check authentication state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('editorScreen').style.display = 'block';
+        document.getElementById('userEmail').textContent = user.email;
+        loadPlaylists();
+      } else {
+        currentUser = null;
+        document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('editorScreen').style.display = 'none';
+      }
+    });
+
+    // Handle login
+    window.handleLogin = async function(event) {
+      event.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        errorDiv.classList.remove('show');
+      } catch (error) {
+        console.error("Login error:", error);
+        errorDiv.classList.add('show');
+
+        if (error.code === 'auth/user-not-found') {
+          errorDiv.textContent = 'No user found with this email.';
+        } else if (error.code === 'auth/wrong-password') {
+          errorDiv.textContent = 'Incorrect password.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorDiv.textContent = 'Invalid email address.';
+        } else {
+          errorDiv.textContent = 'Login failed: ' + error.message;
+        }
+      }
+    }
+
+    // Handle logout
+    window.handleLogout = async function() {
+      if (confirm('Are you sure you want to logout?')) {
+        await signOut(auth);
+      }
+    }
+
+    // Helper functions
+    function generateSlug(text) {
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+    }
+
+    function showStatus(message, status) {
+      const statusEl = document.getElementById('playlistStatus');
+      statusEl.className = 'status ' + status;
+      statusEl.textContent = message;
+      setTimeout(() => {
+        if (status !== 'error') {
+          statusEl.className = 'status';
+        }
+      }, 5000);
+    }
+
+    function convertToEmbedUrl(url) {
+      // Convert Spotify playlist URL to embed URL
+      // https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M -> https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M
+      if (url.includes('open.spotify.com/playlist/')) {
+        return url.replace('open.spotify.com/playlist/', 'open.spotify.com/embed/playlist/');
+      }
+      return url;
+    }
+
+    // Preview Spotify playlist
+    window.previewSpotify = function() {
+      const url = document.getElementById('spotifyUrl').value.trim();
+      if (!url) {
+        alert('Please enter a Spotify URL first');
+        return;
+      }
+
+      const embedUrl = convertToEmbedUrl(url);
+      const preview = document.getElementById('spotifyPreview');
+      preview.innerHTML = `
+        <iframe
+          src="${embedUrl}"
+          width="100%"
+          height="380"
+          frameborder="0"
+          allowtransparency="true"
+          allow="encrypted-media"
+          style="border-radius: 8px;">
+        </iframe>
+      `;
+    }
+
+    // Get selected checkboxes
+    function getSelectedCheckboxes(name) {
+      const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+      return Array.from(checkboxes).map(cb => cb.value);
+    }
+
+    // Set checkboxes
+    function setCheckboxes(name, values) {
+      const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
+      checkboxes.forEach(cb => {
+        cb.checked = values.includes(cb.value);
+      });
+    }
+
+    // Save playlist
+    window.savePlaylist = async function(event) {
+      event.preventDefault();
+
+      const title = document.getElementById('playlistTitle').value.trim();
+      const description = document.getElementById('playlistDescription').value.trim();
+      const spotifyUrl = document.getElementById('spotifyUrl').value.trim();
+      const duration = document.getElementById('duration').value;
+      const minTime = document.getElementById('minTime').value;
+      const maxTime = document.getElementById('maxTime').value;
+      const vibe = document.getElementById('vibe').value.trim();
+      const status = document.getElementById('status').value;
+      const featured = document.getElementById('featured').checked;
+
+      const moods = getSelectedCheckboxes('mood');
+      const recipeTypes = getSelectedCheckboxes('recipeType');
+
+      if (moods.length === 0) {
+        alert('Please select at least one mood');
+        return;
+      }
+
+      const slug = editingPlaylistId || generateSlug(title);
+      const embedUrl = convertToEmbedUrl(spotifyUrl);
+
+      const playlist = {
+        title,
+        slug,
+        description,
+        spotifyUrl,
+        spotifyEmbedUrl: embedUrl,
+        moods,
+        duration,
+        recipeTypes,
+        minTime: minTime ? parseInt(minTime) : 0,
+        maxTime: maxTime ? parseInt(maxTime) : null,
+        vibe: vibe || '',
+        featured,
+        status,
+        updated_at: Timestamp.now()
+      };
+
+      // Add created_at only for new playlists
+      if (!editingPlaylistId) {
+        playlist.created_at = Timestamp.now();
+      }
+
+      try {
+        await setDoc(doc(db, `artifacts/${appId}/public/data/playlists`, slug), playlist);
+        showStatus(editingPlaylistId ? 'Playlist updated successfully!' : 'Playlist created successfully!', 'success');
+        clearForm();
+        loadPlaylists();
+      } catch (error) {
+        showStatus('Error saving playlist: ' + error.message, 'error');
+      }
+    }
+
+    // Clear form
+    window.clearForm = function() {
+      document.getElementById('playlistForm').reset();
+      document.getElementById('spotifyPreview').innerHTML = '';
+      editingPlaylistId = null;
+
+      // Uncheck all checkboxes
+      document.querySelectorAll('input[name="mood"]').forEach(cb => cb.checked = false);
+      document.querySelectorAll('input[name="recipeType"]').forEach(cb => cb.checked = false);
+    }
+
+    // Load playlists
+    window.loadPlaylists = async function() {
+      try {
+        const playlistsRef = collection(db, `artifacts/${appId}/public/data/playlists`);
+        const snapshot = await getDocs(playlistsRef);
+        const playlists = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        playlists.sort((a, b) => {
+          // Featured first, then by title
+          if (a.featured && !b.featured) return -1;
+          if (!a.featured && b.featured) return 1;
+          return a.title.localeCompare(b.title);
+        });
+
+        const list = document.getElementById('playlistList');
+        if (playlists.length === 0) {
+          list.innerHTML = '<p style="text-align:center;color:#999;padding:40px;">No playlists yet.</p>';
+          return;
+        }
+
+        list.innerHTML = playlists.map(playlist => `
+          <div class="entry-item">
+            <div class="entry-content">
+              <h3>${playlist.title} ${playlist.featured ? '⭐' : ''}</h3>
+              <div style="color:#666;font-size:0.9em;margin-bottom:8px;">
+                ${playlist.status === 'published' ? '✓ Published' : '📝 Draft'} |
+                ${playlist.duration} |
+                ${playlist.moods.join(', ')}
+              </div>
+              <div style="font-size:0.95em;line-height:1.6;">${playlist.description.substring(0, 150)}...</div>
+            </div>
+            <div class="entry-actions">
+              <button class="secondary" onclick="editPlaylist('${playlist.id}')">Edit</button>
+              <button class="secondary" onclick="deletePlaylist('${playlist.id}', '${playlist.title.replace(/'/g, "\\'")}')">Delete</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        showStatus('Error loading playlists: ' + error.message, 'error');
+      }
+    }
+
+    // Edit playlist
+    window.editPlaylist = async function(id) {
+      try {
+        const playlistsRef = collection(db, `artifacts/${appId}/public/data/playlists`);
+        const snapshot = await getDocs(playlistsRef);
+        const playlist = snapshot.docs.find(doc => doc.id === id)?.data();
+
+        if (playlist) {
+          editingPlaylistId = id;
+          document.getElementById('playlistTitle').value = playlist.title;
+          document.getElementById('playlistDescription').value = playlist.description;
+          document.getElementById('spotifyUrl').value = playlist.spotifyUrl;
+          document.getElementById('duration').value = playlist.duration;
+          document.getElementById('minTime').value = playlist.minTime || '';
+          document.getElementById('maxTime').value = playlist.maxTime || '';
+          document.getElementById('vibe').value = playlist.vibe || '';
+          document.getElementById('status').value = playlist.status;
+          document.getElementById('featured').checked = playlist.featured || false;
+
+          setCheckboxes('mood', playlist.moods || []);
+          setCheckboxes('recipeType', playlist.recipeTypes || []);
+
+          // Load preview
+          if (playlist.spotifyEmbedUrl) {
+            document.getElementById('spotifyPreview').innerHTML = `
+              <iframe
+                src="${playlist.spotifyEmbedUrl}"
+                width="100%"
+                height="380"
+                frameborder="0"
+                allowtransparency="true"
+                allow="encrypted-media"
+                style="border-radius: 8px;">
+              </iframe>
+            `;
+          }
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } catch (error) {
+        showStatus('Error loading playlist: ' + error.message, 'error');
+      }
+    }
+
+    // Delete playlist
+    window.deletePlaylist = async function(id, title) {
+      if (!confirm(`Delete "${title}"?`)) return;
+
+      try {
+        await deleteDoc(doc(db, `artifacts/${appId}/public/data/playlists`, id));
+        showStatus('Playlist deleted successfully', 'success');
+        loadPlaylists();
+      } catch (error) {
+        showStatus('Error deleting playlist: ' + error.message, 'error');
+      }
+    }
+  </script>
+
+</body>
+</html>
