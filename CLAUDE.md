@@ -1,13 +1,13 @@
-# CLAUDE.md - AI Assistant Guide for Chomp Recipes
+# CLAUDE.md - AI Assistant Guide for Chomp Chomp
 
 ## Project Overview
 
-**Chomp Recipes** is a static web application for displaying and managing baking recipes and culinary rituals. The site features a philosophical approach to baking with a manifesto-driven design.
+**Chomp Chomp** is a multi-page static website combining recipes, stories, tools, and a store. The site features a philosophical approach to baking and culinary culture with the tagline "Baking is the materialization of comfort itself."
 
 - **Live Site**: https://chomp.be
-- **Project Type**: Static HTML/CSS/JavaScript website with Firebase backend
-- **Primary Purpose**: Recipe collection and sharing platform
-- **Design Philosophy**: "Baking is the materialization of comfort itself"
+- **Project Type**: Multi-page static HTML/CSS/JavaScript website with Firebase backend
+- **Primary Purpose**: Recipe collection, blog/stories, culinary lexicon, and web tools
+- **Design Philosophy**: Philosophical depth meets practical baking
 
 ---
 
@@ -15,325 +15,441 @@
 
 ### Frontend
 - **HTML5/CSS3/JavaScript** - Vanilla JavaScript (ES6 modules), no framework
-- **Styling**: Custom CSS with responsive design
-  - Primary font: Inter (sans-serif)
+- **Styling**:
+  - Shared `styles.css` across all pages
+  - CSS variables for theming
+  - Primary font: Inter (300, 400, 500, 600 weights)
+  - Fallback: Source Sans 3
   - Accent color: `#e73b42` (red)
   - Dark mode: Espresso theme (`#231f1f` background, `#ff6b7a` accents)
   - Mobile breakpoint: 768px
-- **Layout Pattern**: Sidebar + content area (desktop), single column (mobile)
+- **Layout Pattern**: Consistent navigation header across all pages
 
 ### Backend & Data
 - **Firebase**:
-  - Firestore: Recipe data storage
-  - Firebase Auth: User authentication (optional, anonymous browsing supported)
-  - Firebase Storage: Recipe images
+  - Firestore: Storage for recipes, posts, lexicon entries, and reading list
+  - Firebase Auth: Authentication for admin interfaces
+  - Firebase Storage: Images and media files
   - Real-time listeners for live data updates
-- **Data Storage Path**: `artifacts/${projectId}/public/data/recipes`
+- **Collection Paths**:
+  - Recipes: `artifacts/${projectId}/public/data/recipes`
+  - Posts/Stories: `artifacts/${projectId}/public/data/posts`
+  - Lexicon: `artifacts/${projectId}/public/data/lexicon`
+  - Reading List: `artifacts/${projectId}/public/data/books`
 
 ### Content Management
-- **Decap CMS** (formerly Netlify CMS):
-  - Located in `/admin` directory
-  - Auth0 authentication for editors
-  - Git-based workflow (commits directly to repository)
-  - Configured via `admin/config.yml`
+- **Admin Interfaces** (gitignored):
+  - `admin-content.html`: Unified admin for posts, lexicon, reading list
+  - `recipe-admin*.html`: Recipe management
+  - Various admin tools in `/admin` directory
+- **Decap CMS**: Located in `/admin` directory with Auth0 authentication
 
 ---
 
-## Repository Structure
+## Site Architecture
+
+### Page Structure
 
 ```
 /
-├── index.html              # Main application (primary file)
-├── dark.html               # Dark mode variant (WIP)
-├── grid.html               # Grid-only view variant (WIP)
-├── in_progress.html        # Development version
-├── progress1.html          # Development version
-├── recipe-admin-secure.html # Admin interface (gitignored)
+├── index.html              # Homepage (blog-style post grid)
+├── recipes.html            # Recipe grid and search
+├── recipe.html             # Individual recipe view
+├── stories.html            # Stories/blog post listing
+├── post.html               # Individual post view
+├── lexicon.html            # Baking lexicon (dictionary)
+├── reading-list.html       # Curated book recommendations
+├── about.html              # About page and manifesto
+├── store.html              # Store/shop page
+├── styles.css              # Shared stylesheet (all pages)
 ├── CNAME                   # Custom domain config
 ├── .gitignore              # Git ignore rules
-├── admin/
-│   ├── index.html          # Decap CMS entry point
-│   └── config.yml          # CMS configuration
-└── images/                 # Recipe images and assets
-    ├── README.md           # Empty placeholder
-    ├── chomp_recipes_logo.jpeg
-    ├── Chomp Chomp logos.jpeg
-    └── *.jpg               # Recipe photos
+├── admin/                  # Decap CMS and admin tools
+│   ├── index.html
+│   ├── config.yml
+│   ├── recipe-editor.html
+│   ├── post-editor.html
+│   └── image-manager.html
+├── tools/                  # Web utility tools
+│   ├── index.html          # Tools directory
+│   ├── ip.html             # Whois/IP lookup
+│   ├── weather.html        # Weather tool
+│   ├── convert.html        # Unit conversions
+│   ├── encode.html         # Encoding/decoding
+│   ├── subnet.html         # Subnet calculator
+│   ├── dante.html          # Dante's Inferno reference
+│   ├── nautical.html       # Nautical reference
+│   ├── philosophy.html     # Philosophy content
+│   ├── baking.html         # Baking tools/calculators
+│   └── css/                # Tool-specific styles
+├── images/                 # Local image storage
+│   ├── chomp_recipes_logo.jpeg
+│   └── *.jpg               # Recipe and post images
+├── functions/              # Firebase Cloud Functions
+│   ├── index.js
+│   └── package.json
+└── temp/                   # Development/staging files
 ```
 
-### Key Files
+### Navigation Structure
 
-| File | Purpose | Notes |
-|------|---------|-------|
-| `index.html` | Main application | **Primary file** - ~1700 lines, contains all app logic |
-| `admin/config.yml` | CMS configuration | Auth0 + backend settings |
-| `recipe-admin-secure.html` | Secure admin panel | Gitignored (contains sensitive keys) |
-| `.gitignore` | Version control exclusions | Ignores admin files with API keys, .env files |
+All pages share a consistent header navigation:
+
+```
+Header:
+  - Logo (links to store.html)
+  - Center: Recipe banner (links to recipes.html)
+  - Menu:
+    - Home (index.html)
+    - Content ▼
+      - Stories (stories.html)
+      - Recipes (recipes.html)
+      - Lexicon (lexicon.html)
+      - Reading List (reading-list.html)
+    - About (about.html)
+    - Store (store.html)
+    - Tools ▼
+      - Index (tools/index.html)
+      - Whois (tools/ip.html)
+      - Weather (tools/weather.html)
+      - Convert (tools/convert.html)
+      - Encode (tools/encode.html)
+      - Subnet (tools/subnet.html)
+      ... and more
+```
 
 ---
 
-## Application Architecture
+## Data Models
 
-### Main Application (`index.html`)
-
-The entire application is a **single-page application** contained in one HTML file with:
-
-1. **HTML Structure**:
-   - Sidebar: Recipe list, search, sort controls
-   - Content area: Home/manifesto, grid view, or individual recipe
-   - Floating navigation icon (mobile)
-
-2. **CSS Sections** (embedded `<style>`):
-   - Base styles & layout
-   - Search, sort & list items
-   - Recipe content & home view
-   - Grid view styles & controls
-   - Media queries (mobile, print, dark mode)
-
-3. **JavaScript Module** (embedded `<script type="module">`):
-   - Firebase initialization and real-time listeners
-   - Recipe data management
-   - View rendering (home, grid, detail)
-   - Search, filter, sort functionality
-   - Markdown parsing
-   - URL routing via hash navigation
-
-### Data Model (Recipe Object)
-
+### Recipe Object
 ```javascript
 {
-  title: string,           // Required
-  slug: string,            // Auto-generated from title
-  description: string,     // Markdown supported
-  image: string,           // Path or Firebase Storage URL
+  title: string,              // Required
+  slug: string,               // Auto-generated from title
+  description: string,        // Markdown supported
+  image: string,              // Path or Firebase Storage URL
   servings: string,
-  prepTime: string,        // e.g., "20min"
-  cookTime: string,        // e.g., "65-80 minutes"
+  prepTime: string,           // e.g., "20min"
+  cookTime: string,           // e.g., "65-80 minutes"
   totalTime: string,
-  source: string | object, // Plain text or {text, href} object
-  category: string,        // e.g., "chomp chomp"
-  ingredients: string[],   // Array of strings (Markdown supported)
-  instructions: string[],  // Array of strings (Markdown supported)
-  notes: string,           // Markdown supported
+  source: string | object,    // Plain text or {text, href}
+  category: string,           // e.g., "chomp chomp"
+  ingredients: string[],      // Markdown supported
+  instructions: string[],     // Markdown supported
+  notes: string,              // Markdown supported
   totalTimeInMinutes: number, // Computed field
-  dishType: string         // Auto-assigned based on title
+  dishType: string,           // Auto-assigned based on title
+  created_at: Timestamp,
+  updated_at: Timestamp
 }
 ```
 
-### Navigation & Routing
+### Post/Story Object
+```javascript
+{
+  title: string,              // Required
+  slug: string,               // Auto-generated from title
+  excerpt: string,            // Brief preview
+  content: string,            // Full markdown content
+  category: string,           // "stories", "anthropology", "mindfulness"
+  status: string,             // "published" or "draft"
+  date: string,               // YYYY-MM-DD
+  featured_image: string,     // Optional Firebase Storage URL
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
 
-**Hash-based routing**:
-- `#home` or no hash → Manifesto/home view
-- `#grid` → All recipes grid view
-- `#recipe-{slug}` → Individual recipe view
-- `?slug={slug}` → Permalink to specific recipe
+### Lexicon Entry Object
+```javascript
+{
+  term: string,               // Required (e.g., "Butter")
+  definition: string,         // Markdown supported
+  category: string,           // "ingredient", "technique", "equipment", "concept"
+  slug: string,               // Auto-generated
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
 
-**View Hierarchy**:
-1. Home/Manifesto (default)
-2. Grid View (all recipes with filters)
-3. Recipe Detail View (individual recipe)
+### Book/Reading List Object
+```javascript
+{
+  title: string,              // Required
+  author: string,             // Required
+  isbn: string,               // Optional
+  description: string,        // Markdown supported
+  category: string,           // "baking", "philosophy", "fiction", etc.
+  coverImage: string,         // Optional URL
+  link: string,               // Purchase/info link
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
 
 ---
 
-## Key Features & Components
+## Key Features by Section
 
-### 1. Recipe Listing (Sidebar)
-- Real-time sync with Firestore
+### 1. Homepage (index.html)
+- Blog-style post grid
+- Category filtering (Stories, Anthropology, Mindfulness)
+- Real-time sync with Firestore posts collection
+- Responsive card layout
+- Featured images
+- Links to individual post pages
+
+### 2. Recipes (recipes.html)
+- Grid view of all recipes
 - Search functionality (title, description, ingredients)
+- Category filter (e.g., "chomp chomp")
+- Dish type filter (Dessert/Pastry, Cookie/Bar, etc.)
 - Sort options: A-Z, Newest, Quickest Time
-- Scrollable with fade effect
-- Active recipe highlighting
+- Card-based responsive layout
+- Links to recipe.html with slug parameter
 
-### 2. Grid View
-- Card-based layout (responsive grid)
-- Filters: Category, Dish Type
-- Search across all recipe fields
-- Pagination (15 recipes per page)
-- "Load More" infinite scroll
-- Sticky filter state
-
-### 3. Recipe Detail View
-- Full recipe display with sections:
-  - Header (title, metadata, actions)
+### 3. Individual Recipe (recipe.html)
+- Full recipe display:
+  - Title and metadata
+  - Featured image
   - Description
-  - Image (if available)
-  - Ingredients (with red accent bar)
-  - Instructions (numbered steps)
-  - Notes (gray box)
-- Print button (hides navigation/UI)
-- Copy permalink button
-- Logo link (returns to grid)
+  - Ingredients list
+  - Step-by-step instructions
+  - Notes section
+- Print functionality
+- Permalink copying
+- Navigation back to recipes
 
-### 4. Markdown Support
+### 4. Stories (stories.html)
+- Similar to homepage but focused on story content
+- Category filtering
+- Post previews with excerpts
+- Links to post.html
 
-Custom markdown parser supports:
-- Headers: `#`, `##`, `###`
-- Links: `[text](url)`
-- Bold: `**text**`
-- Italic: `*text*`
-- Complex objects: `{text, href}` for source links
+### 5. Individual Post (post.html)
+- Full markdown-rendered content
+- Featured image
+- Category and date
+- Typography optimized for reading
+- Social sharing meta tags
 
-### 5. Responsive Design
+### 6. Lexicon (lexicon.html)
+- Dictionary-style layout
+- Search and filter by category
+- Alphabetical organization
+- Expandable/collapsible entries
+- Definitions with markdown formatting
 
-**Desktop (>768px)**:
-- Sidebar visible
-- Full layout with recipe content area
-- Grid: Multi-column cards
+### 7. Reading List (reading-list.html)
+- Book recommendations
+- Cover images
+- Category filtering
+- Links to purchase/more info
+- Descriptions and context
 
-**Mobile (≤768px)**:
-- Sidebar hidden
-- Header logo clickable (returns to home)
-- Single column layout
-- Floating navigation icon
-- Grid: Single column cards
+### 8. Tools (tools/)
+- Collection of utility tools:
+  - **IP/Whois**: IP lookup and WHOIS information
+  - **Weather**: Weather information
+  - **Convert**: Unit conversions
+  - **Encode**: Encoding/decoding utilities
+  - **Subnet**: Network subnet calculator
+  - **Dante**: Dante's Inferno reference
+  - **Nautical**: Nautical terminology/tools
+  - **Philosophy**: Philosophy-related content
+  - **Baking**: Baking calculators/converters
 
-### 6. Dark Mode
+### 9. Store (store.html)
+- Store/shop interface
+- Product listings
+- Links and purchase information
 
-Automatic via `@media (prefers-color-scheme: dark)`:
-- Espresso color palette
-- Background: `#231f1f`
-- Accent: `#ff6b7a` (adjusted red)
-- Text: `#d9d4d4`
+---
+
+## Styling System
+
+### CSS Variables (styles.css)
+
+```css
+:root {
+  /* Colors - Light Mode */
+  --color-bg: #fdfdfd;
+  --color-text: #353535;
+  --color-text-muted: #666;
+  --color-accent: #e73b42;
+  --color-border: #e0e0e0;
+  --color-sidebar: #f5f5f5;
+
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 20px;
+  --spacing-lg: 30px;
+  --spacing-xl: 40px;
+
+  /* Typography */
+  --font-primary: 'Inter', sans-serif;
+  --font-fallback: 'Source Sans 3', sans-serif;
+  --line-height-body: 1.7;
+  --line-height-heading: 1.3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #231f1f;
+    --color-text: #d9d4d4;
+    --color-text-muted: #a0a0a0;
+    --color-accent: #ff6b7a;
+    --color-border: #3b3636;
+    --color-sidebar: #2b2626;
+  }
+}
+```
+
+### Component Classes
+
+Common classes across pages:
+- `.site-header` - Main navigation header
+- `.site-nav` - Navigation container
+- `.nav-tools-dropdown` - Dropdown menu
+- `.card` - Content card (posts, recipes)
+- `.content-container` - Main content wrapper
+- `.post-grid` - Grid layout for posts/recipes
+- `.filter-controls` - Search and filter UI
 
 ---
 
 ## Development Workflows
 
-### Making Changes to the Site
+### Making Changes
 
-1. **Edit HTML/CSS/JS**:
-   - All code is in `index.html` (or variant files)
-   - Edit directly in file
-   - Test locally by opening in browser
+#### 1. Edit Site Content (HTML/CSS/JS)
+- **Styling**: Edit `styles.css` for site-wide changes
+- **Individual pages**: Edit specific HTML files
+- **Navigation**: Update header in all relevant pages
+- Test locally by opening HTML files in browser
 
-2. **Adding/Editing Recipes**:
-   - **Option A**: Use Decap CMS at `/admin`
-     - Requires Auth0 authentication
-     - Git-based, commits directly to repo
-   - **Option B**: Directly edit Firestore
-     - Use Firebase Console
-     - Faster for bulk operations
-   - **Option C**: Use `recipe-admin-secure.html`
-     - Requires Firebase credentials
+#### 2. Adding/Editing Recipes
+**Option A**: Use admin interface (recommended)
+- Open `admin-content.html` or `recipe-admin-secure.html`
+- Requires Firebase credentials
+- Direct Firestore integration
 
-3. **Adding Images**:
-   - Upload to `/images` directory OR
-   - Upload to Firebase Storage
-   - Reference in recipe data:
-     - Local: `images/filename.jpg`
-     - Remote: Full Firebase Storage URL
+**Option B**: Decap CMS
+- Navigate to `/admin`
+- Auth0 authentication required
+- Git-based workflow
+
+**Option C**: Firebase Console
+- Direct Firestore editing
+- Useful for bulk operations
+
+#### 3. Adding/Editing Posts
+- Use `admin-content.html` (Posts section)
+- Set status to "published" or "draft"
+- Add featured images via Firebase Storage
+- Content supports full Markdown
+
+#### 4. Managing Lexicon
+- Use `admin-content.html` (Lexicon section)
+- Categories: ingredient, technique, equipment, concept
+- Definitions support Markdown
+
+#### 5. Managing Reading List
+- Use `admin-content.html` (Reading List section)
+- Add book details, ISBNs, links
+- Upload cover images to Firebase Storage
 
 ### Git Workflow
 
-**Current branch**: `claude/claude-md-migpu35mvu26x1q1-01EGsuwfTbt1JmZmGQGVteA2`
-
 **Standard workflow**:
 ```bash
+# Check current branch
+git status
+
 # Make changes to files
 git add .
+
+# Commit with descriptive message
 git commit -m "Descriptive message"
-git push -u origin claude/claude-md-migpu35mvu26x1q1-01EGsuwfTbt1JmZmGQGVteA2
+
+# Push to origin
+git push -u origin <branch-name>
 ```
 
-**Important**:
-- Branch must start with `claude/` and end with session ID
-- Push with `-u origin <branch-name>` format
-- Retry on network failures (up to 4 times with exponential backoff)
+**Important Git Rules**:
+- Branch names must start with `claude/` for Claude-initiated work
+- Use `-u origin <branch-name>` when pushing
+- Retry on network failures (up to 4 times with exponential backoff: 2s, 4s, 8s, 16s)
+- Never force push to main/master
+- Descriptive commit messages required
 
-### Testing Changes
+### Testing Checklist
 
-**Local testing**:
-- Open `index.html` in browser
-- Check responsive design (DevTools mobile view)
-- Test Firebase connection (requires internet)
-
-**Important test cases**:
-1. Recipe search and filtering
-2. Grid view pagination
-3. Recipe detail view rendering
-4. Mobile responsive layout
-5. Dark mode appearance
-6. Print functionality
-7. Permalink copying
+**Before committing changes**:
+- [ ] Desktop view works (>768px)
+- [ ] Mobile view works (≤768px)
+- [ ] Dark mode styling correct
+- [ ] Navigation links work
+- [ ] Firebase connection maintained
+- [ ] No console errors
+- [ ] Images load correctly
+- [ ] Search/filter functionality works
+- [ ] Forms submit correctly
+- [ ] Print styles work (if applicable)
 
 ---
 
-## Code Conventions & Best Practices
+## Firebase Integration
 
-### JavaScript Style
+### Initialization Pattern
 
-1. **ES6 Modules**: Use `import` statements for Firebase
-2. **Arrow Functions**: Preferred for callbacks
-3. **Template Literals**: Use for HTML generation
-4. **Async/Await**: Use for Firebase operations
-5. **Array Methods**: `.map()`, `.filter()`, `.forEach()` over loops
+All Firebase-connected pages use this pattern:
 
-### HTML/CSS Patterns
-
-1. **Inline Styles**: All CSS in `<style>` tag (no external files)
-2. **BEM-like Naming**: `.recipe-item`, `.recipe-content`, `.card-title`
-3. **Utility Classes**: Minimal - prefer semantic class names
-4. **Responsive**: Mobile-first approach with `@media` queries
-
-### Firebase Patterns
-
-1. **Real-time Listeners**: Use `onSnapshot` for live updates
-2. **Error Handling**: Always include error callbacks
-3. **Data Validation**: Check types and parse JSON strings safely
-4. **Security**: Firebase config in client (public, read-only data)
-
-### Markdown Parsing
-
-- **Headers in Lists**: Ingredients/instructions can contain headers
-- **Link Objects**: Support both string and `{text, href}` format
-- **Safe Parsing**: Check if string is JSON before parsing
-- **Array Handling**: Safely handle arrays, objects, and strings
-
----
-
-## Important Implementation Details
-
-### 1. Slug Generation
 ```javascript
-function generateSlug(title) {
-    return title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim('-');
-}
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, collection, getDocs, onSnapshot }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "chomp-chomp-recipes",
+  storageBucket: "...",
+  messagingSenderId: "...",
+  appId: "..."
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Dynamic collection path
+const collectionPath = `artifacts/${firebaseConfig.projectId}/public/data/recipes`;
+const recipesRef = collection(db, collectionPath);
+
+// Real-time listener
+onSnapshot(recipesRef, (snapshot) => {
+  const data = [];
+  snapshot.forEach(doc => {
+    data.push({ id: doc.id, ...doc.data() });
+  });
+  renderData(data);
+});
 ```
 
-### 2. Time Parsing
-Parses various time formats:
-- `"20min"` → 20 minutes
-- `"2h 30min"` → 150 minutes
-- `"65-80 minutes"` → 65 minutes (uses lower bound)
+### Collection Paths
 
-### 3. Dish Type Assignment
-Auto-categorizes based on title keywords:
-- `cake`, `torte`, `pie`, `brûlée` → Dessert/Pastry
-- `cookie`, `cookies` → Cookie/Bar
-- `custard` → Frozen Dessert
-- `pudding` → Pudding/Cream
-- `taco`, `main dish` → Main Dish
-- `soup` → Soup
-- Default → Other Baked Goods
-
-### 4. Firebase Collection Path
-Dynamic based on project ID:
-```javascript
-`artifacts/${appId}/public/data/recipes`
+All collections use the dynamic path pattern:
+```
+artifacts/${projectId}/public/data/${collectionName}
 ```
 
-### 5. Image Handling
-Supports both local and remote images:
-```javascript
-const imagePath = recipe.image.startsWith('http')
-  ? recipe.image
-  : `images/${recipe.image}`;
-```
+Collections:
+- `recipes` - Recipe data
+- `posts` - Blog posts/stories
+- `lexicon` - Lexicon entries
+- `books` - Reading list items
 
 ---
 
@@ -341,92 +457,80 @@ const imagePath = recipe.image.startsWith('http')
 
 ### Public Information
 - Firebase config (API keys) are public read-only credentials
-- No sensitive data stored in client-side code
-- Firestore security rules enforce read-only access
+- No sensitive data in client-side code
+- Firestore security rules enforce read-only access for public
+- Write access requires authentication
 
 ### Gitignored Files
-```
-recipe-admin*.html    # Contains Firebase admin credentials
-.env                  # Environment variables
-.env.local           # Local environment overrides
+
+```gitignore
+# Environment files
+.env
+.env.local
+.env.yaml
+
+# Admin tools with sensitive credentials
+recipe-admin*.html
+content-admin*.html
+
+# Data files (used for bulk import)
+data-*.txt
 ```
 
 ### Authentication
 - **Public Site**: No auth required for viewing
-- **Admin Panel**: Auth0 authentication required
+- **Admin Interfaces**: Firebase Auth required
 - **Decap CMS**: Auth0 OAuth flow
-
----
-
-## Styling Guidelines
-
-### Color Palette
-
-**Light Mode**:
-- Background: `#fdfdfd`
-- Text: `#353535`
-- Accent: `#e73b42` (primary red)
-- Sidebar: `#f5f5f5`
-- Borders: `#e0e0e0`
-
-**Dark Mode** (Espresso Theme):
-- Background: `#231f1f`
-- Text: `#d9d4d4`
-- Accent: `#ff6b7a` (lighter red)
-- Sidebar: `#2b2626`
-- Borders: `#3b3636`
-
-### Typography
-- Primary: `Inter` (300, 400, 500, 600 weights)
-- Fallback: `Source Sans 3`
-- Base line-height: 1.7
-- Headings: 600 weight
-
-### Spacing
-- Content padding: 40px 50px (desktop)
-- Content padding: 20px (mobile)
-- Section margins: 25px between elements
-- Sidebar width: 300px (desktop)
 
 ---
 
 ## Common Tasks for AI Assistants
 
-### Task 1: Adding a New Recipe Feature
-1. Locate relevant section in `index.html`
-2. Update data model if needed (check Firebase structure)
-3. Update `selectRecipe()` function for detail view
-4. Update `renderCards()` for grid view
-5. Update `admin/config.yml` if CMS needs new field
-6. Test on both desktop and mobile
+### Task 1: Add a New Page
+1. Create new HTML file in root directory
+2. Copy header navigation from existing page
+3. Link to `styles.css`
+4. Add page to navigation menu in all other pages
+5. Test navigation flow
+6. Ensure mobile responsive
 
-### Task 2: Fixing Styling Issues
-1. Locate CSS section in `<style>` tag
-2. Check for mobile-specific styles in `@media (max-width: 768px)`
-3. Check for dark mode styles in `@media (prefers-color-scheme: dark)`
-4. Test across viewports and color schemes
-5. Ensure print styles work correctly
+### Task 2: Update Site-Wide Navigation
+1. Edit header in all main pages:
+   - `index.html`
+   - `recipes.html`
+   - `recipe.html`
+   - `stories.html`
+   - `post.html`
+   - `lexicon.html`
+   - `reading-list.html`
+   - `about.html`
+   - `store.html`
+2. Test dropdown menus
+3. Verify mobile menu toggle
 
-### Task 3: Updating Search/Filter Logic
-1. Find `filterAndSortGrid()` function (line ~1475)
-2. Update filter logic
-3. Update `displayRecipeList()` for sidebar search
-4. Test with various search terms and filters
-5. Ensure "Clear Filters" button resets correctly
+### Task 3: Add New Content Type
+1. Define data model (see examples above)
+2. Create Firestore collection
+3. Update `admin-content.html` with new section
+4. Create listing page (like recipes.html or stories.html)
+5. Create detail page (like recipe.html or post.html)
+6. Add to navigation
+7. Test CRUD operations
 
-### Task 4: Modifying Firebase Integration
-1. Locate Firebase config (line ~887)
-2. Update collection path in `getRecipesCollectionPath()`
-3. Modify `setupRecipeListener()` for data sync
-4. Update data parsing in snapshot callback
-5. Test real-time updates
+### Task 4: Modify Styling
+1. Edit `styles.css` for global changes
+2. Use CSS variables for consistency
+3. Test in light and dark modes
+4. Check mobile breakpoints
+5. Verify across all pages
 
-### Task 5: Adjusting Mobile Experience
-1. Locate mobile media query (line ~512)
-2. Update responsive styles
-3. Test floating navigation icon behavior
-4. Check sidebar hiding/showing logic
-5. Verify header logo clickability
+### Task 5: Add New Tool
+1. Create new HTML file in `tools/` directory
+2. Link to shared `styles.css` or tool-specific CSS
+3. Implement tool functionality
+4. Add to `tools/index.html` directory listing
+5. Add to main navigation dropdown
+6. Test standalone and within site
 
 ---
 
@@ -434,64 +538,125 @@ recipe-admin*.html    # Contains Firebase admin credentials
 
 ### Common Issues
 
-**Issue: Recipes not loading**
-- Check Firebase config (projectId, apiKey)
-- Verify Firestore collection path
+**Firebase not connecting:**
 - Check browser console for errors
+- Verify Firebase config in page
 - Ensure internet connectivity
+- Check Firestore collection path
+- Verify security rules
 
-**Issue: Images not displaying**
-- Verify image path format (local vs. Firebase Storage)
-- Check image exists in `/images` directory
-- Verify Firebase Storage CORS settings
-- Check image URL format in data
+**Images not displaying:**
+- Check Firebase Storage CORS settings
+- Verify image URL format
+- Test local vs. remote image paths
+- Check file exists in `/images` directory
 
-**Issue: Search/filter not working**
-- Verify `recipes` array is populated
-- Check filter state in `savedGridFilters`
-- Ensure event listeners are attached
-- Check for JavaScript errors in console
+**Navigation broken:**
+- Verify all pages have consistent header HTML
+- Check JavaScript for dropdown functionality
+- Test mobile menu toggle
+- Verify link paths (relative vs. absolute)
 
-**Issue: Mobile layout broken**
-- Check viewport meta tag
-- Verify media query breakpoint (768px)
-- Test sidebar display logic
-- Check floating icon positioning
+**Styling inconsistent:**
+- Ensure `styles.css` linked in all pages
+- Check for inline styles overriding
+- Verify CSS variable usage
+- Test dark mode media query
 
-**Issue: Dark mode not working**
-- Verify browser supports `prefers-color-scheme`
-- Check dark mode CSS rules
-- Test in different browsers
-- Verify color values are correct
+**Content not appearing:**
+- Check Firestore collection path
+- Verify document structure matches data model
+- Check for JavaScript errors
+- Verify real-time listener setup
+- Check `status: "published"` for posts
 
 ---
 
 ## Performance Considerations
 
-1. **Firebase Listeners**: Only one real-time listener for all recipes
-2. **Pagination**: Grid view loads 15 recipes at a time
-3. **Image Loading**: Lazy load images for better performance
-4. **CSS**: All styles inline (no external stylesheet requests)
-5. **JavaScript**: Single module bundle (no code splitting needed)
+1. **Firebase**: Real-time listeners for live updates
+2. **Images**: Use Firebase Storage CDN for faster loading
+3. **CSS**: Single shared stylesheet reduces requests
+4. **JavaScript**: Vanilla JS, no framework overhead
+5. **Caching**: Leverage browser caching for static assets
+6. **Lazy Loading**: Consider for images in long lists
 
 ---
 
-## Future Enhancements (Potential)
+## Project Philosophy
 
-Based on the codebase structure, consider these when making improvements:
+### Design Principles
 
-1. **Recipe Rating System** (commented out in current version)
-2. **User Accounts** (Firebase Auth infrastructure present)
-3. **Recipe Collections/Favorites** (requires user auth)
-4. **Social Sharing** (Open Graph tags already present)
-5. **Recipe Comments/Reviews**
-6. **Advanced Search** (by ingredient exclusion, dietary restrictions)
-7. **Unit Conversion** (metric/imperial)
-8. **Recipe Scaling** (adjust serving sizes)
+1. **Clarity over complexity** - Simple, readable code
+2. **Consistency** - Shared navigation and styling
+3. **Accessibility** - Semantic HTML, readable fonts
+4. **Mobile-first** - Responsive at all breakpoints
+5. **Content-focused** - Typography and readability prioritized
+6. **Philosophical depth** - Meaningful content over trends
+
+### Content Guidelines
+
+- **Recipes**: Focus on technique and ritual, not just ingredients
+- **Stories**: Personal, reflective, philosophical
+- **Lexicon**: Thoughtful definitions that go beyond the literal
+- **Reading List**: Curated with intention and context
+- **Tools**: Practical utilities that serve a clear purpose
 
 ---
 
-## Contact & Related Projects
+## File Organization Best Practices
+
+### HTML Files
+- Root level: Main pages (index, recipes, about, etc.)
+- `/admin`: Administrative interfaces
+- `/tools`: Utility tools and calculators
+- `/temp`: Development and staging work
+
+### CSS
+- `styles.css` - Primary shared stylesheet
+- `tools/css/` - Tool-specific styles when needed
+- Use CSS variables for theming
+- Keep dark mode styles in media queries
+
+### JavaScript
+- Inline `<script type="module">` for Firebase pages
+- Separate JS files for complex tools
+- ES6 modules for Firebase imports
+
+### Images
+- `/images` - Local images (logos, static assets)
+- Firebase Storage - User-uploaded content (recipes, posts)
+- Organized by content type in Storage
+
+---
+
+## Quick Reference
+
+### Important Files
+
+| File | Purpose | Firebase |
+|------|---------|----------|
+| `index.html` | Homepage (blog posts) | ✓ |
+| `recipes.html` | Recipe grid | ✓ |
+| `recipe.html` | Individual recipe | ✓ |
+| `stories.html` | Story listing | ✓ |
+| `post.html` | Individual post | ✓ |
+| `lexicon.html` | Baking dictionary | ✓ |
+| `reading-list.html` | Book recommendations | ✓ |
+| `about.html` | About and manifesto | ✗ |
+| `store.html` | Store page | ✗ |
+| `styles.css` | Shared stylesheet | ✗ |
+| `admin-content.html` | Admin interface | ✓ (gitignored) |
+
+### Key URLs
+
+- **Production**: https://chomp.be
+- **Recipes**: https://chomp.be/recipes.html
+- **Stories**: https://chomp.be/stories.html
+- **Tools**: https://chomp.be/tools/
+- **Admin**: Open locally (gitignored)
+
+### Contact & Related
 
 - **Email**: hey@chompchomp.cc
 - **Main Site**: https://www.chomp.ltd
@@ -499,55 +664,80 @@ Based on the codebase structure, consider these when making improvements:
 
 ---
 
-## Quick Reference
+## Future Enhancement Ideas
 
-### Important Line Numbers in `index.html`
+Based on current structure, consider:
 
-| Feature | Approximate Line |
-|---------|------------------|
-| Firebase Config | 887 |
-| Recipe Data Model | 939 |
-| Markdown Parser | 1015 |
-| Search Box Listener | 1654 |
-| Grid Filter Logic | 1475 |
-| Recipe Detail Render | 1319 |
-| Home/Manifesto Content | 1132 |
-| Mobile Media Query | 512 |
-| Dark Mode Styles | 640 |
-| Print Styles | 617 |
-
-### Key Functions
-
-- `setupRecipeListener()` - Initializes Firebase real-time sync
-- `displayRecipeList()` - Renders sidebar recipe list
-- `displayGridPage()` - Renders grid view
-- `selectRecipe()` - Displays individual recipe
-- `filterAndSortGrid()` - Handles filtering/sorting logic
-- `parseMarkdown()` - Converts markdown to HTML
-- `resetRecipeView()` - Returns to home/manifesto view
+1. **Recipe Collections** - User-created recipe collections
+2. **Comments System** - Commenting on posts/recipes
+3. **Newsletter** - Email subscription system
+4. **RSS Feed** - For blog posts
+5. **Recipe Ratings** - User ratings and reviews
+6. **Search Across Site** - Global search for all content types
+7. **Recipe Scaling** - Automatic ingredient scaling
+8. **Print Recipes** - Optimized print layouts
+9. **Social Sharing** - Enhanced social media integration
+10. **Progressive Web App** - Offline functionality
 
 ---
 
-## Development Checklist
+## Development Checklist Template
 
-When making changes, ensure:
+When making significant changes:
 
-- [ ] Changes work on desktop (>768px)
-- [ ] Changes work on mobile (≤768px)
-- [ ] Dark mode styling is correct
-- [ ] Print view is not broken
-- [ ] Search/filter functionality works
-- [ ] Firebase connection is maintained
+```markdown
+## Change Description
+[Brief description of what was changed]
+
+## Files Modified
+- [ ] index.html
+- [ ] recipes.html
+- [ ] styles.css
+- [ ] Other: ___________
+
+## Testing Completed
+- [ ] Desktop view (>768px)
+- [ ] Mobile view (≤768px)
+- [ ] Dark mode
+- [ ] Navigation works
+- [ ] Firebase connection
 - [ ] No console errors
-- [ ] Markdown rendering works
-- [ ] Images load correctly
-- [ ] Navigation (hash routing) works
-- [ ] Permalink generation works
-- [ ] Git commit message is descriptive
-- [ ] Changes pushed to correct branch
+- [ ] Images load
+- [ ] Search/filter works
+- [ ] Cross-browser tested
+
+## Deployment
+- [ ] Changes committed
+- [ ] Pushed to branch
+- [ ] Tested on live site
+- [ ] Verified CNAME
+- [ ] Cache cleared
+```
 
 ---
 
-**Last Updated**: 2025-11-27
-**Document Version**: 1.0
-**Repository**: chomp-chomp-pachewy/recipes
+**Last Updated**: 2025-12-18
+**Document Version**: 2.0
+**Repository**: chomp-chomp-pachewy/chomp
+**Primary Branch**: main
+
+---
+
+## Notes for AI Assistants
+
+- This is a **multi-page static site**, not a single-page application
+- **Firebase** is used for dynamic content, but pages are static HTML
+- **Shared navigation** must be updated across all pages when changed
+- **CSS variables** in styles.css control theming - use them!
+- **Mobile responsiveness** is critical - always test at 768px breakpoint
+- **Dark mode** is automatic via `prefers-color-scheme` - test it
+- **Admin files** are gitignored - never commit files with credentials
+- **Content structure** follows specific data models - reference them
+- The site combines **practical tools** with **philosophical content** - maintain this balance
+
+When in doubt, prioritize:
+1. Consistency across pages
+2. Mobile responsiveness
+3. Dark mode compatibility
+4. Semantic HTML
+5. Clear, readable code
