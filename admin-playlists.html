@@ -348,6 +348,12 @@
         </div>
 
         <div class="form-group">
+          <label>Cover Image URL</label>
+          <input type="url" id="coverImage" placeholder="https://...">
+          <p class="help-text">Optional: URL to a cover image for the playlist tile</p>
+        </div>
+
+        <div class="form-group">
           <label>Moods (select all that apply)</label>
           <div class="checkbox-group">
             <label><input type="checkbox" name="mood" value="meditative"> Meditative</label>
@@ -402,6 +408,12 @@
           <label>Vibe</label>
           <input type="text" id="vibe" placeholder="e.g., Slow, patient, contemplative">
           <p class="help-text">Free-form description of the playlist's energy and character</p>
+        </div>
+
+        <div class="form-group">
+          <label>Track List</label>
+          <textarea id="tracks" placeholder="Enter track names, one per line:&#10;Artist Name - Song Title&#10;Artist Name - Song Title&#10;..." style="min-height: 200px;"></textarea>
+          <p class="help-text">Optional: Paste the track list (one per line). This will be shown in the modal popup.</p>
         </div>
 
         <div class="form-group">
@@ -583,6 +595,8 @@
       const title = document.getElementById('playlistTitle').value.trim();
       const description = document.getElementById('playlistDescription').value.trim();
       const spotifyUrl = document.getElementById('spotifyUrl').value.trim();
+      const coverImage = document.getElementById('coverImage').value.trim();
+      const tracksText = document.getElementById('tracks').value.trim();
       const duration = document.getElementById('duration').value;
       const minTime = document.getElementById('minTime').value;
       const maxTime = document.getElementById('maxTime').value;
@@ -592,6 +606,9 @@
 
       const moods = getSelectedCheckboxes('mood');
       const recipeTypes = getSelectedCheckboxes('recipeType');
+
+      // Parse tracks from textarea (one per line)
+      const tracks = tracksText ? tracksText.split('\n').map(t => t.trim()).filter(t => t) : [];
 
       if (moods.length === 0) {
         alert('Please select at least one mood');
@@ -607,6 +624,8 @@
         description,
         spotifyUrl,
         spotifyEmbedUrl: embedUrl,
+        coverImage: coverImage || null,
+        tracks,
         moods,
         duration,
         recipeTypes,
@@ -697,6 +716,8 @@
           document.getElementById('playlistTitle').value = playlist.title;
           document.getElementById('playlistDescription').value = playlist.description;
           document.getElementById('spotifyUrl').value = playlist.spotifyUrl;
+          document.getElementById('coverImage').value = playlist.coverImage || '';
+          document.getElementById('tracks').value = playlist.tracks ? playlist.tracks.join('\n') : '';
           document.getElementById('duration').value = playlist.duration;
           document.getElementById('minTime').value = playlist.minTime || '';
           document.getElementById('maxTime').value = playlist.maxTime || '';

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playlist - Chomp Chomp</title>
+
+  <!-- Primary favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .playlist-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .playlist-header h1 {
+      font-size: 2.5em;
+      color: var(--color-text);
+      margin-bottom: 15px;
+    }
+
+    .playlist-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+
+    .playlist-tag {
+      background: var(--color-sidebar-bg);
+      padding: 6px 14px;
+      border-radius: 14px;
+      font-size: 0.9em;
+      color: var(--color-text);
+    }
+
+    .playlist-description {
+      font-size: 1.1em;
+      line-height: 1.7;
+      color: var(--color-text);
+      margin-top: 20px;
+    }
+
+    .playlist-vibe {
+      font-style: italic;
+      color: var(--color-text-muted);
+      margin: 20px 0;
+      padding: 15px 20px;
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-sidebar-bg);
+      border-radius: 4px;
+    }
+
+    .spotify-section {
+      margin: 40px 0;
+    }
+
+    .spotify-embed {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .track-list-section {
+      margin: 40px 0;
+    }
+
+    .track-list-section h2 {
+      font-size: 1.8em;
+      color: var(--color-text);
+      margin-bottom: 20px;
+    }
+
+    .track-list {
+      list-style: none;
+      background: var(--color-sidebar-bg);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .track-list li {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text);
+      line-height: 1.5;
+    }
+
+    .track-list li:last-child {
+      border-bottom: none;
+    }
+
+    .track-list li:before {
+      content: "♫ ";
+      color: var(--color-accent);
+      margin-right: 12px;
+      font-size: 1.1em;
+    }
+
+    .loading-container {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .loading-container h2 {
+      color: var(--color-text-muted);
+    }
+
+    .error-container {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .error-container h2 {
+      color: var(--color-accent);
+      margin-bottom: 15px;
+    }
+
+    .error-container p {
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header / Navigation -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="store.html" title="Store" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704134358_IMG_3432.png?alt=media&token=24b33f57-609c-452c-b7cb-9e5cdf85859c" alt="Chomp Chomp" class="logo-default">
+            <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764704133716_IMG_3433.jpeg?alt=media&token=94d04258-f7c1-4eed-983a-a0eaad6c4f0b" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="recipes.html" title="Recipes">
+          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764781386634_chomp%20recipes%20logo.JPG?alt=media&token=2b7daf1f-2392-493e-944c-512a194327f6"
+               alt="Chomp Chomp Recipes"
+               class="header-banner">
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="index.html">Home</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Content</a>
+              <ul class="submenu">
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="lexicon.html">Lexicon</a></li>
+                <li><a href="reading-list.html">Reading List</a></li>
+                <li><a href="playlists.html">Playlists</a></li>
+              </ul>
+            </li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="store.html">Store</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Tools</a>
+              <ul class="submenu">
+                <li><a href="tools/index.html">Index</a></li>
+                <li><a href="tools/ip.html">Whois</a></li>
+                <li><a href="tools/weather.html">Weather</a></li>
+                <li><a href="tools/convert.html">Convert</a></li>
+                <li><a href="tools/encode.html">Encode</a></li>
+                <li><a href="tools/subnet.html">Subnet</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Ipsum</a>
+              <ul class="submenu">
+                <li><a href="tools/baking.html">Baking</a></li>
+                <li><a href="tools/dante.html">Inferno</a></li>
+                <li><a href="tools/nautical.html">Nautical</a></li>
+                <li><a href="tools/philosophy.html">Philosophy</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-container">
+    <a href="playlists.html" class="back-link">← Back to Playlists</a>
+
+    <div id="playlistContent">
+      <div class="loading-container">
+        <h2>Loading playlist...</h2>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="text-align: center; padding: 40px 20px; border-top: 1px solid var(--color-border); margin-top: 60px;">
+    <p style="color: var(--color-text-muted); font-size: 0.95em;">
+      Chomp Chomp · <a href="mailto:hey@chompchomp.cc" style="color: var(--color-accent);">hey@chompchomp.cc</a>
+    </p>
+  </footer>
+
+  <!-- Firebase & App Logic -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const appId = firebaseConfig.projectId;
+
+    // Get playlist ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const playlistId = urlParams.get('id');
+
+    if (!playlistId) {
+      showError('No playlist specified', 'Please select a playlist from the playlists page.');
+    } else {
+      loadPlaylist(playlistId);
+    }
+
+    // Load playlist
+    async function loadPlaylist(slug) {
+      try {
+        const playlistRef = doc(db, `artifacts/${appId}/public/data/playlists`, slug);
+        const playlistSnap = await getDoc(playlistRef);
+
+        if (!playlistSnap.exists()) {
+          showError('Playlist not found', 'This playlist may have been removed or the link is incorrect.');
+          return;
+        }
+
+        const playlist = playlistSnap.data();
+
+        // Update page title
+        document.title = `${playlist.title} - Chomp Chomp Playlists`;
+
+        // Display playlist
+        displayPlaylist(playlist);
+      } catch (error) {
+        console.error('Error loading playlist:', error);
+        showError('Error loading playlist', error.message);
+      }
+    }
+
+    // Display playlist
+    function displayPlaylist(playlist) {
+      const container = document.getElementById('playlistContent');
+
+      const durationLabel = getDurationLabel(playlist.duration);
+
+      container.innerHTML = `
+        <div class="playlist-header">
+          <h1>${playlist.title}</h1>
+
+          <div class="playlist-meta">
+            ${playlist.moods?.map(mood => `<span class="playlist-tag">${mood}</span>`).join('')}
+            <span class="playlist-tag">${durationLabel}</span>
+            ${playlist.featured ? '<span class="playlist-tag" style="background: var(--color-accent); color: white;">Featured</span>' : ''}
+          </div>
+
+          <div class="playlist-description">
+            ${playlist.description}
+          </div>
+
+          ${playlist.vibe ? `
+            <div class="playlist-vibe">
+              ${playlist.vibe}
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="spotify-section">
+          <div class="spotify-embed">
+            <iframe
+              src="${playlist.spotifyEmbedUrl}"
+              width="100%"
+              height="380"
+              frameborder="0"
+              allowtransparency="true"
+              allow="encrypted-media">
+            </iframe>
+          </div>
+        </div>
+
+        ${playlist.tracks && playlist.tracks.length > 0 ? `
+          <div class="track-list-section">
+            <h2>Track List</h2>
+            <ul class="track-list">
+              ${playlist.tracks.map(track => `<li>${track}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      `;
+    }
+
+    // Show error
+    function showError(title, message) {
+      const container = document.getElementById('playlistContent');
+      container.innerHTML = `
+        <div class="error-container">
+          <h2>${title}</h2>
+          <p>${message}</p>
+          <p style="margin-top: 20px;">
+            <a href="playlists.html" style="color: var(--color-accent);">← Back to Playlists</a>
+          </p>
+        </div>
+      `;
+    }
+
+    // Get duration label
+    function getDurationLabel(duration) {
+      const labels = {
+        quick: 'Quick (<30min)',
+        medium: 'Medium (30-90min)',
+        long: 'Long (90min+)',
+        any: 'Any Duration'
+      };
+      return labels[duration] || duration;
+    }
+
+    // Menu toggle
+    window.toggleToolsDropdown = function() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('toolsDropdown');
+      const toggle = document.querySelector('.tools-dropdown-btn, .menu-toggle');
+
+      if (!dropdown.contains(event.target) && !toggle.contains(event.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
