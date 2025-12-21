@@ -460,30 +460,21 @@
 
     <!-- Filters -->
     <div class="filter-section">
-      <h3>Filter Playlists</h3>
-
       <div class="filter-group">
-        <label>Mood</label>
+        <label>Filter by Mood</label>
         <div class="filter-buttons" id="moodFilters">
           <!-- Populated by JavaScript -->
         </div>
       </div>
 
       <div class="filter-group">
-        <label>Duration</label>
-        <div class="filter-buttons" id="durationFilters">
-          <!-- Populated by JavaScript -->
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label>Recipe Type</label>
+        <label>Filter by Recipe Type</label>
         <div class="filter-buttons" id="recipeTypeFilters">
           <!-- Populated by JavaScript -->
         </div>
       </div>
 
-      <button class="clear-filters-btn" onclick="clearFilters()">Clear All Filters</button>
+      <button class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>
     </div>
 
     <!-- Playlists Grid -->
@@ -542,7 +533,6 @@
     let allPlaylists = [];
     let activeFilters = {
       mood: null,
-      duration: null,
       recipeType: null
     };
 
@@ -584,10 +574,6 @@
       const moods = new Set();
       allPlaylists.forEach(p => p.moods?.forEach(m => moods.add(m)));
 
-      // Collect unique durations
-      const durations = new Set();
-      allPlaylists.forEach(p => durations.add(p.duration));
-
       // Collect unique recipe types
       const recipeTypes = new Set();
       allPlaylists.forEach(p => p.recipeTypes?.forEach(rt => recipeTypes.add(rt)));
@@ -597,20 +583,6 @@
       moodFiltersEl.innerHTML = Array.from(moods).sort().map(mood => `
         <button class="filter-btn" data-mood="${mood}" onclick="toggleFilter('mood', '${mood}')">
           ${mood}
-        </button>
-      `).join('');
-
-      // Populate duration filters
-      const durationFiltersEl = document.getElementById('durationFilters');
-      const durationLabels = {
-        quick: 'Quick (<30min)',
-        medium: 'Medium (30-90min)',
-        long: 'Long (90min+)',
-        any: 'Any Duration'
-      };
-      durationFiltersEl.innerHTML = Array.from(durations).sort().map(duration => `
-        <button class="filter-btn" data-duration="${duration}" onclick="toggleFilter('duration', '${duration}')">
-          ${durationLabels[duration] || duration}
         </button>
       `).join('');
 
@@ -649,9 +621,6 @@
       if (activeFilters.mood) {
         document.querySelector(`[data-mood="${activeFilters.mood}"]`)?.classList.add('active');
       }
-      if (activeFilters.duration) {
-        document.querySelector(`[data-duration="${activeFilters.duration}"]`)?.classList.add('active');
-      }
       if (activeFilters.recipeType) {
         document.querySelector(`[data-recipetype="${activeFilters.recipeType}"]`)?.classList.add('active');
       }
@@ -661,7 +630,6 @@
     window.clearFilters = function() {
       activeFilters = {
         mood: null,
-        duration: null,
         recipeType: null
       };
       updateFilterButtons();
@@ -675,11 +643,6 @@
       // Filter by mood
       if (activeFilters.mood) {
         filtered = filtered.filter(p => p.moods?.includes(activeFilters.mood));
-      }
-
-      // Filter by duration
-      if (activeFilters.duration) {
-        filtered = filtered.filter(p => p.duration === activeFilters.duration);
       }
 
       // Filter by recipe type
@@ -722,8 +685,7 @@
                 </div>
 
                 <div class="playlist-meta" style="margin-bottom: 12px;">
-                  ${playlist.moods?.slice(0, 2).map(mood => `<span class="playlist-tag">${mood}</span>`).join('')}
-                  <span class="playlist-tag">${getDurationLabel(playlist.duration)}</span>
+                  ${playlist.moods?.slice(0, 3).map(mood => `<span class="playlist-tag">${mood}</span>`).join('')}
                 </div>
 
                 <div class="playlist-description" style="font-size: 0.95em; color: var(--color-text-muted); line-height: 1.5;">
