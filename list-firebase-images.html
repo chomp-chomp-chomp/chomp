@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Firebase Storage Images</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fdfdfd;
+            color: #353535;
+        }
+        h1 { color: #e73b42; }
+        button {
+            background: #e73b42;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 10px 10px 0;
+        }
+        button:hover { background: #d12a31; }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .image-list {
+            margin-top: 20px;
+        }
+        .image-item {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .image-item img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 4px;
+        }
+        .image-info {
+            flex: 1;
+        }
+        .image-url {
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        .download-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .download-btn:hover {
+            background: #45a049;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Firebase Storage Image Finder</h1>
+    <p>This tool will find all images referenced in your Firestore data and show you how to download them.</p>
+
+    <button id="scanBtn">Scan for Images</button>
+    <button id="downloadAllBtn" style="display:none;">Download All Images</button>
+
+    <div id="status"></div>
+    <div id="instructions"></div>
+    <div id="imageList" class="image-list"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getStorage, ref, getDownloadURL, listAll } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXOselL25mXgLTD4dxJQiwnHJnnux8ixk",
+            authDomain: "chomp-chomp-recipes.firebaseapp.com",
+            projectId: "chomp-chomp-recipes",
+            storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+            messagingSenderId: "1038630516277",
+            appId: "1:1038630516277:web:aee99a89d3a16d61eaa3cb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        let allImages = [];
+
+        function showStatus(message, isError = false) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = isError ? 'status error' : 'status';
+            statusDiv.innerHTML = message;
+        }
+
+        function showInstructions() {
+            const instructionsDiv = document.getElementById('instructions');
+            instructionsDiv.innerHTML = `
+                <div class="instructions">
+                    <h3>📥 How to Download Images from Firebase Storage:</h3>
+                    <p><strong>Option 1: Download individually</strong> (click download buttons below)</p>
+                    <p><strong>Option 2: Download all via Firebase Console:</strong></p>
+                    <ol>
+                        <li>Go to <a href="https://console.firebase.google.com/project/chomp-chomp-recipes/storage" target="_blank">Firebase Console - Storage</a></li>
+                        <li>Click on the images folder</li>
+                        <li>Select all images (or one by one)</li>
+                        <li>Click the three dots menu → Download</li>
+                        <li>Save them to your local /images folder</li>
+                    </ol>
+                </div>
+            `;
+        }
+
+        async function downloadImage(url, filename) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const downloadUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(downloadUrl);
+            } catch (error) {
+                alert(`Error downloading ${filename}: ${error.message}`);
+            }
+        }
+
+        async function scanFirestoreForImages() {
+            const images = new Set();
+            const collections = [
+                `artifacts/${firebaseConfig.projectId}/public/data/recipes`,
+                `artifacts/${firebaseConfig.projectId}/public/data/posts`
+            ];
+
+            for (const collPath of collections) {
+                try {
+                    const collRef = collection(db, collPath);
+                    const snapshot = await getDocs(collRef);
+
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.image) images.add(data.image);
+                        if (data.featured_image) images.add(data.featured_image);
+                    });
+                } catch (error) {
+                    console.error(`Error scanning ${collPath}:`, error);
+                }
+            }
+
+            return Array.from(images);
+        }
+
+        async function listStorageImages() {
+            try {
+                const imagesRef = ref(storage, 'images');
+                const result = await listAll(imagesRef);
+                const urls = await Promise.all(
+                    result.items.map(async (itemRef) => {
+                        const url = await getDownloadURL(itemRef);
+                        return {
+                            name: itemRef.name,
+                            fullPath: itemRef.fullPath,
+                            url: url
+                        };
+                    })
+                );
+                return urls;
+            } catch (error) {
+                console.error('Error listing storage:', error);
+                // Try root level
+                try {
+                    const rootRef = ref(storage);
+                    const result = await listAll(rootRef);
+                    const urls = await Promise.all(
+                        result.items.map(async (itemRef) => {
+                            const url = await getDownloadURL(itemRef);
+                            return {
+                                name: itemRef.name,
+                                fullPath: itemRef.fullPath,
+                                url: url
+                            };
+                        })
+                    );
+                    return urls;
+                } catch (error2) {
+                    console.error('Error listing root:', error2);
+                    return [];
+                }
+            }
+        }
+
+        function displayImages(images) {
+            const imageListDiv = document.getElementById('imageList');
+            imageListDiv.innerHTML = '<h2>Found Images:</h2>';
+
+            if (images.length === 0) {
+                imageListDiv.innerHTML += '<p>No images found in Firebase Storage. Your images might be in the local /images folder or referenced by URL.</p>';
+                return;
+            }
+
+            images.forEach((img, index) => {
+                const div = document.createElement('div');
+                div.className = 'image-item';
+                div.innerHTML = `
+                    <img src="${img.url}" alt="${img.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22150%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3ENo preview%3C/text%3E%3C/svg%3E'">
+                    <div class="image-info">
+                        <strong>${img.name}</strong>
+                        <div class="image-url">${img.fullPath}</div>
+                        <button class="download-btn" onclick="window.downloadImageHandler('${img.url}', '${img.name}')">
+                            Download
+                        </button>
+                    </div>
+                `;
+                imageListDiv.appendChild(div);
+            });
+
+            document.getElementById('downloadAllBtn').style.display = 'inline-block';
+        }
+
+        window.downloadImageHandler = downloadImage;
+
+        document.getElementById('scanBtn').addEventListener('click', async () => {
+            const button = document.getElementById('scanBtn');
+            button.disabled = true;
+
+            showStatus('Scanning Firestore for image references...');
+            const firestoreImages = await scanFirestoreForImages();
+
+            showStatus('Listing Firebase Storage images...');
+            const storageImages = await listStorageImages();
+
+            allImages = storageImages;
+
+            showStatus(`✅ Found ${storageImages.length} images in Firebase Storage and ${firestoreImages.length} image references in Firestore.`);
+            showInstructions();
+            displayImages(storageImages);
+
+            console.log('Firestore image URLs:', firestoreImages);
+            console.log('Storage images:', storageImages);
+
+            button.disabled = false;
+        });
+
+        document.getElementById('downloadAllBtn').addEventListener('click', async () => {
+            showStatus('Downloading all images...');
+            for (const img of allImages) {
+                await downloadImage(img.url, img.name);
+                await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between downloads
+            }
+            showStatus('✅ All images downloaded!');
+        });
+    </script>
+</body>
+</html>
