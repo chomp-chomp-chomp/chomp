@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Storage Checker</title>
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #e73b42;
+    }
+    .status {
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    .folder-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .folder-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #353535;
+    }
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .image-item {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fdfdfd;
+    }
+    .image-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .image-name {
+      font-size: 0.85em;
+      color: #666;
+      word-break: break-all;
+    }
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+    button {
+      background: #e73b42;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background: #d32f36;
+    }
+    .summary {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+    .count {
+      font-weight: 600;
+      color: #e73b42;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Firebase Storage Image Checker</h1>
+  <p>This tool checks your Firebase Storage buckets to see what images are available.</p>
+
+  <div id="statusContainer"></div>
+
+  <div>
+    <button onclick="checkStorage()">Check Storage</button>
+    <button onclick="location.reload()">Refresh Page</button>
+  </div>
+
+  <div id="summaryContainer"></div>
+  <div id="resultsContainer"></div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+    import { getStorage, ref, listAll, getDownloadURL } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
+      authDomain: "chomp-chomp-recipes.firebaseapp.com",
+      projectId: "chomp-chomp-recipes",
+      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
+      messagingSenderId: "225432495618",
+      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    function showStatus(message, type = 'info') {
+      const container = document.getElementById('statusContainer');
+      container.innerHTML = `<div class="status ${type}">${message}</div>`;
+    }
+
+    async function checkFolder(folderPath) {
+      try {
+        const folderRef = ref(storage, folderPath);
+        const result = await listAll(folderRef);
+
+        const images = [];
+        for (const itemRef of result.items) {
+          try {
+            const url = await getDownloadURL(itemRef);
+            images.push({
+              name: itemRef.name,
+              path: itemRef.fullPath,
+              url: url
+            });
+          } catch (err) {
+            console.error(`Error getting URL for ${itemRef.name}:`, err);
+            images.push({
+              name: itemRef.name,
+              path: itemRef.fullPath,
+              url: null,
+              error: err.message
+            });
+          }
+        }
+
+        return {
+          folder: folderPath,
+          count: images.length,
+          images: images,
+          subfolders: result.prefixes.map(p => p.fullPath)
+        };
+      } catch (error) {
+        console.error(`Error checking folder ${folderPath}:`, error);
+        return {
+          folder: folderPath,
+          count: 0,
+          images: [],
+          subfolders: [],
+          error: error.message
+        };
+      }
+    }
+
+    window.checkStorage = async function() {
+      showStatus('🔄 Checking Firebase Storage...', 'info');
+
+      const resultsContainer = document.getElementById('resultsContainer');
+      const summaryContainer = document.getElementById('summaryContainer');
+      resultsContainer.innerHTML = '<div class="loading">Scanning folders...</div>';
+      summaryContainer.innerHTML = '';
+
+      // Check all common folders
+      const foldersToCheck = [
+        'recipe-images',
+        'recipes',
+        'posts/images',
+        'posts',
+        'images',
+        '' // root
+      ];
+
+      const results = [];
+      let totalImages = 0;
+      let totalErrors = 0;
+
+      for (const folder of foldersToCheck) {
+        const result = await checkFolder(folder);
+        results.push(result);
+        totalImages += result.count;
+        if (result.error) totalErrors++;
+      }
+
+      // Display summary
+      summaryContainer.innerHTML = `
+        <div class="summary">
+          <h2>Summary</h2>
+          <div class="summary-item">
+            <span>Total Folders Checked:</span>
+            <span class="count">${foldersToCheck.length}</span>
+          </div>
+          <div class="summary-item">
+            <span>Total Images Found:</span>
+            <span class="count">${totalImages}</span>
+          </div>
+          <div class="summary-item">
+            <span>Folders with Errors:</span>
+            <span class="count">${totalErrors}</span>
+          </div>
+        </div>
+      `;
+
+      // Display results
+      if (totalImages === 0) {
+        showStatus('⚠️ No images found in Firebase Storage. Your images might need to be restored from a backup.', 'error');
+        resultsContainer.innerHTML = `
+          <div class="folder-section">
+            <p style="color: #721c24;">No images were found in any of the checked folders. This could mean:</p>
+            <ul style="margin-top: 10px; color: #666;">
+              <li>Images were deleted due to billing issues</li>
+              <li>Storage bucket was cleared</li>
+              <li>Images are in a different location</li>
+              <li>Storage access is restricted (check Firebase Console)</li>
+            </ul>
+            <p style="margin-top: 15px; font-weight: 600;">Next Steps:</p>
+            <ol style="color: #666; margin-top: 10px;">
+              <li>Check your Firebase Console: <a href="https://console.firebase.google.com/project/chomp-chomp-recipes/storage" target="_blank" style="color: #e73b42;">Open Storage</a></li>
+              <li>Verify billing is active and working</li>
+              <li>Check if you have a backup of images (local drive, Google Drive, etc.)</li>
+              <li>Review Firebase Storage rules to ensure read access is allowed</li>
+            </ol>
+          </div>
+        `;
+      } else {
+        showStatus(`✅ Successfully found ${totalImages} images across ${results.filter(r => r.count > 0).length} folders`, 'success');
+
+        resultsContainer.innerHTML = results.map(result => {
+          if (result.count === 0 && !result.error) return '';
+
+          return `
+            <div class="folder-section">
+              <div class="folder-title">
+                📁 ${result.folder || 'Root'}
+                ${result.count > 0 ? `<span style="color: #28a745;">(${result.count} images)</span>` : ''}
+                ${result.error ? `<span style="color: #dc3545;">(Error: ${result.error})</span>` : ''}
+              </div>
+              ${result.images.length > 0 ? `
+                <div class="image-grid">
+                  ${result.images.map(img => `
+                    <div class="image-item">
+                      ${img.url ?
+                        `<img src="${img.url}" alt="${img.name}" onerror="this.src='https://via.placeholder.com/200x150?text=Error+Loading'">` :
+                        `<div style="width: 100%; height: 150px; background: #f8d7da; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #721c24; font-size: 0.85em; text-align: center; padding: 10px;">Error loading image</div>`
+                      }
+                      <div class="image-name">${img.name}</div>
+                      ${img.url ? `
+                        <a href="${img.url}" target="_blank" style="font-size: 0.8em; color: #e73b42;">Open</a>
+                      ` : `
+                        <span style="font-size: 0.75em; color: #dc3545;">${img.error || 'Access denied'}</span>
+                      `}
+                    </div>
+                  `).join('')}
+                </div>
+              ` : '<p style="color: #999;">No images in this folder</p>'}
+            </div>
+          `;
+        }).join('');
+      }
+    };
+
+    // Automatically check on page load
+    window.addEventListener('load', () => {
+      setTimeout(() => checkStorage(), 500);
+    });
+  </script>
+</body>
+</html>
