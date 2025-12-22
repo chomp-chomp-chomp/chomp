@@ -1,0 +1,77 @@
+# Images needed for migration (60 total)
+# Download these from Firebase Storage and upload to Cloudinary
+# Keep the EXACT same filenames!
+
+## Recipe Images (53):
+apple-rose-pie-1763568986654.jpg
+ash-baked-flats-1765207345775.JPG
+bakers-lament-1765207422903.JPG
+biscuit-bis-coctus-1765207391304.JPG
+blackberry-sage-chocolate-cake-1763568801352.png
+carrot-orange-olive-oil-cake-1763569087624.png
+consolation-discs-1765207460082.JPG
+crumb-tokens-1765207488666.JPG
+crumbwaifs-1765207625308.JPG
+crust-of-argument-1765207668495.JPG
+crustlets-1765207693310.JPG
+dark-chocolate-olive-oil-cake-1763665225344.webp
+dockside-cakels-1765207735408.JPG
+dubai-chocolate-1763665602764.webp
+easy-soft-gingerbread-cookies-1765689553035.jpeg
+eggnog-cookies-1765688903975.jpeg
+experimental-pastries-1765207769801.JPG
+five-spice-molasses-1763691635955.jpeg
+folly-bisques-1765207803518.JPG
+hearth-circles-1765207838205.JPG
+hildevarts-folly-cakes-1765207876744.JPG
+honey-ricotta-black-whites-1763691675093.jpeg
+honey-scones-1765686392845.jpeg
+koekje-1765025298360.PNG
+koeklings-1765211069880.JPG
+lords-day-chewables-1765207909664.JPG
+matcha-amaretti-1763699669959.jpeg
+mawmaw-walkers-banana-pudding-1763691925468.jpeg
+mercantile-rounds-1765207935663.JPG
+mirthcakes-1765207970364.JPG
+misnomer-cakes-1765208001476.JPG
+monks-embers-1765208069324.JPG
+oath-breakers-1765208092429.JPG
+oven-wanderers-1765208119766.JPG
+pan-rounds-of-reason-1765208145954.JPG
+pezzetti-di-cannella-1763691811379.jpeg
+pilgrims-stoics-1765208201669.JPG
+russian-spice-cookies-pryaniki-1765689220202.jpeg
+scribes-regret-1765208231551.JPG
+ships-stones-1765208309095.JPG
+smalls-of-uncertain-texture-1765208331430.JPG
+softlings-1765203499990.PNG
+sweet-rounds-for-the-road-1765208355780.JPG
+the-best-sugar-cookies-1763669452532.jpg
+tidings-1765208385189.JPG
+travelers-flats-1765208409048.JPG
+twice-baked-wafers-1765208441703.JPG
+twice-browned-resentments-1765208463646.JPG
+ube-brle-1763691654457.jpeg
+unnamables-1765208491363.JPG
+vanilla-frozen-custard-recipe-1763564797935.png
+wayfarers-puck-1765203968122.PNG
+
+## Post Images (7):
+IMG_3866.jpeg
+16BE9371-1D9F-46A6-967A-A2E77FF253FF.png
+1764573077276_IMG_3379.jpeg
+1764589643845_IMG_3395.jpeg
+1764590083302_IMG_3392.jpeg
+1764590241117_CADBEAD1-691A-4D8E-B9C8-4094E5A9E95E.png
+FB84D316-0233-4F7A-88F5-EC832C76ED22-compressed.jpeg
+
+## Other (1):
+recipes cookie icon.png
+
+---
+TOTAL: 60 images
+
+Upload these to Cloudinary at:
+https://console.cloudinary.com/console/dlqfyv1qj/media_library
+
+Keep the filenames EXACTLY as shown above!
