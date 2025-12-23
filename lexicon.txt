@@ -16,12 +16,12 @@ Image:
 Term: Blind baking
 Type: Technique
 Description: Pre-baking a crust before filling. This is preparation without content, form insisting on its autonomy before meaning arrives.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlind%20baking.jpg?alt=media&token=5fb23e40-e467-436d-8a19-a086b8398c1b
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Blind%20baking.jpg
 
 Term: Blooming
 Type: Technique
 Description: Hydrating gelatin or activating cocoa or yeast in warm liquid. Blooming reminds us that latent potential requires submission to heat before it can perform.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlooming.jpg?alt=media&token=16894f53-0c4a-4693-bed6-c149dc8fb6e3
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Blooming.jpg
 
 Term: Bread flour
 Type: Ingredient
@@ -46,7 +46,7 @@ Image:
 Term: Contradiction
 Type: Concept
 Description: The coexistence of opposing truths within the same object. A baked good is both fragile and stable, ephemeral and repeatable, indulgent and ritualized.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FContradiction.JPG?alt=media&token=cfb62dbc-2854-4390-a05b-c4d502950950
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Contradiction.JPG
 
 Term: Creaming
 Type: Technique
@@ -56,7 +56,7 @@ Image:
 Term: Crumb coat
 Type: Technique
 Description: A thin initial frosting layer to trap crumbs. The crumb coat functions as ideology: an imperfect first layer that hides the mess necessary for a polished surface.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FCrumb%20coat.jpg?alt=media&token=7a2c34a1-53b8-4371-8e3c-236cac58e310
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Crumb%20coat.jpg
 
 Term: Cultured butter
 Type: Ingredient
@@ -76,12 +76,12 @@ Image:
 Term: Egg wash
 Type: Technique
 Description: Beaten egg brushed on dough for shine and color. Egg wash is pure appearance, proof that surface matters even when substance is unchanged.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEgg%20wash.jpg?alt=media&token=aac9178a-8329-4303-8da5-5ee3797a69f0
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Egg%20wash.jpg
 
 Term: Emulsifier
 Type: Ingredient
 Description: Ingredient that binds fat and water. The emulsifier is the mediator, preventing antagonistic elements from separating into open conflict.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEmulsifier.jpg?alt=media&token=e7d0c6e9-6029-4f28-a76f-e9df5e35905e
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Emulsifier.jpg
 
 Term: Enjoyment (Jouissance)
 Type: Concept
@@ -101,7 +101,7 @@ Image:
 Term: Fetish
 Type: Concept
 Description: An object invested with meaning beyond its material function. A perfect loaf or cookie becomes a fetishized endpoint, concealing the messy labor and failure that produced it.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FFetish.JPG?alt=media&token=58fa505e-6a8b-4b60-8cad-049f189397e7
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Fetish.JPG
 
 Term: Form and Content
 Type: Concept
@@ -151,7 +151,7 @@ Image:
 Term: Materiality
 Type: Concept
 Description: The insistence that ideas must pass through matter. Baking refuses abstraction; philosophy must be kneaded, measured, and baked to exist.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FMateriality.JPG?alt=media&token=fd7109fa-765f-491c-82eb-476820634504
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Materiality.JPG
 
 Term: Mediation
 Type: Concept
@@ -171,17 +171,17 @@ Image:
 Term: Proofing
 Type: Technique
 Description: Allowing yeast dough to rise before baking. Proofing stages the illusion of freedom: the dough expands on its own, yet only within the strict conditions imposed by temperature and time.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FProofing.jpg?alt=media&token=45581b7a-9d99-4877-af3b-f90cc13e4426
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Proofing.jpg
 
 Term: Repetition
 Type: Concept
 Description: The return of the same action under slightly altered conditions. Each bake repeats the last, yet difference insists on emerging through time, temperature, and error.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRepetition.JPG?alt=media&token=d6922752-2533-4cce-9b99-90f23d23310c
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Repetition.JPG
 
 Term: Ritual
 Type: Concept
 Description: Repeated action invested with meaning beyond utility. Baking rituals transform labor into identity, making repetition feel necessary rather than redundant.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRitual.JPG?alt=media&token=2b7e49e1-ebbe-427b-8a9e-195588cbecba
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Ritual.JPG
 
 Term: Salt
 Type: Ingredient
@@ -191,7 +191,7 @@ Image:
 Term: Seeds & nuts
 Type: Ingredient
 Description: Ingredients that add texture, fat, and flavor. They interrupt smoothness, insisting that resistance is necessary for interest.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FSeeds%20and%20nuts.jpg?alt=media&token=b4aa5730-c36a-43bc-8f0d-6d57ec025ff8
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Seeds%20and%20nuts.jpg
 
 Term: Shortening
 Type: Ingredient
@@ -211,7 +211,7 @@ Image:
 Term: Temporality
 Type: Concept
 Description: The experience of time as structured and irreversible. Baking exposes time as material: rush it and it fails, wait too long and it collapses.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FTemporality.JPG?alt=media&token=6bf568cf-fcad-46ca-b6cc-327c44a8e8e8
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Temporality.JPG
 
 Term: Whole wheat flour
 Type: Ingredient
@@ -221,4 +221,4 @@ Image:
 Term: Zest
 Type: Ingredient
 Description: The outer peel of citrus. Zest privileges surface over depth, aroma over substance, and is all the better for it.
-Image: https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FZest.jpg?alt=media&token=b1071f08-55b9-4aa1-98fa-6c7d77ac6cbf
+Image: https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Zest.jpg
