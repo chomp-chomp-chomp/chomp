@@ -496,7 +496,7 @@
         display: block;
         width: 100%;
         height: 180px;
-        background-image: url('https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20logo.jpeg?alt=media');
+        background-image: url('https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20logo.jpeg');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -849,7 +849,7 @@
 
 <img id="floatingIcon" 
 class="mobile-floating-icon" 
-src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20cookie%20icon.png?alt=media"
+src="https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20cookie%20icon.png"
 alt="Navigate"
 title="View All Recipes"
 onclick="window.location.hash='#grid'">
@@ -1112,7 +1112,7 @@ onclick="window.location.hash='#grid'">
 
     const HOME_CONTENT_HTML = `
       <div class="home-text">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20logo.jpeg?alt=media" alt="Chomp Recipes Logo" class="home-image">
+          <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20logo.jpeg" alt="Chomp Recipes Logo" class="home-image">
           <h1 class="recipe-title">Recipes & Rituals</h1>
           <p class="recipe-description" style="text-align: center; margin-bottom: 30px;">
           <a href="#grid" class="email-link" style="font-size: 1.1em;">See All Recipes →</a>
@@ -1193,7 +1193,7 @@ onclick="window.location.hash='#grid'">
         // Update floating icon to show cookie (grid) icon
         const floatingIcon = document.getElementById('floatingIcon');
         if (floatingIcon) {
-            floatingIcon.setAttribute('src', 'https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20cookie%20icon.png?alt=media');
+            floatingIcon.setAttribute('src', 'https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20cookie%20icon.png');
             floatingIcon.setAttribute('title', 'View All Recipes');
             floatingIcon.onclick = function(e) { 
               e.preventDefault();
@@ -1358,7 +1358,7 @@ onclick="window.location.hash='#grid'">
       
       content.innerHTML = `
         <div class="recipe-view">
-          <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20logo.jpeg?alt=media" alt="Chomp Recipes Logo" class="recipe-logo" style="width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto 20px auto;">
+          <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20logo.jpeg" alt="Chomp Recipes Logo" class="recipe-logo" style="width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto 20px auto;">
           <p class="back-to-grid-link" style="text-align: center; margin-bottom: 30px;">
             <a href="#grid" class="email-link" style="font-size: 0.95em; font-weight: 400;">← Back to All Recipes</a>
           </p>
@@ -1385,7 +1385,7 @@ onclick="window.location.hash='#grid'">
       // Update floating icon to show cookie (grid) when viewing a recipe
       const floatingIcon = document.getElementById('floatingIcon');
       if (floatingIcon) {
-          floatingIcon.setAttribute('src', 'https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20cookie%20icon.png?alt=media');
+          floatingIcon.setAttribute('src', 'https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20cookie%20icon.png');
           floatingIcon.setAttribute('title', 'View All Recipes');
           floatingIcon.onclick = function(e) { 
             e.preventDefault();
@@ -1557,7 +1557,7 @@ onclick="window.location.hash='#grid'">
         
         content.innerHTML = `
             <div class="grid-view">
-                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20logo.jpeg?alt=media" alt="Chomp Recipes Logo" style="width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto 30px auto;">
+                <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20logo.jpeg" alt="Chomp Recipes Logo" style="width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto 30px auto;">
                 <h1 class="recipe-title">All Recipes / Rituals</h1>
                 ${gridControlsHTML}
                 <div class="recipe-cards-container" id="gridCardsContainer">
@@ -1575,7 +1575,7 @@ onclick="window.location.hash='#grid'">
         // Update floating icon to show heart (home) icon
         const floatingIcon = document.getElementById('floatingIcon');
         if (floatingIcon) {
-            floatingIcon.setAttribute('src', 'https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frecipes%20manifesto%20icon.png?alt=media');
+            floatingIcon.setAttribute('src', 'https://res.cloudinary.com/dlqfyv1qj/image/upload/images/recipes%20manifesto%20icon.png');
             floatingIcon.setAttribute('title', 'Home / Manifesto');
             floatingIcon.onclick = function(e) { 
               e.preventDefault();
