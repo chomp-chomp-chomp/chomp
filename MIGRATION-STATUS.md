@@ -1,11 +1,11 @@
 # Cloudinary Migration Status
 
 **Last Updated**: 2025-12-24
-**Images Found**: 16 of 38 needed
+**Images Found**: 24 of 38 needed (63% complete)
 
 ---
 
-## ✅ UPDATED - Working Images (16)
+## ✅ UPDATED - Working Images (24)
 
 ### Critical Images (3) - ALL WORKING ✅
 1. ✅ **IMG_3432.png** - Logo (default state)
@@ -38,63 +38,95 @@
    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532145/IMG_3836_hlixgt.jpg`
    - Used on: store.html
 
+### High Priority - Cookie Product (1) - UPDATED ✅
+
+8. ✅ **Bébé's Breath Mints**
+   - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531946/Be%CC%81be%CC%81_s_Breath_Mints-compressed_aciyar.jpg`
+   - Used on: store/order.html
+
 ### Cookie Product Images (9) - READY ✅
 **Note**: These are saved to `cloudinary-cookie-urls.txt` for when needed
 
-8. ✅ Blackstrap Five-Spice
-9. ✅ Bonzer's Bones
-10. ✅ Caffè & Rose
-11. ✅ Cardamom Espresso
-12. ✅ Cobanero Chocolate
-13. ✅ Jordie's Chomp Chomps
-14. ✅ Linus's Lite Bites
-15. ✅ Matcha Amaretti
-16. ✅ Ube Brûlée
+9. ✅ Blackstrap Five-Spice
+10. ✅ Bonzer's Bones
+11. ✅ Caffè & Rose
+12. ✅ Cardamom Espresso
+13. ✅ Cobanero Chocolate
+14. ✅ Jordie's Chomp Chomps
+15. ✅ Linus's Lite Bites
+16. ✅ Matcha Amaretti
+17. ✅ Ube Brûlée
+
+### Medium Priority - Tool Thumbnails (7) - UPDATED ✅
+
+18. ✅ **dante.jpg** - Inferno Ipsum tool thumbnail
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531924/1764737716530_dante_t48z2v.jpg`
+    - Used on: tools/dante.html
+
+19. ✅ **nipsum.jpg** - Nautical Ipsum tool thumbnail
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531923/1764737717497_nipsum_m4seny.jpg`
+    - Used on: tools/nautical.html
+
+20. ✅ **who.jpg** - Whois tool thumbnail
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531923/1764737718159_who_mglrpl.jpg`
+    - Used on: tools/ip.html
+
+21. ✅ **toolspin.jpg** - Tools index thumbnail
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531918/1764737718766_toolspin_sdhqpp.jpg`
+    - Used on: tools/temp/index.html
+
+22. ✅ **snet.jpg** - Subnet calculator thumbnail
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531918/1764737719378_snet_vibghs.jpg`
+    - Used on: tools/subnet.html
+
+23. ✅ **code.jpg** - Encode tool thumbnail
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531924/1764737720094_code_ocslur.jpg`
+    - Used on: tools/encode.html
+
+24. ✅ **vert.jpg** - Convert tool thumbnail
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531919/1764737720669_vert_l9ko5a.jpg`
+    - Used on: tools/convert.html
 
 ---
 
-## ❌ MISSING - Need to Upload (22)
+## ❌ MISSING - Need to Upload (14)
 
-### High Priority - Store Images (5)
+### High Priority - Store Images (4)
 
-17. ❌ **IMG_3460.jpeg** - Social media OG image
+25. ❌ **IMG_3460.jpeg** - Social media OG image
     - Purpose: Facebook/Twitter share preview
     - Used on: index.html, stories.html, post.html, recipe.html, about.html
 
-18. ❌ **chomp store dark.PNG** - Store banner (dark mode)
+26. ❌ **chomp store dark.PNG** - Store banner (dark mode)
     - Purpose: Store header for dark mode users
     - Used on: store.html
 
-19. ❌ **chomp store light.PNG** - Store banner (light mode)
+27. ❌ **chomp store light.PNG** - Store banner (light mode)
     - Purpose: Store header for light mode users
     - Used on: store.html
 
-20. ❌ **Bébé's Breath Mints-compressed.jpeg**
-    - Purpose: Cookie product image
-    - Used on: store.html (likely)
-
-21-24. ❌ **IMG_3846.jpeg, IMG_3847.jpeg, IMG_3848.jpeg, IMG_3849.jpeg**
+28-31. ❌ **IMG_3846.jpeg, IMG_3847.jpeg, IMG_3848.jpeg, IMG_3849.jpeg**
     - Purpose: Additional store product images
     - Used on: store.html
 
-### Medium Priority - Lexicon Images (14)
+### Medium Priority - Lexicon Images (10)
 
 These are illustrations for your baking lexicon/dictionary:
 
-25. ❌ Blind baking.jpg
-26. ❌ Blooming.jpg
-27. ❌ Contradiction.JPG
-28. ❌ Crumb coat.jpg
-29. ❌ Egg wash.jpg
-30. ❌ Emulsifier.jpg
-31. ❌ Fetish.JPG
-32. ❌ Materiality.JPG
-33. ❌ Proofing.jpg
-34. ❌ Repetition.JPG
-35. ❌ Ritual.JPG
-36. ❌ Seeds and nuts.jpg
-37. ❌ Temporality.JPG
-38. ❌ Zest.jpg
+32. ❌ Blind baking.jpg
+33. ❌ Blooming.jpg
+34. ❌ Contradiction.JPG
+35. ❌ Crumb coat.jpg
+36. ❌ Egg wash.jpg
+37. ❌ Emulsifier.jpg
+38. ❌ Fetish.JPG
+39. ❌ Materiality.JPG
+40. ❌ Proofing.jpg
+41. ❌ Repetition.JPG
+42. ❌ Ritual.JPG
+43. ❌ Seeds and nuts.jpg
+44. ❌ Temporality.JPG
+45. ❌ Zest.jpg
 
 ---
 
@@ -102,14 +134,15 @@ These are illustrations for your baking lexicon/dictionary:
 
 ### What's Working Now:
 - ✅ **All navigation** (logos and banner on every page)
-- ✅ **Store page** (main logo, order links)
+- ✅ **All tool pages** (thumbnails and logos updated)
+- ✅ **Store page** (main logo, order links, Bébé's Breath Mints)
 - ✅ **Recipe pages** (OG social images)
-- ✅ **Cookie products** (URLs ready, may need Firestore update)
+- ✅ **Cookie products** (10 products ready)
 
 ### What's Not Working Yet:
 - ❌ Social media previews (IMG_3460 missing)
 - ❌ Store banners light/dark (2 images missing)
-- ❌ Some store products (4-5 images missing)
+- ❌ Some store products (4 images missing)
 - ❌ Lexicon term illustrations (14 images missing)
 
 ---
@@ -147,6 +180,6 @@ When searching in Cloudinary, look for files containing:
 
 ---
 
-**Status**: Site is functional with 16/38 images (42% complete)
-**Priority**: Get the 5 missing HIGH priority images for full store functionality
-**Optional**: Lexicon images can be added later
+**Status**: Site is functional with 24/38 images (63% complete)
+**Priority**: Get the 4 missing HIGH priority images for full store functionality
+**Optional**: Lexicon images (14) and tool images (already found, in temp folder) can be added later
