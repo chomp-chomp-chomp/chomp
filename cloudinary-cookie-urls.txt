@@ -1,0 +1,28 @@
+# Cookie Product Images - Cloudinary URLs
+
+Blackstrap Five-Spice-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532145/Blackstrap_Five-Spice-compressed_nimbqp.jpg
+
+Bonzer's Bones-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532089/Bonzer_s_Bones-compressed_pqp3r2.jpg
+
+Caffè & Rose-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532146/Caffee%CC%80_Rose-compressed_xkxxox.jpg
+
+Cardamom Espresso-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531909/Cardamom_Espresso-compressed_a4krki.jpg
+
+Cobanero Chocolate-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531961/Cobanero_Chocolate-compressed_hi6nsd.jpg
+
+Jordie's Chomp Chomps-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532290/Jordie_s_Chomp_Chomps-compressed_ebz2k0.jpg
+
+Linus's Lite Bites-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532128/Linus_s_Lite_Bites-compressed_wytkyq.jpg
+
+Matcha Amaretti-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532255/Matcha_Amaretti-compressed_ktjfje.jpg
+
+Ube Brûlée-compressed.jpeg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531973/Ube_Bru%CC%82le%CC%81e-compressed_ub5umd.jpg
