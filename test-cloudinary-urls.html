@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Cloudinary URLs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #e73b42;
+    }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .test-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-card h3 {
+      margin-top: 0;
+      font-size: 0.9em;
+      color: #666;
+      word-break: break-all;
+    }
+    .test-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+    .status {
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .alternatives {
+      margin-top: 15px;
+      padding: 10px;
+      background: #fff3cd;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+    .alternatives h4 {
+      margin: 0 0 8px 0;
+      font-size: 0.9em;
+      color: #856404;
+    }
+    .alternatives a {
+      display: block;
+      color: #007bff;
+      word-break: break-all;
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Cloudinary URL Diagnostic Tool</h1>
+  <p>Testing the 3 critical images that appear on every page:</p>
+
+  <div class="test-grid">
+    <!-- Logo Default -->
+    <div class="test-card">
+      <h3>Logo (Default)</h3>
+      <p style="font-size: 0.85em; color: #999;">1764704134358_IMG_3432.png</p>
+      <img id="img1"
+           src="https://res.cloudinary.com/dlqfyv1qj/image/upload/images/1764704134358_IMG_3432.png"
+           alt="Logo Default"
+           onload="markSuccess('img1')"
+           onerror="markError('img1', '1764704134358_IMG_3432.png')">
+      <div id="status1" class="status error">⏳ Loading...</div>
+      <div id="alt1" class="alternatives" style="display: none;"></div>
+    </div>
+
+    <!-- Logo Hover -->
+    <div class="test-card">
+      <h3>Logo (Hover)</h3>
+      <p style="font-size: 0.85em; color: #999;">1764704133716_IMG_3433.jpeg</p>
+      <img id="img2"
+           src="https://res.cloudinary.com/dlqfyv1qj/image/upload/images/1764704133716_IMG_3433.jpeg"
+           alt="Logo Hover"
+           onload="markSuccess('img2')"
+           onerror="markError('img2', '1764704133716_IMG_3433.jpeg')">
+      <div id="status2" class="status error">⏳ Loading...</div>
+      <div id="alt2" class="alternatives" style="display: none;"></div>
+    </div>
+
+    <!-- Banner -->
+    <div class="test-card">
+      <h3>Banner</h3>
+      <p style="font-size: 0.85em; color: #999;">1764781386634_chomp recipes logo.JPG</p>
+      <img id="img3"
+           src="https://res.cloudinary.com/dlqfyv1qj/image/upload/images/1764781386634_chomp%20recipes%20logo.JPG"
+           alt="Banner"
+           onload="markSuccess('img3')"
+           onerror="markError('img3', '1764781386634_chomp recipes logo.JPG')">
+      <div id="status3" class="status error">⏳ Loading...</div>
+      <div id="alt3" class="alternatives" style="display: none;"></div>
+    </div>
+  </div>
+
+  <div style="margin-top: 40px; padding: 20px; background: white; border-radius: 8px;">
+    <h2>📋 Troubleshooting Steps</h2>
+
+    <h3>If images show "Failed to Load":</h3>
+    <ol>
+      <li><strong>Check Cloudinary Console</strong>
+        <ul>
+          <li>Go to: <a href="https://console.cloudinary.com/console/dlqfyv1qj/media_library" target="_blank">Media Library</a></li>
+          <li>Search for: <code>1764704134358_IMG_3432.png</code></li>
+          <li>Click on the image</li>
+          <li>Look for "Public ID" - does it match <code>images/1764704134358_IMG_3432.png</code>?</li>
+        </ul>
+      </li>
+
+      <li><strong>Check Image Access Control</strong>
+        <ul>
+          <li>In the image details, look for "Access Control"</li>
+          <li>It should be set to <strong>"Public"</strong></li>
+          <li>If it says "Private", click "Make Public"</li>
+        </ul>
+      </li>
+
+      <li><strong>Check Folder Structure</strong>
+        <ul>
+          <li>Are your images in a folder called <code>images</code>?</li>
+          <li>Or are they in the root directory?</li>
+          <li>If in root, the URL should be: <code>https://res.cloudinary.com/dlqfyv1qj/image/upload/1764704134358_IMG_3432.png</code></li>
+        </ul>
+      </li>
+
+      <li><strong>Check Security Settings</strong>
+        <ul>
+          <li>Go to: <a href="https://console.cloudinary.com/settings/security" target="_blank">Settings → Security</a></li>
+          <li>Make sure "Strict transformations" is disabled</li>
+          <li>Make sure "Resource list" is enabled (allows public access)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Common URL Patterns to Try:</h3>
+    <p>Your images might be in one of these locations:</p>
+    <ul>
+      <li><code>https://res.cloudinary.com/dlqfyv1qj/image/upload/<strong>images/</strong>filename.png</code> (current)</li>
+      <li><code>https://res.cloudinary.com/dlqfyv1qj/image/upload/filename.png</code> (root folder)</li>
+      <li><code>https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/filename.png</code> (with version)</li>
+    </ul>
+  </div>
+
+  <script>
+    function markSuccess(imgId) {
+      const statusEl = document.getElementById('status' + imgId.replace('img', ''));
+      statusEl.className = 'status success';
+      statusEl.textContent = '✅ Image loaded successfully!';
+    }
+
+    function markError(imgId, filename) {
+      const num = imgId.replace('img', '');
+      const statusEl = document.getElementById('status' + num);
+      const altEl = document.getElementById('alt' + num);
+
+      statusEl.className = 'status error';
+      statusEl.textContent = '❌ Failed to load - See alternative URLs below';
+
+      // Generate alternative URLs
+      const baseUrl = 'https://res.cloudinary.com/dlqfyv1qj/image/upload/';
+      const encodedFilename = encodeURIComponent(filename);
+
+      altEl.innerHTML = `
+        <h4>Try these alternative URLs:</h4>
+        <a href="${baseUrl}${encodedFilename}" target="_blank">Root folder (no /images/)</a>
+        <a href="${baseUrl}v1/${encodedFilename}" target="_blank">With version number</a>
+        <a href="${baseUrl}images/${encodedFilename}" target="_blank">Current URL (encoded)</a>
+        <a href="${baseUrl}${filename}" target="_blank">Root folder (unencoded)</a>
+      `;
+      altEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
