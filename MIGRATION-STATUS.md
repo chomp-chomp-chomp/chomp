@@ -1,11 +1,11 @@
 # Cloudinary Migration Status
 
 **Last Updated**: 2025-12-24
-**Images Found**: 24 of 38 needed (63% complete)
+**Images Found**: 28 of 38 needed (74% complete)
 
 ---
 
-## ✅ UPDATED - Working Images (24)
+## ✅ UPDATED - Working Images (28)
 
 ### Critical Images (3) - ALL WORKING ✅
 1. ✅ **IMG_3432.png** - Logo (default state)
@@ -87,29 +87,47 @@
     - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531919/1764737720669_vert_l9ko5a.jpg`
     - Used on: tools/convert.html
 
+### High Priority - Store Product Images (4) - UPDATED ✅
+
+25. ✅ **IMG_4346-compressed.jpg** - Half-Dozen Mixed, Baker's Choice
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532144/IMG_4346-compressed_ehdagx.jpg`
+    - Used on: store/order.html
+    - Note: Originally looking for IMG_3846, found as IMG_4346
+
+26. ✅ **IMG_4347-compressed.jpg** - Dozen Mixed, Baker's Choice
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532088/IMG_4347-compressed_doqigt.jpg`
+    - Used on: store/order.html
+    - Note: Originally looking for IMG_3847, found as IMG_4347
+
+27. ✅ **IMG_4348-compressed.jpg** - A Dozen Cookies
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532092/IMG_4348-compressed_hta1ea.jpg`
+    - Used on: store/order.html
+    - Note: Originally looking for IMG_3848, found as IMG_4348
+
+28. ✅ **IMG_4349-compressed.jpg** - Half-Dozen Cookies
+    - URL: `https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532127/IMG_4349-compressed_arezjo.jpg`
+    - Used on: store/order.html
+    - Note: Originally looking for IMG_3849, found as IMG_4349
+
 ---
 
-## ❌ MISSING - Need to Upload (14)
+## ❌ MISSING - Need to Upload (10)
 
-### High Priority - Store Images (4)
+### High Priority - Still Missing (3)
 
-25. ❌ **IMG_3460.jpeg** - Social media OG image
+29. ❌ **IMG_3460.jpeg** - Social media OG image
     - Purpose: Facebook/Twitter share preview
     - Used on: index.html, stories.html, post.html, recipe.html, about.html
 
-26. ❌ **chomp store dark.PNG** - Store banner (dark mode)
+30. ❌ **chomp store dark.PNG** - Store banner (dark mode)
     - Purpose: Store header for dark mode users
     - Used on: store.html
 
-27. ❌ **chomp store light.PNG** - Store banner (light mode)
+31. ❌ **chomp store light.PNG** - Store banner (light mode)
     - Purpose: Store header for light mode users
     - Used on: store.html
 
-28-31. ❌ **IMG_3846.jpeg, IMG_3847.jpeg, IMG_3848.jpeg, IMG_3849.jpeg**
-    - Purpose: Additional store product images
-    - Used on: store.html
-
-### Medium Priority - Lexicon Images (10)
+### Medium Priority - Lexicon Images (7)
 
 These are illustrations for your baking lexicon/dictionary:
 
@@ -135,15 +153,16 @@ These are illustrations for your baking lexicon/dictionary:
 ### What's Working Now:
 - ✅ **All navigation** (logos and banner on every page)
 - ✅ **All tool pages** (thumbnails and logos updated)
-- ✅ **Store page** (main logo, order links, Bébé's Breath Mints)
+- ✅ **Store page** (main logo, order links, all cookie products)
+- ✅ **All multi-pack products** (half-dozen, dozen, mixed packs)
 - ✅ **Recipe pages** (OG social images)
-- ✅ **Cookie products** (10 products ready)
+- ✅ **Cookie products** (14 products ready: 10 named + 4 pup chomps)
+- ✅ **48 total cookie images found!** (38 "forgotten cookies" with philosophical names)
 
 ### What's Not Working Yet:
 - ❌ Social media previews (IMG_3460 missing)
 - ❌ Store banners light/dark (2 images missing)
-- ❌ Some store products (4 images missing)
-- ❌ Lexicon term illustrations (14 images missing)
+- ❌ Lexicon term illustrations (14 images missing - lowest priority)
 
 ---
 
@@ -180,6 +199,7 @@ When searching in Cloudinary, look for files containing:
 
 ---
 
-**Status**: Site is functional with 24/38 images (63% complete)
-**Priority**: Get the 4 missing HIGH priority images for full store functionality
-**Optional**: Lexicon images (14) and tool images (already found, in temp folder) can be added later
+**Status**: Site is functional with 28/38 images (74% complete)
+**Priority**: Only 3 high priority images missing (IMG_3460, store dark/light banners)
+**Bonus**: Found 48 cookie images total, including 38 "forgotten cookies" with amazing names (see ALL-COOKIE-IMAGES.md)
+**Optional**: Lexicon images (14) can be added later
