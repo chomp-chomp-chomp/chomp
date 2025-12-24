@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudinary URL Mapper</title>
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #e73b42;
+    }
+    .section {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%;
+      min-height: 300px;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+      margin: 10px 0;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #e73b42;
+    }
+    button {
+      background: #e73b42;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      margin: 10px 5px 10px 0;
+    }
+    button:hover {
+      background: #d32f36;
+    }
+    .output {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .instructions {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #ffc107;
+      margin: 15px 0;
+    }
+    .instructions ol {
+      margin: 10px 0 0 20px;
+    }
+    .match-item {
+      padding: 10px;
+      margin: 5px 0;
+      border-left: 3px solid #28a745;
+      background: #f0f9f4;
+      border-radius: 4px;
+    }
+    .match-item.unmatched {
+      border-left-color: #ffc107;
+      background: #fff8e1;
+    }
+    .filename {
+      font-weight: 600;
+      color: #353535;
+    }
+    .cloudinary-url {
+      color: #007bff;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔗 Cloudinary URL Mapper</h1>
+  <p>This tool will help you map your Cloudinary URLs to the images needed by your site.</p>
+
+  <div class="section">
+    <h2>Step 1: Get Your Cloudinary URLs</h2>
+
+    <div class="instructions">
+      <strong>📋 How to get all your Cloudinary image URLs:</strong>
+      <ol>
+        <li>Log into Cloudinary at: <a href="https://cloudinary.com/console" target="_blank">https://cloudinary.com/console</a></li>
+        <li>Go to <strong>Media Library</strong> (in the left sidebar)</li>
+        <li>You should see all your uploaded images</li>
+        <li>For each image:
+          <ul>
+            <li>Click on the image</li>
+            <li>Copy the <strong>"Secure URL"</strong> (looks like: https://res.cloudinary.com/...)</li>
+            <li>Paste it in the box below</li>
+          </ul>
+        </li>
+        <li><strong>OR</strong> if you can see all images in a grid:
+          <ul>
+            <li>Right-click each image → "Copy Image Address"</li>
+            <li>Paste all URLs below (one per line)</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <h3>Paste Your Cloudinary URLs Here:</h3>
+    <p style="font-size: 0.9em; color: #666;">One URL per line, or all at once - I'll clean them up</p>
+    <textarea id="cloudinaryInput" placeholder="Paste your Cloudinary URLs here...
+
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535181/IMG_3433_rqvbzu.jpg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531937/chomp_recipes_logo_kh3zb4.jpg
+..."></textarea>
+
+    <button onclick="processUrls()">Process URLs</button>
+    <button onclick="copyMapping()" style="background: #28a745;">Copy Mapping</button>
+    <button onclick="clearAll()" style="background: #6c757d;">Clear</button>
+  </div>
+
+  <div class="section" id="resultsSection" style="display: none;">
+    <h2>Step 2: Matched URLs</h2>
+    <p>Here's what I found and matched to your site images:</p>
+    <div id="results"></div>
+
+    <h3 style="margin-top: 30px;">Copy This List:</h3>
+    <p style="font-size: 0.9em; color: #666;">Send this to me and I'll update all your files</p>
+    <div id="mappingOutput" class="output"></div>
+  </div>
+
+  <script>
+    const imageInventory = [
+      { name: "IMG_3432", original: "1764704134358_IMG_3432.png", purpose: "Logo (default)", priority: "CRITICAL" },
+      { name: "IMG_3433", original: "1764704133716_IMG_3433.jpeg", purpose: "Logo (hover)", priority: "CRITICAL" },
+      { name: "chomp_recipes_logo", original: "1764781386634_chomp recipes logo.JPG", purpose: "Banner", priority: "CRITICAL" },
+      { name: "IMG_3460", original: "1764743197557_IMG_3460.jpeg", purpose: "Social OG image", priority: "HIGH" },
+      { name: "chomp_recipes", original: "chomp_recipes.png", purpose: "Recipe OG image", priority: "HIGH" },
+      { name: "store_logo", original: "Chomp Chomp store logo-compressed.jpeg", purpose: "Store social", priority: "HIGH" },
+      { name: "store_dark", original: "chomp store dark.PNG", purpose: "Store banner (dark)", priority: "HIGH" },
+      { name: "store_light", original: "chomp store light.PNG", purpose: "Store banner (light)", priority: "HIGH" },
+      { name: "IMG_3837", original: "IMG_3837.jpeg", purpose: "Order link (dark)", priority: "HIGH" },
+      { name: "IMG_3836", original: "IMG_3836.jpeg", purpose: "Order link (light)", priority: "HIGH" },
+      { name: "Bebe", original: "Bébé's Breath Mints-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Blackstrap", original: "Blackstrap Five-Spice-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Bonzer", original: "Bonzer's Bones-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Caffe", original: "Caffè & Rose-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Cardamom", original: "Cardamom Espresso-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Cobanero", original: "Cobanero Chocolate-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Jordie", original: "Jordie's Chomp Chomps-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Linus", original: "Linus's Lite Bites-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Matcha", original: "Matcha Amaretti-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "Ube", original: "Ube Brûlée-compressed.jpeg", purpose: "Cookie product", priority: "HIGH" },
+      { name: "IMG_3846", original: "IMG_3846.jpeg", purpose: "Store product", priority: "HIGH" },
+      { name: "IMG_3847", original: "IMG_3847.jpeg", purpose: "Store product", priority: "HIGH" },
+      { name: "IMG_3848", original: "IMG_3848.jpeg", purpose: "Store product", priority: "HIGH" },
+      { name: "IMG_3849", original: "IMG_3849.jpeg", purpose: "Store product", priority: "HIGH" },
+      { name: "Blind_baking", original: "Blind baking.jpg", purpose: "Lexicon: Blind baking", priority: "MEDIUM" },
+      { name: "Blooming", original: "Blooming.jpg", purpose: "Lexicon: Blooming", priority: "MEDIUM" },
+      { name: "Contradiction", original: "Contradiction.JPG", purpose: "Lexicon: Contradiction", priority: "MEDIUM" },
+      { name: "Crumb_coat", original: "Crumb coat.jpg", purpose: "Lexicon: Crumb coat", priority: "MEDIUM" },
+      { name: "Egg_wash", original: "Egg wash.jpg", purpose: "Lexicon: Egg wash", priority: "MEDIUM" },
+      { name: "Emulsifier", original: "Emulsifier.jpg", purpose: "Lexicon: Emulsifier", priority: "MEDIUM" },
+      { name: "Fetish", original: "Fetish.JPG", purpose: "Lexicon: Fetish", priority: "MEDIUM" },
+      { name: "Materiality", original: "Materiality.JPG", purpose: "Lexicon: Materiality", priority: "MEDIUM" },
+      { name: "Proofing", original: "Proofing.jpg", purpose: "Lexicon: Proofing", priority: "MEDIUM" },
+      { name: "Repetition", original: "Repetition.JPG", purpose: "Lexicon: Repetition", priority: "MEDIUM" },
+      { name: "Ritual", original: "Ritual.JPG", purpose: "Lexicon: Ritual", priority: "MEDIUM" },
+      { name: "Seeds_nuts", original: "Seeds and nuts.jpg", purpose: "Lexicon: Seeds and nuts", priority: "MEDIUM" },
+      { name: "Temporality", original: "Temporality.JPG", purpose: "Lexicon: Temporality", priority: "MEDIUM" },
+      { name: "Zest", original: "Zest.jpg", purpose: "Lexicon: Zest", priority: "MEDIUM" }
+    ];
+
+    function processUrls() {
+      const input = document.getElementById('cloudinaryInput').value;
+      if (!input.trim()) {
+        alert('Please paste your Cloudinary URLs first!');
+        return;
+      }
+
+      // Extract URLs
+      const urls = input.split('\n')
+        .map(line => line.trim())
+        .filter(line => line.includes('cloudinary.com'));
+
+      if (urls.length === 0) {
+        alert('No Cloudinary URLs found. Make sure they contain "cloudinary.com"');
+        return;
+      }
+
+      // Match URLs to inventory
+      const matches = [];
+      const unmatched = [];
+
+      imageInventory.forEach(img => {
+        const found = urls.find(url => {
+          const urlLower = url.toLowerCase();
+          const nameLower = img.name.toLowerCase();
+          return urlLower.includes(nameLower) ||
+                 urlLower.includes(img.original.split('.')[0].toLowerCase().replace(/[^a-z0-9]/g, ''));
+        });
+
+        if (found) {
+          matches.push({ ...img, cloudinaryUrl: found });
+        } else {
+          unmatched.push(img);
+        }
+      });
+
+      displayResults(matches, unmatched, urls.length);
+    }
+
+    function displayResults(matches, unmatched, totalUrls) {
+      const resultsSection = document.getElementById('resultsSection');
+      const resultsDiv = document.getElementById('results');
+      const mappingDiv = document.getElementById('mappingOutput');
+
+      resultsSection.style.display = 'block';
+
+      // Display matched
+      let html = `<h3>✅ Matched: ${matches.length} images</h3>`;
+      matches.forEach(m => {
+        html += `
+          <div class="match-item">
+            <div class="filename">${m.original}</div>
+            <div style="color: #666; font-size: 0.85em;">${m.purpose} (${m.priority})</div>
+            <div class="cloudinary-url">${m.cloudinaryUrl}</div>
+          </div>
+        `;
+      });
+
+      if (unmatched.length > 0) {
+        html += `<h3 style="margin-top: 30px;">⚠️ Not Found: ${unmatched.length} images</h3>`;
+        html += `<p style="color: #666; font-size: 0.9em;">These images weren't matched. Make sure you've uploaded them to Cloudinary:</p>`;
+        unmatched.forEach(m => {
+          html += `
+            <div class="match-item unmatched">
+              <div class="filename">${m.original}</div>
+              <div style="color: #666; font-size: 0.85em;">${m.purpose} (${m.priority})</div>
+            </div>
+          `;
+        });
+      }
+
+      resultsDiv.innerHTML = html;
+
+      // Create mapping output
+      let mapping = `# Cloudinary URL Mapping\n# Found ${matches.length} of ${imageInventory.length} images from ${totalUrls} URLs\n\n`;
+      matches.forEach(m => {
+        mapping += `${m.original}\n${m.cloudinaryUrl}\n\n`;
+      });
+
+      mappingDiv.textContent = mapping;
+    }
+
+    function copyMapping() {
+      const mappingDiv = document.getElementById('mappingOutput');
+      const text = mappingDiv.textContent;
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✅ Mapping copied! Send this to me and I\'ll update all your files.');
+      }).catch(err => {
+        alert('Please select and copy the text manually');
+      });
+    }
+
+    function clearAll() {
+      document.getElementById('cloudinaryInput').value = '';
+      document.getElementById('resultsSection').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
