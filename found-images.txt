@@ -1,0 +1,36 @@
+# FOUND IN CLOUDINARY (from 335 URLs)
+
+## High Priority - FOUND (1):
+Bébé's Breath Mints: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531946/Be%CC%81be%CC%81_s_Breath_Mints-compressed_aciyar.jpg
+
+## Medium Priority - Tool Images FOUND (6):
+1764737716530_dante.jpg: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531924/1764737716530_dante_t48z2v.jpg
+1764737717497_nipsum.jpg: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531923/1764737717497_nipsum_m4seny.jpg
+1764737718159_who.jpg: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531923/1764737718159_who_mglrpl.jpg
+1764737718766_toolspin.jpg: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531918/1764737718766_toolspin_sdhqpp.jpg
+1764737719378_snet.jpg: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531918/1764737719378_snet_vibghs.jpg
+1764737720094_code.jpg: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531924/1764737720094_code_ocslur.jpg
+1764737720669_vert.jpg: https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531919/1764737720669_vert_l9ko5a.jpg
+
+## NOT FOUND in the 335 URLs:
+# High Priority:
+- IMG_3460.jpeg (social OG image)
+- chomp store dark.PNG
+- chomp store light.PNG  
+- IMG_3846, IMG_3847, IMG_3848, IMG_3849
+
+# Medium Priority - Lexicon (14 images):
+- Blind baking.jpg
+- Blooming.jpg
+- Contradiction.JPG
+- Crumb coat.jpg
+- Egg wash.jpg
+- Emulsifier.jpg
+- Fetish.JPG
+- Materiality.JPG
+- Proofing.jpg
+- Repetition.JPG
+- Ritual.JPG
+- Seeds and nuts.jpg
+- Temporality.JPG
+- Zest.jpg

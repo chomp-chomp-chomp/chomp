@@ -1,5 +1,8 @@
 # Cookie Product Images - Cloudinary URLs
 
+Bébé's Breath Mints-compressed.jpg
+https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531946/Be%CC%81be%CC%81_s_Breath_Mints-compressed_aciyar.jpg
+
 Blackstrap Five-Spice-compressed.jpeg
 https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766532145/Blackstrap_Five-Spice-compressed_nimbqp.jpg
 
