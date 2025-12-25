@@ -76,7 +76,7 @@
       <button id="exportRecipesBtn">Export Recipes Only</button>
       <button id="exportPostsBtn">Export Posts Only</button>
       <button id="exportLexiconBtn">Export Lexicon Only</button>
-      <button id="exportBooksBtn">Export Reading List Only</button>
+      <button id="exportReadingListBtn">Export Reading List Only</button>
       <button id="exportPlaylistsBtn">Export Playlists Only</button>
     </div>
 
@@ -112,7 +112,7 @@
       recipes: `artifacts/${projectId}/public/data/recipes`,
       posts: `artifacts/${projectId}/public/data/posts`,
       lexicon: `artifacts/${projectId}/public/data/lexicon`,
-      books: `artifacts/${projectId}/public/data/books`,
+      'reading-list': `artifacts/${projectId}/public/data/reading-list`,
       playlists: `artifacts/${projectId}/public/data/playlists`
     };
 
@@ -233,10 +233,10 @@
       previewDiv.innerHTML = '';
       exportCollection('lexicon', collections.lexicon);
     });
-    document.getElementById('exportBooksBtn').addEventListener('click', () => {
+    document.getElementById('exportReadingListBtn').addEventListener('click', () => {
       downloadsDiv.innerHTML = '';
       previewDiv.innerHTML = '';
-      exportCollection('books', collections.books);
+      exportCollection('reading-list', collections['reading-list']);
     });
     document.getElementById('exportPlaylistsBtn').addEventListener('click', () => {
       downloadsDiv.innerHTML = '';
