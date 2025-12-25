@@ -260,24 +260,8 @@
     </div>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, getDocs, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Homepage Logic -->
+  <script>
 
 
     // Display featured story
@@ -356,11 +340,11 @@
     // Load featured story (most recent published post)
     async function loadFeaturedStory() {
       try {
-        const postsRef = collection(db, `artifacts/${appId}/public/data/posts`);
-        const q = query(postsRef, where('status', '==', 'published'));
+        const response = await fetch('/data/posts.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        const snapshot = await getDocs(q);
-        const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const allPosts = await response.json();
+        const posts = allPosts.filter(p => p.status === 'published');
         posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
 
         displayFeaturedStory(posts[0]);
@@ -385,20 +369,21 @@
     // Load featured recipe (random)
     async function loadFeaturedRecipe() {
       try {
-        const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
-        const snapshot = await getDocs(recipesRef);
-        const recipes = snapshot.docs.map(doc => {
-          const data = { id: doc.id, ...doc.data() };
+        const response = await fetch('/data/recipes.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const recipes = await response.json();
+        const processedRecipes = recipes.map(recipe => {
           // Ensure dishType is set
-          if (!data.dishType) {
-            data.dishType = assignDishType(data.title);
+          if (!recipe.dishType) {
+            recipe.dishType = assignDishType(recipe.title);
           }
-          return data;
+          return recipe;
         });
 
-        if (recipes.length > 0) {
-          const randomIndex = Math.floor(Math.random() * recipes.length);
-          displayFeaturedRecipe(recipes[randomIndex]);
+        if (processedRecipes.length > 0) {
+          const randomIndex = Math.floor(Math.random() * processedRecipes.length);
+          displayFeaturedRecipe(processedRecipes[randomIndex]);
         }
       } catch (error) {
         console.error("Error loading featured recipe:", error);
@@ -412,9 +397,10 @@
     // Load random lexicon term
     async function loadRandomTerm() {
       try {
-        const lexiconRef = collection(db, `artifacts/${appId}/public/data/lexicon`);
-        const snapshot = await getDocs(lexiconRef);
-        const terms = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const response = await fetch('/data/lexicon.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const terms = await response.json();
 
         if (terms.length > 0) {
           const randomIndex = Math.floor(Math.random() * terms.length);
@@ -446,9 +432,10 @@
     // Load random book
     async function loadRandomBook() {
       try {
-        const booksRef = collection(db, `artifacts/${appId}/public/data/reading-list`);
-        const snapshot = await getDocs(booksRef);
-        const books = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const response = await fetch('/data/reading-list.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const books = await response.json();
 
         if (books.length > 0) {
           const randomIndex = Math.floor(Math.random() * books.length);

@@ -240,24 +240,8 @@
     </p>
   </footer>
 
-  <!-- Firebase & App Logic -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getFirestore, collection, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Playlist Page Logic -->
+  <script>
 
     // Get playlist ID from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -269,18 +253,19 @@
       loadPlaylist(playlistId);
     }
 
-    // Load playlist
+    // Load playlist from JSON
     async function loadPlaylist(slug) {
       try {
-        const playlistRef = doc(db, `artifacts/${appId}/public/data/playlists`, slug);
-        const playlistSnap = await getDoc(playlistRef);
+        const response = await fetch('/data/playlists.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        if (!playlistSnap.exists()) {
+        const playlists = await response.json();
+        const playlist = playlists.find(p => p.id === slug);
+
+        if (!playlist) {
           showError('Playlist not found', 'This playlist may have been removed or the link is incorrect.');
           return;
         }
-
-        const playlist = playlistSnap.data();
 
         // Update page title
         document.title = `${playlist.title} - Chomp Chomp Playlists`;

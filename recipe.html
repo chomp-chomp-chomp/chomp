@@ -437,24 +437,8 @@
     </div>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Recipe Page Logic -->
+  <script>
 
     // Get slug from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -478,19 +462,20 @@
       return 'Other Baked Goods';
     }
 
-    // Load recipe from Firestore
+    // Load recipe from JSON
     async function loadRecipe(slug) {
       try {
-        const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
-        const q = query(recipesRef, where('slug', '==', slug));
-        const snapshot = await getDocs(q);
+        const response = await fetch('/data/recipes.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        if (snapshot.empty) {
+        const recipes = await response.json();
+        const recipe = recipes.find(r => r.slug === slug || r.id === slug);
+
+        if (!recipe) {
           showError('Recipe not found', 'The recipe you\'re looking for doesn\'t exist or has been removed.');
           return;
         }
 
-        const recipe = snapshot.docs[0].data();
         // Ensure dishType is set
         if (!recipe.dishType) {
           recipe.dishType = assignDishType(recipe.title);

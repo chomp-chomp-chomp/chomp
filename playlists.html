@@ -511,24 +511,8 @@
     </p>
   </footer>
 
-  <!-- Firebase & App Logic -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Playlists Page Logic -->
+  <script>
 
     let allPlaylists = [];
     let activeFilters = {
@@ -536,14 +520,14 @@
       recipeType: null
     };
 
-    // Load playlists
+    // Load playlists from JSON
     async function loadPlaylists() {
       try {
-        const playlistsRef = collection(db, `artifacts/${appId}/public/data/playlists`);
-        const q = query(playlistsRef, where('status', '==', 'published'));
-        const snapshot = await getDocs(q);
+        const response = await fetch('/data/playlists.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        allPlaylists = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const data = await response.json();
+        allPlaylists = data.filter(p => p.status === 'published');
 
         // Sort: featured first, then alphabetically
         allPlaylists.sort((a, b) => {
