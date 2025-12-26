@@ -2,7 +2,8 @@ backend:
   name: github
   repo: chomp-chomp-pachewy/chomp
   branch: main
-  base_url: https://api.github.com
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
 
 # Publish mode
 publish_mode: simple
