@@ -590,24 +590,8 @@
     });
   </script>
 
-  <!-- Firebase & Reading List Logic -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Reading List Page Logic -->
+  <script>
 
     let allBooks = [];
     let currentSort = 'title';
@@ -625,14 +609,13 @@
       return parts[parts.length - 1];
     }
 
-    // Load books from Firestore
+    // Load books from JSON
     async function loadBooks() {
       try {
-        const booksRef = collection(db, `artifacts/${appId}/public/data/reading-list`);
-        const q = query(booksRef);
-        const snapshot = await getDocs(q);
+        const response = await fetch('/data/reading-list.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        allBooks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        allBooks = await response.json();
         displayBooks();
       } catch (error) {
         console.error("Error loading books:", error);

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "cardamom-espresso-cookies",
+    "title": "Cardamom Espresso Cookies",
+    "slug": "cardamom-espresso-cookies",
+    "description": "Aromatic cardamom meets bold espresso in these delightful cookies.",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531909/Cardamom_Espresso-compressed_a4krki.jpg",
+    "servings": "24 cookies",
+    "prepTime": "20min",
+    "cookTime": "12-15min",
+    "totalTime": "35min",
+    "totalTimeInMinutes": 35,
+    "source": "Chomp Chomp",
+    "category": "chomp chomp",
+    "dishType": "Cookie/Bar",
+    "ingredients": [
+      "2 cups all-purpose flour",
+      "1 tbsp ground cardamom",
+      "2 tsp espresso powder",
+      "1 cup butter, softened",
+      "3/4 cup sugar",
+      "1 egg"
+    ],
+    "instructions": [
+      "Preheat oven to 350°F",
+      "Mix dry ingredients in a bowl",
+      "Cream butter and sugar until fluffy",
+      "Add egg and mix well",
+      "Gradually add dry ingredients",
+      "Scoop onto baking sheet",
+      "Bake 12-15 minutes until edges are golden"
+    ],
+    "notes": "Store in airtight container for up to 1 week. Can be frozen for up to 3 months.",
+    "created_at": "2024-12-01T00:00:00.000Z",
+    "updated_at": "2024-12-01T00:00:00.000Z"
+  }
+]

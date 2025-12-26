@@ -1,0 +1,20 @@
+[
+  {
+    "id": "proofing",
+    "term": "Proofing",
+    "slug": "proofing",
+    "definition": "The final rise of shaped dough before baking. A period of patience and anticipation, watching life expand in slow motion.",
+    "category": "technique",
+    "created_at": "2024-10-01T00:00:00.000Z",
+    "updated_at": "2024-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "emulsifier",
+    "term": "Emulsifier",
+    "slug": "emulsifier",
+    "definition": "A substance that brings together ingredients that normally don't mix—like oil and water. Eggs are nature's emulsifier. A reminder that sometimes it takes something else entirely to bridge the gap.",
+    "category": "ingredient",
+    "created_at": "2024-10-01T00:00:00.000Z",
+    "updated_at": "2024-10-01T00:00:00.000Z"
+  }
+]

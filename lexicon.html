@@ -301,37 +301,22 @@
     }
   </script>
 
-  <!-- Firebase & Lexicon Logic -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Lexicon Page Logic -->
+  <script>
 
     let allEntries = [];
     let currentFilter = 'all';
     let currentSearch = '';
 
-    // Load lexicon from Firestore
+    // Load lexicon from JSON
     async function loadLexicon() {
       try {
-        const lexiconRef = collection(db, `artifacts/${appId}/public/data/lexicon`);
-        const q = query(lexiconRef, orderBy('term'));
-        const snapshot = await getDocs(q);
+        const response = await fetch('/data/lexicon.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        allEntries = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        allEntries = await response.json();
+        // Sort by term alphabetically
+        allEntries.sort((a, b) => a.term.localeCompare(b.term));
         displayEntries();
       } catch (error) {
         console.error("Error loading lexicon:", error);

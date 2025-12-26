@@ -192,24 +192,8 @@
     </div>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, getDocs, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Stories Page Logic -->
+  <script>
 
     let allPosts = [];
     let displayedPosts = 0;
@@ -217,18 +201,14 @@
     let currentFilter = 'all';
     let searchQuery = '';
 
-    // Load posts from Firestore
+    // Load posts from JSON
     async function loadPosts() {
       try {
-        const postsRef = collection(db, `artifacts/${appId}/public/data/posts`);
-        // Removed orderBy to avoid needing composite index - sort in JS instead
-        const q = query(postsRef, where('status', '==', 'published'));
+        const response = await fetch('/data/posts.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        const snapshot = await getDocs(q);
-        allPosts = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+        const data = await response.json();
+        allPosts = data.filter(post => post.status === 'published');
 
         // Sort by date in JavaScript
         allPosts.sort((a, b) => {
@@ -241,7 +221,6 @@
         displayPosts();
       } catch (error) {
         console.error("Error loading posts:", error);
-        console.log("Note: Posts collection may not be set up yet or check Firestore security rules");
         // Show error message to user
         document.getElementById('postGrid').innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">

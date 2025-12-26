@@ -1,145 +1,145 @@
 [
   {
     "id": "alienation",
-    "dateAdded": "2025-12-17T01:03:20.626Z",
     "type": "concept",
+    "slug": "alienation",
+    "dateAdded": "2025-12-17T01:03:20.626Z",
     "description": "Separation between labor and enjoyment. The baker often works hardest at the moment they cannot yet consume, producing pleasure that belongs briefly to others.",
-    "term": "Alienation",
-    "slug": "alienation"
+    "term": "Alienation"
   },
   {
     "id": "all-purpose-flour",
-    "type": "ingredient",
-    "slug": "all-purpose-flour",
+    "term": "All-purpose flour",
     "description": "Standard wheat flour with moderate protein. Its neutrality is ideological: presented as universal, it quietly enforces a norm.",
+    "slug": "all-purpose-flour",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "term": "All-purpose flour"
+    "type": "ingredient"
   },
   {
     "id": "almond-flour",
-    "term": "Almond flour",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "description": "Finely ground almonds used in place of wheat flour. Almond flour signals substitution as ideology: absence reframed as virtue.",
     "slug": "almond-flour",
+    "description": "Finely ground almonds used in place of wheat flour. Almond flour signals substitution as ideology: absence reframed as virtue.",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "term": "Almond flour",
     "type": "ingredient"
   },
   {
     "id": "blind-baking",
-    "slug": "blind-baking",
-    "description": "Pre-baking a crust before filling. This is preparation without content, form insisting on its autonomy before meaning arrives.",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlind%20baking.jpg?alt=media&token=5fb23e40-e467-436d-8a19-a086b8398c1b",
     "dateAdded": "2025-12-16T19:19:43.790Z",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlind%20baking.jpg?alt=media&token=5fb23e40-e467-436d-8a19-a086b8398c1b",
+    "description": "Pre-baking a crust before filling. This is preparation without content, form insisting on its autonomy before meaning arrives.",
+    "type": "technique",
     "term": "Blind baking",
-    "type": "technique"
+    "slug": "blind-baking"
   },
   {
     "id": "blooming",
-    "term": "Blooming",
+    "description": "Hydrating gelatin or activating cocoa or yeast in warm liquid. Blooming reminds us that latent potential requires submission to heat before it can perform.",
     "type": "technique",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlooming.jpg?alt=media&token=16894f53-0c4a-4693-bed6-c149dc8fb6e3",
-    "slug": "blooming",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "description": "Hydrating gelatin or activating cocoa or yeast in warm liquid. Blooming reminds us that latent potential requires submission to heat before it can perform."
+    "term": "Blooming",
+    "slug": "blooming",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlooming.jpg?alt=media&token=16894f53-0c4a-4693-bed6-c149dc8fb6e3"
   },
   {
     "id": "bread-flour",
-    "type": "ingredient",
     "slug": "bread-flour",
     "description": "High-protein flour for strength and chew. Structure demands sacrifice; elasticity is born from constraint.",
+    "type": "ingredient",
     "term": "Bread flour",
     "dateAdded": "2025-12-16T19:19:43.790Z"
   },
   {
     "id": "brown-sugar",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "term": "Brown sugar",
-    "description": "Sugar with added molasses. Brown sugar admits residue, flavor emerging from what refinement tried to remove.",
     "slug": "brown-sugar",
-    "type": "ingredient"
+    "term": "Brown sugar",
+    "type": "ingredient",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "description": "Sugar with added molasses. Brown sugar admits residue, flavor emerging from what refinement tried to remove."
   },
   {
     "id": "butterfat",
-    "description": "The fat content of butter or dairy. Butterfat is enjoyment quantified, pleasure measured and standardized.",
     "term": "Butterfat",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "description": "The fat content of butter or dairy. Butterfat is enjoyment quantified, pleasure measured and standardized.",
     "type": "ingredient",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
     "slug": "butterfat"
   },
   {
     "id": "cake-flour",
-    "description": "Low-protein flour for tender crumb. Tenderness here is engineered fragility, softness achieved through deliberate subtraction.",
-    "term": "Cake flour",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "slug": "cake-flour",
-    "type": "ingredient"
+    "description": "Low-protein flour for tender crumb. Tenderness here is engineered fragility, softness achieved through deliberate subtraction.",
+    "type": "ingredient",
+    "term": "Cake flour",
+    "slug": "cake-flour"
   },
   {
     "id": "contradiction",
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FContradiction.JPG?alt=media&token=cfb62dbc-2854-4390-a05b-c4d502950950",
-    "type": "concept",
-    "slug": "contradiction",
     "description": "The coexistence of opposing truths within the same object. A baked good is both fragile and stable, ephemeral and repeatable, indulgent and ritualized.",
-    "term": "Contradiction"
+    "slug": "contradiction",
+    "term": "Contradiction",
+    "type": "concept"
   },
   {
     "id": "creaming",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "slug": "creaming",
     "type": "technique",
+    "term": "Creaming",
     "description": "Beating butter and sugar together to incorporate air. What appears as simple mixing is in fact the violent reconciliation of fat and crystal, where pleasure is aerated through disciplined force.",
-    "term": "Creaming"
+    "slug": "creaming"
   },
   {
     "id": "crumb-coat",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "slug": "crumb-coat",
-    "term": "Crumb coat",
     "description": "A thin initial frosting layer to trap crumbs. The crumb coat functions as ideology: an imperfect first layer that hides the mess necessary for a polished surface.",
     "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FCrumb%20coat.jpg?alt=media&token=7a2c34a1-53b8-4371-8e3c-236cac58e310",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "term": "Crumb coat",
+    "slug": "crumb-coat",
     "type": "technique"
   },
   {
     "id": "cultured-butter",
-    "slug": "cultured-butter",
+    "type": "ingredient",
     "description": "Butter made from fermented cream. Time here becomes flavor, decay transformed into refinement.",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "slug": "cultured-butter",
     "term": "Cultured butter",
-    "type": "ingredient"
+    "dateAdded": "2025-12-16T19:19:43.790Z"
   },
   {
     "id": "dialectic",
+    "type": "concept",
     "description": "The process by which opposing elements are held in tension to produce something new. Baking is dialectical because raw and cooked, order and decay, pleasure and discipline are not eliminated but transformed through heat.",
     "term": "Dialectic",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "type": "concept",
     "slug": "dialectic"
   },
   {
     "id": "docking",
-    "slug": "docking",
+    "description": "Pricking dough to prevent bubbles during baking. Docking is preemptive sabotage, a reminder that unchecked expansion leads not to liberation but collapse.",
     "term": "Docking",
     "type": "technique",
-    "description": "Pricking dough to prevent bubbles during baking. Docking is preemptive sabotage, a reminder that unchecked expansion leads not to liberation but collapse.",
+    "slug": "docking",
     "dateAdded": "2025-12-16T19:19:43.790Z"
   },
   {
     "id": "egg-wash",
-    "type": "technique",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEgg%20wash.jpg?alt=media&token=aac9178a-8329-4303-8da5-5ee3797a69f0",
     "term": "Egg wash",
+    "type": "technique",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEgg%20wash.jpg?alt=media&token=aac9178a-8329-4303-8da5-5ee3797a69f0",
     "description": "Beaten egg brushed on dough for shine and color. Egg wash is pure appearance, proof that surface matters even when substance is unchanged.",
     "slug": "egg-wash"
   },
   {
     "id": "emulsifier",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "type": "ingredient",
-    "description": "Ingredient that binds fat and water. The emulsifier is the mediator, preventing antagonistic elements from separating into open conflict.",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEmulsifier.jpg?alt=media&token=e7d0c6e9-6029-4f28-a76f-e9df5e35905e",
     "slug": "emulsifier",
     "term": "Emulsifier",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEmulsifier.jpg?alt=media&token=e7d0c6e9-6029-4f28-a76f-e9df5e35905e"
+    "description": "Ingredient that binds fat and water. The emulsifier is the mediator, preventing antagonistic elements from separating into open conflict.",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "type": "ingredient"
   },
   {
     "id": "enjoyment-jouissance",
@@ -152,209 +152,209 @@
   {
     "id": "excess",
     "slug": "excess",
-    "type": "concept",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
     "description": "That which goes beyond necessity. Baking thrives on excess, because pleasure is never justified by hunger alone.",
     "term": "Excess",
-    "dateAdded": "2025-12-16T19:19:43.790Z"
+    "type": "concept"
   },
   {
     "id": "extract",
     "type": "ingredient",
-    "description": "Concentrated flavoring. Extracts promise essence without context, authenticity in miniature.",
     "term": "Extract",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
     "slug": "extract",
-    "dateAdded": "2025-12-16T19:19:43.790Z"
+    "description": "Concentrated flavoring. Extracts promise essence without context, authenticity in miniature."
   },
   {
     "id": "fetish",
-    "type": "concept",
-    "term": "Fetish",
     "description": "An object invested with meaning beyond its material function. A perfect loaf or cookie becomes a fetishized endpoint, concealing the messy labor and failure that produced it.",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FFetish.JPG?alt=media&token=58fa505e-6a8b-4b60-8cad-049f189397e7",
     "slug": "fetish",
-    "dateAdded": "2025-12-16T19:19:43.790Z"
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FFetish.JPG?alt=media&token=58fa505e-6a8b-4b60-8cad-049f189397e7",
+    "type": "concept",
+    "term": "Fetish"
   },
   {
     "id": "form-and-content",
-    "term": "Form and Content",
     "slug": "form-and-content",
-    "description": "The distinction between structure and substance. In baking, form often precedes content, as molds, pans, and crusts demand obedience before flavor arrives.",
+    "type": "concept",
+    "term": "Form and Content",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "type": "concept"
+    "description": "The distinction between structure and substance. In baking, form often precedes content, as molds, pans, and crusts demand obedience before flavor arrives."
   },
   {
     "id": "granulated-sugar",
-    "type": "ingredient",
-    "slug": "granulated-sugar",
     "description": "Refined white sugar. Pure sweetness conceals its own violence, the history of refinement erased in crystalline innocence.",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "term": "Granulated sugar"
+    "type": "ingredient",
+    "term": "Granulated sugar",
+    "slug": "granulated-sugar"
   },
   {
     "id": "heavy-cream",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
     "description": "High-fat dairy used for richness. Excess is not accidental but structural; richness is the point.",
-    "term": "Heavy cream",
-    "type": "ingredient",
     "slug": "heavy-cream",
-    "dateAdded": "2025-12-16T19:19:43.790Z"
+    "type": "ingredient",
+    "term": "Heavy cream"
   },
   {
     "id": "honey",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "description": "Natural sweetener with hygroscopic properties. Honey embodies surplus enjoyment, sweetness that refuses to dry out or behave.",
-    "type": "ingredient",
+    "slug": "honey",
     "term": "Honey",
-    "slug": "honey"
+    "type": "ingredient",
+    "description": "Natural sweetener with hygroscopic properties. Honey embodies surplus enjoyment, sweetness that refuses to dry out or behave."
   },
   {
     "id": "hydration",
-    "term": "Hydration",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "description": "The ratio of liquid to flour in a dough. Hydration measures not abundance but tolerance—how much chaos structure can absorb before dissolving.",
+    "slug": "hydration",
     "type": "technique",
-    "slug": "hydration"
+    "description": "The ratio of liquid to flour in a dough. Hydration measures not abundance but tolerance—how much chaos structure can absorb before dissolving.",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "term": "Hydration"
   },
   {
     "id": "invert-sugar",
     "type": "ingredient",
     "description": "Liquid sugar that resists crystallization. Stability here is achieved by breakdown, unity preserved through division.",
-    "term": "Invert sugar",
     "slug": "invert-sugar",
+    "term": "Invert sugar",
     "dateAdded": "2025-12-16T19:19:43.790Z"
   },
   {
     "id": "lack",
-    "slug": "lack",
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "type": "concept",
     "description": "The constitutive absence that drives desire. Baking begins with lack—the missing sweetness, warmth, or comfort that the finished object promises to resolve but never fully does.",
-    "term": "Lack"
+    "term": "Lack",
+    "slug": "lack"
   },
   {
     "id": "lamination",
     "slug": "lamination",
     "type": "technique",
-    "description": "Folding butter into dough to create layers. Here contradiction is preserved rather than resolved: fat and dough remain distinct, yet together produce transcendence.",
     "dateAdded": "2025-12-16T19:19:43.790Z",
+    "description": "Folding butter into dough to create layers. Here contradiction is preserved rather than resolved: fat and dough remain distinct, yet together produce transcendence.",
     "term": "Lamination"
   },
   {
     "id": "leavening-agent",
-    "description": "Ingredients that cause dough to rise. Leavening is the promise that emptiness—air, gas, absence—can be productive.",
-    "type": "ingredient",
     "dateAdded": "2025-12-16T19:19:43.790Z",
+    "description": "Ingredients that cause dough to rise. Leavening is the promise that emptiness—air, gas, absence—can be productive.",
     "slug": "leavening-agent",
+    "type": "ingredient",
     "term": "Leavening agent"
   },
   {
     "id": "materiality",
+    "description": "The insistence that ideas must pass through matter. Baking refuses abstraction; philosophy must be kneaded, measured, and baked to exist.",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "description": "The insistence that ideas must pass through matter. Baking refuses abstraction; philosophy must be kneaded, measured, and baked to exist.",
-    "term": "Materiality",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FMateriality.JPG?alt=media&token=fd7109fa-765f-491c-82eb-476820634504",
     "slug": "materiality",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FMateriality.JPG?alt=media&token=fd7109fa-765f-491c-82eb-476820634504"
+    "term": "Materiality"
   },
   {
     "id": "mediation",
+    "slug": "mediation",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Mediation",
     "description": "The process by which elements are reconciled through an intervening force. Heat mediates between raw matter and edible form, enforcing transformation without negotiation.",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "slug": "mediation",
     "type": "concept"
   },
   {
     "id": "molasses",
+    "description": "Thick byproduct of sugar refining. Molasses is what capitalism leaves behind: dense, bitter, and oddly indispensable.",
+    "term": "Molasses",
     "slug": "molasses",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "type": "ingredient",
-    "term": "Molasses",
-    "description": "Thick byproduct of sugar refining. Molasses is what capitalism leaves behind: dense, bitter, and oddly indispensable."
+    "type": "ingredient"
   },
   {
     "id": "negation",
-    "type": "concept",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Negation",
     "description": "The act of defining something by what it is not. Baking negates the raw state of ingredients, and in doing so produces meaning rather than mere destruction.",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "type": "concept",
     "slug": "negation"
   },
   {
     "id": "proofing",
-    "description": "Allowing yeast dough to rise before baking. Proofing stages the illusion of freedom: the dough expands on its own, yet only within the strict conditions imposed by temperature and time.",
-    "slug": "proofing",
-    "type": "technique",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FProofing.jpg?alt=media&token=45581b7a-9d99-4877-af3b-f90cc13e4426",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "term": "Proofing"
+    "slug": "proofing",
+    "term": "Proofing",
+    "description": "Allowing yeast dough to rise before baking. Proofing stages the illusion of freedom: the dough expands on its own, yet only within the strict conditions imposed by temperature and time.",
+    "type": "technique",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FProofing.jpg?alt=media&token=45581b7a-9d99-4877-af3b-f90cc13e4426"
   },
   {
     "id": "repetition",
+    "description": "The return of the same action under slightly altered conditions. Each bake repeats the last, yet difference insists on emerging through time, temperature, and error.",
     "term": "Repetition",
-    "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z",
+    "type": "concept",
     "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRepetition.JPG?alt=media&token=d6922752-2533-4cce-9b99-90f23d23310c",
-    "slug": "repetition",
-    "description": "The return of the same action under slightly altered conditions. Each bake repeats the last, yet difference insists on emerging through time, temperature, and error."
+    "slug": "repetition"
   },
   {
     "id": "ritual",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
     "description": "Repeated action invested with meaning beyond utility. Baking rituals transform labor into identity, making repetition feel necessary rather than redundant.",
     "slug": "ritual",
-    "type": "concept",
     "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRitual.JPG?alt=media&token=2b7e49e1-ebbe-427b-8a9e-195588cbecba",
-    "term": "Ritual"
-  },
-  {
-    "id": "salt",
-    "term": "Salt",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "type": "ingredient",
-    "slug": "salt",
-    "description": "Enhances flavor and controls fermentation. Salt is the negative force that makes meaning possible by withholding excess."
-  },
-  {
-    "id": "seeds-nuts",
-    "type": "ingredient",
-    "term": "Seeds & nuts",
-    "slug": "seeds-nuts",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FSeeds%20and%20nuts.jpg?alt=media&token=b4aa5730-c36a-43bc-8f0d-6d57ec025ff8",
-    "description": "Ingredients that add texture, fat, and flavor. They interrupt smoothness, insisting that resistance is necessary for interest.",
+    "term": "Ritual",
+    "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z"
   },
   {
+    "id": "salt",
+    "description": "Enhances flavor and controls fermentation. Salt is the negative force that makes meaning possible by withholding excess.",
+    "term": "Salt",
+    "type": "ingredient",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "slug": "salt"
+  },
+  {
+    "id": "seeds-nuts",
+    "term": "Seeds & nuts",
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "description": "Ingredients that add texture, fat, and flavor. They interrupt smoothness, insisting that resistance is necessary for interest.",
+    "slug": "seeds-nuts",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FSeeds%20and%20nuts.jpg?alt=media&token=b4aa5730-c36a-43bc-8f0d-6d57ec025ff8",
+    "type": "ingredient"
+  },
+  {
     "id": "shortening",
-    "term": "Shortening",
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "description": "Fat that limits gluten development. Shortening interrupts excessive structure, proving that too much coherence produces toughness, not strength.",
-    "slug": "shortening",
-    "type": "ingredient"
+    "type": "ingredient",
+    "term": "Shortening",
+    "slug": "shortening"
   },
   {
     "id": "spice-blend",
     "term": "Spice blend",
-    "description": "A mixture of warming spices. The blend stages false unity, many voices speaking as one aroma.",
     "slug": "spice-blend",
-    "type": "ingredient",
-    "dateAdded": "2025-12-16T19:19:43.790Z"
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "description": "A mixture of warming spices. The blend stages false unity, many voices speaking as one aroma.",
+    "type": "ingredient"
   },
   {
     "id": "sublation",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
-    "slug": "sublation",
+    "description": "The Hegelian process of canceling and preserving at the same time. Dough is sublated in the oven: it ceases to be dough, yet everything essential to it survives as bread or cake.",
     "term": "Sublation",
+    "slug": "sublation",
     "type": "concept",
-    "description": "The Hegelian process of canceling and preserving at the same time. Dough is sublated in the oven: it ceases to be dough, yet everything essential to it survives as bread or cake."
+    "dateAdded": "2025-12-16T19:19:43.790Z"
   },
   {
     "id": "temporality",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FTemporality.JPG?alt=media&token=6bf568cf-fcad-46ca-b6cc-327c44a8e8e8",
+    "description": "The experience of time as structured and irreversible. Baking exposes time as material: rush it and it fails, wait too long and it collapses.",
     "term": "Temporality",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "slug": "temporality",
-    "description": "The experience of time as structured and irreversible. Baking exposes time as material: rush it and it fails, wait too long and it collapses."
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FTemporality.JPG?alt=media&token=6bf568cf-fcad-46ca-b6cc-327c44a8e8e8",
+    "slug": "temporality"
   },
   {
     "id": "whole-wheat-flour",
@@ -366,11 +366,11 @@
   },
   {
     "id": "zest",
-    "type": "ingredient",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FZest.jpg?alt=media&token=b1071f08-55b9-4aa1-98fa-6c7d77ac6cbf",
-    "dateAdded": "2025-12-16T19:19:43.790Z",
     "description": "The outer peel of citrus. Zest privileges surface over depth, aroma over substance, and is all the better for it.",
+    "type": "ingredient",
+    "term": "Zest",
     "slug": "zest",
-    "term": "Zest"
+    "dateAdded": "2025-12-16T19:19:43.790Z",
+    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FZest.jpg?alt=media&token=b1071f08-55b9-4aa1-98fa-6c7d77ac6cbf"
   }
 ]

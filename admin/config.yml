@@ -1,80 +1,178 @@
-<backend:
-  # CHANGE 1: Use the Auth0 backend type
-  name: auth0
-  
-  # CHANGE 2: Replace these with your actual Auth0 credentials
-  auth0_domain: "dev-ul6sbm1ykdwz4uy7.us.auth0.com" # <-- REPLACE WITH YOUR AUTH0 DOMAIN
-  auth0_client_id: "Zooc13XIB90b1MSB7k8f70s1QWchqSiG" # <-- REPLACE WITH YOUR AUTH0 CLIENT ID
-  
-  # Configuration for committing to GitHub
-  base_url: "https://api.netlify.com" # Decap CMS still uses Netlify's API to commit to Git
-  auth_scope: "repo"
-  branch: main  # Change this if your main branch is named 'master'
+backend:
+  name: github
+  repo: chomp-chomp-pachewy/chomp
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
 
-# The path to the media folder (where images are stored)
-media_folder: "images"
-public_folder: "/images"
+# Publish mode
+publish_mode: simple
 
-# --- Collections (Data Models) ---
+# Media library - Cloudinary integration
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dlqfyv1qj
+    api_key: 734765634872264
+
+# Local backend for development (optional - comment out for production)
+# local_backend: true
+
+# Collections
 collections:
-  - name: "recipes" 
-    label: "Recipe Catalog" 
-    # Crucial: This tells the CMS to load data from a single JSON file.
-    file: "recipes.json"
+  # ===== RECIPES =====
+  - name: "recipes"
+    label: "Recipes"
+    label_singular: "Recipe"
+    file: "data/recipes.json"
     format: "json"
-    create: true 
-    slug: "{{title}}"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: title
 
-    # --- Fields (Defines the structure of ONE recipe object) ---
     fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-        required: true
-      - label: "Description"
-        name: "description"
-        widget: "markdown"
-        required: false
-      - label: "Image Path"
-        name: "image"
-        widget: "image" 
-        required: false
-      - label: "Servings"
-        name: "servings"
-        widget: "string"
-        required: false
-      - label: "Prep Time (e.g., 20min)"
-        name: "prepTime"
-        widget: "string"
-        required: false
-      - label: "Cook Time (e.g., 65-80 minutes)"
-        name: "cookTime"
-        widget: "string"
-        required: false
-      - label: "Total Time"
-        name: "totalTime"
-        widget: "string"
-        required: false
+      - { label: "ID", name: "id", widget: "string", required: true, hint: "Unique slug identifier (e.g., apple-rose-pie)" }
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true, hint: "URL-friendly version of title" }
+      - { label: "Description", name: "description", widget: "markdown", required: false }
+      - { label: "Image URL", name: "image", widget: "image", required: false, media_library: { config: { multiple: false } } }
+      - { label: "Servings", name: "servings", widget: "string", required: false }
+      - { label: "Prep Time", name: "prepTime", widget: "string", required: false, hint: "e.g., 20min" }
+      - { label: "Cook Time", name: "cookTime", widget: "string", required: false, hint: "e.g., 65-80 minutes" }
+      - { label: "Total Time", name: "totalTime", widget: "string", required: false }
+      - { label: "Total Time (Minutes)", name: "totalTimeInMinutes", widget: "number", required: false, value_type: "int" }
+      - { label: "Category", name: "category", widget: "select", options: ["chomp chomp", "desserts", "breads", "pastries", "other"], default: "chomp chomp", required: false }
+      - { label: "Dish Type", name: "dishType", widget: "select", options: ["Dessert/Pastry", "Cookie/Bar", "Frozen Dessert", "Pudding/Cream", "Main Dish", "Soup", "Other Baked Goods"], required: false }
       - label: "Source"
         name: "source"
-        widget: "string"
+        widget: "object"
         required: false
-      - label: "Category (e.g., chomp chomp)"
-        name: "category"
-        widget: "string"
-        required: false
-      # Ingredients and Instructions are handled as string lists (arrays of strings)
-      - label: "Ingredients (One per line)"
+        fields:
+          - { label: "Source Text", name: "text", widget: "string", required: false }
+          - { label: "Source Link", name: "href", widget: "string", required: false }
+      - label: "Ingredients"
         name: "ingredients"
         widget: "list"
-        field: { label: "Ingredient Item", name: "ingredient_item", widget: "string" }
-      - label: "Instructions (One step per line)"
+        required: true
+        field: { label: "Ingredient", name: "ingredient", widget: "markdown" }
+      - label: "Instructions"
         name: "instructions"
         widget: "list"
-        field: { label: "Instruction Step", name: "instruction_step", widget: "markdown" }
-      - label: "Notes"
-        name: "notes"
-        widget: "text"
-        required: false
+        required: true
+        field: { label: "Step", name: "step", widget: "markdown" }
+      - { label: "Notes", name: "notes", widget: "markdown", required: false }
+      - { label: "Created At", name: "created_at", widget: "datetime", required: false }
+      - { label: "Updated At", name: "updated_at", widget: "datetime", required: false }
 
->
+  # ===== POSTS / STORIES =====
+  - name: "posts"
+    label: "Posts"
+    label_singular: "Post"
+    file: "data/posts.json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: title
+
+    fields:
+      - { label: "ID", name: "id", widget: "string", required: true }
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true }
+      - { label: "Excerpt", name: "excerpt", widget: "text", required: false, hint: "Short preview text" }
+      - { label: "Content", name: "content", widget: "markdown", required: true }
+      - { label: "Category", name: "category", widget: "select", options: ["stories", "anthropologies", "zen", "other"], default: "stories", required: true }
+      - { label: "Status", name: "status", widget: "select", options: ["draft", "published"], default: "draft", required: true }
+      - { label: "Author", name: "author", widget: "string", required: false, default: "Chomp Chomp" }
+      - { label: "Date", name: "date", widget: "date", format: "YYYY-MM-DD", required: true }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false, media_library: { config: { multiple: false } } }
+      - { label: "Created At", name: "created_at", widget: "datetime", required: false }
+      - { label: "Updated At", name: "updated_at", widget: "datetime", required: false }
+
+  # ===== LEXICON =====
+  - name: "lexicon"
+    label: "Lexicon"
+    label_singular: "Term"
+    file: "data/lexicon.json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: term
+
+    fields:
+      - { label: "ID", name: "id", widget: "string", required: true }
+      - { label: "Term", name: "term", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true }
+      - { label: "Definition", name: "description", widget: "markdown", required: true }
+      - { label: "Type", name: "type", widget: "select", options: ["ingredient", "technique", "equipment", "concept"], default: "ingredient", required: true }
+      - { label: "Image", name: "image", widget: "image", required: false, media_library: { config: { multiple: false } } }
+      - { label: "Created At", name: "created_at", widget: "datetime", required: false }
+      - { label: "Updated At", name: "updated_at", widget: "datetime", required: false }
+
+  # ===== READING LIST =====
+  - name: "reading-list"
+    label: "Reading List"
+    label_singular: "Book"
+    file: "data/reading-list.json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{title}}"
+    identifier_field: title
+
+    fields:
+      - { label: "ID", name: "id", widget: "string", required: true }
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+      - { label: "Authors", name: "authors", widget: "string", required: true, hint: "Comma-separated list" }
+      - { label: "ISBN", name: "isbn", widget: "string", required: false }
+      - { label: "Publisher", name: "publisher", widget: "string", required: false }
+      - { label: "Publication Date", name: "publicationDate", widget: "string", required: false, hint: "e.g., 2020 or October 2020" }
+      - { label: "Description", name: "description", widget: "markdown", required: false }
+      - label: "Subjects"
+        name: "subjects"
+        widget: "list"
+        required: false
+        field: { label: "Subject", name: "subject", widget: "string" }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false, media_library: { config: { multiple: false } } }
+      - { label: "Purchase Link", name: "link", widget: "string", required: false }
+      - { label: "Recommended", name: "recommended", widget: "boolean", default: false, required: false }
+      - { label: "Created At", name: "created_at", widget: "datetime", required: false }
+      - { label: "Updated At", name: "updated_at", widget: "datetime", required: false }
+
+  # ===== PLAYLISTS =====
+  - name: "playlists"
+    label: "Playlists"
+    label_singular: "Playlist"
+    file: "data/playlists.json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: title
+
+    fields:
+      - { label: "ID", name: "id", widget: "string", required: true }
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "Vibe", name: "vibe", widget: "text", required: false, hint: "Optional mood description" }
+      - { label: "Spotify Embed URL", name: "spotifyEmbedUrl", widget: "string", required: true, hint: "Spotify playlist embed URL" }
+      - { label: "Duration", name: "duration", widget: "select", options: ["short", "medium", "long"], default: "medium", required: false }
+      - label: "Moods"
+        name: "moods"
+        widget: "list"
+        required: false
+        field: { label: "Mood", name: "mood", widget: "select", options: ["energetic", "calm", "meditative", "upbeat", "cozy"] }
+      - label: "Recipe Types"
+        name: "recipeTypes"
+        widget: "list"
+        required: false
+        field: { label: "Recipe Type", name: "recipeType", widget: "string" }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false, media_library: { config: { multiple: false } } }
+      - { label: "Status", name: "status", widget: "select", options: ["draft", "published"], default: "draft", required: true }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "Created At", name: "created_at", widget: "datetime", required: false }
+      - { label: "Updated At", name: "updated_at", widget: "datetime", required: false }

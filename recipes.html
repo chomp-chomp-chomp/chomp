@@ -258,24 +258,8 @@
     </div>
   </footer>
 
-  <!-- Firebase SDK and Recipe Logic -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Recipe Logic -->
+  <script>
 
     let recipes = [];
     let displayedRecipes = 0;
@@ -351,44 +335,38 @@
       }, 250); // match CSS transition
     }
 
-    // Load recipes from Firestore (live updates)
-    function setupRecipeListener() {
-      const recipesRef = collection(db, `artifacts/${appId}/public/data/recipes`);
-      const q = query(recipesRef);
+    // Load recipes from JSON file
+    async function loadRecipes() {
+      try {
+        const response = await fetch('/data/recipes.json');
 
-      onSnapshot(q, (snapshot) => {
-        recipes = snapshot.docs.map(doc => {
-          const data = doc.data() || {};
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-          // Parse serialized JSON fields
-          if (typeof data.ingredients === 'string' && isSafeJson(data.ingredients)) {
-            try { data.ingredients = JSON.parse(data.ingredients); }
-            catch (e) { data.ingredients = []; }
-          }
+        const data = await response.json();
 
-          if (typeof data.source === 'string' && isSafeJson(data.source)) {
-            try { data.source = JSON.parse(data.source); }
-            catch (e) { data.source = String(data.source); }
-          }
-
+        recipes = data.map(recipe => {
+          // Data is already in correct format from JSON, just ensure computed fields
           return {
-            ...data,
-            slug: data.slug || generateSlug(data.title),
-            totalTimeInMinutes: parseTime(data.totalTime || data.cookTime),
-            dishType: data.dishType || assignDishType(data.title)
+            ...recipe,
+            slug: recipe.slug || generateSlug(recipe.title),
+            totalTimeInMinutes: recipe.totalTimeInMinutes || parseTime(recipe.totalTime || recipe.cookTime),
+            dishType: recipe.dishType || assignDishType(recipe.title)
           };
         });
 
         populateFilters();
-        applyFiltersAndDisplay(); // will call updateRecipeCount
-      }, (error) => {
+        applyFiltersAndDisplay();
+
+      } catch (error) {
         console.error("Error loading recipes:", error);
         const noResults = document.getElementById('noResults');
         if (noResults) {
           noResults.style.display = 'block';
-          noResults.textContent = 'Failed to load recipes. Please check your connection.';
+          noResults.textContent = 'Failed to load recipes. Please refresh the page.';
         }
-      });
+      }
     }
 
     // Populate filter dropdowns
@@ -588,7 +566,7 @@ if (loadMoreBtn) {
     });
 
     // Initialize
-    setupRecipeListener();
+    loadRecipes();
   </script>
 
   <!-- Navigation toggle -->

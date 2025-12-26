@@ -131,24 +131,8 @@
     </div>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCPb87ZtJbpI7YRRwKVNL-g3O-VrONwtM",
-      authDomain: "chomp-chomp-recipes.firebaseapp.com",
-      projectId: "chomp-chomp-recipes",
-      storageBucket: "chomp-chomp-recipes.firebasestorage.app",
-      messagingSenderId: "225432495618",
-      appId: "1:225432495618:web:459eb1c0b7228dfc24e91b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const appId = firebaseConfig.projectId;
+  <!-- Post Page Logic -->
+  <script>
 
     // Get slug from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -170,14 +154,16 @@
       loadPost(slug);
     }
 
-    // Load post from Firestore
+    // Load post from JSON
     async function loadPost(slug) {
       try {
-        const postsRef = collection(db, `artifacts/${appId}/public/data/posts`);
-        const q = query(postsRef, where('slug', '==', slug));
-        const snapshot = await getDocs(q);
+        const response = await fetch('/data/posts.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        if (snapshot.empty) {
+        const posts = await response.json();
+        const post = posts.find(p => p.slug === slug || p.id === slug);
+
+        if (!post) {
           document.getElementById('postContainer').innerHTML = `
             <div style="text-align: center; padding: 60px 20px;">
               <h2 style="color: var(--color-accent);">Post not found</h2>
@@ -192,7 +178,6 @@
           return;
         }
 
-        const post = snapshot.docs[0].data();
         displayPost(post);
       } catch (error) {
         console.error("Error loading post:", error);

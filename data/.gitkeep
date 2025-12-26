@@ -1,0 +1,15 @@
+# Data Directory
+
+This directory contains all site content as JSON files:
+
+- recipes.json - All recipe data
+- posts.json - All blog posts and stories
+- lexicon.json - Baking lexicon entries
+- books.json - Reading list items
+- playlists.json - Playlist data
+
+These files are managed by:
+1. Sveltia CMS (at /admin)
+2. Custom editors (admin-content.html, admin-playlists.html)
+
+Both commit changes directly to GitHub.
