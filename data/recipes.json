@@ -11,7 +11,7 @@
     "title": "Apple Rose Pie",
     "description": "Before vanilla extract was widely available, the most popular flavoring in America was rose water. This recipe brings the lovely taste of rose water back to apple pie. The traditional pie spices cinnamon and nutmeg marry well with the less-traditional cardamom, and serving this pie with a rose water-scented Chantilly cream makes it special enough for any occasion.",
     "cookTime": "65-80 minutes",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fapple-rose-pie-1763568986654.jpg?alt=media&token=d3862772-c523-4d00-af22-6c0e27ee0bd2",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/apple-rose-pie.jpg",
     "ingredients": [
       "6 large apples, such as Granny Smith, Pink Lady, Rome, or Cameo, or a combination, cored, peeled, and thinly sliced",
       "¼ cup (50 g) granulated sugar",
@@ -64,7 +64,7 @@
       "1 tsp (5 ml) vanilla",
       "1/3 cup (80 ml) milk"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fash-baked-flats-1765207345775.JPG?alt=media&token=18be5cff-d991-48ad-92ed-b13152208858",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/ash-baked-flats.jpg",
     "instructions": [
       "Heat oven to 425°F (220°C) with a stone preheating.",
       "Mix 1 cup (125 g) flour, 1/2 cup (75 g) cornmeal, 1/2 tsp baking soda, and 1/4 tsp salt.",
@@ -101,7 +101,7 @@
       "Drop spoonfuls onto parchment.",
       "Bake 10 minutes."
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fbakers-lament-1765207422903.JPG?alt=media&token=48b9affb-2504-437e-bfcf-ecbc136cba7f",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/bakers-lament.jpg",
     "dishType": "Forgotten Cookies",
     "description": "These cookies are soft, spread widely, and never quite behave—hence their name. Their caramel-like softness makes them comforting despite their unruly nature. [Historical source: \"Baker’s Lament\" – Author: Jacques Dufresne | Work: Le Pain Perdu (The Lost Bread), 1756]",
     "totalTime": "25 minutes",
@@ -111,7 +111,7 @@
   {
     "id": "biscuit-bis-coctus",
     "slug": "biscuit-bis-coctus",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fbiscuit-bis-coctus-1765207391304.JPG?alt=media&token=8efa1642-a438-4a7c-a437-e16c8a95e702",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/biscuit-bis-coctus.jpg",
     "prepTime": null,
     "dishType": "Forgotten Cookies",
     "notes": "Traditionally dunked in tea, broth, or ale.",
@@ -140,7 +140,7 @@
   {
     "id": "blackberry-sage-chocolate-cake",
     "servings": "Makes one 6 inch, triple tier cake",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fblackberry-sage-chocolate-cake-1763568801352.png?alt=media&token=298be7ba-ea95-4fe5-b5e6-7930296a2f17",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/blackberry-sage-chocolate-cake.jpg",
     "slug": "blackberry-sage-chocolate-cake",
     "title": "Blackberry & Sage Chocolate Cake",
     "instructions": [
@@ -200,7 +200,7 @@
   {
     "id": "carrot-orange-olive-oil-cake",
     "servings": "One 9-inch cake (8 servings)",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fcarrot-orange-olive-oil-cake-1763569087624.png?alt=media&token=87a570b9-8d42-4a11-97e6-769d3215ab66",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/carrot-orange-olive-oil-cake.jpg",
     "slug": "carrot-orange-olive-oil-cake",
     "title": "Carrot-Orange Olive Oil Cake",
     "instructions": [
@@ -261,7 +261,7 @@
       "1 tsp (5 ml) vanilla",
       "1 tbsp (15 ml) milk"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fconsolation-discs-1765207460082.JPG?alt=media&token=e236f48d-28bf-44cb-b5b3-203e818c3c04",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/consolation-discs.jpg",
     "category": "Forgotten Cookies",
     "totalTime": "35 minutes",
     "prepTime": null
@@ -276,7 +276,7 @@
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
     "dishType": "Forgotten Cookies",
     "prepTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fcrumb-tokens-1765207488666.JPG?alt=media&token=231733b1-ecbc-4774-982c-cc5b1cf0776d",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/crumb-tokens.jpg",
     "description": "Crumb Tokens emerged in eras of scarcity, when simple ingredients were shaped into symbolic “coins.” Crisp, lightly sweet, and neatly sized, they served as both treats and playful stand-ins for currency. [Historical source: \"Crumb Tokens\" – Author: Hildevart Crumb | Work: De Moneta Crustum (On Crust Currency), 1430]",
     "instructions": [
       "Heat oven to 350°F (175°C).",
@@ -303,7 +303,7 @@
     "servings": "24",
     "description": "Delicate Cookies Known for Disappearing. [Historical source: \"Crumbwaifs\" – Author: Hildevart Crumb | Work: De Misera Crustum (On the Miserable Crust), 1432]",
     "notes": "Their fragility is part of their charm.",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fcrumbwaifs-1765207625308.JPG?alt=media&token=3f808c11-2cde-4e9a-aaf3-d9c802603c24",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/crumbwaifs.jpg",
     "instructions": [
       "Heat oven to 350°F (175°C).",
       "Cream 1/2 cup (113 g) butter with 1/2 cup (100 g) sugar and 1/4 cup (50 g) brown sugar.",
@@ -339,7 +339,7 @@
     "slug": "crust-of-argument",
     "dishType": "Forgotten Cookies",
     "servings": "18",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fcrust-of-argument-1765207668495.JPG?alt=media&token=020e70e1-ca1f-4806-8b4d-b606d6ed084b",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/crust-of-argument.jpg",
     "category": "Forgotten Cookies",
     "prepTime": null,
     "totalTime": "35 minutes",
@@ -389,7 +389,7 @@
       "1/4 cup (60 ml) milk",
       "Pinch salt (1 g)"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fcrustlets-1765207693310.JPG?alt=media&token=6b4e6da4-3196-4214-a332-3324169e66a1",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/crustlets.jpg",
     "description": "Firm and tidy, Crustlets were historically given to children to “occupy the mouth and discipline the spirit.” Their subtle sweetness and grain-forward texture pair well with tea. [Historical source: \"Crustlets\" – Author: Lydia de Vaucouleurs | Work: La Douceur des Crusts (The Sweetness of Crusts), 1692]",
     "dishType": "Forgotten Cookies",
     "notes": "Excellent base for jam or soft cheese."
@@ -410,7 +410,7 @@
       "1/2 cup brewed strong coffee (cooled)"
     ],
     "description": "My life changed once I discovered the olive oil cake. Up until that point, I had only baked cakes with butter or vegetable oil as the given fat, yielding a completely affable but lackluster result.\nOlive oil being relegated to solely savory cooking is very American. In many parts of the Mediterranean, olive oil is a multipurpose condiment and ingredient (I cannot recommend vanilla bean ice cream with flaky salt, dark chocolate, and a drizzle of extra virgin olive oil enough!) that is utilized in cooking as well as baking. While olive oil cakes are nothing new and quite famous in all actuality (hello, Maialino), they are not the default cake recipe and have a fair base of naysayers who turn their noses up at the idea.\n\nThis cake is rich, moist, with a deep chocolate flavor, enhanced by coffee and vanilla. While you do not taste the olive oil directly, it is important to use an oil you personally like and whose flavor profile airs on the sweeter side. Because of the richness of this cake, I recommend pairing with a tangy or lighter frosting, or enjoying as is, with a dusting of powdered sugar and some berries.",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fdark-chocolate-olive-oil-cake-1763665225344.webp?alt=media&token=3ac7ebb6-3e78-4966-8f69-869ce8176b8d",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/dark-chocolate-olive-oil-cake.jpg",
     "title": "Dark Chocolate Olive Oil Cake",
     "category": null,
     "prepTime": null,
@@ -456,7 +456,7 @@
       "1 egg (50 g)"
     ],
     "servings": "16",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fdockside-cakels-1765207735408.JPG?alt=media&token=9545b71e-99cc-4b8c-b399-981070c81367",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/dockside-cakels.jpg",
     "description": "These seaside cookies take on subtle differences depending on humidity, making each batch unique. Coconut adds gentle sweetness and chew. [Historical source: \"Dockside Cakels\" – Author: Edward Pemberton | Work: Maris Crustae (The Sea Crusts), 1609]",
     "dishType": "Forgotten Cookies",
     "notes": "Misshapen forms are part of their charm and history."
@@ -479,7 +479,7 @@
       "4 cups/200 grams lightly packed roughly chopped kataifi, thawed overnight in the refrigerator if frozen (see Tips)",
       "18 ounces/570 grams chopped milk or semisweet chocolate, or 3 heaping cups chocolate chips"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fdubai-chocolate-1763665602764.webp?alt=media&token=22875de2-1565-4cce-a08d-f7f45a2870cd",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/dubai-chocolate.jpg",
     "instructions": [
       "Make the pistachio cream: In a food processor, combine the pistachios, sugar, olive oil, vanilla and salt. Process until it becomes a creamy nut butter, stopping and scraping down the sides of the food processor with a spatula as you go to ensure a uniform mixture. The pistachio mixture will progress from chopped nuts to a thick nut paste, then finally transform into a silky, slightly thin nut butter consistency; this takes about 6 minutes.",
       "Add the tahini and process until fully incorporated, about 30 seconds more. Keep the mixture at room temperature while you make the rest of the filling.",
@@ -532,7 +532,7 @@
     "source": "[thespruceeats.com](https://www.thespruceeats.com/easy-soft-gingerbread-cookies-recipe-2097456)",
     "prepTime": "15 mins",
     "title": "Easy Soft Gingerbread Cookies",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Feasy-soft-gingerbread-cookies-1765689553035.jpeg?alt=media&token=38daa1e8-efb3-4b26-94bf-0ba94653b093",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/easy-soft-gingerbread-cookies.jpg",
     "cookTime": "15 mins",
     "slug": "easy-soft-gingerbread-cookies"
   },
@@ -570,14 +570,14 @@
       "Bake for about 25 minutes, or until the bottoms are lightly browned.",
       "Remove the cookies to a rack with a spatula."
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Feggnog-cookies-1765688903975.jpeg?alt=media&token=08c0178d-8f61-4f7b-9c21-a49b9421f711",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/eggnog-cookies.jpg",
     "title": "Eggnog Cookies"
   },
   {
     "id": "experimental-pastries",
     "cookTime": null,
     "prepTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fexperimental-pastries-1765207769801.JPG?alt=media&token=4c8cd44c-2011-4bb1-b66b-fdb1f5a6e4d4",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/experimental-pastries.jpg",
     "instructions": [
       "Heat oven to 350°F (175°C).",
       "Cream 1/2 cup (113 g) butter with 1/2 cup (100 g) brown sugar and 1/4 cup (85 g) honey.",
@@ -626,7 +626,7 @@
     "cookTime": null,
     "notes": "Five-spice powder can be found in the spice section of most well-stocked grocery stores.\nMake Ahead\nIf wrapped tightly in plastic, the dough can be stored in the refrigerator for several days before baking. If too firm to scoop, let sit at room temperature for 15 minutes and try again.\nStorage\nStore the cookies in an airtight container at room temperature for up to 1 week.\nBlackstrap Molasses\nUsing blackstrap molasses instead of regular unsulphured molasses would significantly change the flavor and texture of these Five Spice Molasses Cookies. Here's what to expect and how you might want to adjust the recipe:\nFlavor Difference:\nBlackstrap molasses is much darker, thicker, and less sweet than regular unsulphured molasses. It has a more intense, bitter flavor with strong earthy, almost burnt undertones. This would make the cookies taste more robust, with a deeper, more intense molasses flavor.\nThe cookies would have a less sweet and potentially slightly bitter taste compared to using unsulphured molasses. The deep, complex flavors of blackstrap molasses would overpower the five-spice blend and other elements if not adjusted.\nTexture Difference:\nBlackstrap molasses is thicker and more concentrated, which could make the dough denser and the cookies chewier or harder.\nThe cookies may also spread less due to the higher concentration of sugar solids in blackstrap molasses.\nModifications:\nIncrease the sugar: To balance out the bitterness of the blackstrap molasses, you could increase the amount of sugar in the recipe. Adding an additional 1/4 to 1/3 cup of brown sugar would help counterbalance the intense, bitter flavor of blackstrap molasses.\nAdd more spices: Blackstrap molasses can overpower the spices in the recipe, so you might want to increase the five-spice powder to 1 1/2 tablespoons and perhaps add 1/2 teaspoon of ground ginger or cinnamon to help bring out the spice flavors against the stronger molasses.\nReduce the blackstrap molasses: If you want to use blackstrap but still maintain a smoother flavor, you could reduce the blackstrap to 1/4 cup and add 1 tablespoon of honey or maple syrup. This will balance the bitterness without losing the moisture content.\nMonitor baking time: Since blackstrap molasses may make the dough denser, check the cookies a few minutes earlier to avoid them becoming too hard. Baking for 13-15 minutes instead of 15-18 might help retain some softness.\nSummary of Modifications:\nBlackstrap molasses: Use 1/4 to 1/3 cup (instead of 1/3 cup of unsulphured) and balance with extra sugar (1/4 to 1/3 cup).\nSpices: Increase the five-spice powder to 1 1/2 tablespoons and optionally add extra ground ginger or cinnamon (1/2 teaspoon).\nAlternative sweeteners: Add 1 tablespoon honey or maple syrup to balance bitterness if reducing blackstrap.\nBaking time: Reduce by a few minutes, checking around the 13-15 minute mark.\nThese adjustments should help balance the robust flavor of blackstrap molasses while keeping the cookies delicious and flavorful.",
     "servings": "Makes 12 large cookies",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Ffive-spice-molasses-1763691635955.jpeg?alt=media&token=83c3fda4-d0a0-445e-9c8e-917eaa859f43",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/five-spice-molasses.jpg",
     "source": null,
     "totalTime": null,
     "description": "This recipe uses one of my favorite spice blends — five-spice powder - to give the cookies a warm, aromatic flavor that's an unexpected departure from the typical molasses cookie. The spice blend is often used in Chinese and Vietnamese cooking and is typically made with star anise, fennel, cinnamon, cloves, and peppercorns. Here it's used to infuse the cookies with a sweet and savory flavor profile that works beautifully with the molasses to create large, chewy cookies with a bold, spicy flavor.",
@@ -652,7 +652,7 @@
       "1/4 cup (50 g) sugar",
       "Pinch salt (1 g)"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Ffolly-bisques-1765207803518.JPG?alt=media&token=8cb27979-c1aa-4523-a313-c3bc76f81a5c",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/folly-bisques.jpg",
     "notes": "Softening attempts were once believed to confuse the “spirit of the biscuit.”",
     "cookTime": null,
     "servings": "10",
@@ -690,7 +690,7 @@
     "category": "Forgotten Cookies",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
     "dishType": "Forgotten Cookies",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fhearth-circles-1765207838205.JPG?alt=media&token=7db3258d-374b-42f9-9ec1-752e493fe806",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/hearth-circles.jpg",
     "slug": "hearth-circles",
     "instructions": [
       "Heat oven to 350°F (175°C).",
@@ -729,7 +729,7 @@
       "1 egg (50 g)",
       "1/2 tsp baking powder"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fhildevarts-folly-cakes-1765207876744.JPG?alt=media&token=ad908e78-f740-48dd-ae0e-c5474935bed5",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/hildevarts-folly-cakes.jpg",
     "servings": "12",
     "description": "Folly-Cakes puff proudly in the oven, then settle into gentle concavity as they cool—a flaw that became their identity. [Historical source: \"Hildevart’s Folly Cakes\" – Author: Hildevart Crumb | Work: Folia de Crustis (The Folly of Crusts), 1424]",
     "notes": "A dusting of powdered sugar was traditionally added post-collapse.",
@@ -756,7 +756,7 @@
       "The black and white cookies can be refrigerated in an airtight container for up to 3 days."
     ],
     "servings": "15 large cookies",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fhoney-ricotta-black-whites-1763691675093.jpeg?alt=media&token=f2bb1e63-3750-48fd-a68f-1d193262dc90",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/honey-ricotta-black-whites.jpg",
     "title": "Honey-Ricotta Black & Whites",
     "category": "chomp chomp",
     "description": "The black and white cookie must be the official cookie of NYC. This recipe infuses the zingy lemon cookie base with ricotta and honey for extra sweetness and moisture. Black and whites have always been more cake than cookie, so it only makes sense to swap the pourable glaze or sticky fondant for a rich, spreadable frosting.",
@@ -788,7 +788,7 @@
     "dishType": "Scones",
     "prepTime": null,
     "slug": "honey-scones",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fhoney-scones-1765686392845.jpeg?alt=media&token=08c25d39-718e-40a9-a250-eee07f7e9f6f",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/honey-scones.jpg",
     "ingredients": [
       "100g plain wholemeal flour",
       "1 tbsp soft light brown sugar",
@@ -841,12 +841,12 @@
     "cookTime": null,
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
     "title": "Koekje",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fkoekje-1765025298360.PNG?alt=media&token=0c3b0691-6bab-4904-a1e2-96c46f4c5950",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/koekje.jpg",
     "slug": "koekje"
   },
   {
     "id": "koeklings",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fkoeklings-1765211069880.JPG?alt=media&token=91f36175-0454-489e-a87d-4f2234e4ecf7",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/koeklings.jpg",
     "cookTime": null,
     "totalTime": "20 minutes",
     "ingredients": [
@@ -876,7 +876,7 @@
     "category": "Forgotten Cookies",
     "dishType": "Forgotten Cookies",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Flords-day-chewables-1765207909664.JPG?alt=media&token=09dd5de8-2acf-4c13-b5fc-05bca56563dd",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/lords-day-chewables.jpg",
     "notes": "A deliberately modest cookie suited to quiet days.",
     "ingredients": [
       "1 cup (125 g) all-purpose flour",
@@ -903,7 +903,7 @@
   {
     "id": "matcha-amaretti",
     "totalTime": "40 minutes",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fmatcha-amaretti-1763699669959.jpeg?alt=media&token=ff76aac9-76c1-4e95-b7dd-8e16c62e39fa",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/matcha-amaretti.jpg",
     "notes": "Make sure to use almond flour, not almond meal.\nAlmond flour has a finer texture and is made with blanched almonds, allowing the bright green color of the matcha to shine. If you can’t find it, you can easily make your own by grinding blanched almonds in a food processor until they are the texture of fine sand. If there are any large pieces of almond still remaining, sift the flour through a fine-mesh sieve to remove them.\nStorage\nThe cookies will keep in an airtight container in a single layer for up to 1 week.",
     "instructions": [
       "Preheat the oven to 325°F and set 2 racks at the upper-middle and lower-middle positions. Line 2 baking sheets with parchment paper or nonstick baking mats.",
@@ -955,7 +955,7 @@
       "1 bag vanilla wafers",
       "1 bunch of bananas"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fmawmaw-walkers-banana-pudding-1763691925468.jpeg?alt=media&token=78c2e748-1f07-4948-a4dd-130f70111989",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/mawmaw-walkers-banana-pudding.jpg",
     "instructions": [
       "Place cookies and bananas in a bowl in alternating layers.",
       "Whisk together flour and sugar in a large saucepan to combine.",
@@ -985,7 +985,7 @@
     "notes": "Rustic texture and irregular shapes are historically accurate.",
     "title": "Mercantile Rounds",
     "prepTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fmercantile-rounds-1765207935663.JPG?alt=media&token=5e53c5a9-645c-4f56-8f19-009ef8fcc83a",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/mercantile-rounds.jpg",
     "totalTime": "30 minutes",
     "ingredients": [
       "1 cup (125 g) flour",
@@ -1011,7 +1011,7 @@
     "prepTime": null,
     "dishType": "Forgotten Cookies",
     "cookTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fmirthcakes-1765207970364.JPG?alt=media&token=69f31f90-e69f-4d70-87d6-45c0b3d5968b",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/mirthcakes.jpg",
     "servings": "16",
     "slug": "mirthcakes",
     "notes": "Best served warm during celebrations.",
@@ -1050,7 +1050,7 @@
       "Add 1 cup (125 g) flour; mix until smooth.",
       "Bake 12 minutes."
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fmisnomer-cakes-1765208001476.JPG?alt=media&token=1df004c7-fe20-4555-ac98-b6276acf48f7",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/misnomer-cakes.jpg",
     "dishType": "Forgotten Cookies",
     "totalTime": "25 minutes",
     "title": "Misnomer Cakes",
@@ -1067,7 +1067,7 @@
     "title": "Monk’s Embers",
     "cookTime": null,
     "slug": "monks-embers",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fmonks-embers-1765208069324.JPG?alt=media&token=2f5af001-0cf0-494e-8405-73f4f44e0994",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/monks-embers.jpg",
     "prepTime": null,
     "ingredients": [
       "1 cup (125 g) all-purpose flour",
@@ -1106,7 +1106,7 @@
     "title": "Oath-Breakers",
     "description": "Oath-Breakers are legendary for their hardness. Traditionally baked for longevity, they softened only when dunked—preferably in something strong. Their name hints at exasperation, challenge, and humor. [Historical source: \"Oath Breakers\" – Author: Gregory del Croix | Work: Le Biscuit de la Colère (The Biscuit of Anger), 1852]",
     "cookTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Foath-breakers-1765208092429.JPG?alt=media&token=ad9d5746-ef07-4f0f-b2e9-79b50104162e",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/oath-breakers.jpg",
     "ingredients": [
       "2 cups (250 g) flour",
       "1/2 tsp (3 g) salt",
@@ -1126,7 +1126,7 @@
     "id": "oven-wanderers",
     "prepTime": null,
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Foven-wanderers-1765208119766.JPG?alt=media&token=9491cb00-00eb-42fc-b944-9f5235908b4a",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/oven-wanderers.jpg",
     "cookTime": null,
     "category": "Forgotten Cookies",
     "slug": "oven-wanderers",
@@ -1170,7 +1170,7 @@
       "1/2 cup (113 g) butter",
       "1/4 cup (85 g) honey"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fpan-rounds-of-reason-1765208145954.JPG?alt=media&token=fef5a3f2-8444-4d3a-91b5-89e75a6c98fc",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/pan-rounds-of-reason.jpg",
     "servings": "10",
     "description": "Pan-Rounds of Reason earned their name from monastic scribes baffled by their inconsistent shapes. Honey-sweetened and rustic, they are intended to be irregular. [Historical source: \"Pan Rounds of Reason\" – Author: Catherine Faulkner | Work: La Raison des Ronds (The Reason of the Rounds), 1813]",
     "cookTime": null,
@@ -1193,7 +1193,7 @@
     "totalTime": null,
     "description": "My mother's friend Yolanda Tateo shared her mother's recipe for these cookies. Yolanda moved to the United States from Sava (Puglia) when she was in her twenties. This is one of the few recipes from home that she has kept over the years. These bite-sized cookies are perfect to have on hand for visitors or to enjoy with a cup of coffee or tea. It's worth splurging on good-quality cinnamon because it is the predominant flavoring. The recipe makes a lot of cookies; they can be stored for up to a month in an airtight container.",
     "slug": "pezzetti-di-cannella",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fpezzetti-di-cannella-1763691811379.jpeg?alt=media&token=623022dc-9245-48f4-8a9b-effb32afaf93",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/pezzetti-di-cannella.jpg",
     "source": null,
     "instructions": [
       "Preheat the oven to 350°F (177°C) with racks in the upper and lower thirds of the oven. Line two baking sheets with parchment paper or silicone baking mats.",
@@ -1247,7 +1247,7 @@
       "1 tbsp (15 ml) milk",
       "1 tsp (5 ml) vanilla"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fpilgrims-stoics-1765208201669.JPG?alt=media&token=26bf4771-c256-4056-8620-14c47340220f",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/pilgrims-stoics.jpg",
     "description": "Intentionally firm biscuits meant for slow, meditative chewing—perfect for travelers and walkers. Whole wheat adds depth and durability. [Historical source: \"Pilgrim’s Stoics\" – Author: Sister Marguerite of the Abbey of Saint-Pierre | Work: De Pastris Monasterii (Of the Monastery Pastries), 1380]",
     "category": "Forgotten Cookies",
     "totalTime": "40 minutes",
@@ -1281,7 +1281,7 @@
       "1/2 cup/110 g confectioners' sugar",
       "1 to 2 tablespoons water"
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Frussian-spice-cookies-pryaniki-1765689220202.jpeg?alt=media&token=b89f7d74-2c2d-44f4-a7c6-e0d7d19adc6a",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/russian-spice-cookies-pryaniki.jpg",
     "servings": "4 dozen",
     "description": "This traditional recipe for Russian spice cookies or pryaniki is traditionally served with hot tea, sbiten, or chai, especially at Christmas time.",
     "cookTime": "12min",
@@ -1330,7 +1330,7 @@
     ],
     "category": "Forgotten Cookies",
     "prepTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fscribes-regret-1765208231551.JPG?alt=media&token=4667cb2b-98b6-4579-9a5b-83ba49e9b431"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/scribes-regret.jpg"
   },
   {
     "id": "ships-stones",
@@ -1339,7 +1339,7 @@
     "category": "Forgotten Cookies",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
     "dishType": "Forgotten Cookies",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fships-stones-1765208309095.JPG?alt=media&token=6493f821-88ff-40e2-81fb-27b4117f09b8",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/ships-stones.jpg",
     "notes": "True to the name—these were famously hard and durable.",
     "ingredients": [
       "2 cups (250 g) flour",
@@ -1382,7 +1382,7 @@
     "description": "Neither fully crisp nor definitively soft, these cookies hover in an in-between texture that sparked arguments among bakers. Almond flour lends tenderness without structure. [Historical source: \"Smalls of Uncertain Texture\" – Author: Henrietta Valcourt | Work: De Douteux Textures et Pâtisseries (On Doubtful Textures and Pastries), 1725]",
     "dishType": "Forgotten Cookies",
     "cookTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fsmalls-of-uncertain-texture-1765208331430.JPG?alt=media&token=dcef15c6-4b29-48a2-94f6-c551e78c64b8",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/smalls-of-uncertain-texture.jpg",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
     "instructions": [
       "Heat oven to 350°F (175°C).",
@@ -1424,7 +1424,7 @@
     ],
     "category": "Forgotten Cookies",
     "prepTime": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fsoftlings-1765203499990.PNG?alt=media&token=552161a2-04f5-4973-b26b-b34b347d3002"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/softlings.jpg"
   },
   {
     "id": "spiced-rum-syrup",
@@ -1456,7 +1456,7 @@
     "category": "Community",
     "dishType": "Syrups",
     "description": "This spiced rum syrup distills a pantry of globally traveled aromatics—clove, anise, cinnamon, nutmeg, allspice, pepper—into a concentrated sweetness, recalling the colonial-era logic of sugar as both preservative and luxury. Brown sugar and rum anchor the syrup in the Caribbean sugar trade, while citrus peel and vanilla lend a perfumed warmth that feels at once domestic and faintly illicit, a reminder that everyday indulgences often carry long histories of distance and desire.\n\n“Taken directly from Domino Sugar website, it’s what I’m making this morning. I put it in coffee and I’ve used it in ice cream. Delicious.” [Submitted by Jason]",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2FFB84D316-0233-4F7A-88F5-EC832C76ED22-compressed.jpeg?alt=media&token=29eceb2e-1c8b-493f-bb76-b66d46f76d16",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/spiced-rum-syrup.jpg",
     "cookTime": null
   },
   {
@@ -1465,7 +1465,7 @@
     "cookTime": null,
     "description": "These fragrant cakes were traditionally offered to travelers. Lemon zest and honey convey hopes for brightness and safe passage. [Historical source: \"Sweet Rounds for the Road\" – Author: Richard Hayward | Work: The Baker’s Gift to the Road (Gifts for the Weary Traveler), 1702]",
     "servings": "12",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fsweet-rounds-for-the-road-1765208355780.JPG?alt=media&token=a34493bc-d2de-4651-b834-22d86841c43f",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/sweet-rounds-for-the-road.jpg",
     "ingredients": [
       "1 1/4 cups (155 g) flour",
       "1/2 tsp baking powder",
@@ -1520,7 +1520,7 @@
     ],
     "notes": "Sugar Cookies Video Tutorial: (https://youtu.be/f24gpOgAXwY)\nFreezing Instructions: Plain or decorated sugar cookies freeze well up to 3 months. Wait for the icing to set completely before layering between sheets of parchment paper in a freezer-friendly container. To thaw, thaw in the refrigerator or at room temperature. You can also freeze the cookie dough for up to 3 months before rolling it out. Prepare the dough through step 3, divide in half, flatten both halves into a disk as we do with pie crust, wrap each in plastic wrap, then freeze. To thaw, thaw the disks in the refrigerator, then bring to room temperature for about 1 hour. Roll out the dough as directed in step 4, then chill rolled out dough in the refrigerator for 45 minutes – 1 hour before cutting into shapes and baking.\nRoom Temperature: Room temperature butter is essential. If the dough is too sticky, your butter may have been too soft. Room temperature butter is actually cool to the touch. You can read more about it in this post. Room temperature egg is preferred so it’s quickly and evenly mixed into the cookie dough.\nFlavors: I love flavoring this cookie dough with 1/2 teaspoon almond extract as listed in the ingredients above. For lighter flavor, use 1/4 teaspoon. Instead of the almond extract, try using 1 teaspoon of maple extract, coconut extract, lemon extract, or peppermint extract. Or add 1 teaspoon pumpkin pie spice or ground cinnamon. Along with lemon extract, you can also add 1 Tablespoon lemon zest.\nIcing: Use royal icing or my easy glaze icing. See post above to read about the differences.\nBe sure to check out my top 5 cookie baking tips AND these are my 10 must-have cookie baking tools.",
     "category": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fthe-best-sugar-cookies-1763669452532.jpg?alt=media&token=ea894931-ce6a-40b2-a34b-60a9f3689574",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/the-best-sugar-cookies.jpg",
     "totalTime": null,
     "source": "[sallysbakingaddiction.com](https://sallysbakingaddiction.com/best-sugar-cookies/)",
     "prepTime": "2 hours",
@@ -1534,7 +1534,7 @@
     "description": "A bowl of dark, delicious Sticky toffee pudding with its treacle, date-laden sponge, and thick toffee sauce is perhaps one of England's most popular puddings even though it was unheard of before 1984.\nThe origins of this popular dish are the cause of many arguments of who made the first one, though favor falls often at the feet of Sharrow Bay Hotel in the Lake District of North West England as the originators.\nThe pudding is easy to make and can be cooked and eaten immediately. Or, following the instructions below, you can make it in advance and soak with the sauce for an even stickier pudding.\nTraditionally, a sticky toffee pudding is made in a large square tin and served cut into squares.",
     "totalTime": "90 minutes",
     "source": "[thespruceeats.com](https://www.thespruceeats.com/sticky-toffee-pudding-recipe-435711)",
-    "image": null,
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/the-ultimate-sticky-toffee-pudding.jpg",
     "servings": "6",
     "notes": "The puddings can be made a day or two in advance, placed in an ovenproof dish and drenched with the sauce. Cover the dish loosely with aluminum foil and store until needed. Reheat for 20 minutes in a hot oven, 160C/325F/Gas 3, or until the sauce is bubbling nicely. Serve with custard or ice cream.\nThe puddings drenched in the sauce also freeze well. Reheat as above.\nGuidelines (per serving)\n732 Calories 39g Fat 93g Carbs 7g Protein\nNutrition Facts\nAmount per serving\nCalories 732\n% Daily Value*\nTotal Fat 39g 50%\nSaturated Fat 22g 112%\nCholesterol 165mg 55%\nSodium 688mg 30%\nTotal Carbohydrate 93g 34%\nDietary Fiber 4g 13%\nProtein 7g\nCalcium 172mg 13%\n*The % Daily Value (DV) tells you how much a nutrient in a food serving contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.",
     "dishType": "Pudding",
@@ -1608,7 +1608,7 @@
     "prepTime": null,
     "notes": "Traditionally topped with a single almond to signify “good news.”",
     "dishType": "Forgotten Cookies",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Ftidings-1765208385189.JPG?alt=media&token=ef1adb9f-8250-4a35-a1ba-bf7e84de912d",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/tidings.jpg",
     "title": "Tidings"
   },
   {
@@ -1617,7 +1617,7 @@
     "cookTime": null,
     "servings": "18–20",
     "description": "Traveler’s Flats are practical, lightly sweet biscuits designed for portability and barter. Their firm texture and simple flavor made them reliable companions on long routes. [Historical source: \"Traveler’s Flats\" – Author: Georgius von Lindenberg | Work: Panis Viatoris (The Traveler’s Bread), 1357]",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Ftravelers-flats-1765208409048.JPG?alt=media&token=be69a2d0-80a9-434f-b709-b387e9420552",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/travelers-flats.jpg",
     "ingredients": [
       "1 1/2 cups (190 g) all-purpose flour",
       "1/2 tsp baking powder",
@@ -1651,7 +1651,7 @@
     "slug": "twice-baked-wafers",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
     "servings": "24 wafers",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Ftwice-baked-wafers-1765208441703.JPG?alt=media&token=457f735d-94a8-47d5-9e7f-22d873b3341f",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/twice-baked-wafers.jpg",
     "prepTime": null,
     "dishType": "Forgotten Cookies",
     "category": "Forgotten Cookies",
@@ -1704,7 +1704,7 @@
       "Scoop into rounds and bake 12 minutes.",
       "Cool slightly, then bake 10 minutes more."
     ],
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Ftwice-browned-resentments-1765208463646.JPG?alt=media&token=57dd07e4-75f9-486b-9b79-15846b1d057e",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/twice-browned-resentments.jpg",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past"
   },
   {
@@ -1724,7 +1724,7 @@
     "notes": null,
     "cookTime": "11-12 minutes",
     "source": null,
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fube-brle-1763691654457.jpeg?alt=media&token=acf2ec60-0abd-45f1-aa5f-56cd1e1eaf00",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/ube-brle.jpg",
     "prepTime": null,
     "title": "Ube Brûlée",
     "ingredients": [
@@ -1758,7 +1758,7 @@
     "title": "Unnamables",
     "dishType": "Forgotten Cookies",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Funnamables-1765208491363.JPG?alt=media&token=99a86ae6-1e73-42d0-a73a-edd5e9ffbda5",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/unnamables.jpg",
     "totalTime": "30 minutes",
     "servings": "variable",
     "instructions": [
@@ -1810,7 +1810,7 @@
     ],
     "source": "[foodfolksandfun.net](https://foodfolksandfun.net/vanilla-custard-ice-cream/)",
     "cookTime": "10min",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fvanilla-frozen-custard-recipe-1763564797935.png?alt=media&token=8b95b5b8-7afd-4c99-a955-b03c482647c7",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/vanilla-frozen-custard-recipe.jpg",
     "description": "This Vanilla Frozen Custard Ice Cream is rich, decadent, and oh so creamy. Pair with your favorite pie, cake, or cookie or simply perfect on its own. What is Frozen Custard? Frozen custard is a frozen dessert similar to ice cream but has a richer and creamier texture. It is made from a base of cream, milk, sugar, and pasteurized egg yolks. The key difference between frozen custard and traditional ice cream is the addition of egg yolks, which gives frozen custard its smooth and velvety consistency.",
     "servings": "6 people",
     "notes": null,
@@ -1833,7 +1833,7 @@
       "Let cool on a wire rack."
     ],
     "description": "These hardy, disc-shaped pastries were designed for travelers who needed sustenance that could endure the road’s trials. With a slightly sweet, firm texture, they served both as nourishment and as a compact source of energy for weary travelers. The combination of flour and butter results in a satisfying, but not overly rich, snack that is perfect for eating on the move. [Historical source: \"Wayfarer’s Puck\" – Author: Nathaniel H. Porter | Work: Voyages et Pâtisseries de la Route (Journeys and Pastries of the Road), 1798]",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/recipes%2Fwayfarers-puck-1765203968122.PNG?alt=media&token=45131d28-5618-4ac2-aad7-2b8990b607a2",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/v1/wayfarers-puck.jpg",
     "source": "A Compendium of 35 Forgotten Cookies and Biscuits: Rediscovered Recipes from the Past",
     "title": "Wayfarer’s Puck",
     "servings": "12",
