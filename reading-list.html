@@ -690,7 +690,7 @@
       // Render based on view mode
       if (currentView === 'list') {
         grid.innerHTML = filtered.map(book => `
-          <div class="book-list-item" data-book-id="${book.id}">
+          <div class="book-list-item" data-book-isbn="${book.isbn || book.title}">
             <div class="book-list-badge">
               ${book.recommended ? '<div class="recommended-badge">★</div>' : ''}
             </div>
@@ -718,7 +718,7 @@
       } else {
         // Grid view
         grid.innerHTML = filtered.map(book => `
-          <div class="book-card" data-book-id="${book.id}">
+          <div class="book-card" data-book-isbn="${book.isbn || book.title}">
             ${book.coverImage ? `
               <div class="book-cover">
                 <img src="${book.coverImage}" alt="${book.title}">
@@ -752,8 +752,8 @@
     }
 
     // Show book detail modal
-    window.showBookDetail = function(bookId) {
-      const book = allBooks.find(b => b.id === bookId);
+    window.showBookDetail = function(bookIsbn) {
+      const book = allBooks.find(b => (b.isbn || b.title) === bookIsbn);
       if (!book) return;
 
       const modalBody = document.getElementById('modalBody');
@@ -873,14 +873,14 @@
       // Find the book card that was clicked/tapped
       const bookCard = e.target.closest('.book-card, .book-list-item');
       if (bookCard) {
-        const bookId = bookCard.getAttribute('data-book-id');
-        if (bookId) {
+        const bookIsbn = bookCard.getAttribute('data-book-isbn');
+        if (bookIsbn) {
           // Prevent duplicate events from touch+click
           if (e.type === 'touchstart') {
             touchHandled = true;
-            showBookDetail(bookId);
+            showBookDetail(bookIsbn);
           } else if (e.type === 'click' && !touchHandled) {
-            showBookDetail(bookId);
+            showBookDetail(bookIsbn);
           }
 
           // Reset after a short delay
