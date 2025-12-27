@@ -95,6 +95,33 @@
     .config-warning h3 { color: #856404; margin-bottom: 10px; }
     .config-warning code { background: white; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', monospace; }
     .config-warning ol { margin: 10px 0 10px 20px; }
+
+    /* Bulk Import Styles */
+    .import-section { background: #f0f7ff; border: 2px dashed #2196f3; border-radius: 8px; padding: 20px; margin-bottom: 25px; }
+    .import-section h3 { color: #1976d2; font-size: 16px; margin-bottom: 15px; }
+    .import-section textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid #2196f3; border-radius: 6px; font-family: 'Monaco', monospace; font-size: 13px; margin-bottom: 10px; }
+    .import-section .hint { color: #1976d2; font-size: 13px; margin-bottom: 10px; }
+    .import-progress { background: #fff; border-radius: 6px; padding: 15px; margin-top: 15px; display: none; }
+    .import-progress.show { display: block; }
+    .import-progress-bar { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+    .import-progress-fill { height: 100%; background: #4caf50; transition: width 0.3s; }
+    .import-preview { max-height: 400px; overflow-y: auto; margin-top: 15px; }
+    .import-preview-item { background: white; padding: 12px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid #4caf50; }
+    .import-preview-item h4 { color: #333; font-size: 14px; margin-bottom: 5px; }
+    .import-preview-item p { color: #666; font-size: 12px; margin: 0; }
+
+    /* Image Manager Styles */
+    .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .image-card { background: #f9f9f9; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0; transition: all 0.2s; }
+    .image-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .image-thumbnail { width: 100%; height: 150px; object-fit: cover; background: #f5f5f5; }
+    .image-info { padding: 12px; }
+    .image-url { font-size: 11px; color: #666; word-break: break-all; margin-bottom: 8px; max-height: 40px; overflow: hidden; }
+    .image-actions { display: flex; gap: 8px; }
+    .image-actions button { padding: 6px 12px; font-size: 12px; flex: 1; }
+    .image-filter { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .image-filter button { padding: 8px 16px; background: #f5f5f5; color: #666; }
+    .image-filter button.active { background: #e73b42; color: white; }
   </style>
 </head>
 <body>
@@ -152,11 +179,24 @@
         <button class="tab" onclick="switchTab('lexicon')">Lexicon</button>
         <button class="tab" onclick="switchTab('reading-list')">Reading List</button>
         <button class="tab" onclick="switchTab('playlists')">Playlists</button>
+        <button class="tab" onclick="switchTab('images')">Images</button>
       </div>
 
       <!-- Recipes Tab -->
       <div id="recipes-tab" class="tab-content active">
         <div class="stats"><div class="stat-card"><div class="stat-value" id="recipes-count">0</div><div class="stat-label">Total Recipes</div></div></div>
+
+        <!-- Markdown Import Section -->
+        <div class="import-section">
+          <h3>📄 Import Recipe from Markdown</h3>
+          <div class="hint">Paste markdown formatted recipe below. Format: # Title, ## Ingredients, ## Instructions, ## Notes</div>
+          <textarea id="recipe-markdown-input" placeholder="# Chocolate Chip Cookies&#10;&#10;Delicious homemade cookies...&#10;&#10;## Ingredients&#10;- 2 cups flour&#10;- 1 cup sugar&#10;&#10;## Instructions&#10;1. Mix ingredients&#10;2. Bake at 350°F&#10;&#10;## Notes&#10;Best served warm!"></textarea>
+          <button onclick="importMarkdownRecipe()" class="secondary">Import Markdown Recipe</button>
+          <div class="import-progress" id="recipe-import-progress">
+            <div id="recipe-import-status">Processing...</div>
+          </div>
+        </div>
+
         <div class="controls">
           <input type="text" class="search-box" id="recipes-search" placeholder="Search recipes...">
           <button onclick="loadData('recipes')">Reload</button>
@@ -193,6 +233,22 @@
       <!-- Reading List Tab -->
       <div id="reading-list-tab" class="tab-content">
         <div class="stats"><div class="stat-card"><div class="stat-value" id="reading-list-count">0</div><div class="stat-label">Total Books</div></div></div>
+
+        <!-- ISBN Bulk Import Section -->
+        <div class="import-section">
+          <h3>📚 Bulk Import from Open Library</h3>
+          <div class="hint">Paste ISBNs (one per line). We'll fetch book data from Open Library API.</div>
+          <textarea id="isbn-input" placeholder="9780062316110&#10;9780316769174&#10;9781451673319"></textarea>
+          <button onclick="fetchFromOpenLibrary()" class="secondary">Fetch from Open Library</button>
+          <div class="import-progress" id="isbn-import-progress">
+            <div id="isbn-import-status">Fetching books...</div>
+            <div class="import-progress-bar">
+              <div class="import-progress-fill" id="isbn-progress-bar" style="width: 0%"></div>
+            </div>
+            <div class="import-preview" id="isbn-preview"></div>
+          </div>
+        </div>
+
         <div class="controls">
           <input type="text" class="search-box" id="reading-list-search" placeholder="Search books...">
           <button onclick="loadData('reading-list')">Reload</button>
@@ -212,6 +268,25 @@
           <button onclick="downloadJSON('playlists')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="playlists-list"></div>
+      </div>
+
+      <!-- Images Tab -->
+      <div id="images-tab" class="tab-content">
+        <div class="stats">
+          <div class="stat-card"><div class="stat-value" id="images-count">0</div><div class="stat-label">Total Images</div></div>
+        </div>
+        <div class="controls">
+          <input type="text" class="search-box" id="images-search" placeholder="Search images..." oninput="filterImages()">
+          <button onclick="loadImages()">Reload Images</button>
+        </div>
+        <div class="image-filter">
+          <button class="active" onclick="filterImagesByCollection('all')">All</button>
+          <button onclick="filterImagesByCollection('recipes')">Recipes</button>
+          <button onclick="filterImagesByCollection('posts')">Posts</button>
+          <button onclick="filterImagesByCollection('lexicon')">Lexicon</button>
+          <button onclick="filterImagesByCollection('reading-list')">Reading List</button>
+        </div>
+        <div class="image-grid" id="images-grid"></div>
       </div>
     </div>
   </div>
@@ -372,7 +447,11 @@
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
       document.getElementById(`${collection}-tab`).classList.add('active');
       currentCollection = collection;
-      if (data[collection].length === 0) loadData(collection);
+      if (collection === 'images') {
+        if (allImages.length === 0) loadImages();
+      } else if (data[collection].length === 0) {
+        loadData(collection);
+      }
     }
 
     function renderList(collection) {
@@ -461,7 +540,7 @@
     }
 
     function generatePostForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Excerpt</label><textarea id="excerpt" data-preview="true" rows="3">${item.excerpt || ''}</textarea></div><div class="form-group"><label>Content *</label><textarea id="content" data-preview="true" rows="15">${item.content || ''}</textarea></div><div class="form-group"><label>Category *</label><select id="category"><option value="stories" ${item.category === 'stories' ? 'selected' : ''}>Stories</option><option value="anthropologies" ${item.category === 'anthropologies' ? 'selected' : ''}>Anthropologies</option><option value="zen" ${item.category === 'zen' ? 'selected' : ''}>Zen</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Date</label><input type="date" id="date" value="${item.date || ''}"></div><div class="form-group"><label>Featured Image URL</label><input type="text" id="featured_image" value="${item.featured_image || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Excerpt</label><textarea id="excerpt" data-preview="true" rows="3">${item.excerpt || ''}</textarea></div><div class="form-group"><label>Content *</label><textarea id="content" data-preview="true" rows="15">${item.content || ''}</textarea><div class="hint">💡 To add images: <code>![alt text](image-url)</code> - The preview below will show rendered images</div></div><div class="form-group"><label>Category *</label><select id="category"><option value="stories" ${item.category === 'stories' ? 'selected' : ''}>Stories</option><option value="anthropologies" ${item.category === 'anthropologies' ? 'selected' : ''}>Anthropologies</option><option value="zen" ${item.category === 'zen' ? 'selected' : ''}>Zen</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Date</label><input type="date" id="date" value="${item.date || ''}"></div><div class="form-group"><label>Featured Image URL</label><input type="text" id="featured_image" value="${item.featured_image || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generateLexiconForm(item) {
@@ -554,6 +633,304 @@
       }
       if (e.key === 'Escape') closeModal();
     });
+
+    // ===========================================
+    // NEW FEATURES
+    // ===========================================
+
+    // ISBN Bulk Import from Open Library
+    async function fetchFromOpenLibrary() {
+      const input = document.getElementById('isbn-input').value.trim();
+      const isbns = input.split('\n').map(isbn => isbn.trim()).filter(isbn => isbn);
+
+      if (isbns.length === 0) {
+        alert('Please enter at least one ISBN');
+        return;
+      }
+
+      const progressDiv = document.getElementById('isbn-import-progress');
+      const statusDiv = document.getElementById('isbn-import-status');
+      const progressBar = document.getElementById('isbn-progress-bar');
+      const previewDiv = document.getElementById('isbn-preview');
+
+      progressDiv.classList.add('show');
+      previewDiv.innerHTML = '';
+
+      const fetchedBooks = [];
+
+      for (let i = 0; i < isbns.length; i++) {
+        const isbn = isbns[i];
+        statusDiv.textContent = `Fetching ${i + 1} of ${isbns.length}: ISBN ${isbn}...`;
+        progressBar.style.width = ((i / isbns.length) * 100) + '%';
+
+        try {
+          const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
+          const data = await response.json();
+          const bookKey = `ISBN:${isbn}`;
+
+          if (data[bookKey]) {
+            const book = data[bookKey];
+            const newBook = {
+              title: book.title || 'Unknown Title',
+              authors: book.authors ? book.authors.map(a => a.name).join(', ') : 'Unknown Author',
+              isbn: isbn,
+              publisher: book.publishers ? book.publishers[0].name : '',
+              publicationDate: book.publish_date || '',
+              description: book.subtitle || '',
+              coverImage: book.cover ? book.cover.large || book.cover.medium || book.cover.small : '',
+              link: book.url || `https://openlibrary.org/isbn/${isbn}`,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            };
+
+            fetchedBooks.push(newBook);
+
+            // Add preview
+            previewDiv.innerHTML += `
+              <div class="import-preview-item">
+                <h4>${newBook.title}</h4>
+                <p><strong>Author:</strong> ${newBook.authors}</p>
+                <p><strong>ISBN:</strong> ${newBook.isbn}</p>
+                <p><strong>Publisher:</strong> ${newBook.publisher || 'N/A'}</p>
+              </div>
+            `;
+          } else {
+            previewDiv.innerHTML += `
+              <div class="import-preview-item" style="border-left-color: #f44336;">
+                <h4>ISBN ${isbn} not found</h4>
+                <p>No data available from Open Library</p>
+              </div>
+            `;
+          }
+        } catch (error) {
+          console.error(`Error fetching ISBN ${isbn}:`, error);
+          previewDiv.innerHTML += `
+            <div class="import-preview-item" style="border-left-color: #f44336;">
+              <h4>Error fetching ISBN ${isbn}</h4>
+              <p>${error.message}</p>
+            </div>
+          `;
+        }
+
+        // Rate limiting: 1 second delay between requests
+        if (i < isbns.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+
+      progressBar.style.width = '100%';
+      statusDiv.textContent = `Complete! Fetched ${fetchedBooks.length} of ${isbns.length} books.`;
+
+      // Add fetched books to data
+      if (fetchedBooks.length > 0) {
+        data['reading-list'].push(...fetchedBooks);
+        renderList('reading-list');
+        document.getElementById('reading-list-count').textContent = data['reading-list'].length;
+
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = `Added ${fetchedBooks.length} books! Download the updated JSON file.`;
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 5000);
+      }
+    }
+
+    // Recipe Markdown Import
+    function importMarkdownRecipe() {
+      const input = document.getElementById('recipe-markdown-input').value.trim();
+      const progressDiv = document.getElementById('recipe-import-progress');
+      const statusDiv = document.getElementById('recipe-import-status');
+
+      if (!input) {
+        alert('Please paste markdown content');
+        return;
+      }
+
+      progressDiv.classList.add('show');
+      statusDiv.textContent = 'Parsing markdown...';
+
+      try {
+        // Parse markdown sections
+        const lines = input.split('\n');
+        let title = '';
+        let description = [];
+        let ingredients = [];
+        let instructions = [];
+        let notes = [];
+        let currentSection = 'description';
+
+        for (let line of lines) {
+          // Check for title (# Title)
+          if (line.startsWith('# ')) {
+            title = line.substring(2).trim();
+            continue;
+          }
+
+          // Check for sections
+          if (line.startsWith('## ')) {
+            const section = line.substring(3).trim().toLowerCase();
+            if (section === 'ingredients') currentSection = 'ingredients';
+            else if (section === 'instructions') currentSection = 'instructions';
+            else if (section === 'notes') currentSection = 'notes';
+            else currentSection = 'other';
+            continue;
+          }
+
+          // Add content to current section
+          if (line.trim()) {
+            if (currentSection === 'description') {
+              description.push(line);
+            } else if (currentSection === 'ingredients') {
+              // Remove leading - or * for list items
+              const ingredient = line.replace(/^[-*]\s*/, '').trim();
+              if (ingredient) ingredients.push(ingredient);
+            } else if (currentSection === 'instructions') {
+              // Remove leading numbers for ordered lists
+              const instruction = line.replace(/^\d+\.\s*/, '').trim();
+              if (instruction) instructions.push(instruction);
+            } else if (currentSection === 'notes') {
+              notes.push(line);
+            }
+          }
+        }
+
+        if (!title) {
+          throw new Error('No title found. Make sure markdown starts with "# Title"');
+        }
+
+        // Create recipe object
+        const recipe = {
+          title: title,
+          slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+          description: description.join('\n'),
+          ingredients: ingredients,
+          instructions: instructions,
+          notes: notes.join('\n'),
+          category: 'chomp chomp',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        // Add to data
+        data['recipes'].push(recipe);
+        renderList('recipes');
+        document.getElementById('recipes-count').textContent = data['recipes'].length;
+
+        statusDiv.textContent = `✓ Successfully imported "${title}"!`;
+
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = `Imported recipe "${title}"! Download the updated JSON file.`;
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 5000);
+
+        // Clear input
+        document.getElementById('recipe-markdown-input').value = '';
+        setTimeout(() => progressDiv.classList.remove('show'), 3000);
+
+      } catch (error) {
+        statusDiv.textContent = `Error: ${error.message}`;
+        console.error('Markdown import error:', error);
+      }
+    }
+
+    // Image Manager
+    let allImages = [];
+    let currentImageFilter = 'all';
+
+    async function loadImages() {
+      allImages = [];
+
+      // Extract images from all collections
+      const collections = ['recipes', 'posts', 'lexicon', 'reading-list'];
+
+      for (const collection of collections) {
+        if (data[collection].length === 0) {
+          await loadData(collection);
+        }
+
+        data[collection].forEach(item => {
+          // Check various image fields
+          const imageFields = ['image', 'featured_image', 'coverImage'];
+          imageFields.forEach(field => {
+            if (item[field]) {
+              allImages.push({
+                url: item[field],
+                collection: collection,
+                title: item.title || item.term || 'Untitled'
+              });
+            }
+          });
+        });
+      }
+
+      // Remove duplicates
+      allImages = allImages.filter((img, index, self) =>
+        index === self.findIndex(t => t.url === img.url)
+      );
+
+      document.getElementById('images-count').textContent = allImages.length;
+      renderImages();
+    }
+
+    function renderImages() {
+      const searchTerm = document.getElementById('images-search').value.toLowerCase();
+      let filtered = allImages;
+
+      // Filter by collection
+      if (currentImageFilter !== 'all') {
+        filtered = filtered.filter(img => img.collection === currentImageFilter);
+      }
+
+      // Filter by search
+      if (searchTerm) {
+        filtered = filtered.filter(img =>
+          img.url.toLowerCase().includes(searchTerm) ||
+          img.title.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      const grid = document.getElementById('images-grid');
+      grid.innerHTML = filtered.map(img => `
+        <div class="image-card">
+          <img src="${img.url}" alt="${img.title}" class="image-thumbnail" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-family=%22Arial%22 font-size=%2214%22%3EImage not found%3C/text%3E%3C/svg%3E'">
+          <div class="image-info">
+            <div style="font-weight: 600; font-size: 12px; margin-bottom: 5px; color: #e73b42;">${img.collection}</div>
+            <div style="font-size: 12px; margin-bottom: 8px;">${img.title}</div>
+            <div class="image-url">${img.url}</div>
+            <div class="image-actions">
+              <button onclick="copyImageUrl('${img.url.replace(/'/g, "\\'")}')">Copy URL</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterImages() {
+      renderImages();
+    }
+
+    function filterImagesByCollection(collection) {
+      currentImageFilter = collection;
+
+      // Update active button
+      document.querySelectorAll('.image-filter button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      renderImages();
+    }
+
+    function copyImageUrl(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = 'Image URL copied to clipboard!';
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy URL');
+      });
+    }
   </script>
 </body>
 </html>

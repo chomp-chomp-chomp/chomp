@@ -39,8 +39,8 @@ Even though it's free, you should restrict it to prevent abuse:
 2. Click on your API key
 3. Under "Application restrictions":
    - Choose "HTTP referrers (websites)"
-   - Add: `https://chomp.be/*`
-   - Add: `https://*.chomp.be/*` (if you have subdomains)
+   - Add: `https://chompchomp.cc/*`
+   - Add: `https://*.chompchomp.cc/*` (if you have subdomains)
 4. Under "API restrictions":
    - Choose "Restrict key"
    - Select only: **Generative Language API**

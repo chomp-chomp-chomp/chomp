@@ -4,7 +4,7 @@
 
 **Chomp Chomp** is a multi-page static website combining recipes, stories, tools, and a store. The site features a philosophical approach to baking and culinary culture with the tagline "Baking is the materialization of comfort itself."
 
-- **Live Site**: https://chomp.be
+- **Live Site**: https://chompchomp.cc
 - **Project Type**: Multi-page static HTML/CSS/JavaScript website with Firebase backend
 - **Primary Purpose**: Recipe collection, blog/stories, culinary lexicon, and web tools
 - **Design Philosophy**: Philosophical depth meets practical baking
@@ -650,17 +650,17 @@ data-*.txt
 
 ### Key URLs
 
-- **Production**: https://chomp.be
-- **Recipes**: https://chomp.be/recipes.html
-- **Stories**: https://chomp.be/stories.html
-- **Tools**: https://chomp.be/tools/
+- **Production**: https://chompchomp.cc
+- **Recipes**: https://chompchomp.cc/recipes.html
+- **Stories**: https://chompchomp.cc/stories.html
+- **Tools**: https://chompchomp.cc/tools/
 - **Admin**: Open locally (gitignored)
 
 ### Contact & Related
 
 - **Email**: hey@chompchomp.cc
 - **Main Site**: https://www.chomp.ltd
-- **Tools**: https://chomp.be/tools
+- **Tools**: https://chompchomp.cc/tools
 
 ---
 

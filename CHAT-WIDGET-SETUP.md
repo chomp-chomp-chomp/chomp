@@ -217,7 +217,7 @@ The chat widget is lightweight:
 1. **Use Firebase Cloud Functions** (Option 1) to keep API key secure
 2. **Set API Key Restrictions** in Google Cloud Console:
    - Application restrictions: HTTP referrers (websites)
-   - Add your domain: `https://chomp.be/*`
+   - Add your domain: `https://chompchomp.cc/*`
    - API restrictions: Only allow "Generative Language API"
 3. **Set Usage Quotas** to prevent abuse
 4. **Monitor Usage** regularly in Google Cloud Console

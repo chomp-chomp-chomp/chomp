@@ -148,7 +148,7 @@ Claude creates updated versions, you review and test.
    - Add Cloudinary widget
 
 3. **Update URLs**
-   - Change all `chomp.be` → `chompchomp.cc`
+   - Change all `chompchomp.cc` → `chompchomp.cc`
 
 4. **Remove Firebase**
    - Delete Firebase SDK imports from all pages
