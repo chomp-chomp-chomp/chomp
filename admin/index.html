@@ -4,18 +4,933 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chomp Chomp CMS</title>
-
-  <!-- Sveltia CMS -->
-  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #f5f5f5; color: #333; }
+
+    /* Login Screen */
+    .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .login-box { background: white; padding: 50px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-width: 450px; width: 90%; text-align: center; }
+    .login-box h1 { color: #e73b42; font-size: 32px; margin-bottom: 15px; }
+    .login-box p { color: #666; margin-bottom: 40px; font-size: 15px; line-height: 1.6; }
+    .github-login-btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 32px; background: #24292e; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .github-login-btn:hover { background: #1a1f23; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .github-icon { width: 24px; height: 24px; }
+    .login-error { background: #ffebee; color: #c62828; padding: 14px; border-radius: 8px; margin-bottom: 25px; font-size: 14px; display: none; }
+    .login-error.show { display: block; }
+    .login-loading { color: #666; font-size: 14px; margin-top: 20px; display: none; }
+    .login-loading.show { display: block; }
+
+    /* Main App */
+    .app { display: none; }
+    .app.authenticated { display: block; }
+    .header { background: white; padding: 20px 40px; border-bottom: 2px solid #e73b42; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .header-left h1 { color: #e73b42; font-size: 24px; font-weight: 600; }
+    .header-left p { color: #666; font-size: 14px; margin-top: 5px; }
+    .header-right { display: flex; align-items: center; gap: 15px; }
+    .user-info { display: flex; align-items: center; gap: 10px; padding: 8px 16px; background: #f5f5f5; border-radius: 6px; }
+    .user-avatar { width: 32px; height: 32px; border-radius: 50%; }
+    .user-name { font-size: 14px; font-weight: 500; color: #333; }
+    .logout-btn { padding: 10px 20px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+    .logout-btn:hover { background: #555; }
+    .container { max-width: 1400px; margin: 40px auto; padding: 0 40px; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; }
+    .tab { padding: 12px 24px; background: white; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 16px; font-weight: 500; color: #666; transition: all 0.2s; }
+    .tab:hover { color: #e73b42; background: #fff5f5; }
+    .tab.active { color: #e73b42; border-bottom-color: #e73b42; background: white; }
+    .tab-content { display: none; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .tab-content.active { display: block; }
+    .controls { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; align-items: center; }
+    .search-box { flex: 1; min-width: 300px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; }
+    button { padding: 12px 24px; background: #e73b42; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
+    button:hover { opacity: 0.9; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    button.secondary { background: #4caf50; }
+    button.danger { background: #f44336; }
+    .items-grid { display: grid; gap: 15px; margin-top: 20px; }
+    .item-card { padding: 20px; background: #f9f9f9; border-radius: 6px; border-left: 4px solid #e73b42; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+    .item-card:hover { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .item-info h3 { color: #333; font-size: 18px; margin-bottom: 8px; }
+    .item-meta { color: #666; font-size: 14px; }
+    .item-actions { display: flex; gap: 10px; }
+    .item-actions button { padding: 8px 16px; font-size: 14px; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto; }
+    .modal.active { display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+    .modal-content { background: white; padding: 40px; border-radius: 12px; max-width: 1000px; width: 100%; max-height: 90vh; overflow-y: auto; display: flex; gap: 30px; }
+    .modal-form { flex: 1; }
+    .modal-preview { flex: 1; border-left: 2px solid #e0e0e0; padding-left: 30px; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
+    .modal-header h2 { color: #e73b42; font-size: 24px; }
+    .close-btn { background: none; color: #666; font-size: 28px; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; font-size: 14px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; font-family: inherit; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #e73b42; }
+    .form-group textarea { min-height: 120px; resize: vertical; font-family: 'Monaco', 'Courier New', monospace; line-height: 1.5; }
+    .form-actions { display: flex; gap: 15px; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; }
+    .stat-value { font-size: 32px; font-weight: 600; color: #e73b42; }
+    .stat-label { color: #666; font-size: 14px; margin-top: 5px; }
+    .hint { font-size: 13px; color: #999; margin-top: 5px; }
+    .success-message { background: #4caf50; color: white; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; display: none; }
+    .success-message.show { display: block; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .preview-content { font-family: 'Inter', sans-serif; line-height: 1.7; color: #333; }
+    .preview-content h1, .preview-content h2, .preview-content h3 { margin-top: 20px; margin-bottom: 10px; color: #e73b42; }
+    .preview-content ul, .preview-content ol { margin-left: 20px; margin-bottom: 10px; }
+    .preview-content p { margin-bottom: 10px; }
+    .preview-content code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', monospace; }
+    .preview-label { font-weight: 600; color: #666; font-size: 14px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0; }
+    .image-upload-helper { background: #fff5f5; border: 2px dashed #e73b42; border-radius: 6px; padding: 20px; margin-top: 10px; font-size: 13px; color: #666; }
+    .image-upload-helper strong { color: #e73b42; display: block; margin-bottom: 10px; }
+    .image-upload-helper ol { margin-left: 20px; }
+    .image-upload-helper code { background: white; padding: 2px 6px; border-radius: 3px; font-size: 12px; }
+    .validation-error { color: #f44336; font-size: 13px; margin-top: 5px; display: none; }
+    .validation-error.show { display: block; }
+    .form-group.error input, .form-group.error textarea { border-color: #f44336; }
+
+    .config-warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin: 20px; border-radius: 6px; }
+    .config-warning h3 { color: #856404; margin-bottom: 10px; }
+    .config-warning code { background: white; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', monospace; }
+    .config-warning ol { margin: 10px 0 10px 20px; }
+
+    /* Bulk Import Styles */
+    .import-section { background: #f0f7ff; border: 2px dashed #2196f3; border-radius: 8px; padding: 20px; margin-bottom: 25px; }
+    .import-section h3 { color: #1976d2; font-size: 16px; margin-bottom: 15px; }
+    .import-section textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid #2196f3; border-radius: 6px; font-family: 'Monaco', monospace; font-size: 13px; margin-bottom: 10px; }
+    .import-section .hint { color: #1976d2; font-size: 13px; margin-bottom: 10px; }
+    .import-progress { background: #fff; border-radius: 6px; padding: 15px; margin-top: 15px; display: none; }
+    .import-progress.show { display: block; }
+    .import-progress-bar { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+    .import-progress-fill { height: 100%; background: #4caf50; transition: width 0.3s; }
+    .import-preview { max-height: 400px; overflow-y: auto; margin-top: 15px; }
+    .import-preview-item { background: white; padding: 12px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid #4caf50; }
+    .import-preview-item h4 { color: #333; font-size: 14px; margin-bottom: 5px; }
+    .import-preview-item p { color: #666; font-size: 12px; margin: 0; }
+
+    /* Image Manager Styles */
+    .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .image-card { background: #f9f9f9; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0; transition: all 0.2s; }
+    .image-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .image-thumbnail { width: 100%; height: 150px; object-fit: cover; background: #f5f5f5; }
+    .image-info { padding: 12px; }
+    .image-url { font-size: 11px; color: #666; word-break: break-all; margin-bottom: 8px; max-height: 40px; overflow: hidden; }
+    .image-actions { display: flex; gap: 8px; }
+    .image-actions button { padding: 6px 12px; font-size: 12px; flex: 1; }
+    .image-filter { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .image-filter button { padding: 8px 16px; background: #f5f5f5; color: #666; }
+    .image-filter button.active { background: #e73b42; color: white; }
   </style>
 </head>
 <body>
-  <!-- Sveltia CMS will mount here -->
+  <!-- Configuration Warning (shown if not configured) -->
+  <div class="config-warning" id="configWarning" style="display:none;">
+    <h3>⚠️ Configuration Required</h3>
+    <p>You need to configure the GitHub OAuth settings before using this CMS:</p>
+    <ol>
+      <li>Open <code>/admin/index.html</code> in a code editor</li>
+      <li>Find line ~670: <code>const ALLOWED_USERS = ['YOUR_GITHUB_USERNAME'];</code></li>
+      <li>Replace <code>YOUR_GITHUB_USERNAME</code> with your actual GitHub username</li>
+      <li>Save the file and refresh this page</li>
+    </ol>
+    <p><strong>Your GitHub OAuth app is already set up!</strong> Just need to add your username to the allowed list.</p>
+  </div>
+
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <h1>🍪 Chomp Chomp CMS</h1>
+      <p>Secure content management with GitHub authentication</p>
+      <div class="login-error" id="loginError">Authentication failed. Please try again.</div>
+      <a href="#" class="github-login-btn" id="githubLoginBtn">
+        <svg class="github-icon" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+        </svg>
+        Login with GitHub
+      </a>
+      <div class="login-loading" id="loginLoading">Authenticating...</div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="app" id="app">
+    <div class="header">
+      <div class="header-left">
+        <h1>🍪 Chomp Chomp CMS</h1>
+        <p>Content Management System</p>
+      </div>
+      <div class="header-right">
+        <div class="user-info" id="userInfo">
+          <img src="" alt="User" class="user-avatar" id="userAvatar">
+          <span class="user-name" id="userName">Loading...</span>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="success-message" id="successMessage">Changes saved! Download the updated JSON file and commit it to GitHub.</div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('recipes')">Recipes</button>
+        <button class="tab" onclick="switchTab('posts')">Posts</button>
+        <button class="tab" onclick="switchTab('lexicon')">Lexicon</button>
+        <button class="tab" onclick="switchTab('reading-list')">Reading List</button>
+        <button class="tab" onclick="switchTab('playlists')">Playlists</button>
+        <button class="tab" onclick="switchTab('images')">Images</button>
+      </div>
+
+      <!-- Recipes Tab -->
+      <div id="recipes-tab" class="tab-content active">
+        <div class="stats"><div class="stat-card"><div class="stat-value" id="recipes-count">0</div><div class="stat-label">Total Recipes</div></div></div>
+
+        <!-- Markdown Import Section -->
+        <div class="import-section">
+          <h3>📄 Import Recipe from Markdown</h3>
+          <div class="hint">Paste markdown formatted recipe below. Format: # Title, ## Ingredients, ## Instructions, ## Notes</div>
+          <textarea id="recipe-markdown-input" placeholder="# Chocolate Chip Cookies&#10;&#10;Delicious homemade cookies...&#10;&#10;## Ingredients&#10;- 2 cups flour&#10;- 1 cup sugar&#10;&#10;## Instructions&#10;1. Mix ingredients&#10;2. Bake at 350°F&#10;&#10;## Notes&#10;Best served warm!"></textarea>
+          <button onclick="importMarkdownRecipe()" class="secondary">Import Markdown Recipe</button>
+          <div class="import-progress" id="recipe-import-progress">
+            <div id="recipe-import-status">Processing...</div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <input type="text" class="search-box" id="recipes-search" placeholder="Search recipes...">
+          <button onclick="loadData('recipes')">Reload</button>
+          <button onclick="openModal('recipes', null)" class="secondary">New Recipe</button>
+          <button onclick="downloadJSON('recipes')" class="secondary">Download JSON</button>
+        </div>
+        <div class="items-grid" id="recipes-list"></div>
+      </div>
+
+      <!-- Posts Tab -->
+      <div id="posts-tab" class="tab-content">
+        <div class="stats"><div class="stat-card"><div class="stat-value" id="posts-count">0</div><div class="stat-label">Total Posts</div></div></div>
+        <div class="controls">
+          <input type="text" class="search-box" id="posts-search" placeholder="Search posts...">
+          <button onclick="loadData('posts')">Reload</button>
+          <button onclick="openModal('posts', null)" class="secondary">New Post</button>
+          <button onclick="downloadJSON('posts')" class="secondary">Download JSON</button>
+        </div>
+        <div class="items-grid" id="posts-list"></div>
+      </div>
+
+      <!-- Lexicon Tab -->
+      <div id="lexicon-tab" class="tab-content">
+        <div class="stats"><div class="stat-card"><div class="stat-value" id="lexicon-count">0</div><div class="stat-label">Total Terms</div></div></div>
+        <div class="controls">
+          <input type="text" class="search-box" id="lexicon-search" placeholder="Search terms...">
+          <button onclick="loadData('lexicon')">Reload</button>
+          <button onclick="openModal('lexicon', null)" class="secondary">New Term</button>
+          <button onclick="downloadJSON('lexicon')" class="secondary">Download JSON</button>
+        </div>
+        <div class="items-grid" id="lexicon-list"></div>
+      </div>
+
+      <!-- Reading List Tab -->
+      <div id="reading-list-tab" class="tab-content">
+        <div class="stats"><div class="stat-card"><div class="stat-value" id="reading-list-count">0</div><div class="stat-label">Total Books</div></div></div>
+
+        <!-- ISBN Bulk Import Section -->
+        <div class="import-section">
+          <h3>📚 Bulk Import from Open Library</h3>
+          <div class="hint">Paste ISBNs (one per line). We'll fetch book data from Open Library API.</div>
+          <textarea id="isbn-input" placeholder="9780062316110&#10;9780316769174&#10;9781451673319"></textarea>
+          <button onclick="fetchFromOpenLibrary()" class="secondary">Fetch from Open Library</button>
+          <div class="import-progress" id="isbn-import-progress">
+            <div id="isbn-import-status">Fetching books...</div>
+            <div class="import-progress-bar">
+              <div class="import-progress-fill" id="isbn-progress-bar" style="width: 0%"></div>
+            </div>
+            <div class="import-preview" id="isbn-preview"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <input type="text" class="search-box" id="reading-list-search" placeholder="Search books...">
+          <button onclick="loadData('reading-list')">Reload</button>
+          <button onclick="openModal('reading-list', null)" class="secondary">New Book</button>
+          <button onclick="downloadJSON('reading-list')" class="secondary">Download JSON</button>
+        </div>
+        <div class="items-grid" id="reading-list-list"></div>
+      </div>
+
+      <!-- Playlists Tab -->
+      <div id="playlists-tab" class="tab-content">
+        <div class="stats"><div class="stat-card"><div class="stat-value" id="playlists-count">0</div><div class="stat-label">Total Playlists</div></div></div>
+        <div class="controls">
+          <input type="text" class="search-box" id="playlists-search" placeholder="Search playlists...">
+          <button onclick="loadData('playlists')">Reload</button>
+          <button onclick="openModal('playlists', null)" class="secondary">New Playlist</button>
+          <button onclick="downloadJSON('playlists')" class="secondary">Download JSON</button>
+        </div>
+        <div class="items-grid" id="playlists-list"></div>
+      </div>
+
+      <!-- Images Tab -->
+      <div id="images-tab" class="tab-content">
+        <div class="stats">
+          <div class="stat-card"><div class="stat-value" id="images-count">0</div><div class="stat-label">Total Images</div></div>
+        </div>
+        <div class="controls">
+          <input type="text" class="search-box" id="images-search" placeholder="Search images..." oninput="filterImages()">
+          <button onclick="loadImages()">Reload Images</button>
+        </div>
+        <div class="image-filter">
+          <button class="active" onclick="filterImagesByCollection('all')">All</button>
+          <button onclick="filterImagesByCollection('recipes')">Recipes</button>
+          <button onclick="filterImagesByCollection('posts')">Posts</button>
+          <button onclick="filterImagesByCollection('lexicon')">Lexicon</button>
+          <button onclick="filterImagesByCollection('reading-list')">Reading List</button>
+        </div>
+        <div class="image-grid" id="images-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-form">
+        <div class="modal-header">
+          <h2 id="modal-title">Edit Item</h2>
+          <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
+        <div id="modal-form"></div>
+      </div>
+      <div class="modal-preview">
+        <div class="preview-label">📝 Live Preview</div>
+        <div class="preview-content" id="preview-content"><p style="color: #999;">Start typing to see preview...</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===========================================
+    // CONFIGURATION - EDIT THESE VALUES
+    // ===========================================
+
+    // Add your GitHub username here (the one you used to create the OAuth app)
+    const ALLOWED_USERS = ['chomp-chomp-chomp'];
+
+    // GitHub OAuth uses Netlify proxy (already configured in admin/config.yml)
+    const OAUTH_REDIRECT_URI = window.location.origin + '/admin/';
+    const OAUTH_PROVIDER_URL = 'https://api.netlify.com/auth';
+
+    // ===========================================
+    // END CONFIGURATION
+    // ===========================================
+
+    let isAuthenticated = false;
+    let currentUser = null;
+    let data = { recipes: [], posts: [], lexicon: [], 'reading-list': [], playlists: [] };
+    let currentCollection = 'recipes';
+    let currentItem = null;
+    let currentIndex = null;
+
+    // Check for configuration
+    window.addEventListener('load', () => {
+      if (ALLOWED_USERS[0] === 'YOUR_GITHUB_USERNAME') {
+        document.getElementById('configWarning').style.display = 'block';
+        document.getElementById('loginScreen').style.display = 'none';
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+
+      if (code) {
+        handleOAuthCallback(code);
+      } else {
+        checkExistingAuth();
+      }
+
+      document.getElementById('githubLoginBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        initiateGitHubLogin();
+      });
+    });
+
+    function checkExistingAuth() {
+      const savedUser = sessionStorage.getItem('cms_user');
+      const savedToken = sessionStorage.getItem('cms_token');
+      if (savedUser && savedToken) {
+        currentUser = JSON.parse(savedUser);
+        authenticate();
+      }
+    }
+
+    function initiateGitHubLogin() {
+      const state = Math.random().toString(36).substring(7);
+      sessionStorage.setItem('oauth_state', state);
+      const authUrl = `${OAUTH_PROVIDER_URL}?provider=github&site_id=${window.location.hostname}`;
+      window.location.href = authUrl;
+    }
+
+    async function handleOAuthCallback(code) {
+      document.getElementById('loginLoading').classList.add('show');
+      try {
+        const response = await fetch(`${OAUTH_PROVIDER_URL}/callback?provider=github&code=${code}`);
+        if (!response.ok) throw new Error('OAuth failed');
+        const data = await response.json();
+        const token = data.access_token;
+
+        const userResponse = await fetch('https://api.github.com/user', {
+          headers: { 'Authorization': `token ${token}` }
+        });
+        if (!userResponse.ok) throw new Error('Failed to get user info');
+        const userData = await userResponse.json();
+
+        if (!ALLOWED_USERS.includes(userData.login)) {
+          showError(`User ${userData.login} is not authorized. Add your username to ALLOWED_USERS in the code.`);
+          return;
+        }
+
+        currentUser = {
+          username: userData.login,
+          name: userData.name || userData.login,
+          avatar: userData.avatar_url
+        };
+
+        sessionStorage.setItem('cms_user', JSON.stringify(currentUser));
+        sessionStorage.setItem('cms_token', token);
+        window.history.replaceState({}, document.title, window.location.pathname);
+        authenticate();
+      } catch (error) {
+        console.error('OAuth error:', error);
+        showError('Authentication failed. Please try again.');
+        document.getElementById('loginLoading').classList.remove('show');
+      }
+    }
+
+    function showError(message) {
+      const errorDiv = document.getElementById('loginError');
+      errorDiv.textContent = message;
+      errorDiv.classList.add('show');
+      setTimeout(() => errorDiv.classList.remove('show'), 5000);
+    }
+
+    function authenticate() {
+      isAuthenticated = true;
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').classList.add('authenticated');
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userAvatar').src = currentUser.avatar;
+      loadData('recipes');
+    }
+
+    function logout() {
+      sessionStorage.clear();
+      location.reload();
+    }
+
+    async function loadData(collection) {
+      try {
+        const fileName = collection === 'reading-list' ? 'reading-list' : collection;
+        const response = await fetch(`/data/${fileName}.json`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        data[collection] = await response.json();
+        document.getElementById(`${collection}-count`).textContent = data[collection].length;
+        renderList(collection);
+      } catch (error) {
+        console.error(`Error loading ${collection}:`, error);
+        alert(`Failed to load ${collection}: ${error.message}`);
+      }
+    }
+
+    function switchTab(collection) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.getElementById(`${collection}-tab`).classList.add('active');
+      currentCollection = collection;
+      if (collection === 'images') {
+        if (allImages.length === 0) loadImages();
+      } else if (data[collection].length === 0) {
+        loadData(collection);
+      }
+    }
+
+    function renderList(collection) {
+      const listContainer = document.getElementById(`${collection}-list`);
+      const searchTerm = document.getElementById(`${collection}-search`).value.toLowerCase();
+      const items = data[collection].filter(item => JSON.stringify(item).toLowerCase().includes(searchTerm));
+      listContainer.innerHTML = items.map((item, index) => {
+        const title = item.title || item.term || 'Untitled';
+        const meta = getItemMeta(collection, item);
+        const actualIndex = data[collection].indexOf(item);
+        return `<div class="item-card"><div class="item-info"><h3>${title}</h3><div class="item-meta">${meta}</div></div><div class="item-actions"><button onclick="openModal('${collection}', ${actualIndex})">Edit</button><button class="danger" onclick="deleteItem('${collection}', ${actualIndex})">Delete</button></div></div>`;
+      }).join('');
+    }
+
+    function getItemMeta(collection, item) {
+      switch (collection) {
+        case 'recipes': return `${item.category || 'No category'} • ${item.servings || 'No servings'} • ${item.totalTime || 'No time'}`;
+        case 'posts': return `${item.category || 'No category'} • ${item.status || 'draft'} • ${item.date || 'No date'}`;
+        case 'lexicon': return `${item.type || 'No type'}`;
+        case 'reading-list': return `${item.authors || 'No author'}`;
+        case 'playlists': return `${item.status || 'draft'} • ${item.duration || 'No duration'}`;
+        default: return '';
+      }
+    }
+
+    function openModal(collection, index) {
+      currentCollection = collection;
+      currentIndex = index;
+      currentItem = index !== null ? { ...data[collection][index] } : {};
+      const modalTitle = document.getElementById('modal-title');
+      modalTitle.textContent = index !== null ? `Edit ${getCollectionName(collection)}` : `New ${getCollectionName(collection)}`;
+      const formContainer = document.getElementById('modal-form');
+      formContainer.innerHTML = generateForm(collection, currentItem);
+      setTimeout(() => {
+        const textareas = document.querySelectorAll('textarea[data-preview]');
+        textareas.forEach(textarea => textarea.addEventListener('input', updatePreview));
+        updatePreview();
+      }, 100);
+      document.getElementById('editModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').classList.remove('active');
+      currentItem = null;
+      currentIndex = null;
+    }
+
+    function getCollectionName(collection) {
+      const names = { 'recipes': 'Recipe', 'posts': 'Post', 'lexicon': 'Term', 'reading-list': 'Book', 'playlists': 'Playlist' };
+      return names[collection] || 'Item';
+    }
+
+    function updatePreview() {
+      const previewContainer = document.getElementById('preview-content');
+      let previewHTML = '';
+      if (currentCollection === 'recipes') {
+        const description = document.getElementById('description')?.value || '';
+        const notes = document.getElementById('notes')?.value || '';
+        previewHTML = `<h3>Description</h3>${marked.parse(description || '_No description_')}<h3>Notes</h3>${marked.parse(notes || '_No notes_')}`;
+      } else if (currentCollection === 'posts') {
+        const content = document.getElementById('content')?.value || '';
+        const excerpt = document.getElementById('excerpt')?.value || '';
+        previewHTML = `<h3>Excerpt</h3>${marked.parse(excerpt || '_No excerpt_')}<h3>Content</h3>${marked.parse(content || '_No content_')}`;
+      } else if (currentCollection === 'lexicon') {
+        const description = document.getElementById('description')?.value || '';
+        previewHTML = marked.parse(description || '_No definition_');
+      } else if (currentCollection === 'reading-list') {
+        const description = document.getElementById('description')?.value || '';
+        previewHTML = marked.parse(description || '_No description_');
+      } else if (currentCollection === 'playlists') {
+        const description = document.getElementById('description')?.value || '';
+        const vibe = document.getElementById('vibe')?.value || '';
+        previewHTML = `<h3>Description</h3>${marked.parse(description || '_No description_')}<h3>Vibe</h3>${marked.parse(vibe || '_No vibe_')}`;
+      }
+      previewContainer.innerHTML = previewHTML;
+    }
+
+    function generateForm(collection, item) {
+      const forms = { 'recipes': generateRecipeForm, 'posts': generatePostForm, 'lexicon': generateLexiconForm, 'reading-list': generateBookForm, 'playlists': generatePlaylistForm };
+      return forms[collection](item);
+    }
+
+    // Form generators - keeping them concise
+    function generateRecipeForm(item) {
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"><div class="image-upload-helper"><strong>📸 Upload to Cloudinary first</strong></div></div><div class="form-group"><label>Category</label><select id="category"><option value="chomp chomp" ${item.category === 'chomp chomp' ? 'selected' : ''}>Chomp Chomp</option><option value="desserts" ${item.category === 'desserts' ? 'selected' : ''}>Desserts</option><option value="breads" ${item.category === 'breads' ? 'selected' : ''}>Breads</option><option value="pastries" ${item.category === 'pastries' ? 'selected' : ''}>Pastries</option></select></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}"></div><div class="form-group"><label>Ingredients (one per line)</label><textarea id="ingredients" rows="10">${(item.ingredients || []).join('\n')}</textarea></div><div class="form-group"><label>Instructions (one per line)</label><textarea id="instructions" rows="10">${(item.instructions || []).join('\n')}</textarea></div><div class="form-group"><label>Notes</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+    }
+
+    function generatePostForm(item) {
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Excerpt</label><textarea id="excerpt" data-preview="true" rows="3">${item.excerpt || ''}</textarea></div><div class="form-group"><label>Content *</label><textarea id="content" data-preview="true" rows="15">${item.content || ''}</textarea><div class="hint">💡 To add images: <code>![alt text](image-url)</code> - The preview below will show rendered images</div></div><div class="form-group"><label>Category *</label><select id="category"><option value="stories" ${item.category === 'stories' ? 'selected' : ''}>Stories</option><option value="anthropologies" ${item.category === 'anthropologies' ? 'selected' : ''}>Anthropologies</option><option value="zen" ${item.category === 'zen' ? 'selected' : ''}>Zen</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Date</label><input type="date" id="date" value="${item.date || ''}"></div><div class="form-group"><label>Featured Image URL</label><input type="text" id="featured_image" value="${item.featured_image || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+    }
+
+    function generateLexiconForm(item) {
+      return `<div class="form-group"><label>Term *</label><input type="text" id="term" value="${item.term || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Definition *</label><textarea id="description" data-preview="true" rows="8">${item.description || ''}</textarea></div><div class="form-group"><label>Type *</label><select id="type"><option value="ingredient" ${item.type === 'ingredient' ? 'selected' : ''}>Ingredient</option><option value="technique" ${item.type === 'technique' ? 'selected' : ''}>Technique</option><option value="equipment" ${item.type === 'equipment' ? 'selected' : ''}>Equipment</option><option value="concept" ${item.type === 'concept' ? 'selected' : ''}>Concept</option></select></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+    }
+
+    function generateBookForm(item) {
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Authors *</label><input type="text" id="authors" value="${item.authors || ''}" required></div><div class="form-group"><label>ISBN</label><input type="text" id="isbn" value="${item.isbn || ''}"></div><div class="form-group"><label>Publisher</label><input type="text" id="publisher" value="${item.publisher || ''}"></div><div class="form-group"><label>Publication Date</label><input type="text" id="publicationDate" value="${item.publicationDate || ''}"></div><div class="form-group"><label>Description</label><textarea id="description" data-preview="true" rows="6">${item.description || ''}</textarea></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"></div><div class="form-group"><label>Purchase Link</label><input type="text" id="link" value="${item.link || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+    }
+
+    function generatePlaylistForm(item) {
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description *</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Vibe</label><textarea id="vibe" data-preview="true" rows="3">${item.vibe || ''}</textarea></div><div class="form-group"><label>Spotify Embed URL *</label><input type="text" id="spotifyEmbedUrl" value="${item.spotifyEmbedUrl || ''}" required></div><div class="form-group"><label>Duration</label><select id="duration"><option value="short" ${item.duration === 'short' ? 'selected' : ''}>Short</option><option value="medium" ${item.duration === 'medium' ? 'selected' : ''}>Medium</option><option value="long" ${item.duration === 'long' ? 'selected' : ''}>Long</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+    }
+
+    function saveItem() {
+      const form = document.getElementById('modal-form');
+      const formData = {};
+      form.querySelectorAll('input, textarea, select').forEach(field => {
+        if (field.id) formData[field.id] = field.value;
+      });
+      if (currentCollection === 'recipes') {
+        if (formData.ingredients) formData.ingredients = formData.ingredients.split('\n').filter(i => i.trim());
+        if (formData.instructions) formData.instructions = formData.instructions.split('\n').filter(i => i.trim());
+      }
+      if (currentIndex === null) {
+        formData.id = formData.slug || formData.term || Date.now().toString();
+        formData.created_at = new Date().toISOString();
+      }
+      formData.updated_at = new Date().toISOString();
+      const updatedItem = currentIndex !== null ? { ...data[currentCollection][currentIndex], ...formData } : formData;
+      if (currentIndex !== null) {
+        data[currentCollection][currentIndex] = updatedItem;
+      } else {
+        data[currentCollection].push(updatedItem);
+      }
+      renderList(currentCollection);
+      document.getElementById(`${currentCollection}-count`).textContent = data[currentCollection].length;
+      const successMsg = document.getElementById('successMessage');
+      successMsg.classList.add('show');
+      setTimeout(() => successMsg.classList.remove('show'), 5000);
+      closeModal();
+    }
+
+    function deleteItem(collection, index) {
+      const item = data[collection][index];
+      const name = item.title || item.term || 'this item';
+      if (confirm(`Delete "${name}"?`)) {
+        data[collection].splice(index, 1);
+        renderList(collection);
+        document.getElementById(`${collection}-count`).textContent = data[collection].length;
+      }
+    }
+
+    function downloadJSON(collection) {
+      const fileName = collection === 'reading-list' ? 'reading-list' : collection;
+      const jsonString = JSON.stringify(data[collection], null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fileName}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Auto-slug from title
+    document.addEventListener('input', (e) => {
+      if (e.target.id === 'title') {
+        const slugField = document.getElementById('slug');
+        if (slugField && !slugField.value) {
+          slugField.value = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        }
+      }
+    });
+
+    // Search
+    document.addEventListener('DOMContentLoaded', () => {
+      ['recipes', 'posts', 'lexicon', 'reading-list', 'playlists'].forEach(collection => {
+        const searchBox = document.getElementById(`${collection}-search`);
+        if (searchBox) searchBox.addEventListener('input', () => renderList(collection));
+      });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        const modal = document.getElementById('editModal');
+        if (modal.classList.contains('active')) saveItem();
+      }
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // ===========================================
+    // NEW FEATURES
+    // ===========================================
+
+    // ISBN Bulk Import from Open Library
+    async function fetchFromOpenLibrary() {
+      const input = document.getElementById('isbn-input').value.trim();
+      const isbns = input.split('\n').map(isbn => isbn.trim()).filter(isbn => isbn);
+
+      if (isbns.length === 0) {
+        alert('Please enter at least one ISBN');
+        return;
+      }
+
+      const progressDiv = document.getElementById('isbn-import-progress');
+      const statusDiv = document.getElementById('isbn-import-status');
+      const progressBar = document.getElementById('isbn-progress-bar');
+      const previewDiv = document.getElementById('isbn-preview');
+
+      progressDiv.classList.add('show');
+      previewDiv.innerHTML = '';
+
+      const fetchedBooks = [];
+
+      for (let i = 0; i < isbns.length; i++) {
+        const isbn = isbns[i];
+        statusDiv.textContent = `Fetching ${i + 1} of ${isbns.length}: ISBN ${isbn}...`;
+        progressBar.style.width = ((i / isbns.length) * 100) + '%';
+
+        try {
+          const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
+          const data = await response.json();
+          const bookKey = `ISBN:${isbn}`;
+
+          if (data[bookKey]) {
+            const book = data[bookKey];
+            const newBook = {
+              title: book.title || 'Unknown Title',
+              authors: book.authors ? book.authors.map(a => a.name).join(', ') : 'Unknown Author',
+              isbn: isbn,
+              publisher: book.publishers ? book.publishers[0].name : '',
+              publicationDate: book.publish_date || '',
+              description: book.subtitle || '',
+              coverImage: book.cover ? book.cover.large || book.cover.medium || book.cover.small : '',
+              link: book.url || `https://openlibrary.org/isbn/${isbn}`,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            };
+
+            fetchedBooks.push(newBook);
+
+            // Add preview
+            previewDiv.innerHTML += `
+              <div class="import-preview-item">
+                <h4>${newBook.title}</h4>
+                <p><strong>Author:</strong> ${newBook.authors}</p>
+                <p><strong>ISBN:</strong> ${newBook.isbn}</p>
+                <p><strong>Publisher:</strong> ${newBook.publisher || 'N/A'}</p>
+              </div>
+            `;
+          } else {
+            previewDiv.innerHTML += `
+              <div class="import-preview-item" style="border-left-color: #f44336;">
+                <h4>ISBN ${isbn} not found</h4>
+                <p>No data available from Open Library</p>
+              </div>
+            `;
+          }
+        } catch (error) {
+          console.error(`Error fetching ISBN ${isbn}:`, error);
+          previewDiv.innerHTML += `
+            <div class="import-preview-item" style="border-left-color: #f44336;">
+              <h4>Error fetching ISBN ${isbn}</h4>
+              <p>${error.message}</p>
+            </div>
+          `;
+        }
+
+        // Rate limiting: 1 second delay between requests
+        if (i < isbns.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+
+      progressBar.style.width = '100%';
+      statusDiv.textContent = `Complete! Fetched ${fetchedBooks.length} of ${isbns.length} books.`;
+
+      // Add fetched books to data
+      if (fetchedBooks.length > 0) {
+        data['reading-list'].push(...fetchedBooks);
+        renderList('reading-list');
+        document.getElementById('reading-list-count').textContent = data['reading-list'].length;
+
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = `Added ${fetchedBooks.length} books! Download the updated JSON file.`;
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 5000);
+      }
+    }
+
+    // Recipe Markdown Import
+    function importMarkdownRecipe() {
+      const input = document.getElementById('recipe-markdown-input').value.trim();
+      const progressDiv = document.getElementById('recipe-import-progress');
+      const statusDiv = document.getElementById('recipe-import-status');
+
+      if (!input) {
+        alert('Please paste markdown content');
+        return;
+      }
+
+      progressDiv.classList.add('show');
+      statusDiv.textContent = 'Parsing markdown...';
+
+      try {
+        // Parse markdown sections
+        const lines = input.split('\n');
+        let title = '';
+        let description = [];
+        let ingredients = [];
+        let instructions = [];
+        let notes = [];
+        let currentSection = 'description';
+
+        for (let line of lines) {
+          // Check for title (# Title)
+          if (line.startsWith('# ')) {
+            title = line.substring(2).trim();
+            continue;
+          }
+
+          // Check for sections
+          if (line.startsWith('## ')) {
+            const section = line.substring(3).trim().toLowerCase();
+            if (section === 'ingredients') currentSection = 'ingredients';
+            else if (section === 'instructions') currentSection = 'instructions';
+            else if (section === 'notes') currentSection = 'notes';
+            else currentSection = 'other';
+            continue;
+          }
+
+          // Add content to current section
+          if (line.trim()) {
+            if (currentSection === 'description') {
+              description.push(line);
+            } else if (currentSection === 'ingredients') {
+              // Remove leading - or * for list items
+              const ingredient = line.replace(/^[-*]\s*/, '').trim();
+              if (ingredient) ingredients.push(ingredient);
+            } else if (currentSection === 'instructions') {
+              // Remove leading numbers for ordered lists
+              const instruction = line.replace(/^\d+\.\s*/, '').trim();
+              if (instruction) instructions.push(instruction);
+            } else if (currentSection === 'notes') {
+              notes.push(line);
+            }
+          }
+        }
+
+        if (!title) {
+          throw new Error('No title found. Make sure markdown starts with "# Title"');
+        }
+
+        // Create recipe object
+        const recipe = {
+          title: title,
+          slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+          description: description.join('\n'),
+          ingredients: ingredients,
+          instructions: instructions,
+          notes: notes.join('\n'),
+          category: 'chomp chomp',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        // Add to data
+        data['recipes'].push(recipe);
+        renderList('recipes');
+        document.getElementById('recipes-count').textContent = data['recipes'].length;
+
+        statusDiv.textContent = `✓ Successfully imported "${title}"!`;
+
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = `Imported recipe "${title}"! Download the updated JSON file.`;
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 5000);
+
+        // Clear input
+        document.getElementById('recipe-markdown-input').value = '';
+        setTimeout(() => progressDiv.classList.remove('show'), 3000);
+
+      } catch (error) {
+        statusDiv.textContent = `Error: ${error.message}`;
+        console.error('Markdown import error:', error);
+      }
+    }
+
+    // Image Manager
+    let allImages = [];
+    let currentImageFilter = 'all';
+
+    async function loadImages() {
+      allImages = [];
+
+      // Extract images from all collections
+      const collections = ['recipes', 'posts', 'lexicon', 'reading-list'];
+
+      for (const collection of collections) {
+        if (data[collection].length === 0) {
+          await loadData(collection);
+        }
+
+        data[collection].forEach(item => {
+          // Check various image fields
+          const imageFields = ['image', 'featured_image', 'coverImage'];
+          imageFields.forEach(field => {
+            if (item[field]) {
+              allImages.push({
+                url: item[field],
+                collection: collection,
+                title: item.title || item.term || 'Untitled'
+              });
+            }
+          });
+        });
+      }
+
+      // Remove duplicates
+      allImages = allImages.filter((img, index, self) =>
+        index === self.findIndex(t => t.url === img.url)
+      );
+
+      document.getElementById('images-count').textContent = allImages.length;
+      renderImages();
+    }
+
+    function renderImages() {
+      const searchTerm = document.getElementById('images-search').value.toLowerCase();
+      let filtered = allImages;
+
+      // Filter by collection
+      if (currentImageFilter !== 'all') {
+        filtered = filtered.filter(img => img.collection === currentImageFilter);
+      }
+
+      // Filter by search
+      if (searchTerm) {
+        filtered = filtered.filter(img =>
+          img.url.toLowerCase().includes(searchTerm) ||
+          img.title.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      const grid = document.getElementById('images-grid');
+      grid.innerHTML = filtered.map(img => `
+        <div class="image-card">
+          <img src="${img.url}" alt="${img.title}" class="image-thumbnail" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-family=%22Arial%22 font-size=%2214%22%3EImage not found%3C/text%3E%3C/svg%3E'">
+          <div class="image-info">
+            <div style="font-weight: 600; font-size: 12px; margin-bottom: 5px; color: #e73b42;">${img.collection}</div>
+            <div style="font-size: 12px; margin-bottom: 8px;">${img.title}</div>
+            <div class="image-url">${img.url}</div>
+            <div class="image-actions">
+              <button onclick="copyImageUrl('${img.url.replace(/'/g, "\\'")}')">Copy URL</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterImages() {
+      renderImages();
+    }
+
+    function filterImagesByCollection(collection) {
+      currentImageFilter = collection;
+
+      // Update active button
+      document.querySelectorAll('.image-filter button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      renderImages();
+    }
+
+    function copyImageUrl(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = 'Image URL copied to clipboard!';
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy URL');
+      });
+    }
+  </script>
 </body>
 </html>

@@ -189,7 +189,7 @@ firebase functions:config:get
 1. **Restrict API Key** in Google Cloud Console:
    - Go to: https://console.cloud.google.com/apis/credentials
    - Click your API key
-   - Set "HTTP referrers" to: `https://chomp.be/*`
+   - Set "HTTP referrers" to: `https://chompchomp.cc/*`
    - Set "API restrictions" to: "Generative Language API" only
 
 2. **Enable Cloud Functions Security**:
@@ -210,7 +210,7 @@ firebase functions:config:get
    ```
 
 2. **Test the Widget:**
-   - Visit https://chomp.be
+   - Visit https://chompchomp.cc
    - Click the cookie button
    - Ask a question!
 
