@@ -633,9 +633,11 @@
       previewContainer.innerHTML = previewHTML;
     }
 
-    // ImageKit authentication URL (Cloud Function)
-    const IMAGEKIT_AUTH_URL = 'https://us-central1-chomp-chomp-recipes.cloudfunctions.net/imagekitAuth';
-    const IMAGEKIT_LIST_URL = 'https://us-central1-chomp-chomp-recipes.cloudfunctions.net/imagekitListFiles';
+    // ImageKit Cloudflare Worker URLs
+    // IMPORTANT: Replace these with your deployed Cloudflare Worker URLs
+    // See /workers/README.md for deployment instructions
+    const IMAGEKIT_AUTH_URL = 'YOUR_IMAGEKIT_AUTH_WORKER_URL'; // e.g., https://imagekit-auth.YOUR-SUBDOMAIN.workers.dev
+    const IMAGEKIT_LIST_URL = 'YOUR_IMAGEKIT_LIST_WORKER_URL'; // e.g., https://imagekit-list-files.YOUR-SUBDOMAIN.workers.dev
 
     // ImageKit upload function using IKUpload widget
     async function uploadToImageKit(inputId, statusId) {
