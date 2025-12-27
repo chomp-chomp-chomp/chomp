@@ -162,7 +162,8 @@
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .modal-content { flex-direction: column; padding: 20px; }
-      .modal-preview { border-left: none; border-top: 2px solid #e0e0e0; padding-left: 0; padding-top: 20px; margin-top: 20px; }
+      .modal-form { flex: none; width: 100%; }
+      .modal-preview { flex: none; width: 100%; min-height: 300px; border-left: none; border-top: 2px solid #e0e0e0; padding-left: 0; padding-top: 20px; margin-top: 20px; display: block; }
       body.dark-theme .modal-preview { border-top-color: #444; }
       .header { padding: 15px 20px; flex-direction: column; gap: 15px; }
       .container { padding: 0 20px; }
@@ -189,7 +190,7 @@
   <!-- Login Screen -->
   <div class="login-screen" id="loginScreen">
     <div class="login-box">
-      <h1>🍪 Chomp Chomp CMS</h1>
+      <h1>Chomp Chomp CMS</h1>
       <p>Enter your GitHub Personal Access Token to continue</p>
       <div class="login-error" id="loginError">Authentication failed. Please try again.</div>
       <div class="login-form">
@@ -222,7 +223,7 @@
   <div class="app" id="app">
     <div class="header">
       <div class="header-left">
-        <h1>🍪 Chomp Chomp CMS</h1>
+        <h1>Chomp Chomp CMS</h1>
         <p>Content Management System</p>
       </div>
       <div class="header-right">
@@ -237,7 +238,7 @@
     <div class="container">
       <div class="success-message" id="successMessage">Changes saved locally! Click "Save & Publish" to push to GitHub.</div>
       <div class="success-message" id="publishSuccess" style="background: #2196f3;">Publishing to GitHub...</div>
-      <div class="success-message" id="publishComplete" style="background: #4caf50;">✓ Published to GitHub! Live in ~60 seconds.</div>
+      <div class="success-message" id="publishComplete" style="background: #4caf50;">Published to GitHub! Live in ~60 seconds.</div>
 
       <div class="tabs">
         <button class="tab active" onclick="switchTab('recipes')">Recipes</button>
@@ -254,7 +255,7 @@
 
         <!-- Markdown Import Section -->
         <div class="import-section">
-          <h3>📄 Import Recipe from Markdown</h3>
+          <h3>Import Recipe from Markdown</h3>
           <div class="hint">Paste markdown formatted recipe below. Format: # Title, ## Ingredients, ## Instructions, ## Notes</div>
           <textarea id="recipe-markdown-input" placeholder="# Chocolate Chip Cookies&#10;&#10;Delicious homemade cookies...&#10;&#10;## Ingredients&#10;- 2 cups flour&#10;- 1 cup sugar&#10;&#10;## Instructions&#10;1. Mix ingredients&#10;2. Bake at 350°F&#10;&#10;## Notes&#10;Best served warm!"></textarea>
           <button onclick="importMarkdownRecipe()" class="secondary">Import Markdown Recipe</button>
@@ -267,7 +268,7 @@
           <input type="text" class="search-box" id="recipes-search" placeholder="Search recipes...">
           <button onclick="loadData('recipes')">Reload</button>
           <button onclick="openModal('recipes', null)" class="secondary">New Recipe</button>
-          <button onclick="publishToGitHub('recipes')" style="background: #2196f3;">💾 Save & Publish</button>
+          <button onclick="publishToGitHub('recipes')" style="background: #2196f3;">Save & Publish</button>
           <button onclick="downloadJSON('recipes')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="recipes-list"></div>
@@ -280,7 +281,7 @@
           <input type="text" class="search-box" id="posts-search" placeholder="Search posts...">
           <button onclick="loadData('posts')">Reload</button>
           <button onclick="openModal('posts', null)" class="secondary">New Post</button>
-          <button onclick="publishToGitHub('posts')" style="background: #2196f3;">💾 Save & Publish</button>
+          <button onclick="publishToGitHub('posts')" style="background: #2196f3;">Save & Publish</button>
           <button onclick="downloadJSON('posts')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="posts-list"></div>
@@ -293,7 +294,7 @@
           <input type="text" class="search-box" id="lexicon-search" placeholder="Search terms...">
           <button onclick="loadData('lexicon')">Reload</button>
           <button onclick="openModal('lexicon', null)" class="secondary">New Term</button>
-          <button onclick="publishToGitHub('lexicon')" style="background: #2196f3;">💾 Save & Publish</button>
+          <button onclick="publishToGitHub('lexicon')" style="background: #2196f3;">Save & Publish</button>
           <button onclick="downloadJSON('lexicon')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="lexicon-list"></div>
@@ -305,7 +306,7 @@
 
         <!-- ISBN Bulk Import Section -->
         <div class="import-section">
-          <h3>📚 Bulk Import from Open Library</h3>
+          <h3>Bulk Import from Open Library</h3>
           <div class="hint">Paste ISBNs (one per line). We'll fetch book data from Open Library API.</div>
           <textarea id="isbn-input" placeholder="9780062316110&#10;9780316769174&#10;9781451673319"></textarea>
           <button onclick="fetchFromOpenLibrary()" class="secondary">Fetch from Open Library</button>
@@ -322,7 +323,7 @@
           <input type="text" class="search-box" id="reading-list-search" placeholder="Search books...">
           <button onclick="loadData('reading-list')">Reload</button>
           <button onclick="openModal('reading-list', null)" class="secondary">New Book</button>
-          <button onclick="publishToGitHub('reading-list')" style="background: #2196f3;">💾 Save & Publish</button>
+          <button onclick="publishToGitHub('reading-list')" style="background: #2196f3;">Save & Publish</button>
           <button onclick="downloadJSON('reading-list')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="reading-list-list"></div>
@@ -335,7 +336,7 @@
           <input type="text" class="search-box" id="playlists-search" placeholder="Search playlists...">
           <button onclick="loadData('playlists')">Reload</button>
           <button onclick="openModal('playlists', null)" class="secondary">New Playlist</button>
-          <button onclick="publishToGitHub('playlists')" style="background: #2196f3;">💾 Save & Publish</button>
+          <button onclick="publishToGitHub('playlists')" style="background: #2196f3;">Save & Publish</button>
           <button onclick="downloadJSON('playlists')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="playlists-list"></div>
@@ -373,14 +374,14 @@
         <div id="modal-form"></div>
       </div>
       <div class="modal-preview">
-        <div class="preview-label">📝 Live Preview</div>
+        <div class="preview-label">Live Preview</div>
         <div class="preview-content" id="preview-content"><p style="color: #999;">Start typing to see preview...</p></div>
       </div>
     </div>
   </div>
 
   <!-- Theme Toggle Button -->
-  <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+  <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">Dark</button>
 
   <script>
     // ===========================================
@@ -428,14 +429,14 @@
       const savedTheme = localStorage.getItem('cms_theme');
       if (savedTheme === 'dark') {
         document.body.classList.add('dark-theme');
-        document.getElementById('themeToggle').textContent = '☀️';
+        document.getElementById('themeToggle').textContent = 'Light';
       }
     }
 
     function toggleTheme() {
       document.body.classList.toggle('dark-theme');
       const isDark = document.body.classList.contains('dark-theme');
-      document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+      document.getElementById('themeToggle').textContent = isDark ? 'Light' : 'Dark';
       localStorage.setItem('cms_theme', isDark ? 'dark' : 'light');
     }
 
@@ -637,7 +638,7 @@
 
     // Form generators - keeping them concise
     function generateRecipeForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"><div class="image-upload-helper"><strong>📸 Upload to Cloudinary first</strong></div></div><div class="form-group"><label>Category</label><select id="category"><option value="chomp chomp" ${item.category === 'chomp chomp' ? 'selected' : ''}>Chomp Chomp</option><option value="desserts" ${item.category === 'desserts' ? 'selected' : ''}>Desserts</option><option value="breads" ${item.category === 'breads' ? 'selected' : ''}>Breads</option><option value="pastries" ${item.category === 'pastries' ? 'selected' : ''}>Pastries</option></select></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}"></div><div class="form-group"><label>Ingredients (one per line)</label><textarea id="ingredients" rows="10">${(item.ingredients || []).join('\n')}</textarea></div><div class="form-group"><label>Instructions (one per line)</label><textarea id="instructions" rows="10">${(item.instructions || []).join('\n')}</textarea></div><div class="form-group"><label>Notes</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"><div class="image-upload-helper"><strong>📸 Upload to Cloudinary first</strong></div></div><div class="form-group"><label>Category</label><input type="text" id="category" list="category-suggestions" value="${item.category || 'chomp chomp'}" placeholder="Enter category"><datalist id="category-suggestions"><option value="chomp chomp"><option value="desserts"><option value="breads"><option value="pastries"><option value="cookies"><option value="cakes"><option value="pies"></datalist><div class="hint">Type to enter a custom category or select from suggestions</div></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}"></div><div class="form-group"><label>Ingredients (one per line)</label><textarea id="ingredients" rows="10">${(item.ingredients || []).join('\n')}</textarea></div><div class="form-group"><label>Instructions (one per line)</label><textarea id="instructions" rows="10">${(item.instructions || []).join('\n')}</textarea></div><div class="form-group"><label>Notes</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generatePostForm(item) {
@@ -650,7 +651,8 @@
 
     function generateBookForm(item) {
       const subjectsText = item.subjects && Array.isArray(item.subjects) ? item.subjects.join('\n') : '';
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Authors *</label><input type="text" id="authors" value="${item.authors || ''}" required></div><div class="form-group"><label>ISBN</label><input type="text" id="isbn" value="${item.isbn || ''}"></div><div class="form-group"><label>Publisher</label><input type="text" id="publisher" value="${item.publisher || ''}"></div><div class="form-group"><label>Publication Date</label><input type="text" id="publicationDate" value="${item.publicationDate || ''}"></div><div class="form-group"><label>LC Subject Headings (one per line)</label><textarea id="subjects" rows="4">${subjectsText}</textarea><div class="hint">Enter Library of Congress subject headings, one per line</div></div><div class="form-group"><label>LC Call Number</label><input type="text" id="lcCallNumber" value="${item.lcCallNumber || ''}"><div class="hint">e.g., TX765 .B35 2020</div></div><div class="form-group"><label>Description</label><textarea id="description" data-preview="true" rows="6">${item.description || ''}</textarea></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"></div><div class="form-group"><label>Purchase Link</label><input type="text" id="link" value="${item.link || ''}"><div class="hint">Link to Amazon, Bookshop.org, etc.</div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      const recommendedChecked = item.recommended ? 'checked' : '';
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Authors *</label><input type="text" id="authors" value="${item.authors || ''}" required></div><div class="form-group"><label>ISBN</label><input type="text" id="isbn" value="${item.isbn || ''}"></div><div class="form-group"><label>Publisher</label><input type="text" id="publisher" value="${item.publisher || ''}"></div><div class="form-group"><label>Publication Date</label><input type="text" id="publicationDate" value="${item.publicationDate || ''}"></div><div class="form-group"><label>LC Subject Headings (one per line)</label><textarea id="subjects" rows="4">${subjectsText}</textarea><div class="hint">Enter Library of Congress subject headings, one per line</div></div><div class="form-group"><label>LC Call Number</label><input type="text" id="lcCallNumber" value="${item.lcCallNumber || ''}"><div class="hint">e.g., TX765 .B35 2020</div></div><div class="form-group"><label>Description</label><textarea id="description" data-preview="true" rows="6">${item.description || ''}</textarea></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"></div><div class="form-group"><label>Purchase Link</label><input type="text" id="link" value="${item.link || ''}"><div class="hint">Link to Amazon, Bookshop.org, etc.</div></div><div class="form-group"><label style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="recommended" ${recommendedChecked} style="width: auto; margin: 0;">Recommended Book</label></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generatePlaylistForm(item) {
@@ -661,7 +663,13 @@
       const form = document.getElementById('modal-form');
       const formData = {};
       form.querySelectorAll('input, textarea, select').forEach(field => {
-        if (field.id) formData[field.id] = field.value;
+        if (field.id) {
+          if (field.type === 'checkbox') {
+            formData[field.id] = field.checked;
+          } else {
+            formData[field.id] = field.value;
+          }
+        }
       });
       if (currentCollection === 'recipes') {
         if (formData.ingredients) formData.ingredients = formData.ingredients.split('\n').filter(i => i.trim());
@@ -828,18 +836,18 @@
       const previewDiv = document.getElementById('isbn-preview');
 
       progressDiv.classList.add('show');
-      previewDiv.innerHTML = '';
+      previewDiv.innerHTML = `<div style="font-family:monospace;font-size:13px;line-height:1.8;color:#333;">Fetching data for ${isbns.length} books...</div>`;
 
       const fetchedBooks = [];
       let stats = { found: 0, notFound: 0, withCovers: 0, withoutCovers: 0 };
+      const log = [];
 
       for (let i = 0; i < isbns.length; i++) {
         const isbn = isbns[i];
-        statusDiv.textContent = `Fetching ${i + 1} of ${isbns.length}: ISBN ${isbn}...`;
         progressBar.style.width = ((i / isbns.length) * 100) + '%';
 
         let bookData = null;
-        let source = '';
+        let logEntry = `<br>Fetching ${isbn}...`;
 
         try {
           // Try OpenLibrary first
@@ -863,11 +871,16 @@
               created_at: new Date().toISOString(),
               updated_at: new Date().toISOString()
             };
-            source = 'OpenLibrary';
           }
 
           // Fallback to Google Books if OpenLibrary failed or has no cover
           if (!bookData || !bookData.coverImage) {
+            if (!bookData) {
+              logEntry += '<br>  → Trying Google Books...';
+            } else {
+              logEntry += '<br>  → Trying Google Books for cover...';
+            }
+
             try {
               const gbResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
               const gbData = await gbResponse.json();
@@ -891,11 +904,9 @@
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString()
                   };
-                  source = 'Google Books';
                 } else if (!bookData.coverImage && gbBook.imageLinks) {
                   // Just use Google Books cover
                   bookData.coverImage = gbBook.imageLinks.large || gbBook.imageLinks.thumbnail;
-                  source += ' + Google Books (cover)';
                 }
               }
             } catch (gbError) {
@@ -909,37 +920,20 @@
             if (bookData.coverImage) stats.withCovers++;
             else stats.withoutCovers++;
 
-            // Add preview
-            previewDiv.innerHTML += `
-              <div class="import-preview-item">
-                <h4>${bookData.title}</h4>
-                <p><strong>Author:</strong> ${bookData.authors}</p>
-                <p><strong>ISBN:</strong> ${bookData.isbn}</p>
-                <p><strong>Publisher:</strong> ${bookData.publisher || 'N/A'}</p>
-                <p style="font-size:12px;color:#666;">Source: ${source}</p>
-                ${bookData.coverImage ? '<p style="color:#4caf50;">✓ Cover found</p>' : '<p style="color:#ff9800;">⚠ No cover</p>'}
-                ${bookData.subjects && bookData.subjects.length > 0 ? `<p style="font-size:12px;">Subjects: ${bookData.subjects.length}</p>` : ''}
-              </div>
-            `;
+            const coverText = bookData.coverImage ? ' (with cover)' : ' (no cover)';
+            logEntry += `<br><span style="color:#4caf50;">  Found: ${bookData.title}${coverText}</span>`;
           } else {
             stats.notFound++;
-            previewDiv.innerHTML += `
-              <div class="import-preview-item" style="border-left-color: #f44336;">
-                <h4>ISBN ${isbn} not found</h4>
-                <p>No data available from OpenLibrary or Google Books</p>
-              </div>
-            `;
+            logEntry += `<br><span style="color:#f44336;">  No data found for ${isbn}</span>`;
           }
         } catch (error) {
           console.error(`Error fetching ISBN ${isbn}:`, error);
           stats.notFound++;
-          previewDiv.innerHTML += `
-            <div class="import-preview-item" style="border-left-color: #f44336;">
-              <h4>Error fetching ISBN ${isbn}</h4>
-              <p>${error.message}</p>
-            </div>
-          `;
+          logEntry += `<br><span style="color:#f44336;">  Error: ${error.message}</span>`;
         }
+
+        log.push(logEntry);
+        previewDiv.innerHTML = `<div style="font-family:monospace;font-size:13px;line-height:1.8;color:#333;">Fetching data for ${isbns.length} books...${log.join('')}</div>`;
 
         // Rate limiting: 1 second delay between requests
         if (i < isbns.length - 1) {
@@ -951,16 +945,16 @@
 
       // Summary stats
       const summary = `
-        <div style="background:#e3f2fd;padding:15px;border-radius:6px;margin-top:15px;">
+        <div style="background:#e3f2fd;padding:15px;border-radius:6px;margin-top:15px;font-family:monospace;font-size:13px;">
           <strong>Import Summary:</strong><br>
-          📚 Total: ${isbns.length} ISBNs<br>
-          ✅ Found: ${stats.found}<br>
-          ❌ Not Found: ${stats.notFound}<br>
-          🖼️ With Covers: ${stats.withCovers}<br>
-          🔲 Without Covers: ${stats.withoutCovers}
+          Total: ${isbns.length} ISBNs<br>
+          Found: ${stats.found}<br>
+          Not Found: ${stats.notFound}<br>
+          With Covers: ${stats.withCovers}<br>
+          Without Covers: ${stats.withoutCovers}
         </div>
       `;
-      previewDiv.innerHTML = summary + previewDiv.innerHTML;
+      previewDiv.innerHTML += summary;
       statusDiv.textContent = `Complete! Fetched ${fetchedBooks.length} of ${isbns.length} books.`;
 
       // Add fetched books to data
@@ -1057,7 +1051,7 @@
         renderList('recipes');
         document.getElementById('recipes-count').textContent = data['recipes'].length;
 
-        statusDiv.textContent = `✓ Successfully imported "${title}"!`;
+        statusDiv.textContent = `Successfully imported "${title}"!`;
 
         const successMsg = document.getElementById('successMessage');
         successMsg.textContent = `Imported recipe "${title}"! Download the updated JSON file.`;
