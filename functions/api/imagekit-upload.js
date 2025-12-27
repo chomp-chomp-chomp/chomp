@@ -98,8 +98,9 @@ export async function onRequest(context) {
     uploadFormData.append('expire', expire.toString());
     uploadFormData.append('token', token);
 
-    // Upload to ImageKit from server-side
-    const uploadResponse = await fetch(`${IMAGEKIT_URL_ENDPOINT}/api/v1/files/upload`, {
+    // Upload to ImageKit from server-side using the upload API endpoint
+    // Note: Use upload.imagekit.io, NOT ik.imagekit.io (CDN only allows GET)
+    const uploadResponse = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
       method: 'POST',
       body: uploadFormData,
     });
