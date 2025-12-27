@@ -353,9 +353,13 @@
         <div class="controls">
           <input type="text" class="search-box" id="images-search" placeholder="Search images..." oninput="filterImages()">
           <button onclick="loadImages()">Reload Images</button>
+          <button onclick="uploadToImageKit('temp-upload', 'upload-status-images')" class="secondary">Upload New Image</button>
         </div>
+        <div id="upload-status-images" class="upload-status"></div>
+        <input type="hidden" id="temp-upload">
         <div class="image-filter">
           <button class="active" onclick="filterImagesByCollection('all')">All</button>
+          <button onclick="filterImagesByCollection('imagekit')">ImageKit</button>
           <button onclick="filterImagesByCollection('recipes')">Recipes</button>
           <button onclick="filterImagesByCollection('posts')">Posts</button>
           <button onclick="filterImagesByCollection('lexicon')">Lexicon</button>
@@ -629,64 +633,97 @@
       previewContainer.innerHTML = previewHTML;
     }
 
-    // ImageKit upload function
+    // ImageKit Cloudflare Pages Functions URLs
+    // These will work automatically once deployed to Cloudflare Pages
+    const IMAGEKIT_AUTH_URL = '/api/imagekit-auth';
+    const IMAGEKIT_LIST_URL = '/api/imagekit-list';
+
+    // ImageKit upload function using IKUpload widget
     async function uploadToImageKit(inputId, statusId) {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
+      const statusEl = document.getElementById(statusId);
+      const inputEl = document.getElementById(inputId);
 
-      input.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+      try {
+        // Show uploading status
+        statusEl.className = 'upload-status uploading';
+        statusEl.textContent = 'Opening uploader...';
 
-        const statusEl = document.getElementById(statusId);
-        const inputEl = document.getElementById(inputId);
+        // Create file input
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
 
-        try {
-          // Show uploading status
-          statusEl.className = 'upload-status uploading';
-          statusEl.textContent = 'Uploading...';
-
-          // Get authentication signature from your server
-          // For now, using direct upload (requires public key only)
-          const formData = new FormData();
-          formData.append('file', file);
-          formData.append('fileName', file.name);
-          formData.append('publicKey', IMAGEKIT_PUBLIC_KEY);
-
-          const response = await fetch(`${IMAGEKIT_URL_ENDPOINT}/api/v1/files/upload`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Basic ${btoa(IMAGEKIT_PUBLIC_KEY + ':')}`,
-            },
-            body: formData
-          });
-
-          if (!response.ok) {
-            throw new Error('Upload failed');
-          }
-
-          const data = await response.json();
-
-          // Fill in the URL
-          inputEl.value = data.url;
-
-          // Show success
-          statusEl.className = 'upload-status success';
-          statusEl.textContent = 'Upload successful!';
-          setTimeout(() => {
+        input.onchange = async (e) => {
+          const file = e.target.files[0];
+          if (!file) {
             statusEl.className = 'upload-status';
             statusEl.textContent = '';
-          }, 3000);
+            return;
+          }
 
-        } catch (error) {
-          console.error('Upload error:', error);
-          statusEl.className = 'upload-status error';
-          statusEl.textContent = 'Upload failed. Please try again.';
-        }
-      };
+          try {
+            statusEl.className = 'upload-status uploading';
+            statusEl.textContent = 'Uploading...';
 
-      input.click();
+            // Get authentication parameters from Cloud Function
+            const authResponse = await fetch(IMAGEKIT_AUTH_URL);
+            if (!authResponse.ok) {
+              throw new Error('Failed to get authentication');
+            }
+            const authParams = await authResponse.json();
+
+            // Prepare upload
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('fileName', file.name);
+            formData.append('publicKey', IMAGEKIT_PUBLIC_KEY);
+            formData.append('signature', authParams.signature);
+            formData.append('expire', authParams.expire);
+            formData.append('token', authParams.token);
+
+            // Upload to ImageKit
+            const uploadResponse = await fetch(`${IMAGEKIT_URL_ENDPOINT}/api/v1/files/upload`, {
+              method: 'POST',
+              body: formData
+            });
+
+            if (!uploadResponse.ok) {
+              const errorText = await uploadResponse.text();
+              throw new Error(`Upload failed: ${errorText}`);
+            }
+
+            const data = await uploadResponse.json();
+
+            // Fill in the URL
+            inputEl.value = data.url;
+
+            // Show success
+            statusEl.className = 'upload-status success';
+            statusEl.textContent = 'Upload successful!';
+            setTimeout(() => {
+              statusEl.className = 'upload-status';
+              statusEl.textContent = '';
+            }, 3000);
+
+            // Reload images if on images tab
+            if (document.getElementById('images-tab').classList.contains('active')) {
+              loadImages();
+            }
+
+          } catch (error) {
+            console.error('Upload error:', error);
+            statusEl.className = 'upload-status error';
+            statusEl.textContent = error.message || 'Upload failed. Please try again.';
+          }
+        };
+
+        input.click();
+
+      } catch (error) {
+        console.error('Upload error:', error);
+        statusEl.className = 'upload-status error';
+        statusEl.textContent = 'Failed to initialize uploader.';
+      }
     }
 
     function generateForm(collection, item) {
@@ -1130,6 +1167,26 @@
 
     async function loadImages() {
       allImages = [];
+
+      try {
+        // Load images from ImageKit
+        const response = await fetch(IMAGEKIT_LIST_URL);
+        if (response.ok) {
+          const imagekitFiles = await response.json();
+          imagekitFiles.forEach(file => {
+            allImages.push({
+              url: file.url,
+              collection: 'imagekit',
+              title: file.name,
+              fileId: file.fileId,
+              size: file.size,
+              createdAt: file.createdAt
+            });
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load ImageKit images:', error);
+      }
 
       // Extract images from all collections
       const collections = ['recipes', 'posts', 'lexicon', 'reading-list'];

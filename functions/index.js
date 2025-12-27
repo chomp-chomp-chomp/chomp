@@ -5,6 +5,7 @@
 
 const functions = require('firebase-functions');
 const cors = require('cors')({ origin: true });
+const ImageKit = require('imagekit');
 
 // For local development, load .env file
 if (process.env.NODE_ENV !== 'production') {
@@ -99,6 +100,92 @@ exports.chat = functions.region('us-central1').https.onRequest((req, res) => {
         error: 'Internal server error',
         message: error.message
       });
+    }
+  });
+});
+
+/**
+ * ImageKit authentication endpoint
+ * Generates secure authentication parameters for ImageKit uploads
+ *
+ * Configure ImageKit credentials:
+ * firebase functions:config:set imagekit.public_key="YOUR_PUBLIC_KEY"
+ * firebase functions:config:set imagekit.private_key="YOUR_PRIVATE_KEY"
+ * firebase functions:config:set imagekit.url_endpoint="YOUR_URL_ENDPOINT"
+ */
+exports.imagekitAuth = functions.region('us-central1').https.onRequest((req, res) => {
+  cors(req, res, () => {
+    try {
+      // Get ImageKit credentials from environment
+      const privateKey = functions.config().imagekit?.private_key ||
+                        process.env.IMAGEKIT_PRIVATE_KEY;
+      const publicKey = functions.config().imagekit?.public_key ||
+                       process.env.IMAGEKIT_PUBLIC_KEY ||
+                       'public_hoCjk5sip7G9wwX4ObrUSur0Rs8=';
+      const urlEndpoint = functions.config().imagekit?.url_endpoint ||
+                         process.env.IMAGEKIT_URL_ENDPOINT ||
+                         'https://ik.imagekit.io/chompchomp';
+
+      if (!privateKey) {
+        return res.status(500).json({ error: 'ImageKit private key not configured' });
+      }
+
+      const imagekit = new ImageKit({
+        publicKey: publicKey,
+        privateKey: privateKey,
+        urlEndpoint: urlEndpoint
+      });
+
+      const authenticationParameters = imagekit.getAuthenticationParameters();
+      res.status(200).json(authenticationParameters);
+    } catch (error) {
+      console.error('Error generating ImageKit auth:', error);
+      res.status(500).json({ error: 'Failed to generate authentication parameters' });
+    }
+  });
+});
+
+/**
+ * ImageKit list files endpoint
+ * Lists images from ImageKit for the image browser
+ */
+exports.imagekitListFiles = functions.region('us-central1').https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      // Get ImageKit credentials from environment
+      const privateKey = functions.config().imagekit?.private_key ||
+                        process.env.IMAGEKIT_PRIVATE_KEY;
+      const publicKey = functions.config().imagekit?.public_key ||
+                       process.env.IMAGEKIT_PUBLIC_KEY ||
+                       'public_hoCjk5sip7G9wwX4ObrUSur0Rs8=';
+      const urlEndpoint = functions.config().imagekit?.url_endpoint ||
+                         process.env.IMAGEKIT_URL_ENDPOINT ||
+                         'https://ik.imagekit.io/chompchomp';
+
+      if (!privateKey) {
+        return res.status(500).json({ error: 'ImageKit private key not configured' });
+      }
+
+      const imagekit = new ImageKit({
+        publicKey: publicKey,
+        privateKey: privateKey,
+        urlEndpoint: urlEndpoint
+      });
+
+      // Get pagination parameters from query string
+      const skip = parseInt(req.query.skip) || 0;
+      const limit = parseInt(req.query.limit) || 100;
+
+      const result = await imagekit.listFiles({
+        skip: skip,
+        limit: limit,
+        sort: 'DESC_CREATED'
+      });
+
+      res.status(200).json(result);
+    } catch (error) {
+      console.error('Error listing ImageKit files:', error);
+      res.status(500).json({ error: 'Failed to list files', details: error.message });
     }
   });
 });
