@@ -26,7 +26,7 @@
   {
     "id": "blind-baking",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlind%20baking.jpg?alt=media&token=5fb23e40-e467-436d-8a19-a086b8398c1b",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Blind%20baking.jpg",
     "description": "Pre-baking a crust before filling. This is preparation without content, form insisting on its autonomy before meaning arrives.",
     "type": "technique",
     "term": "Blind baking",
@@ -39,7 +39,7 @@
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Blooming",
     "slug": "blooming",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FBlooming.jpg?alt=media&token=16894f53-0c4a-4693-bed6-c149dc8fb6e3"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Blooming.jpg"
   },
   {
     "id": "bread-flour",
@@ -76,7 +76,7 @@
   {
     "id": "contradiction",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FContradiction.JPG?alt=media&token=cfb62dbc-2854-4390-a05b-c4d502950950",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Contradiction.JPG",
     "description": "The coexistence of opposing truths within the same object. A baked good is both fragile and stable, ephemeral and repeatable, indulgent and ritualized.",
     "slug": "contradiction",
     "term": "Contradiction",
@@ -93,7 +93,7 @@
   {
     "id": "crumb-coat",
     "description": "A thin initial frosting layer to trap crumbs. The crumb coat functions as ideology: an imperfect first layer that hides the mess necessary for a polished surface.",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FCrumb%20coat.jpg?alt=media&token=7a2c34a1-53b8-4371-8e3c-236cac58e310",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Crumb%20coat.jpg",
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Crumb coat",
     "slug": "crumb-coat",
@@ -128,13 +128,13 @@
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Egg wash",
     "type": "technique",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEgg%20wash.jpg?alt=media&token=aac9178a-8329-4303-8da5-5ee3797a69f0",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Egg%20wash.jpg",
     "description": "Beaten egg brushed on dough for shine and color. Egg wash is pure appearance, proof that surface matters even when substance is unchanged.",
     "slug": "egg-wash"
   },
   {
     "id": "emulsifier",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FEmulsifier.jpg?alt=media&token=e7d0c6e9-6029-4f28-a76f-e9df5e35905e",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Emulsifier.jpg",
     "slug": "emulsifier",
     "term": "Emulsifier",
     "description": "Ingredient that binds fat and water. The emulsifier is the mediator, preventing antagonistic elements from separating into open conflict.",
@@ -170,7 +170,7 @@
     "description": "An object invested with meaning beyond its material function. A perfect loaf or cookie becomes a fetishized endpoint, concealing the messy labor and failure that produced it.",
     "slug": "fetish",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FFetish.JPG?alt=media&token=58fa505e-6a8b-4b60-8cad-049f189397e7",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Fetish.JPG",
     "type": "concept",
     "term": "Fetish"
   },
@@ -251,7 +251,7 @@
     "description": "The insistence that ideas must pass through matter. Baking refuses abstraction; philosophy must be kneaded, measured, and baked to exist.",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FMateriality.JPG?alt=media&token=fd7109fa-765f-491c-82eb-476820634504",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Materiality.JPG",
     "slug": "materiality",
     "term": "Materiality"
   },
@@ -286,7 +286,7 @@
     "term": "Proofing",
     "description": "Allowing yeast dough to rise before baking. Proofing stages the illusion of freedom: the dough expands on its own, yet only within the strict conditions imposed by temperature and time.",
     "type": "technique",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FProofing.jpg?alt=media&token=45581b7a-9d99-4877-af3b-f90cc13e4426"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Proofing.jpg"
   },
   {
     "id": "repetition",
@@ -294,14 +294,14 @@
     "term": "Repetition",
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "type": "concept",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRepetition.JPG?alt=media&token=d6922752-2533-4cce-9b99-90f23d23310c",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Repetition.JPG",
     "slug": "repetition"
   },
   {
     "id": "ritual",
     "description": "Repeated action invested with meaning beyond utility. Baking rituals transform labor into identity, making repetition feel necessary rather than redundant.",
     "slug": "ritual",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FRitual.JPG?alt=media&token=2b7e49e1-ebbe-427b-8a9e-195588cbecba",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Ritual.JPG",
     "term": "Ritual",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z"
@@ -320,7 +320,7 @@
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "description": "Ingredients that add texture, fat, and flavor. They interrupt smoothness, insisting that resistance is necessary for interest.",
     "slug": "seeds-nuts",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FSeeds%20and%20nuts.jpg?alt=media&token=b4aa5730-c36a-43bc-8f0d-6d57ec025ff8",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Seeds%20and%20nuts.jpg",
     "type": "ingredient"
   },
   {
@@ -353,7 +353,7 @@
     "term": "Temporality",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FTemporality.JPG?alt=media&token=6bf568cf-fcad-46ca-b6cc-327c44a8e8e8",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Temporality.JPG",
     "slug": "temporality"
   },
   {
@@ -371,6 +371,6 @@
     "term": "Zest",
     "slug": "zest",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FZest.jpg?alt=media&token=b1071f08-55b9-4aa1-98fa-6c7d77ac6cbf"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Zest.jpg"
   }
 ]
