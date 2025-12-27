@@ -637,8 +637,9 @@
     // These will work automatically once deployed to Cloudflare Pages
     const IMAGEKIT_AUTH_URL = '/api/imagekit-auth';
     const IMAGEKIT_LIST_URL = '/api/imagekit-list';
+    const IMAGEKIT_UPLOAD_URL = '/api/imagekit-upload';
 
-    // ImageKit upload function using IKUpload widget
+    // ImageKit upload function using proxy to avoid CORS issues
     async function uploadToImageKit(inputId, statusId) {
       const statusEl = document.getElementById(statusId);
       const inputEl = document.getElementById(inputId);
@@ -665,24 +666,12 @@
             statusEl.className = 'upload-status uploading';
             statusEl.textContent = 'Uploading...';
 
-            // Get authentication parameters from Cloud Function
-            const authResponse = await fetch(IMAGEKIT_AUTH_URL);
-            if (!authResponse.ok) {
-              throw new Error('Failed to get authentication');
-            }
-            const authParams = await authResponse.json();
-
-            // Prepare upload
+            // Upload via proxy function (avoids CORS issues)
             const formData = new FormData();
             formData.append('file', file);
             formData.append('fileName', file.name);
-            formData.append('publicKey', IMAGEKIT_PUBLIC_KEY);
-            formData.append('signature', authParams.signature);
-            formData.append('expire', authParams.expire);
-            formData.append('token', authParams.token);
 
-            // Upload to ImageKit
-            const uploadResponse = await fetch(`${IMAGEKIT_URL_ENDPOINT}/api/v1/files/upload`, {
+            const uploadResponse = await fetch(IMAGEKIT_UPLOAD_URL, {
               method: 'POST',
               body: formData
             });
