@@ -159,7 +159,7 @@
             <li>Go to <a href="https://github.com/settings/tokens" target="_blank" style="color: #e73b42;">GitHub Settings → Developer Settings → Personal Access Tokens</a></li>
             <li>Click "Generate new token (classic)"</li>
             <li>Give it a name like "Chomp CMS"</li>
-            <li>Select scopes: <code>repo</code> (optional, for future features)</li>
+            <li>Select scopes: <code>repo</code> (required for publishing)</li>
             <li>Click "Generate token" and copy it</li>
             <li>Paste it above and click Login</li>
           </ol>
@@ -187,7 +187,9 @@
     </div>
 
     <div class="container">
-      <div class="success-message" id="successMessage">Changes saved! Download the updated JSON file and commit it to GitHub.</div>
+      <div class="success-message" id="successMessage">Changes saved locally! Click "Save & Publish" to push to GitHub.</div>
+      <div class="success-message" id="publishSuccess" style="background: #2196f3;">Publishing to GitHub...</div>
+      <div class="success-message" id="publishComplete" style="background: #4caf50;">✓ Published to GitHub! Live in ~60 seconds.</div>
 
       <div class="tabs">
         <button class="tab active" onclick="switchTab('recipes')">Recipes</button>
@@ -217,6 +219,7 @@
           <input type="text" class="search-box" id="recipes-search" placeholder="Search recipes...">
           <button onclick="loadData('recipes')">Reload</button>
           <button onclick="openModal('recipes', null)" class="secondary">New Recipe</button>
+          <button onclick="publishToGitHub('recipes')" style="background: #2196f3;">💾 Save & Publish</button>
           <button onclick="downloadJSON('recipes')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="recipes-list"></div>
@@ -229,6 +232,7 @@
           <input type="text" class="search-box" id="posts-search" placeholder="Search posts...">
           <button onclick="loadData('posts')">Reload</button>
           <button onclick="openModal('posts', null)" class="secondary">New Post</button>
+          <button onclick="publishToGitHub('posts')" style="background: #2196f3;">💾 Save & Publish</button>
           <button onclick="downloadJSON('posts')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="posts-list"></div>
@@ -241,6 +245,7 @@
           <input type="text" class="search-box" id="lexicon-search" placeholder="Search terms...">
           <button onclick="loadData('lexicon')">Reload</button>
           <button onclick="openModal('lexicon', null)" class="secondary">New Term</button>
+          <button onclick="publishToGitHub('lexicon')" style="background: #2196f3;">💾 Save & Publish</button>
           <button onclick="downloadJSON('lexicon')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="lexicon-list"></div>
@@ -269,6 +274,7 @@
           <input type="text" class="search-box" id="reading-list-search" placeholder="Search books...">
           <button onclick="loadData('reading-list')">Reload</button>
           <button onclick="openModal('reading-list', null)" class="secondary">New Book</button>
+          <button onclick="publishToGitHub('reading-list')" style="background: #2196f3;">💾 Save & Publish</button>
           <button onclick="downloadJSON('reading-list')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="reading-list-list"></div>
@@ -281,6 +287,7 @@
           <input type="text" class="search-box" id="playlists-search" placeholder="Search playlists...">
           <button onclick="loadData('playlists')">Reload</button>
           <button onclick="openModal('playlists', null)" class="secondary">New Playlist</button>
+          <button onclick="publishToGitHub('playlists')" style="background: #2196f3;">💾 Save & Publish</button>
           <button onclick="downloadJSON('playlists')" class="secondary">Download JSON</button>
         </div>
         <div class="items-grid" id="playlists-list"></div>
@@ -627,6 +634,75 @@
       a.download = `${fileName}.json`;
       a.click();
       URL.revokeObjectURL(url);
+    }
+
+    async function publishToGitHub(collection) {
+      const token = sessionStorage.getItem('cms_token');
+      if (!token) {
+        alert('Not authenticated. Please log in again.');
+        return;
+      }
+
+      // Show publishing message
+      document.getElementById('publishSuccess').classList.add('show');
+      document.getElementById('publishComplete').classList.remove('show');
+
+      try {
+        const fileName = collection === 'reading-list' ? 'reading-list' : collection;
+        const filePath = `data/${fileName}.json`;
+        const repo = 'chomp-chomp-chomp/chomp';
+        const branch = 'main';
+
+        // Step 1: Get current file to get its SHA (required for updates)
+        const getResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (!getResponse.ok) {
+          throw new Error(`Failed to get current file: ${getResponse.status} ${getResponse.statusText}`);
+        }
+
+        const currentFile = await getResponse.json();
+        const sha = currentFile.sha;
+
+        // Step 2: Prepare new content
+        const jsonString = JSON.stringify(data[collection], null, 2);
+        const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+
+        // Step 3: Update file on GitHub
+        const updateResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Update ${collection} via CMS`,
+            content: contentBase64,
+            sha: sha,
+            branch: branch
+          })
+        });
+
+        if (!updateResponse.ok) {
+          const errorData = await updateResponse.json();
+          throw new Error(`Failed to update file: ${updateResponse.status} ${errorData.message || updateResponse.statusText}`);
+        }
+
+        // Success!
+        document.getElementById('publishSuccess').classList.remove('show');
+        document.getElementById('publishComplete').classList.add('show');
+        setTimeout(() => document.getElementById('publishComplete').classList.remove('show'), 10000);
+
+      } catch (error) {
+        console.error('Publish error:', error);
+        document.getElementById('publishSuccess').classList.remove('show');
+        alert(`Failed to publish to GitHub: ${error.message}\n\nMake sure your token has 'repo' permissions.`);
+      }
     }
 
     // Auto-slug from title
