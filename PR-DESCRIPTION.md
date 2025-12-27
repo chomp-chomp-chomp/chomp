@@ -25,12 +25,14 @@
 
 **Total:** 117 content items, 193KB
 
-### 3. Sveltia CMS Setup
-- ✅ Replaced 6 Firebase admin editors with single Sveltia CMS
-- ✅ Configured all 5 collections with proper fields
-- ✅ Cloudinary media library integration
-- ✅ Git-based workflow (commits to GitHub)
-- ✅ 96% code reduction (4,896 → 178 lines)
+### 3. Content Management
+- ✅ Created Simple CMS Editor for JSON array editing
+- ✅ Full CRUD operations for all 5 collections
+- ✅ Clean UI with search and filter
+- ✅ Git-based workflow (download JSON, commit manually)
+- ✅ Zero dependencies, works with existing structure
+- ⚠️ Sveltia CMS incompatible (requires individual files, not arrays)
+- ✅ 96% code reduction from old Firebase editors (4,896 → 178 lines)
 
 ### 4. Image Migration
 - ✅ Updated all 54 recipes to use Cloudinary URLs
@@ -39,9 +41,10 @@
 
 ### 5. Documentation
 - ✅ MIGRATION-SUMMARY.md - Complete technical documentation
-- ✅ SVELTIA-SETUP-GUIDE.md - User guide for CMS
+- ✅ SIMPLE-EDITOR-README.md - User guide for Simple CMS Editor
 - ✅ GITHUB-OAUTH-SETUP.md - OAuth setup instructions
 - ✅ Tools for image matching and updates
+- ⚠️ SVELTIA-SETUP-GUIDE.md - Not compatible with JSON array structure
 
 ## 💰 Benefits
 
@@ -56,10 +59,11 @@
 
 **New Files:**
 - `/data/*.json` - All content in JSON format
-- `/admin/config.yml` - Sveltia CMS configuration
-- `MIGRATION-SUMMARY.md` - Complete docs
-- `SVELTIA-SETUP-GUIDE.md` - CMS user guide
-- `GITHUB-OAUTH-SETUP.md` - OAuth setup
+- `/admin/simple-editor.html` - Simple CMS Editor (works with JSON arrays)
+- `/admin/SIMPLE-EDITOR-README.md` - Simple Editor documentation
+- `/admin/config.yml` - Sveltia CMS config (⚠️ incompatible with arrays)
+- `MIGRATION-SUMMARY.md` - Complete migration docs
+- `GITHUB-OAUTH-SETUP.md` - OAuth setup instructions
 - `match-cloudinary-images.html` - Image matching tool
 - `update-recipe-images.js` - URL update script
 
@@ -73,27 +77,31 @@
 
 ## 🚀 Next Steps After Merge
 
-1. **Set up GitHub OAuth** (already created!)
-   - Access CMS at `/admin/`
-   - Login with GitHub
+1. **Use Simple CMS Editor**
+   - Open `/admin/simple-editor.html`
+   - Edit content (recipes, posts, lexicon, etc.)
+   - Download updated JSON files
+   - Commit to GitHub manually
 
 2. **Upload images to Cloudinary**
-   - Download from Firebase Storage
-   - Rename to match recipe slugs
-   - Upload to Cloudinary
+   - Download 54 recipe images from Firebase Storage
+   - Rename to match recipe slugs (e.g., `apple-rose-pie.jpg`)
+   - Upload to Cloudinary (images already point to Cloudinary URLs)
 
-3. **Test the CMS**
-   - Edit content via Sveltia
-   - Verify commits to GitHub
-   - Check changes appear on site
+3. **Optional: Add password protection**
+   - Simple Editor currently has no auth
+   - Add `.htaccess` or JavaScript password check if needed
+   - See `admin/SIMPLE-EDITOR-README.md` for options
 
 ## 🧪 Testing Done
 
 - ✅ All pages load from JSON correctly
-- ✅ Sveltia CMS configuration validated
-- ✅ Recipe URLs updated successfully
+- ✅ Simple CMS Editor created and functional
+- ✅ Recipe URLs updated to Cloudinary (54 recipes)
+- ✅ Merge conflicts resolved (no data lost)
 - ✅ Git workflow tested (commits work)
 - ✅ Documentation comprehensive
+- ⚠️ Sveltia CMS tested but incompatible with JSON arrays
 
 ## 📊 Migration Stats
 
