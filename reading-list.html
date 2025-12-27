@@ -862,20 +862,36 @@
       displayBooks();
     });
 
-    // Event delegation for book clicks (works better on mobile)
-    document.getElementById('bookGrid').addEventListener('click', (e) => {
-      // Find the book card that was clicked (could be the card itself or a child element)
+    // Initialize
+    loadBooks();
+
+    // Event delegation for book clicks - using touchstart for better mobile support
+    const bookGrid = document.getElementById('bookGrid');
+    let touchHandled = false;
+
+    function handleBookInteraction(e) {
+      // Find the book card that was clicked/tapped
       const bookCard = e.target.closest('.book-card, .book-list-item');
       if (bookCard) {
         const bookId = bookCard.getAttribute('data-book-id');
         if (bookId) {
-          showBookDetail(bookId);
+          // Prevent duplicate events from touch+click
+          if (e.type === 'touchstart') {
+            touchHandled = true;
+            showBookDetail(bookId);
+          } else if (e.type === 'click' && !touchHandled) {
+            showBookDetail(bookId);
+          }
+
+          // Reset after a short delay
+          setTimeout(() => { touchHandled = false; }, 500);
         }
       }
-    });
+    }
 
-    // Initialize
-    loadBooks();
+    // Use touchstart for immediate response on mobile, click as fallback
+    bookGrid.addEventListener('touchstart', handleBookInteraction, { passive: true });
+    bookGrid.addEventListener('click', handleBookInteraction);
   </script>
 
 </body>
