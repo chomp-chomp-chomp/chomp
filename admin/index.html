@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chomp Chomp CMS</title>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', -apple-system, sans-serif; background: #f5f5f5; color: #333; }
@@ -87,6 +88,13 @@
     .image-upload-helper strong { color: #e73b42; display: block; margin-bottom: 10px; }
     .image-upload-helper ol { margin-left: 20px; }
     .image-upload-helper code { background: white; padding: 2px 6px; border-radius: 3px; font-size: 12px; }
+    .upload-btn { display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 8px; transition: opacity 0.2s; }
+    .upload-btn:hover { opacity: 0.9; }
+    .upload-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .upload-status { font-size: 13px; margin-top: 8px; padding: 8px; border-radius: 4px; display: none; }
+    .upload-status.uploading { display: block; background: #e3f2fd; color: #1976d2; }
+    .upload-status.success { display: block; background: #e8f5e9; color: #2e7d32; }
+    .upload-status.error { display: block; background: #ffebee; color: #c62828; }
     .validation-error { color: #f44336; font-size: 13px; margin-top: 5px; display: none; }
     .validation-error.show { display: block; }
     .form-group.error input, .form-group.error textarea { border-color: #f44336; }
@@ -387,6 +395,19 @@
     // END CONFIGURATION
     // ===========================================
 
+    // ImageKit configuration
+    const IMAGEKIT_PUBLIC_KEY = 'public_hoCjk5sip7G9wwX4ObrUSur0Rs8=';
+    const IMAGEKIT_URL_ENDPOINT = 'https://ik.imagekit.io/chompchomp';
+    let imagekit = null;
+
+    // Initialize ImageKit
+    if (typeof ImageKit !== 'undefined') {
+      imagekit = new ImageKit({
+        publicKey: IMAGEKIT_PUBLIC_KEY,
+        urlEndpoint: IMAGEKIT_URL_ENDPOINT
+      });
+    }
+
     let isAuthenticated = false;
     let currentUser = null;
     let data = { recipes: [], posts: [], lexicon: [], 'reading-list': [], playlists: [] };
@@ -608,6 +629,66 @@
       previewContainer.innerHTML = previewHTML;
     }
 
+    // ImageKit upload function
+    async function uploadToImageKit(inputId, statusId) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+
+      input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const statusEl = document.getElementById(statusId);
+        const inputEl = document.getElementById(inputId);
+
+        try {
+          // Show uploading status
+          statusEl.className = 'upload-status uploading';
+          statusEl.textContent = 'Uploading...';
+
+          // Get authentication signature from your server
+          // For now, using direct upload (requires public key only)
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('fileName', file.name);
+          formData.append('publicKey', IMAGEKIT_PUBLIC_KEY);
+
+          const response = await fetch(`${IMAGEKIT_URL_ENDPOINT}/api/v1/files/upload`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Basic ${btoa(IMAGEKIT_PUBLIC_KEY + ':')}`,
+            },
+            body: formData
+          });
+
+          if (!response.ok) {
+            throw new Error('Upload failed');
+          }
+
+          const data = await response.json();
+
+          // Fill in the URL
+          inputEl.value = data.url;
+
+          // Show success
+          statusEl.className = 'upload-status success';
+          statusEl.textContent = 'Upload successful!';
+          setTimeout(() => {
+            statusEl.className = 'upload-status';
+            statusEl.textContent = '';
+          }, 3000);
+
+        } catch (error) {
+          console.error('Upload error:', error);
+          statusEl.className = 'upload-status error';
+          statusEl.textContent = 'Upload failed. Please try again.';
+        }
+      };
+
+      input.click();
+    }
+
     function generateForm(collection, item) {
       const forms = { 'recipes': generateRecipeForm, 'posts': generatePostForm, 'lexicon': generateLexiconForm, 'reading-list': generateBookForm, 'playlists': generatePlaylistForm };
       return forms[collection](item);
@@ -615,25 +696,25 @@
 
     // Form generators - keeping them concise
     function generateRecipeForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"><div class="image-upload-helper"><strong>📸 Upload to Cloudinary first</strong></div></div><div class="form-group"><label>Category</label><input type="text" id="category" list="category-suggestions" value="${item.category || 'chomp chomp'}" placeholder="Enter category"><datalist id="category-suggestions"><option value="chomp chomp"><option value="desserts"><option value="breads"><option value="pastries"><option value="cookies"><option value="cakes"><option value="pies"></datalist><div class="hint">Type to enter a custom category or select from suggestions</div></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}"></div><div class="form-group"><label>Ingredients (one per line)</label><textarea id="ingredients" rows="10">${(item.ingredients || []).join('\n')}</textarea></div><div class="form-group"><label>Instructions (one per line)</label><textarea id="instructions" rows="10">${(item.instructions || []).join('\n')}</textarea></div><div class="form-group"><label>Notes</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('image', 'image-status')">Upload Image</button><div id="image-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Category</label><input type="text" id="category" list="category-suggestions" value="${item.category || 'chomp chomp'}" placeholder="Enter category"><datalist id="category-suggestions"><option value="chomp chomp"><option value="desserts"><option value="breads"><option value="pastries"><option value="cookies"><option value="cakes"><option value="pies"></datalist><div class="hint">Type to enter a custom category or select from suggestions</div></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}"></div><div class="form-group"><label>Ingredients (one per line)</label><textarea id="ingredients" rows="10">${(item.ingredients || []).join('\n')}</textarea></div><div class="form-group"><label>Instructions (one per line)</label><textarea id="instructions" rows="10">${(item.instructions || []).join('\n')}</textarea></div><div class="form-group"><label>Notes</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generatePostForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Excerpt</label><textarea id="excerpt" data-preview="true" rows="3">${item.excerpt || ''}</textarea></div><div class="form-group"><label>Content *</label><textarea id="content" data-preview="true" rows="15">${item.content || ''}</textarea><div class="hint">💡 To add images: <code>![alt text](image-url)</code> - The preview below will show rendered images</div></div><div class="form-group"><label>Category *</label><select id="category"><option value="stories" ${item.category === 'stories' ? 'selected' : ''}>Stories</option><option value="anthropologies" ${item.category === 'anthropologies' ? 'selected' : ''}>Anthropologies</option><option value="zen" ${item.category === 'zen' ? 'selected' : ''}>Zen</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Date</label><input type="date" id="date" value="${item.date || ''}"></div><div class="form-group"><label>Featured Image URL</label><input type="text" id="featured_image" value="${item.featured_image || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Excerpt</label><textarea id="excerpt" data-preview="true" rows="3">${item.excerpt || ''}</textarea></div><div class="form-group"><label>Content *</label><textarea id="content" data-preview="true" rows="15">${item.content || ''}</textarea><div class="hint">To add images: <code>![alt text](image-url)</code> - The preview below will show rendered images</div></div><div class="form-group"><label>Category *</label><select id="category"><option value="stories" ${item.category === 'stories' ? 'selected' : ''}>Stories</option><option value="anthropologies" ${item.category === 'anthropologies' ? 'selected' : ''}>Anthropologies</option><option value="zen" ${item.category === 'zen' ? 'selected' : ''}>Zen</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Date</label><input type="date" id="date" value="${item.date || ''}"></div><div class="form-group"><label>Featured Image URL</label><input type="text" id="featured_image" value="${item.featured_image || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('featured_image', 'featured_image-status')">Upload Image</button><div id="featured_image-status" class="upload-status"></div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generateLexiconForm(item) {
-      return `<div class="form-group"><label>Term *</label><input type="text" id="term" value="${item.term || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Definition *</label><textarea id="description" data-preview="true" rows="8">${item.description || ''}</textarea></div><div class="form-group"><label>Type *</label><select id="type"><option value="ingredient" ${item.type === 'ingredient' ? 'selected' : ''}>Ingredient</option><option value="technique" ${item.type === 'technique' ? 'selected' : ''}>Technique</option><option value="equipment" ${item.type === 'equipment' ? 'selected' : ''}>Equipment</option><option value="concept" ${item.type === 'concept' ? 'selected' : ''}>Concept</option></select></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Term *</label><input type="text" id="term" value="${item.term || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Definition *</label><textarea id="description" data-preview="true" rows="8">${item.description || ''}</textarea></div><div class="form-group"><label>Type *</label><select id="type"><option value="ingredient" ${item.type === 'ingredient' ? 'selected' : ''}>Ingredient</option><option value="technique" ${item.type === 'technique' ? 'selected' : ''}>Technique</option><option value="equipment" ${item.type === 'equipment' ? 'selected' : ''}>Equipment</option><option value="concept" ${item.type === 'concept' ? 'selected' : ''}>Concept</option></select></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('image', 'lexicon-image-status')">Upload Image</button><div id="lexicon-image-status" class="upload-status"></div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generateBookForm(item) {
       const subjectsText = item.subjects && Array.isArray(item.subjects) ? item.subjects.join('\n') : '';
       const recommendedChecked = item.recommended ? 'checked' : '';
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Authors *</label><input type="text" id="authors" value="${item.authors || ''}" required></div><div class="form-group"><label>ISBN</label><input type="text" id="isbn" value="${item.isbn || ''}"></div><div class="form-group"><label>Publisher</label><input type="text" id="publisher" value="${item.publisher || ''}"></div><div class="form-group"><label>Publication Date</label><input type="text" id="publicationDate" value="${item.publicationDate || ''}"></div><div class="form-group"><label>LC Subject Headings (one per line)</label><textarea id="subjects" rows="4">${subjectsText}</textarea><div class="hint">Enter Library of Congress subject headings, one per line</div></div><div class="form-group"><label>LC Call Number</label><input type="text" id="lcCallNumber" value="${item.lcCallNumber || ''}"><div class="hint">e.g., TX765 .B35 2020</div></div><div class="form-group"><label>Description</label><textarea id="description" data-preview="true" rows="6">${item.description || ''}</textarea></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"></div><div class="form-group"><label>Purchase Link</label><input type="text" id="link" value="${item.link || ''}"><div class="hint">Link to Amazon, Bookshop.org, etc.</div></div><div class="form-group"><label style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="recommended" ${recommendedChecked} style="width: auto; margin: 0;">Recommended Book</label></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Authors *</label><input type="text" id="authors" value="${item.authors || ''}" required></div><div class="form-group"><label>ISBN</label><input type="text" id="isbn" value="${item.isbn || ''}"></div><div class="form-group"><label>Publisher</label><input type="text" id="publisher" value="${item.publisher || ''}"></div><div class="form-group"><label>Publication Date</label><input type="text" id="publicationDate" value="${item.publicationDate || ''}"></div><div class="form-group"><label>LC Subject Headings (one per line)</label><textarea id="subjects" rows="4">${subjectsText}</textarea><div class="hint">Enter Library of Congress subject headings, one per line</div></div><div class="form-group"><label>LC Call Number</label><input type="text" id="lcCallNumber" value="${item.lcCallNumber || ''}"><div class="hint">e.g., TX765 .B35 2020</div></div><div class="form-group"><label>Description</label><textarea id="description" data-preview="true" rows="6">${item.description || ''}</textarea></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('coverImage', 'coverImage-status')">Upload Image</button><div id="coverImage-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Purchase Link</label><input type="text" id="link" value="${item.link || ''}"><div class="hint">Link to Amazon, Bookshop.org, etc.</div></div><div class="form-group"><label style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="recommended" ${recommendedChecked} style="width: auto; margin: 0;">Recommended Book</label></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generatePlaylistForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description *</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Vibe</label><textarea id="vibe" data-preview="true" rows="3">${item.vibe || ''}</textarea></div><div class="form-group"><label>Spotify Embed URL *</label><input type="text" id="spotifyEmbedUrl" value="${item.spotifyEmbedUrl || ''}" required></div><div class="form-group"><label>Duration</label><select id="duration"><option value="short" ${item.duration === 'short' ? 'selected' : ''}>Short</option><option value="medium" ${item.duration === 'medium' ? 'selected' : ''}>Medium</option><option value="long" ${item.duration === 'long' ? 'selected' : ''}>Long</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description *</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Vibe</label><textarea id="vibe" data-preview="true" rows="3">${item.vibe || ''}</textarea></div><div class="form-group"><label>Spotify Embed URL *</label><input type="text" id="spotifyEmbedUrl" value="${item.spotifyEmbedUrl || ''}" required></div><div class="form-group"><label>Duration</label><select id="duration"><option value="short" ${item.duration === 'short' ? 'selected' : ''}>Short</option><option value="medium" ${item.duration === 'medium' ? 'selected' : ''}>Medium</option><option value="long" ${item.duration === 'long' ? 'selected' : ''}>Long</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('coverImage', 'playlist-coverImage-status')">Upload Image</button><div id="playlist-coverImage-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function saveItem() {
