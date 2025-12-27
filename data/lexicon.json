@@ -26,7 +26,7 @@
   {
     "id": "blind-baking",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Blind%20baking.jpg",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4458_eiek69.jpg",
     "description": "Pre-baking a crust before filling. This is preparation without content, form insisting on its autonomy before meaning arrives.",
     "type": "technique",
     "term": "Blind baking",
@@ -39,7 +39,7 @@
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Blooming",
     "slug": "blooming",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Blooming.jpg"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4457_uwt5xe.jpg"
   },
   {
     "id": "bread-flour",
@@ -76,7 +76,7 @@
   {
     "id": "contradiction",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Contradiction.JPG",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4463_hta2tw.jpg",
     "description": "The coexistence of opposing truths within the same object. A baked good is both fragile and stable, ephemeral and repeatable, indulgent and ritualized.",
     "slug": "contradiction",
     "term": "Contradiction",
@@ -93,7 +93,7 @@
   {
     "id": "crumb-coat",
     "description": "A thin initial frosting layer to trap crumbs. The crumb coat functions as ideology: an imperfect first layer that hides the mess necessary for a polished surface.",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Crumb%20coat.jpg",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4465_u9orgw.jpg",
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Crumb coat",
     "slug": "crumb-coat",
@@ -128,13 +128,13 @@
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "term": "Egg wash",
     "type": "technique",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Egg%20wash.jpg",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4456_h0otyk.jpg",
     "description": "Beaten egg brushed on dough for shine and color. Egg wash is pure appearance, proof that surface matters even when substance is unchanged.",
     "slug": "egg-wash"
   },
   {
     "id": "emulsifier",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Emulsifier.jpg",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4459_cr9hdl.jpg",
     "slug": "emulsifier",
     "term": "Emulsifier",
     "description": "Ingredient that binds fat and water. The emulsifier is the mediator, preventing antagonistic elements from separating into open conflict.",
@@ -170,7 +170,7 @@
     "description": "An object invested with meaning beyond its material function. A perfect loaf or cookie becomes a fetishized endpoint, concealing the messy labor and failure that produced it.",
     "slug": "fetish",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Fetish.JPG",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4453_yctigq.jpg",
     "type": "concept",
     "term": "Fetish"
   },
@@ -251,7 +251,7 @@
     "description": "The insistence that ideas must pass through matter. Baking refuses abstraction; philosophy must be kneaded, measured, and baked to exist.",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Materiality.JPG",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4462_ygwnrb.jpg",
     "slug": "materiality",
     "term": "Materiality"
   },
@@ -286,7 +286,7 @@
     "term": "Proofing",
     "description": "Allowing yeast dough to rise before baking. Proofing stages the illusion of freedom: the dough expands on its own, yet only within the strict conditions imposed by temperature and time.",
     "type": "technique",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Proofing.jpg"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4464_vnqbnc.jpg"
   },
   {
     "id": "repetition",
@@ -294,14 +294,14 @@
     "term": "Repetition",
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "type": "concept",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Repetition.JPG",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4454_cw9ht0.jpg",
     "slug": "repetition"
   },
   {
     "id": "ritual",
     "description": "Repeated action invested with meaning beyond utility. Baking rituals transform labor into identity, making repetition feel necessary rather than redundant.",
     "slug": "ritual",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Ritual.JPG",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4455_vu2wzr.jpg",
     "term": "Ritual",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z"
@@ -320,7 +320,7 @@
     "dateAdded": "2025-12-16T19:19:43.790Z",
     "description": "Ingredients that add texture, fat, and flavor. They interrupt smoothness, insisting that resistance is necessary for interest.",
     "slug": "seeds-nuts",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Seeds%20and%20nuts.jpg",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4466_hj4rtj.jpg",
     "type": "ingredient"
   },
   {
@@ -353,7 +353,7 @@
     "term": "Temporality",
     "type": "concept",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Temporality.JPG",
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4461_t7htos.jpg",
     "slug": "temporality"
   },
   {
@@ -371,6 +371,6 @@
     "term": "Zest",
     "slug": "zest",
     "dateAdded": "2025-12-16T19:19:43.790Z",
-    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/images/Zest.jpg"
+    "image": "https://res.cloudinary.com/dlqfyv1qj/image/upload/IMG_4460_bpoj1y.jpg"
   }
 ]
