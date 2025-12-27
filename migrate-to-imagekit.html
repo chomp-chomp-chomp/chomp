@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudinary to ImageKit Migration Tool</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+    h1 { color: #e73b42; margin-bottom: 10px; }
+    .subtitle { color: #666; margin-bottom: 30px; }
+
+    .section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    .section h2 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #e73b42;
+    }
+    .stat-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: #e73b42;
+    }
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    button {
+      padding: 14px 28px;
+      background: #e73b42;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-right: 10px;
+    }
+    button:hover { opacity: 0.9; }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    button.secondary { background: #4caf50; }
+    button.tertiary { background: #2196f3; }
+
+    .progress-container {
+      display: none;
+      margin-top: 20px;
+    }
+    .progress-container.show { display: block; }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #4caf50;
+      transition: width 0.3s;
+    }
+    .progress-text {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .log {
+      background: #2a2a2a;
+      color: #00ff00;
+      padding: 20px;
+      border-radius: 6px;
+      font-family: 'Monaco', monospace;
+      font-size: 13px;
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 20px;
+      display: none;
+    }
+    .log.show { display: block; }
+    .log-line { margin-bottom: 5px; }
+    .log-error { color: #ff6b7a; }
+    .log-success { color: #4caf50; }
+    .log-info { color: #6ba3d2; }
+
+    .results {
+      display: none;
+      margin-top: 30px;
+    }
+    .results.show { display: block; }
+    .results-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #4caf50;
+    }
+    .results-section h3 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .url-mapping {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: 'Monaco', monospace;
+      font-size: 12px;
+      margin-bottom: 8px;
+      word-break: break-all;
+    }
+    .old-url { color: #e73b42; }
+    .new-url { color: #4caf50; }
+
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', monospace;
+      font-size: 13px;
+    }
+
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .warning strong { color: #856404; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔄 Cloudinary → ImageKit Migration</h1>
+    <p class="subtitle">Automated tool to migrate all your images from Cloudinary to ImageKit</p>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="total-count">0</div>
+        <div class="stat-label">Total Images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="migrated-count">0</div>
+        <div class="stat-label">Migrated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="failed-count">0</div>
+        <div class="stat-label">Failed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="remaining-count">0</div>
+        <div class="stat-label">Remaining</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <strong>⚠️ Before You Start:</strong>
+      <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.7;">
+        <li>This will upload images to ImageKit and update your JSON files</li>
+        <li>Original Cloudinary images will remain (not deleted)</li>
+        <li>You can test first with "Migrate Logos Only"</li>
+        <li>HTML files require manual find/replace (report provided)</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>📋 Migration Options</h2>
+      <button onclick="migrateLogos()" id="migrate-logos-btn">
+        1. Migrate Logos First (3 images)
+      </button>
+      <button onclick="migrateJSON()" id="migrate-json-btn" class="secondary">
+        2. Migrate JSON Data (73 images)
+      </button>
+      <button onclick="migrateAll()" id="migrate-all-btn" class="tertiary">
+        Migrate Everything
+      </button>
+    </div>
+
+    <div class="progress-container" id="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-text" id="progress-text">Processing...</div>
+    </div>
+
+    <div class="log" id="log"></div>
+
+    <div class="results" id="results">
+      <h2>✅ Migration Complete!</h2>
+
+      <div class="results-section">
+        <h3>📝 Next Steps: Update HTML Files</h3>
+        <p style="margin-bottom: 15px;">Use find/replace in your code editor to update these URLs in HTML files:</p>
+        <div id="html-updates"></div>
+      </div>
+
+      <div class="results-section">
+        <h3>💾 Updated JSON Files</h3>
+        <p style="margin-bottom: 15px;">The following files have been updated with new ImageKit URLs:</p>
+        <div id="json-updates"></div>
+      </div>
+
+      <div class="results-section">
+        <h3>🔗 URL Mappings</h3>
+        <p style="margin-bottom: 15px;">Complete list of old → new URLs:</p>
+        <div id="url-mappings"></div>
+      </div>
+
+      <button onclick="downloadReport()" class="secondary">
+        Download Migration Report
+      </button>
+      <button onclick="downloadJSONFiles()" class="tertiary">
+        Download Updated JSON Files
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const IMAGEKIT_UPLOAD_URL = '/api/imagekit-upload';
+
+    // Migration data
+    const urlMappings = new Map();
+    let totalImages = 0;
+    let migratedCount = 0;
+    let failedCount = 0;
+
+    // Logo images (highest priority)
+    const logoImages = [
+      {
+        oldUrl: 'https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png',
+        name: 'logo-default.png',
+        locations: ['index.html', 'recipe.html', 'recipesgpt.html', 'post.html', 'store.html', 'playlists.html']
+      },
+      {
+        oldUrl: 'https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535181/IMG_3433_rqvbzu.jpg',
+        name: 'logo-hover.jpg',
+        locations: ['index.html', 'recipe.html', 'recipesgpt.html', 'post.html', 'store.html', 'playlists.html']
+      },
+      {
+        oldUrl: 'https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531937/chomp_recipes_logo_kh3zb4.jpg',
+        name: 'recipe-banner.jpg',
+        locations: ['index.html', 'recipe.html', 'recipesgpt.html', 'post.html', 'playlists.html']
+      }
+    ];
+
+    // Initialize
+    function init() {
+      updateStats();
+    }
+
+    function updateStats() {
+      document.getElementById('total-count').textContent = totalImages;
+      document.getElementById('migrated-count').textContent = migratedCount;
+      document.getElementById('failed-count').textContent = failedCount;
+      document.getElementById('remaining-count').textContent = totalImages - migratedCount - failedCount;
+    }
+
+    function log(message, type = 'info') {
+      const logEl = document.getElementById('log');
+      logEl.classList.add('show');
+      const line = document.createElement('div');
+      line.className = `log-line log-${type}`;
+      line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logEl.appendChild(line);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function updateProgress(current, total) {
+      const percent = (current / total) * 100;
+      document.getElementById('progress-fill').style.width = `${percent}%`;
+      document.getElementById('progress-text').textContent =
+        `Processing ${current} of ${total} images (${Math.round(percent)}%)`;
+      document.getElementById('progress-container').classList.add('show');
+    }
+
+    async function uploadToImageKit(imageUrl, fileName) {
+      try {
+        log(`Downloading: ${fileName}`, 'info');
+
+        // Fetch the image from Cloudinary
+        const imageResponse = await fetch(imageUrl);
+        if (!imageResponse.ok) {
+          throw new Error(`Failed to download: ${imageResponse.status}`);
+        }
+        const imageBlob = await imageResponse.blob();
+
+        log(`Uploading to ImageKit: ${fileName}`, 'info');
+
+        // Upload to ImageKit via our Cloudflare function
+        const formData = new FormData();
+        formData.append('file', imageBlob, fileName);
+        formData.append('fileName', fileName);
+
+        const uploadResponse = await fetch(IMAGEKIT_UPLOAD_URL, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!uploadResponse.ok) {
+          const errorText = await uploadResponse.text();
+          throw new Error(`Upload failed: ${errorText}`);
+        }
+
+        const data = await uploadResponse.json();
+        log(`✓ Uploaded: ${data.url}`, 'success');
+
+        return data.url;
+      } catch (error) {
+        log(`✗ Error uploading ${fileName}: ${error.message}`, 'error');
+        throw error;
+      }
+    }
+
+    async function migrateLogos() {
+      const btn = document.getElementById('migrate-logos-btn');
+      btn.disabled = true;
+
+      totalImages = logoImages.length;
+      updateStats();
+
+      log('Starting logo migration...', 'info');
+
+      for (let i = 0; i < logoImages.length; i++) {
+        const logo = logoImages[i];
+        updateProgress(i + 1, logoImages.length);
+
+        try {
+          const newUrl = await uploadToImageKit(logo.oldUrl, logo.name);
+          urlMappings.set(logo.oldUrl, { newUrl, locations: logo.locations, name: logo.name });
+          migratedCount++;
+          updateStats();
+        } catch (error) {
+          failedCount++;
+          updateStats();
+        }
+
+        // Small delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      log('Logo migration complete!', 'success');
+      showResults();
+      btn.disabled = false;
+    }
+
+    async function migrateJSON() {
+      const btn = document.getElementById('migrate-json-btn');
+      btn.disabled = true;
+
+      log('Loading JSON files...', 'info');
+
+      try {
+        // Load all JSON files
+        const [recipes, posts, playlists, lexicon] = await Promise.all([
+          fetch('/data/recipes.json').then(r => r.json()),
+          fetch('/data/posts.json').then(r => r.json()),
+          fetch('/data/playlists.json').then(r => r.json()),
+          fetch('/data/lexicon.json').then(r => r.json())
+        ]);
+
+        // Extract all Cloudinary URLs
+        const imagesToMigrate = [];
+
+        // Recipes
+        recipes.forEach(recipe => {
+          if (recipe.image && recipe.image.includes('cloudinary.com')) {
+            imagesToMigrate.push({
+              type: 'recipe',
+              id: recipe.id,
+              field: 'image',
+              oldUrl: recipe.image,
+              fileName: `recipe-${recipe.slug}.jpg`
+            });
+          }
+        });
+
+        // Posts
+        posts.forEach(post => {
+          if (post.featured_image && post.featured_image.includes('cloudinary.com')) {
+            imagesToMigrate.push({
+              type: 'post',
+              id: post.id,
+              field: 'featured_image',
+              oldUrl: post.featured_image,
+              fileName: `post-${post.slug}.jpg`
+            });
+          }
+        });
+
+        // Playlists
+        playlists.forEach(playlist => {
+          if (playlist.coverImage && playlist.coverImage.includes('cloudinary.com')) {
+            imagesToMigrate.push({
+              type: 'playlist',
+              id: playlist.id,
+              field: 'coverImage',
+              oldUrl: playlist.coverImage,
+              fileName: `playlist-${playlist.slug}.png`
+            });
+          }
+        });
+
+        // Lexicon
+        lexicon.forEach(entry => {
+          if (entry.image && entry.image.includes('cloudinary.com')) {
+            imagesToMigrate.push({
+              type: 'lexicon',
+              id: entry.id,
+              field: 'image',
+              oldUrl: entry.image,
+              fileName: `lexicon-${entry.slug}.jpg`
+            });
+          }
+        });
+
+        totalImages = imagesToMigrate.length;
+        updateStats();
+
+        log(`Found ${totalImages} images in JSON files`, 'info');
+        log('Starting migration...', 'info');
+
+        // Migrate each image
+        for (let i = 0; i < imagesToMigrate.length; i++) {
+          const img = imagesToMigrate[i];
+          updateProgress(i + 1, imagesToMigrate.length);
+
+          try {
+            const newUrl = await uploadToImageKit(img.oldUrl, img.fileName);
+
+            // Store mapping
+            urlMappings.set(img.oldUrl, {
+              newUrl,
+              type: img.type,
+              id: img.id,
+              field: img.field,
+              fileName: img.fileName
+            });
+
+            // Update the data
+            if (img.type === 'recipe') {
+              const recipe = recipes.find(r => r.id === img.id);
+              if (recipe) recipe.image = newUrl;
+            } else if (img.type === 'post') {
+              const post = posts.find(p => p.id === img.id);
+              if (post) post.featured_image = newUrl;
+            } else if (img.type === 'playlist') {
+              const playlist = playlists.find(p => p.id === img.id);
+              if (playlist) playlist.coverImage = newUrl;
+            } else if (img.type === 'lexicon') {
+              const entry = lexicon.find(e => e.id === img.id);
+              if (entry) entry.image = newUrl;
+            }
+
+            migratedCount++;
+            updateStats();
+          } catch (error) {
+            failedCount++;
+            updateStats();
+          }
+
+          // Small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
+        // Store updated JSON for download
+        window.updatedJSON = { recipes, posts, playlists, lexicon };
+
+        log('JSON migration complete!', 'success');
+        showResults();
+
+      } catch (error) {
+        log(`Error loading JSON files: ${error.message}`, 'error');
+      }
+
+      btn.disabled = false;
+    }
+
+    async function migrateAll() {
+      await migrateLogos();
+      await migrateJSON();
+    }
+
+    function showResults() {
+      document.getElementById('results').classList.add('show');
+
+      // Generate HTML updates list
+      const htmlUpdates = document.getElementById('html-updates');
+      htmlUpdates.innerHTML = '';
+
+      urlMappings.forEach((value, oldUrl) => {
+        if (value.locations) {
+          const div = document.createElement('div');
+          div.className = 'url-mapping';
+          div.innerHTML = `
+            <strong>${value.name}</strong><br>
+            Find: <span class="old-url">${oldUrl}</span><br>
+            Replace: <span class="new-url">${value.newUrl}</span><br>
+            Files: ${value.locations.join(', ')}
+          `;
+          htmlUpdates.appendChild(div);
+        }
+      });
+
+      // Generate JSON updates list
+      const jsonUpdates = document.getElementById('json-updates');
+      if (window.updatedJSON) {
+        jsonUpdates.innerHTML = `
+          <code>data/recipes.json</code> - ${Object.keys(window.updatedJSON.recipes).length} recipes updated<br>
+          <code>data/posts.json</code> - ${Object.keys(window.updatedJSON.posts).length} posts updated<br>
+          <code>data/playlists.json</code> - ${Object.keys(window.updatedJSON.playlists).length} playlists updated<br>
+          <code>data/lexicon.json</code> - ${Object.keys(window.updatedJSON.lexicon).length} lexicon entries updated
+        `;
+      }
+
+      // Generate URL mappings
+      const urlMappingsEl = document.getElementById('url-mappings');
+      urlMappingsEl.innerHTML = '';
+
+      urlMappings.forEach((value, oldUrl) => {
+        const div = document.createElement('div');
+        div.className = 'url-mapping';
+        div.innerHTML = `
+          <span class="old-url">${oldUrl}</span><br>
+          → <span class="new-url">${value.newUrl}</span>
+        `;
+        urlMappingsEl.appendChild(div);
+      });
+    }
+
+    function downloadReport() {
+      let report = '# Cloudinary to ImageKit Migration Report\n\n';
+      report += `Generated: ${new Date().toLocaleString()}\n\n`;
+      report += `## Summary\n\n`;
+      report += `- Total images: ${totalImages}\n`;
+      report += `- Migrated: ${migratedCount}\n`;
+      report += `- Failed: ${failedCount}\n\n`;
+      report += `## URL Mappings\n\n`;
+
+      urlMappings.forEach((value, oldUrl) => {
+        report += `### ${value.name || value.fileName}\n`;
+        report += `- Old: ${oldUrl}\n`;
+        report += `- New: ${value.newUrl}\n`;
+        if (value.locations) {
+          report += `- Files: ${value.locations.join(', ')}\n`;
+        }
+        report += `\n`;
+      });
+
+      const blob = new Blob([report], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'migration-report.md';
+      a.click();
+    }
+
+    function downloadJSONFiles() {
+      if (!window.updatedJSON) {
+        alert('No JSON updates available. Run JSON migration first.');
+        return;
+      }
+
+      const files = {
+        'recipes.json': window.updatedJSON.recipes,
+        'posts.json': window.updatedJSON.posts,
+        'playlists.json': window.updatedJSON.playlists,
+        'lexicon.json': window.updatedJSON.lexicon
+      };
+
+      Object.entries(files).forEach(([filename, data]) => {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+      });
+
+      alert('JSON files downloaded! Replace the files in your /data directory, then commit and push.');
+    }
+
+    // Initialize on load
+    init();
+  </script>
+</body>
+</html>
