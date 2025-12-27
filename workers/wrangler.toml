@@ -1,23 +1,16 @@
-# Wrangler configuration for Cloudflare Workers
-# This file is optional - you can deploy via the Cloudflare Dashboard instead
-
-# ImageKit Auth Worker
-[[workers]]
-name = "imagekit-auth"
-main = "imagekit-auth.js"
+name = "chomp-workers"
+main = "workers/imagekit-auth.js"
 compatibility_date = "2024-01-01"
 
-# ImageKit List Files Worker
-[[workers]]
-name = "imagekit-list-files"
-main = "imagekit-list-files.js"
-compatibility_date = "2024-01-01"
+# Routes for different worker functions
+[[routes]]
+pattern = "*/imagekit-auth"
+script = "imagekit-auth"
 
-# Environment variables (set via CLI or dashboard)
-# wrangler secret put IMAGEKIT_PRIVATE_KEY --name imagekit-auth
-# wrangler secret put IMAGEKIT_PRIVATE_KEY --name imagekit-list-files
+[[routes]]
+pattern = "*/imagekit-list"
+script = "imagekit-list-files"
 
-# Optional: Set public key and URL endpoint if different from defaults
-# [vars]
-# IMAGEKIT_PUBLIC_KEY = "public_hoCjk5sip7G9wwX4ObrUSur0Rs8="
-# IMAGEKIT_URL_ENDPOINT = "https://ik.imagekit.io/chompchomp"
+# Environment variables will be set in Cloudflare dashboard
+# Go to: Workers & Pages > Your Worker > Settings > Variables
+# Add: IMAGEKIT_PRIVATE_KEY (type: Secret)
