@@ -1,1 +1,768 @@
-[]
+[
+  {
+    "title": "Scottish Celebrations",
+    "authors": "Gary Maclean",
+    "isbn": "9781785304705",
+    "publisher": "Black and White Publishing Limited",
+    "publicationDate": "2023",
+    "description": "Treasured Traditions and Contemporary Recipes from Scotland",
+    "subjects": [
+      "Home economics"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=aJWxzwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL49276517M/Scottish_Celebrations",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:15.508Z",
+    "updated_at": "2025-12-27T10:30:15.508Z"
+  },
+  {
+    "title": "Hebridean Baker",
+    "authors": "Coinneach MacLeod",
+    "isbn": "9781785306433",
+    "publisher": "Black and White Publishing Limited",
+    "publicationDate": "2024",
+    "description": "The Scottish Cookbook",
+    "subjects": [],
+    "coverImage": "http://books.google.com/books/content?id=z6-70AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL53261563M/Hebridean_Baker",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:17.593Z",
+    "updated_at": "2025-12-27T10:30:17.593Z"
+  },
+  {
+    "title": "Essentials of Classic Italian Cooking",
+    "authors": "Marcella Hazan",
+    "isbn": "9780593534328",
+    "publisher": "Knopf Doubleday Publishing Group",
+    "publicationDate": "2022",
+    "description": "30th Anniversary Edition",
+    "subjects": [
+      "Italian Cookery",
+      "Italian Cooking",
+      "Cooking, italian",
+      "nyt:food-and-fitness=2013-11-10",
+      "New York Times bestseller"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/13880506-L.jpg",
+    "link": "https://openlibrary.org/books/OL35077749M/Essentials_of_Classic_Italian_Cooking",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:19.131Z",
+    "updated_at": "2025-12-27T10:30:19.131Z"
+  },
+  {
+    "title": "Italian Bakery",
+    "authors": "The Silver Spoon Kitchen",
+    "isbn": "9781838663148",
+    "publisher": "Phaidon Press Limited",
+    "publicationDate": "2021",
+    "description": "Step-By-Step Recipes with the Silver Spoon",
+    "subjects": [],
+    "coverImage": "https://covers.openlibrary.org/b/id/12405704-L.jpg",
+    "link": "https://openlibrary.org/books/OL33932265M/Italian_Bakery",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:20.358Z",
+    "updated_at": "2025-12-27T10:30:20.358Z"
+  },
+  {
+    "title": "journey through greek culinary",
+    "authors": "Σοφία Ιωάννου , Sofia Ioannou",
+    "isbn": "9789606791659",
+    "publisher": "Papadimas Ekdotiki",
+    "publicationDate": "2009",
+    "description": "from antiquity until today",
+    "subjects": [],
+    "coverImage": "",
+    "link": "https://openlibrary.org/books/OL26428660M/journey_through_greek_culinary",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:21.691Z",
+    "updated_at": "2025-12-27T10:30:21.691Z"
+  },
+  {
+    "title": "Puerto Rican Dishes",
+    "authors": "Berta Canabillas, Carmen Ginorio",
+    "isbn": "9780847727834",
+    "publisher": "",
+    "publicationDate": "2009-06-30",
+    "description": "",
+    "subjects": [
+      "Cooking"
+    ],
+    "coverImage": "",
+    "link": "http://books.google.com/books?id=TfiQRAAACAAJ&dq=isbn:9780847727834&hl=&source=gbs_api",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:23.638Z",
+    "updated_at": "2025-12-27T10:30:23.638Z"
+  },
+  {
+    "title": "Cookies",
+    "authors": "Jesse Szewczyk",
+    "isbn": "9780593235669",
+    "publisher": "Clarkson Potter",
+    "publicationDate": "Oct 26, 2021",
+    "description": "The New Classics",
+    "subjects": [
+      "Home economics"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/12364314-L.jpg",
+    "link": "https://openlibrary.org/books/OL32388042M/Cookies",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:26.504Z",
+    "updated_at": "2025-12-27T10:30:26.504Z"
+  },
+  {
+    "title": "Cookies and Crumbs",
+    "authors": "Kaja Hengstenberg",
+    "isbn": "9781837831449",
+    "publisher": "Quadrille Publishing, Limited",
+    "publicationDate": "2024",
+    "description": "Chunky, Chewy, Gooey Cookies for Every Mood",
+    "subjects": [],
+    "coverImage": "http://books.google.com/books/content?id=MbgQ0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL50714234M/Cookies_and_Crumbs",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:27.734Z",
+    "updated_at": "2025-12-27T10:30:27.734Z"
+  },
+  {
+    "title": "King Arthur Flour All-Purpose Baker's Companion (Revised and Updated)",
+    "authors": "King Arthur Flour",
+    "isbn": "9781682686171",
+    "publisher": "Norton & Company, Incorporated, W. W.",
+    "publicationDate": "2021",
+    "description": "",
+    "subjects": [
+      "Home economics",
+      "Baking"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/11313869-L.jpg",
+    "link": "https://openlibrary.org/books/OL30062361M/King_Arthur_Flour_All-Purpose_Baker's_Companion_(Revised_and_Updated)",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:29.269Z",
+    "updated_at": "2025-12-27T10:30:29.269Z"
+  },
+  {
+    "title": "Dolci! : American Baking with an Italian Accent",
+    "authors": "Renato Poliafito, Casey Elsass",
+    "isbn": "9780593537183",
+    "publisher": "Knopf Doubleday Publishing Group",
+    "publicationDate": "2024",
+    "description": "a Cookbook",
+    "subjects": [
+      "Home economics"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=WUnWEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL50728875M/Dolci!_American_Baking_with_an_Italian_Accent",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:30.496Z",
+    "updated_at": "2025-12-27T10:30:30.496Z"
+  },
+  {
+    "title": "King Arthur Baking Company Essential Cookie Companion",
+    "authors": "King Arthur Baking Company",
+    "isbn": "9781682686577",
+    "publisher": "Norton & Company, Incorporated, W. W.",
+    "publicationDate": "2021",
+    "description": "",
+    "subjects": [
+      "Home economics"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/12435466-L.jpg",
+    "link": "https://openlibrary.org/books/OL34770921M/King_Arthur_Baking_Company_Essential_Cookie_Companion",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:32.033Z",
+    "updated_at": "2025-12-27T10:30:32.033Z"
+  },
+  {
+    "title": "King Arthur Baking School",
+    "authors": "King Arthur Baking Company",
+    "isbn": "9781682686157",
+    "publisher": "Norton & Company, Incorporated, W. W.",
+    "publicationDate": "2022",
+    "description": "Lessons and Recipes for Every Baker",
+    "subjects": [],
+    "coverImage": "https://covers.openlibrary.org/b/id/12961769-L.jpg",
+    "link": "https://openlibrary.org/books/OL38326683M/King_Arthur_Baking_School",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:33.262Z",
+    "updated_at": "2025-12-27T10:30:33.262Z"
+  },
+  {
+    "title": "Dolci",
+    "authors": "Francine Segan",
+    "isbn": "9781584798989",
+    "publisher": "Stewart, Tabori & Chang",
+    "publicationDate": "2010",
+    "description": "Italy's sweets",
+    "subjects": [
+      "Desserts",
+      "Italian Cooking",
+      "Pastry",
+      "Cooking, italian"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/7351030-L.jpg",
+    "link": "https://openlibrary.org/books/OL25176133M/Dolci",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:34.491Z",
+    "updated_at": "2025-12-27T10:30:34.491Z"
+  },
+  {
+    "title": "The Italian baker",
+    "authors": "Carol Field",
+    "isbn": "9781607741060",
+    "publisher": "Ten Speed Press",
+    "publicationDate": "2011",
+    "description": "the classic tastes of the Italian countryside--its breads, pizza, focaccia, cakes, pastries, and cookies",
+    "subjects": [
+      "Italian Cooking",
+      "Baking",
+      "Pastry",
+      "Bread",
+      "Cooking, italian"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=YwhwDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL25177029M/The_Italian_baker",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:35.720Z",
+    "updated_at": "2025-12-27T10:30:35.720Z"
+  },
+  {
+    "title": "Evolutions in Bread",
+    "authors": "Ken Forkish",
+    "isbn": "9781984860378",
+    "publisher": "Potter/Ten Speed/Harmony/Rodale",
+    "publicationDate": "2022",
+    "description": "Artisan Pan Breads and Dutch-Oven Loaves at Home [a Baking Book by the Author of Flour Water Salt Yeast]",
+    "subjects": [],
+    "coverImage": "https://covers.openlibrary.org/b/id/13825840-L.jpg",
+    "link": "https://openlibrary.org/books/OL38062462M/Evolutions_in_Bread",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:37.257Z",
+    "updated_at": "2025-12-27T10:30:37.257Z"
+  },
+  {
+    "title": "Flour Water Salt Yeast",
+    "authors": "Ken Forkish",
+    "isbn": "9781607742739",
+    "publisher": "Ten Speed Press",
+    "publicationDate": "2012",
+    "description": "The Fundamentals of Artisan Bread and Pizza",
+    "subjects": [
+      "Bread",
+      "COOKING / Courses & Dishes / Bread",
+      "COOKING / Methods / Baking",
+      "COOKING / Courses & Dishes / Pizza",
+      "Pizza",
+      "Cooking",
+      "nyt:advice-how-to-and-miscellaneous=2020-04-26",
+      "New York Times bestseller",
+      "Baking",
+      "U.s. cooking"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/8163031-L.jpg",
+    "link": "https://openlibrary.org/books/OL25307004M/Flour_Water_Salt_Yeast",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:38.588Z",
+    "updated_at": "2025-12-27T10:30:38.588Z"
+  },
+  {
+    "title": "The elements of pizza",
+    "authors": "Ken Forkish",
+    "isbn": "9781607748380",
+    "publisher": "Ten Speed Press",
+    "publicationDate": "2016",
+    "description": "unlocking the secrets to world-class pies at home",
+    "subjects": [
+      "Pizza"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=KELTCwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL27210079M/The_elements_of_pizza",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:39.920Z",
+    "updated_at": "2025-12-27T10:30:39.920Z"
+  },
+  {
+    "title": "Mastering pizza",
+    "authors": "Marc Vetri",
+    "isbn": "9780399579226",
+    "publisher": "",
+    "publicationDate": "2018",
+    "description": "the art and practice of handmade pizza, focaccia, and calzone",
+    "subjects": [
+      "Italian Cooking",
+      "Pizza",
+      "Cooking, italian"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=wttmDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL26963427M/Mastering_pizza",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:41.454Z",
+    "updated_at": "2025-12-27T10:30:41.454Z"
+  },
+  {
+    "title": "Tartine bread",
+    "authors": "Chad Robertson",
+    "isbn": "9780811870412",
+    "publisher": "Chronicle Books",
+    "publicationDate": "2010",
+    "description": "",
+    "subjects": [
+      "Cooking (Bread)",
+      "Tartine (Bakery)",
+      "Bread",
+      "Cooking, american, california style"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/12182520-L.jpg",
+    "link": "https://openlibrary.org/books/OL25004795M/Tartine_bread",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:42.992Z",
+    "updated_at": "2025-12-27T10:30:42.992Z"
+  },
+  {
+    "title": "Calabria in Cucina",
+    "authors": "Valentina Oliveri, Antonino Bartuccio, Alessandro Saffo",
+    "isbn": "9788895218700",
+    "publisher": "Sime Books",
+    "publicationDate": "Oct 01, 2014",
+    "description": "The Flavours of Calabria",
+    "subjects": [
+      "Cooking, italian"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/10497885-L.jpg",
+    "link": "https://openlibrary.org/books/OL30768014M/Calabria_in_Cucina",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:44.220Z",
+    "updated_at": "2025-12-27T10:30:44.220Z"
+  },
+  {
+    "title": "Back in the day baking",
+    "authors": "Cheryl Day",
+    "isbn": "9781579654580",
+    "publisher": "Artisan",
+    "publicationDate": "2012",
+    "description": "",
+    "subjects": [
+      "Confectionery",
+      "Baking",
+      "Back in the Day Bakery (Savannah, Ga.)"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/13033234-L.jpg",
+    "link": "https://openlibrary.org/books/OL25177209M/Back_in_the_day_baking",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:45.550Z",
+    "updated_at": "2025-12-27T10:30:45.550Z"
+  },
+  {
+    "title": "Bake",
+    "authors": "Rory Macdonald",
+    "isbn": "9780789341136",
+    "publisher": "Rizzoli International Publications, Incorporated",
+    "publicationDate": "2021",
+    "description": "Breads, Cakes, Croissants, Kouign Amanns, Macarons, Scones, Tarts",
+    "subjects": [],
+    "coverImage": "http://books.google.com/books/content?id=mFBOEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL34776348M/Bake",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:46.779Z",
+    "updated_at": "2025-12-27T10:30:46.779Z"
+  },
+  {
+    "title": "Doughnuts",
+    "authors": "Lara Ferroni",
+    "isbn": "9781632175243",
+    "publisher": "Sasquatch Books",
+    "publicationDate": "2023",
+    "description": "90 Simple and Delicious Recipes to Make at Home",
+    "subjects": [
+      "Doughnuts"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=9US-EAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL48436696M/Doughnuts",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:48.419Z",
+    "updated_at": "2025-12-27T10:30:48.419Z"
+  },
+  {
+    "title": "Southern Italian desserts",
+    "authors": "Rosetta Costantino",
+    "isbn": "9781607744023",
+    "publisher": "Ten Speed Press",
+    "publicationDate": "2013",
+    "description": "rediscovering the sweet traditions of Calabria, Campania, Basilicata, Puglia, and Sicily",
+    "subjects": [
+      "Desserts",
+      "Italian Cooking",
+      "Southern style",
+      "Cooking, italian"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=hQhwDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL27151135M/Southern_Italian_desserts",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:49.954Z",
+    "updated_at": "2025-12-27T10:30:49.954Z"
+  },
+  {
+    "title": "Dessert Person",
+    "authors": "Claire Saffitz",
+    "isbn": "9781984826961",
+    "publisher": "Crown Publishing Group, The",
+    "publicationDate": "2020",
+    "description": "Recipes and Guidance for Baking with Confidence",
+    "subjects": [
+      "nyt:advice-how-to-and-miscellaneous=2020-11-08",
+      "New York Times bestseller",
+      "Desserts"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/10514302-L.jpg",
+    "link": "https://openlibrary.org/books/OL29867531M/Dessert_Person",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:51.489Z",
+    "updated_at": "2025-12-27T10:30:51.489Z"
+  },
+  {
+    "title": "Dalla terra al pane",
+    "authors": "Fulvio Marino",
+    "isbn": "9788830901599",
+    "publisher": "",
+    "publicationDate": "2021",
+    "description": "",
+    "subjects": [
+      "Cooking"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=UC2czgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "http://books.google.com/books?id=UC2czgEACAAJ&dq=isbn:9788830901599&hl=&source=gbs_api",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:53.026Z",
+    "updated_at": "2025-12-27T10:30:53.026Z"
+  },
+  {
+    "title": "Italian Cooking School - Desserts",
+    "authors": "Liz and Max Haarala Hamilton, Editors of Phaidon Press, Silver Spoon Kitchen Staff",
+    "isbn": "9780714870038",
+    "publisher": "Phaidon Press Limited",
+    "publicationDate": "2015",
+    "description": "",
+    "subjects": [
+      "Desserts",
+      "Cooking, italian",
+      "Italian Cooking"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/13317392-L.jpg",
+    "link": "https://openlibrary.org/books/OL28572748M/Italian_Cooking_School_-_Desserts",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:54.356Z",
+    "updated_at": "2025-12-27T10:30:54.356Z"
+  },
+  {
+    "title": "Sicily, My Sweet",
+    "authors": "VICTORIA. GRANOF",
+    "isbn": "9781958417492",
+    "publisher": "",
+    "publicationDate": "2024-10-15",
+    "description": "Sicilian pastries are fanciful, bawdy, and brash. They are celebratory, superstitious, and some of the most show-stopping desserts around. Luckily, they are also quite easy to make at home now that Sicilian pistachios, almonds, flour, chocolate, sheep's milk ricotta, jasmine water, fragrant lemons, and fennel are easier than ever to procure. In Victoria Granof's expert hands, readers learn to make Meyer Lemon and Bay Leaf Gelato, Schiumone, a frozen mousse of jasmine-scented almond milk, Gela di Melone, a fruit pudding of white melon and orange blossom, and Pasticcini di Pistacchio Con Gelsomino, pistachio and jasmine macarons. ​Full of gorgeous food and location photography, warm and witty headnotes, and expert recipes, Sicily, My Sweet is sure to transport and delight.",
+    "subjects": [
+      "Cooking"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=nFCP0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "http://books.google.com/books?id=nFCP0AEACAAJ&dq=isbn:9781958417492&hl=&source=gbs_api",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:55.791Z",
+    "updated_at": "2025-12-27T10:30:55.791Z"
+  },
+  {
+    "title": "Tartine",
+    "authors": "Elisabeth M. Prueitt, Chad Robertson, France Ruffenach, Alice Waters",
+    "isbn": "9781452178738",
+    "publisher": "Chronicle Books LLC",
+    "publicationDate": "2019",
+    "description": "A Classic Revisited, 55 All-New Recipes; 60 Updated Favorites",
+    "subjects": [
+      "Tartine (Bakery)",
+      "Desserts",
+      "Pastry",
+      "Cooking",
+      "Baking",
+      "Cooking, american, california style"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=GLk4wQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL28722433M/Tartine",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:57.020Z",
+    "updated_at": "2025-12-27T10:30:57.020Z"
+  },
+  {
+    "title": "Cheryl Day's Treasury of Southern Baking",
+    "authors": "Cheryl Day",
+    "isbn": "9781579658410",
+    "publisher": "Artisan",
+    "publicationDate": "2021",
+    "description": "",
+    "subjects": [
+      "Home economics"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/12460202-L.jpg",
+    "link": "https://openlibrary.org/books/OL34767914M/Cheryl_Day's_Treasury_of_Southern_Baking",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:58.546Z",
+    "updated_at": "2025-12-27T10:30:58.547Z"
+  },
+  {
+    "title": "100 Cookies",
+    "authors": "Sarah Kieffer",
+    "isbn": "9781452180731",
+    "publisher": "Chronicle Books",
+    "publicationDate": "Aug 25, 2020",
+    "description": "The Baking Book for Every Kitchen, with Classic Cookies, Novel Treats, Brownies, Bars, and More",
+    "subjects": [
+      "Home economics"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/10075518-L.jpg",
+    "link": "https://openlibrary.org/books/OL28132847M/100_Cookies",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:30:59.783Z",
+    "updated_at": "2025-12-27T10:30:59.783Z"
+  },
+  {
+    "title": "Food of the Italian South : Recipes for Classic, Disappearing, and Lost Dishes",
+    "authors": "Katie Parla",
+    "isbn": "9781524760465",
+    "publisher": "Clarkson Potter",
+    "publicationDate": "Mar 12, 2019",
+    "description": "A Cookbook",
+    "subjects": [
+      "Cooking, italian"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/8807308-L.jpg",
+    "link": "https://openlibrary.org/books/OL27343211M/Food_of_the_Italian_South_Recipes_for_Classic_Disappearing_and_Lost_Dishes",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:01.013Z",
+    "updated_at": "2025-12-27T10:31:01.013Z"
+  },
+  {
+    "title": "Classic German baking",
+    "authors": "Luisa Weiss",
+    "isbn": "9781607748250",
+    "publisher": "Ten Speed Press",
+    "publicationDate": "2016",
+    "description": "the very best recipes for traditional favorites, from pfeffernüsse to streuselkuchen",
+    "subjects": [
+      "German Cooking",
+      "Baking",
+      "Cooking, german"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/13254009-L.jpg",
+    "link": "https://openlibrary.org/books/OL27223199M/Classic_German_baking",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:02.244Z",
+    "updated_at": "2025-12-27T10:31:02.244Z"
+  },
+  {
+    "title": "Bread Book",
+    "authors": "Chad Robertson, Jennifer Latham",
+    "isbn": "9780399578847",
+    "publisher": "Lorena Jones Books",
+    "publicationDate": "Oct 26, 2021",
+    "description": "Ideas and Innovations from the Future of Grain, Flour, and Fermentation [A Cookbook]",
+    "subjects": [],
+    "coverImage": "https://covers.openlibrary.org/b/id/11060033-L.jpg",
+    "link": "https://openlibrary.org/books/OL32397296M/Bread_Book",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:03.469Z",
+    "updated_at": "2025-12-27T10:31:03.470Z"
+  },
+  {
+    "title": "The craft of baking",
+    "authors": "Karen DeMasco",
+    "isbn": "9780307408105",
+    "publisher": "Clarkson Potter Publishers",
+    "publicationDate": "2009",
+    "description": "cakes, cookies & other sweets with ideas for inventing your own",
+    "subjects": [
+      "Cookies",
+      "Confectionery",
+      "Baking",
+      "Jelly",
+      "Candy",
+      "Desserts",
+      "Cake",
+      "Pies"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/10348168-L.jpg",
+    "link": "https://openlibrary.org/books/OL25374869M/The_craft_of_baking",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:04.698Z",
+    "updated_at": "2025-12-27T10:31:04.698Z"
+  },
+  {
+    "title": "Hertfordshire Cook Book",
+    "authors": "Becky Alexander, Paul Gregory",
+    "isbn": "9781910863640",
+    "publisher": "Meze Publishing",
+    "publicationDate": "2020",
+    "description": "",
+    "subjects": [],
+    "coverImage": "https://covers.openlibrary.org/b/id/14635316-L.jpg",
+    "link": "https://openlibrary.org/books/OL50618487M/Hertfordshire_Cook_Book",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:05.927Z",
+    "updated_at": "2025-12-27T10:31:05.927Z"
+  },
+  {
+    "title": "National Trust book of scones",
+    "authors": "Sarah Clelland",
+    "isbn": "9781909881938",
+    "publisher": "",
+    "publicationDate": "2017",
+    "description": "",
+    "subjects": [
+      "Scones",
+      "National trust (great britain)"
+    ],
+    "coverImage": "http://books.google.com/books/content?id=8FZOEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "link": "https://openlibrary.org/books/OL26950615M/National_Trust_book_of_scones",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:07.157Z",
+    "updated_at": "2025-12-27T10:31:07.157Z"
+  },
+  {
+    "title": "Living in the end times",
+    "authors": "Slavoj Žižek",
+    "isbn": "9781844675982",
+    "publisher": "Verso",
+    "publicationDate": "2010",
+    "description": "",
+    "subjects": [
+      "Sociological aspects",
+      "Philosophy",
+      "Financial crises",
+      "Economics",
+      "Economic history",
+      "Economics, sociological aspects",
+      "Economic history, 21st century",
+      "Capitalism",
+      "Social change"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/6684621-L.jpg",
+    "link": "https://openlibrary.org/books/OL24540178M/Living_in_the_end_times",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:08.795Z",
+    "updated_at": "2025-12-27T10:31:08.795Z"
+  },
+  {
+    "title": "The sublime object of ideology",
+    "authors": "Slavoj Žižek",
+    "isbn": "9780860919711",
+    "publisher": "Verso",
+    "publicationDate": "1989",
+    "description": "",
+    "subjects": [
+      "American Investments",
+      "Ideology",
+      "International finance",
+      "Investment guaranty Insurance",
+      "Social control",
+      "Postmodernism",
+      "B823.3 .z59 1989"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/652302-L.jpg",
+    "link": "https://openlibrary.org/books/OL1902539M/The_sublime_object_of_ideology",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:10.126Z",
+    "updated_at": "2025-12-27T10:31:10.126Z"
+  },
+  {
+    "title": "The Ticklish Subject",
+    "authors": "Slavoj Žižek",
+    "isbn": "9781859842911",
+    "publisher": "Verso",
+    "publicationDate": "June 2000",
+    "description": "The Absent Centre of Political Ontology",
+    "subjects": [
+      "Multiculturalism"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/913733-L.jpg",
+    "link": "https://openlibrary.org/books/OL8624184M/The_Ticklish_Subject",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:11.354Z",
+    "updated_at": "2025-12-27T10:31:11.354Z"
+  },
+  {
+    "title": "For They Know Not What They Do",
+    "authors": "Slavoj Žižek",
+    "isbn": "9781844672127",
+    "publisher": "Verso",
+    "publicationDate": "January 1, 2008",
+    "description": "Enjoyment as a Political Factor (Radical Thinkers)",
+    "subjects": [
+      "Druz ba",
+      "Filozofija politike",
+      "Filozofija kulture",
+      "Družba",
+      "Ideology",
+      "Psychoanalysis, social aspects",
+      "Social problems",
+      "Civilization, modern, 20th century",
+      "Psychoanalysis",
+      "Social aspects",
+      "Psychological aspects",
+      "Modern Civilization"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/2994463-L.jpg",
+    "link": "https://openlibrary.org/books/OL11910187M/For_They_Know_Not_What_They_Do",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:12.686Z",
+    "updated_at": "2025-12-27T10:31:12.686Z"
+  },
+  {
+    "title": "Absolute Recoil",
+    "authors": "Slavoj Žižek",
+    "isbn": "9781784781996",
+    "publisher": "Verso",
+    "publicationDate": "Oct 06, 2015",
+    "description": "Towards A New Foundation Of Dialectical Materialism",
+    "subjects": [
+      "Dialectical materialism",
+      "POLITICAL SCIENCE / Political Ideologies / Communism & Socialism",
+      "Hegel, georg wilhelm friedrich, 1770-1831"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/10190911-L.jpg",
+    "link": "https://openlibrary.org/books/OL28262673M/Absolute_Recoil",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:13.915Z",
+    "updated_at": "2025-12-27T10:31:13.915Z"
+  },
+  {
+    "title": "We Have Always Lived in the Castle",
+    "authors": "Shirley Jackson, Bernadette Dunne",
+    "isbn": "9780143039976",
+    "publisher": "Penguin Books",
+    "publicationDate": "2006",
+    "description": "",
+    "subjects": [
+      "mystery",
+      "first-person narrative",
+      "Fiction",
+      "Literature",
+      "Gothic fiction",
+      "psychological fiction",
+      "Sisters",
+      "Murder",
+      "Investigation",
+      "Social isolation",
+      "Gothic novels",
+      "Fiction, psychological",
+      "American fiction (fictional works by one author)",
+      "American literature",
+      "Fiction, horror",
+      "Fiction, gothic",
+      "Horror tales",
+      "Teenagers",
+      "Castles"
+    ],
+    "coverImage": "https://covers.openlibrary.org/b/id/14811795-L.jpg",
+    "link": "https://openlibrary.org/books/OL17924197M/We_Have_Always_Lived_in_the_Castle",
+    "lcCallNumber": "",
+    "created_at": "2025-12-27T10:31:15.143Z",
+    "updated_at": "2025-12-27T10:33:17.407Z",
+    "recommended": true
+  }
+]
