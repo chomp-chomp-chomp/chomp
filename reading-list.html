@@ -135,6 +135,8 @@
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
+      -webkit-tap-highlight-color: rgba(231, 59, 66, 0.2);
+      touch-action: manipulation;
     }
 
     .book-card:hover {
@@ -177,6 +179,8 @@
       grid-template-columns: auto 1fr;
       gap: 20px;
       align-items: start;
+      -webkit-tap-highlight-color: rgba(231, 59, 66, 0.2);
+      touch-action: manipulation;
     }
 
     .book-list-item:hover {
@@ -732,6 +736,17 @@
             </div>
           </div>
         `).join('');
+      }
+
+      // Add event delegation for mobile compatibility
+      const gridElement = document.getElementById('bookGrid');
+      if (gridElement) {
+        gridElement.style.cursor = 'pointer';
+        gridElement.querySelectorAll('.book-card, .book-list-item').forEach(card => {
+          card.style.cursor = 'pointer';
+          // Add touch-action for better mobile support
+          card.style.touchAction = 'manipulation';
+        });
       }
     }
 
