@@ -128,28 +128,44 @@
   <!-- Configuration Warning (shown if not configured) -->
   <div class="config-warning" id="configWarning" style="display:none;">
     <h3>⚠️ Configuration Required</h3>
-    <p>You need to configure the GitHub OAuth settings before using this CMS:</p>
+    <p>You need to configure your GitHub username before using this CMS:</p>
     <ol>
       <li>Open <code>/admin/index.html</code> in a code editor</li>
-      <li>Find line ~670: <code>const ALLOWED_USERS = ['YOUR_GITHUB_USERNAME'];</code></li>
+      <li>Find line ~333: <code>const ALLOWED_USERS = ['YOUR_GITHUB_USERNAME'];</code></li>
       <li>Replace <code>YOUR_GITHUB_USERNAME</code> with your actual GitHub username</li>
       <li>Save the file and refresh this page</li>
+      <li>Generate a GitHub Personal Access Token (instructions will appear)</li>
     </ol>
-    <p><strong>Your GitHub OAuth app is already set up!</strong> Just need to add your username to the allowed list.</p>
   </div>
 
   <!-- Login Screen -->
   <div class="login-screen" id="loginScreen">
     <div class="login-box">
       <h1>🍪 Chomp Chomp CMS</h1>
-      <p>Secure content management with GitHub authentication</p>
+      <p>Enter your GitHub Personal Access Token to continue</p>
       <div class="login-error" id="loginError">Authentication failed. Please try again.</div>
-      <a href="#" class="github-login-btn" id="githubLoginBtn">
-        <svg class="github-icon" viewBox="0 0 16 16" fill="currentColor">
-          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-        </svg>
-        Login with GitHub
-      </a>
+      <div class="login-form">
+        <label for="tokenInput" style="display: block; text-align: left; margin-bottom: 8px; color: #666; font-size: 14px; font-weight: 500;">GitHub Personal Access Token</label>
+        <input type="password" id="tokenInput" placeholder="ghp_..." style="width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 15px; margin-bottom: 15px; font-family: 'Monaco', monospace;">
+        <button class="github-login-btn" onclick="authenticateWithToken()" style="width: 100%; justify-content: center;">
+          <svg class="github-icon" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+          </svg>
+          Login
+        </button>
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; color: #666; font-size: 13px; text-align: left;">
+          <p style="margin-bottom: 10px;"><strong>How to create a token:</strong></p>
+          <ol style="margin-left: 20px; line-height: 1.7;">
+            <li>Go to <a href="https://github.com/settings/tokens" target="_blank" style="color: #e73b42;">GitHub Settings → Developer Settings → Personal Access Tokens</a></li>
+            <li>Click "Generate new token (classic)"</li>
+            <li>Give it a name like "Chomp CMS"</li>
+            <li>Select scopes: <code>repo</code> (optional, for future features)</li>
+            <li>Click "Generate token" and copy it</li>
+            <li>Paste it above and click Login</li>
+          </ol>
+          <p style="margin-top: 10px; color: #999; font-size: 12px;">⚠️ Your token is stored only in your browser session and is never sent anywhere except GitHub.</p>
+        </div>
+      </div>
       <div class="login-loading" id="loginLoading">Authenticating...</div>
     </div>
   </div>
@@ -313,12 +329,8 @@
     // CONFIGURATION - EDIT THESE VALUES
     // ===========================================
 
-    // Add your GitHub username here (the one you used to create the OAuth app)
+    // Add your GitHub username here
     const ALLOWED_USERS = ['chomp-chomp-chomp'];
-
-    // GitHub OAuth uses Netlify proxy (already configured in admin/config.yml)
-    const OAUTH_REDIRECT_URI = window.location.origin + '/admin/';
-    const OAUTH_PROVIDER_URL = 'https://api.netlify.com/auth';
 
     // ===========================================
     // END CONFIGURATION
@@ -331,7 +343,7 @@
     let currentItem = null;
     let currentIndex = null;
 
-    // Check for configuration
+    // Check for existing authentication on load
     window.addEventListener('load', () => {
       if (ALLOWED_USERS[0] === 'YOUR_GITHUB_USERNAME') {
         document.getElementById('configWarning').style.display = 'block';
@@ -339,18 +351,13 @@
         return;
       }
 
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
+      checkExistingAuth();
 
-      if (code) {
-        handleOAuthCallback(code);
-      } else {
-        checkExistingAuth();
-      }
-
-      document.getElementById('githubLoginBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        initiateGitHubLogin();
+      // Allow Enter key to submit token
+      document.getElementById('tokenInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          authenticateWithToken();
+        }
       });
     });
 
@@ -363,32 +370,48 @@
       }
     }
 
-    function initiateGitHubLogin() {
-      const state = Math.random().toString(36).substring(7);
-      sessionStorage.setItem('oauth_state', state);
-      const authUrl = `${OAUTH_PROVIDER_URL}?provider=github&site_id=${window.location.hostname}`;
-      window.location.href = authUrl;
-    }
+    async function authenticateWithToken() {
+      const token = document.getElementById('tokenInput').value.trim();
 
-    async function handleOAuthCallback(code) {
+      if (!token) {
+        showError('Please enter a token');
+        return;
+      }
+
+      if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+        showError('Invalid token format. GitHub tokens start with "ghp_" or "github_pat_"');
+        return;
+      }
+
       document.getElementById('loginLoading').classList.add('show');
-      try {
-        const response = await fetch(`${OAUTH_PROVIDER_URL}/callback?provider=github&code=${code}`);
-        if (!response.ok) throw new Error('OAuth failed');
-        const data = await response.json();
-        const token = data.access_token;
+      document.getElementById('loginError').classList.remove('show');
 
+      try {
+        // Verify token with GitHub API
         const userResponse = await fetch('https://api.github.com/user', {
-          headers: { 'Authorization': `token ${token}` }
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
         });
-        if (!userResponse.ok) throw new Error('Failed to get user info');
+
+        if (!userResponse.ok) {
+          if (userResponse.status === 401) {
+            throw new Error('Invalid token. Please check your token and try again.');
+          }
+          throw new Error(`GitHub API error: ${userResponse.status}`);
+        }
+
         const userData = await userResponse.json();
 
+        // Check if user is allowed
         if (!ALLOWED_USERS.includes(userData.login)) {
-          showError(`User ${userData.login} is not authorized. Add your username to ALLOWED_USERS in the code.`);
+          showError(`User "${userData.login}" is not authorized. Only ${ALLOWED_USERS.join(', ')} can access this CMS.`);
+          document.getElementById('loginLoading').classList.remove('show');
           return;
         }
 
+        // Store user info and token
         currentUser = {
           username: userData.login,
           name: userData.name || userData.login,
@@ -397,11 +420,11 @@
 
         sessionStorage.setItem('cms_user', JSON.stringify(currentUser));
         sessionStorage.setItem('cms_token', token);
-        window.history.replaceState({}, document.title, window.location.pathname);
+
         authenticate();
       } catch (error) {
-        console.error('OAuth error:', error);
-        showError('Authentication failed. Please try again.');
+        console.error('Authentication error:', error);
+        showError(error.message || 'Authentication failed. Please check your token and try again.');
         document.getElementById('loginLoading').classList.remove('show');
       }
     }
