@@ -158,14 +158,14 @@
   },
   {
     "id": "si-dice-cos-no",
-    "slug": "si-dice-cos-no",
+    "slug": "my-oven-goes",
     "vibe": "Intensity / Stress / Jailbraking Electric Vehicles",
-    "duration": "any",
+    "duration": "short",
     "maxTime": 43,
     "recipeTypes": [
       "any"
     ],
-    "updated_at": "2025-12-21T04:04:02.224Z",
+    "updated_at": "2025-12-27T09:14:41.615Z",
     "moods": [
       "meditative",
       "ambient"
@@ -176,7 +176,7 @@
     "featured": false,
     "spotifyEmbedUrl": "https://open.spotify.com/embed/playlist/1hoEm2LA8TOfffEPjNfrKF",
     "minTime": 0,
-    "coverImage": "https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2Fnightrangerman.png?alt=media&token=74b10b60-b97e-4852-862e-e4fca03f14a2",
+    "coverImage": "https://res.cloudinary.com/dlqfyv1qj/image/upload/DD19E3DA-5B65-4116-B683-C077524A0ECD_jyd625.png",
     "title": "My oven goes …",
     "tracks": [
       "AnNie .Adaa, Nunca & Gen - STRESS",
