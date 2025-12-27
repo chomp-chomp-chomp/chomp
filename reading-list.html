@@ -825,6 +825,16 @@
                 <div style="line-height:1.7;">${book.yourNotes}</div>
               </div>
             ` : ''}
+
+            ${book.link ? `
+              <div style="margin-top:30px;text-align:center;">
+                <a href="${book.link}" target="_blank" rel="noopener noreferrer"
+                   style="display:inline-block;padding:12px 30px;background:var(--color-accent);color:white;
+                          text-decoration:none;border-radius:6px;font-weight:600;transition:opacity 0.2s;">
+                  📚 View or Purchase →
+                </a>
+              </div>
+            ` : ''}
           </div>
         </div>
       `;
