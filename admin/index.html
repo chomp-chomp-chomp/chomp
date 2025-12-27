@@ -155,10 +155,6 @@
     body.dark-theme .config-warning { background: #3a3a1a; border-color: #6a6a2a; }
     body.dark-theme .config-warning h3 { color: #d0d080; }
 
-    .theme-toggle { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: #e73b42; color: white; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 24px; z-index: 999; transition: all 0.3s; }
-    .theme-toggle:hover { transform: scale(1.1); }
-    body.dark-theme .theme-toggle { background: #ff6b7a; }
-
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .modal-content { flex-direction: column; padding: 20px; }
@@ -169,7 +165,6 @@
       .container { padding: 0 20px; }
       .controls { flex-direction: column; }
       .search-box { min-width: 100%; }
-      .theme-toggle { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 20px; }
     }
   </style>
 </head>
@@ -380,9 +375,6 @@
     </div>
   </div>
 
-  <!-- Theme Toggle Button -->
-  <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">Dark</button>
-
   <script>
     // ===========================================
     // CONFIGURATION - EDIT THESE VALUES
@@ -419,26 +411,11 @@
         }
       });
 
-      // Theme toggle
-      initTheme();
-      document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-    });
-
-    // Dark theme functions
-    function initTheme() {
-      const savedTheme = localStorage.getItem('cms_theme');
-      if (savedTheme === 'dark') {
+      // Apply system theme preference
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-theme');
-        document.getElementById('themeToggle').textContent = 'Light';
       }
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle('dark-theme');
-      const isDark = document.body.classList.contains('dark-theme');
-      document.getElementById('themeToggle').textContent = isDark ? 'Light' : 'Dark';
-      localStorage.setItem('cms_theme', isDark ? 'dark' : 'light');
-    }
+    });
 
     function checkExistingAuth() {
       const savedUser = sessionStorage.getItem('cms_user');
@@ -866,7 +843,6 @@
               description: book.subtitle || '',
               subjects: book.subjects ? book.subjects.map(s => s.name || s) : [],
               coverImage: book.cover ? book.cover.large || book.cover.medium || book.cover.small : '',
-              link: book.url || `https://openlibrary.org/isbn/${isbn}`,
               lcCallNumber: '',
               created_at: new Date().toISOString(),
               updated_at: new Date().toISOString()
@@ -899,7 +875,6 @@
                     description: gbBook.description || gbBook.subtitle || '',
                     subjects: gbBook.categories || [],
                     coverImage: gbBook.imageLinks ? (gbBook.imageLinks.large || gbBook.imageLinks.thumbnail) : '',
-                    link: gbBook.infoLink || `https://books.google.com/books?isbn=${isbn}`,
                     lcCallNumber: '',
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString()
