@@ -468,9 +468,18 @@
 
     // Open book modal
     window.openBookModal = function() {
-      if (!currentBook) return;
+      console.log('openBookModal called', currentBook);
+      if (!currentBook) {
+        console.error('No book data available');
+        return;
+      }
 
       const modalBody = document.getElementById('bookModalBody');
+      if (!modalBody) {
+        console.error('Modal body element not found');
+        return;
+      }
+
       modalBody.innerHTML = `
         <div class="modal-book-layout ${!currentBook.coverImage ? 'no-cover' : ''}">
           ${currentBook.coverImage ? `
@@ -549,7 +558,15 @@
         </div>
       `;
 
-      document.getElementById('bookModal').classList.add('active');
+      const modal = document.getElementById('bookModal');
+      if (!modal) {
+        console.error('Modal element not found');
+        return;
+      }
+
+      console.log('Opening modal, adding active class');
+      modal.classList.add('active');
+      console.log('Modal classes:', modal.className);
     };
 
     // Close book modal
