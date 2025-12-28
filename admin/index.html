@@ -612,19 +612,145 @@
       const previewContainer = document.getElementById('preview-content');
       let previewHTML = '';
       if (currentCollection === 'recipes') {
+        const title = document.getElementById('title')?.value || 'Recipe Title';
         const description = document.getElementById('description')?.value || '';
+        const image = document.getElementById('image')?.value || '';
+        const servings = document.getElementById('servings')?.value || '';
+        const prepTime = document.getElementById('prepTime')?.value || '';
+        const cookTime = document.getElementById('cookTime')?.value || '';
+        const totalTime = document.getElementById('totalTime')?.value || '';
+        const category = document.getElementById('category')?.value || '';
+        const dishType = document.getElementById('dishType')?.value || '';
+        const sourceText = document.getElementById('sourceText')?.value || '';
+        const sourceHref = document.getElementById('sourceHref')?.value || '';
+        const ingredientsText = document.getElementById('ingredients')?.value || '';
+        const instructionsText = document.getElementById('instructions')?.value || '';
         const notes = document.getElementById('notes')?.value || '';
-        previewHTML = `<h3>Description</h3>${marked.parse(description || '_No description_')}<h3>Notes</h3>${marked.parse(notes || '_No notes_')}`;
+
+        const ingredients = ingredientsText.split('\n').filter(i => i.trim());
+        const instructions = instructionsText.split('\n').filter(i => i.trim());
+
+        previewHTML = `<div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="font-size: 2em; margin-bottom: 15px; color: #e73b42;">${title}</h1>
+          ${description ? `<div style="margin: 15px 0;">${marked.parse(description)}</div>` : ''}
+          <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 15px 0; color: #666; font-size: 0.9em;">
+            ${servings ? `<span>🍽️ ${servings}</span>` : ''}
+            ${prepTime ? `<span>⏱️ Prep: ${prepTime}</span>` : ''}
+            ${cookTime ? `<span>🔥 Cook: ${cookTime}</span>` : ''}
+            ${totalTime ? `<span>⏰ Total: ${totalTime}</span>` : ''}
+          </div>
+          ${category || dishType ? `<div style="margin: 10px 0; font-size: 0.85em; color: #999;">
+            ${category ? `Category: ${category}` : ''} ${category && dishType ? '•' : ''} ${dishType ? `Type: ${dishType}` : ''}
+          </div>` : ''}
+          ${sourceText || sourceHref ? `<div style="margin-top: 15px; font-size: 0.9em; color: #666;">
+            Source: ${sourceHref ? `<a href="${sourceHref}" target="_blank" style="color: #e73b42;">${sourceText || sourceHref}</a>` : sourceText}
+          </div>` : ''}
+        </div>`;
+
+        if (image) {
+          previewHTML += `<img src="${image}" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; margin: 20px auto; display: block;" alt="${title}">`;
+        }
+
+        if (ingredients.length > 0) {
+          previewHTML += `<h2 style="color: #e73b42; margin-top: 30px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e73b42;">Ingredients</h2><ul style="margin-left: 20px;">`;
+          ingredients.forEach(ing => {
+            previewHTML += `<li style="margin-bottom: 8px;">${marked.parseInline(ing)}</li>`;
+          });
+          previewHTML += `</ul>`;
+        }
+
+        if (instructions.length > 0) {
+          previewHTML += `<h2 style="color: #e73b42; margin-top: 30px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e73b42;">Instructions</h2><ol style="margin-left: 20px;">`;
+          instructions.forEach(inst => {
+            previewHTML += `<li style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0;">${marked.parseInline(inst)}</li>`;
+          });
+          previewHTML += `</ol>`;
+        }
+
+        if (notes) {
+          previewHTML += `<h2 style="color: #e73b42; margin-top: 30px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e73b42;">Notes</h2>${marked.parse(notes)}`;
+        }
       } else if (currentCollection === 'posts') {
-        const content = document.getElementById('content')?.value || '';
+        const title = document.getElementById('title')?.value || 'Post Title';
+        const author = document.getElementById('author')?.value || '';
+        const date = document.getElementById('date')?.value || '';
+        const category = document.getElementById('category')?.value || '';
+        const featuredImage = document.getElementById('featured_image')?.value || '';
         const excerpt = document.getElementById('excerpt')?.value || '';
-        previewHTML = `<h3>Excerpt</h3>${marked.parse(excerpt || '_No excerpt_')}<h3>Content</h3>${marked.parse(content || '_No content_')}`;
+        const content = document.getElementById('content')?.value || '';
+
+        previewHTML = `<article style="max-width: 700px;">
+          <header style="text-align: center; margin-bottom: 30px;">
+            <h1 style="font-size: 2.2em; margin-bottom: 15px; color: #e73b42;">${title}</h1>
+            <div style="color: #666; font-size: 0.9em;">
+              ${author ? `<span>By ${author}</span>` : ''}
+              ${author && date ? ' · ' : ''}
+              ${date ? `<span>${date}</span>` : ''}
+              ${(author || date) && category ? ' · ' : ''}
+              ${category ? `<span style="text-transform: capitalize;">${category}</span>` : ''}
+            </div>
+          </header>`;
+
+        if (featuredImage) {
+          previewHTML += `<img src="${featuredImage}" style="width: 100%; max-width: 700px; height: auto; border-radius: 8px; margin: 20px auto; display: block;" alt="${title}">`;
+        }
+
+        if (excerpt) {
+          previewHTML += `<div style="font-size: 1.1em; font-style: italic; color: #666; margin: 25px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #e73b42;">${marked.parse(excerpt)}</div>`;
+        }
+
+        previewHTML += `<div style="line-height: 1.8; font-size: 1.05em;">${marked.parse(content || '_No content_')}</div></article>`;
       } else if (currentCollection === 'lexicon') {
+        const term = document.getElementById('term')?.value || 'Term';
+        const type = document.getElementById('type')?.value || '';
+        const image = document.getElementById('image')?.value || '';
         const description = document.getElementById('description')?.value || '';
-        previewHTML = marked.parse(description || '_No definition_');
+
+        previewHTML = `<div style="max-width: 700px;">
+          <h1 style="font-size: 2em; margin-bottom: 10px; color: #e73b42;">${term}</h1>
+          ${type ? `<div style="color: #666; font-size: 0.9em; margin-bottom: 20px; text-transform: capitalize;">${type}</div>` : ''}`;
+
+        if (image) {
+          previewHTML += `<img src="${image}" style="width: 100%; max-width: 400px; height: auto; border-radius: 8px; margin: 20px 0; display: block;" alt="${term}">`;
+        }
+
+        previewHTML += `<div style="line-height: 1.7;">${marked.parse(description || '_No definition_')}</div></div>`;
       } else if (currentCollection === 'reading-list') {
+        const title = document.getElementById('title')?.value || 'Book Title';
+        const authors = document.getElementById('authors')?.value || '';
+        const isbn = document.getElementById('isbn')?.value || '';
+        const publisher = document.getElementById('publisher')?.value || '';
+        const publicationDate = document.getElementById('publicationDate')?.value || '';
+        const coverImage = document.getElementById('coverImage')?.value || '';
         const description = document.getElementById('description')?.value || '';
-        previewHTML = marked.parse(description || '_No description_');
+        const link = document.getElementById('link')?.value || '';
+        const recommended = document.getElementById('recommended')?.checked || false;
+
+        previewHTML = `<div style="max-width: 700px;">
+          <div style="display: flex; gap: 30px; margin-bottom: 25px; flex-wrap: wrap;">`;
+
+        if (coverImage) {
+          previewHTML += `<img src="${coverImage}" style="width: 200px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" alt="${title}">`;
+        }
+
+        previewHTML += `<div style="flex: 1; min-width: 250px;">
+              <h1 style="font-size: 2em; margin-bottom: 10px; color: #e73b42;">${title}</h1>
+              ${authors ? `<div style="font-size: 1.1em; color: #666; margin-bottom: 8px;">by ${authors}</div>` : ''}
+              ${recommended ? `<div style="display: inline-block; background: #4caf50; color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.85em; margin-bottom: 10px;">⭐ Recommended</div>` : ''}
+              <div style="color: #666; font-size: 0.9em; margin-top: 15px;">
+                ${publisher ? `<div>Publisher: ${publisher}</div>` : ''}
+                ${publicationDate ? `<div>Published: ${publicationDate}</div>` : ''}
+                ${isbn ? `<div>ISBN: ${isbn}</div>` : ''}
+              </div>
+              ${link ? `<a href="${link}" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #e73b42; color: white; text-decoration: none; border-radius: 6px;">View Book</a>` : ''}
+            </div>
+          </div>`;
+
+        if (description) {
+          previewHTML += `<div style="line-height: 1.7; margin-top: 20px;">${marked.parse(description)}</div>`;
+        }
+
+        previewHTML += `</div>`;
       } else if (currentCollection === 'playlists') {
         const description = document.getElementById('description')?.value || '';
         const vibe = document.getElementById('vibe')?.value || '';
@@ -722,11 +848,13 @@
 
     // Form generators - keeping them concise
     function generateRecipeForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('image', 'image-status')">Upload Image</button><div id="image-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Category</label><input type="text" id="category" list="category-suggestions" value="${item.category || 'chomp chomp'}" placeholder="Enter category"><datalist id="category-suggestions"><option value="chomp chomp"><option value="desserts"><option value="breads"><option value="pastries"><option value="cookies"><option value="cakes"><option value="pies"></datalist><div class="hint">Type to enter a custom category or select from suggestions</div></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}"></div><div class="form-group"><label>Ingredients (one per line)</label><textarea id="ingredients" rows="10">${(item.ingredients || []).join('\n')}</textarea></div><div class="form-group"><label>Instructions (one per line)</label><textarea id="instructions" rows="10">${(item.instructions || []).join('\n')}</textarea></div><div class="form-group"><label>Notes</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      const sourceText = (typeof item.source === 'object' && item.source !== null) ? item.source.text || '' : item.source || '';
+      const sourceHref = (typeof item.source === 'object' && item.source !== null) ? item.source.href || '' : '';
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}" data-preview="true"><button type="button" class="upload-btn" onclick="uploadToImageKit('image', 'image-status')">Upload Image</button><div id="image-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Category</label><input type="text" id="category" list="category-suggestions" value="${item.category || 'chomp chomp'}" placeholder="Enter category" data-preview="true"><datalist id="category-suggestions"><option value="chomp chomp"><option value="desserts"><option value="breads"><option value="pastries"><option value="cookies"><option value="cakes"><option value="pies"></datalist><div class="hint">Type to enter a custom category or select from suggestions</div></div><div class="form-group"><label>Dish Type</label><select id="dishType" data-preview="true"><option value="">Select dish type...</option><option value="Dessert/Pastry" ${item.dishType === 'Dessert/Pastry' ? 'selected' : ''}>Dessert/Pastry</option><option value="Cookie/Bar" ${item.dishType === 'Cookie/Bar' ? 'selected' : ''}>Cookie/Bar</option><option value="Frozen Dessert" ${item.dishType === 'Frozen Dessert' ? 'selected' : ''}>Frozen Dessert</option><option value="Pudding/Cream" ${item.dishType === 'Pudding/Cream' ? 'selected' : ''}>Pudding/Cream</option><option value="Main Dish" ${item.dishType === 'Main Dish' ? 'selected' : ''}>Main Dish</option><option value="Soup" ${item.dishType === 'Soup' ? 'selected' : ''}>Soup</option><option value="Other Baked Goods" ${item.dishType === 'Other Baked Goods' ? 'selected' : ''}>Other Baked Goods</option></select></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}" data-preview="true"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}" placeholder="e.g., 20min" data-preview="true"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}" placeholder="e.g., 65-80 minutes" data-preview="true"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}" placeholder="e.g., 1h 45min" data-preview="true"></div><div class="form-group"><label>Total Time (Minutes)</label><input type="number" id="totalTimeInMinutes" value="${item.totalTimeInMinutes || ''}" placeholder="e.g., 105" data-preview="true"><div class="hint">Numeric value for sorting and filtering</div></div><div class="form-group"><label>Source Name</label><input type="text" id="sourceText" value="${sourceText}" placeholder="e.g., Bon Appétit" data-preview="true"><div class="hint">Name of the recipe source</div></div><div class="form-group"><label>Source Link</label><input type="url" id="sourceHref" value="${sourceHref}" placeholder="https://..." data-preview="true"><div class="hint">URL to the original recipe</div></div><div class="form-group"><label>Ingredients (one per line, Markdown supported)</label><textarea id="ingredients" rows="10" data-preview="true">${(item.ingredients || []).join('\n')}</textarea><div class="hint">Use **bold** for measurements, *italic* for emphasis</div></div><div class="form-group"><label>Instructions (one per line, Markdown supported)</label><textarea id="instructions" rows="10" data-preview="true">${(item.instructions || []).join('\n')}</textarea><div class="hint">Each line becomes a numbered step</div></div><div class="form-group"><label>Notes (Markdown)</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generatePostForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Excerpt</label><textarea id="excerpt" data-preview="true" rows="3">${item.excerpt || ''}</textarea></div><div class="form-group"><label>Content *</label><textarea id="content" data-preview="true" rows="15">${item.content || ''}</textarea><div class="hint">To add images: <code>![alt text](image-url)</code> - The preview below will show rendered images</div></div><div class="form-group"><label>Category *</label><select id="category"><option value="stories" ${item.category === 'stories' ? 'selected' : ''}>Stories</option><option value="anthropologies" ${item.category === 'anthropologies' ? 'selected' : ''}>Anthropologies</option><option value="zen" ${item.category === 'zen' ? 'selected' : ''}>Zen</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Date</label><input type="date" id="date" value="${item.date || ''}"></div><div class="form-group"><label>Featured Image URL</label><input type="text" id="featured_image" value="${item.featured_image || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('featured_image', 'featured_image-status')">Upload Image</button><div id="featured_image-status" class="upload-status"></div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required data-preview="true"></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Author</label><input type="text" id="author" value="${item.author || 'Chomp Chomp'}" placeholder="Chomp Chomp"><div class="hint">Default: Chomp Chomp</div></div><div class="form-group"><label>Excerpt</label><textarea id="excerpt" data-preview="true" rows="3">${item.excerpt || ''}</textarea><div class="hint">Brief preview text shown on listing pages</div></div><div class="form-group"><label>Content *</label><textarea id="content" data-preview="true" rows="15">${item.content || ''}</textarea><div class="hint">To add images: <code>![alt text](image-url)</code> - The preview below will show rendered images</div></div><div class="form-group"><label>Category *</label><select id="category" data-preview="true"><option value="stories" ${item.category === 'stories' ? 'selected' : ''}>Stories</option><option value="anthropologies" ${item.category === 'anthropologies' ? 'selected' : ''}>Anthropologies</option><option value="zen" ${item.category === 'zen' ? 'selected' : ''}>Zen</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Date</label><input type="date" id="date" value="${item.date || ''}" data-preview="true"></div><div class="form-group"><label>Featured Image URL</label><input type="text" id="featured_image" value="${item.featured_image || ''}" data-preview="true"><button type="button" class="upload-btn" onclick="uploadToImageKit('featured_image', 'featured_image-status')">Upload Image</button><div id="featured_image-status" class="upload-status"></div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generateLexiconForm(item) {
@@ -758,6 +886,21 @@
       if (currentCollection === 'recipes') {
         if (formData.ingredients) formData.ingredients = formData.ingredients.split('\n').filter(i => i.trim());
         if (formData.instructions) formData.instructions = formData.instructions.split('\n').filter(i => i.trim());
+        // Handle source as object
+        if (formData.sourceText || formData.sourceHref) {
+          formData.source = {
+            text: formData.sourceText || '',
+            href: formData.sourceHref || ''
+          };
+        } else {
+          formData.source = '';
+        }
+        delete formData.sourceText;
+        delete formData.sourceHref;
+        // Convert totalTimeInMinutes to number
+        if (formData.totalTimeInMinutes) {
+          formData.totalTimeInMinutes = parseInt(formData.totalTimeInMinutes) || 0;
+        }
       }
       if (currentCollection === 'reading-list') {
         if (formData.subjects) formData.subjects = formData.subjects.split('\n').filter(s => s.trim());
