@@ -736,7 +736,7 @@
         previewHTML += `<div style="flex: 1; min-width: 250px;">
               <h1 style="font-size: 2em; margin-bottom: 10px; color: #e73b42;">${title}</h1>
               ${authors ? `<div style="font-size: 1.1em; color: #666; margin-bottom: 8px;">by ${authors}</div>` : ''}
-              ${recommended ? `<div style="display: inline-block; background: #4caf50; color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.85em; margin-bottom: 10px;">⭐ Recommended</div>` : ''}
+              ${recommended ? `<div style="display: inline-block; background: #4caf50; color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.85em; margin-bottom: 10px;">⭐ Essential</div>` : ''}
               <div style="color: #666; font-size: 0.9em; margin-top: 15px;">
                 ${publisher ? `<div>Publisher: ${publisher}</div>` : ''}
                 ${publicationDate ? `<div>Published: ${publicationDate}</div>` : ''}
@@ -752,9 +752,45 @@
 
         previewHTML += `</div>`;
       } else if (currentCollection === 'playlists') {
+        const title = document.getElementById('title')?.value || 'Playlist Title';
         const description = document.getElementById('description')?.value || '';
         const vibe = document.getElementById('vibe')?.value || '';
-        previewHTML = `<h3>Description</h3>${marked.parse(description || '_No description_')}<h3>Vibe</h3>${marked.parse(vibe || '_No vibe_')}`;
+        const spotifyEmbedUrl = document.getElementById('spotifyEmbedUrl')?.value || '';
+        const duration = document.getElementById('duration')?.value || '';
+        const status = document.getElementById('status')?.value || '';
+        const coverImage = document.getElementById('coverImage')?.value || '';
+
+        previewHTML = `<div style="max-width: 700px;">
+          <h1 style="font-size: 2em; margin-bottom: 15px; color: #e73b42;">${title}</h1>`;
+
+        if (coverImage) {
+          previewHTML += `<img src="${coverImage}" style="width: 100%; max-width: 500px; height: auto; border-radius: 8px; margin: 20px 0; display: block;" alt="${title}">`;
+        }
+
+        previewHTML += `<div style="color: #666; font-size: 0.9em; margin-bottom: 20px;">
+          ${duration ? `<span style="text-transform: capitalize;">Duration: ${duration}</span>` : ''}
+          ${duration && status ? ' · ' : ''}
+          ${status ? `<span style="text-transform: capitalize;">Status: ${status}</span>` : ''}
+        </div>`;
+
+        if (description) {
+          previewHTML += `<div style="line-height: 1.7; margin-bottom: 25px;">${marked.parse(description)}</div>`;
+        }
+
+        if (vibe) {
+          previewHTML += `<div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #e73b42; margin: 25px 0;">
+            <h3 style="color: #e73b42; margin-bottom: 10px;">Vibe</h3>
+            ${marked.parse(vibe)}
+          </div>`;
+        }
+
+        if (spotifyEmbedUrl) {
+          previewHTML += `<div style="margin-top: 25px;">
+            <iframe style="border-radius:12px; width: 100%; height: 352px;" src="${spotifyEmbedUrl}" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>`;
+        }
+
+        previewHTML += `</div>`;
       }
       previewContainer.innerHTML = previewHTML;
     }
@@ -864,11 +900,11 @@
     function generateBookForm(item) {
       const subjectsText = item.subjects && Array.isArray(item.subjects) ? item.subjects.join('\n') : '';
       const recommendedChecked = item.recommended ? 'checked' : '';
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Authors *</label><input type="text" id="authors" value="${item.authors || ''}" required></div><div class="form-group"><label>ISBN</label><input type="text" id="isbn" value="${item.isbn || ''}"></div><div class="form-group"><label>Publisher</label><input type="text" id="publisher" value="${item.publisher || ''}"></div><div class="form-group"><label>Publication Date</label><input type="text" id="publicationDate" value="${item.publicationDate || ''}"></div><div class="form-group"><label>LC Subject Headings (one per line)</label><textarea id="subjects" rows="4">${subjectsText}</textarea><div class="hint">Enter Library of Congress subject headings, one per line</div></div><div class="form-group"><label>LC Call Number</label><input type="text" id="lcCallNumber" value="${item.lcCallNumber || ''}"><div class="hint">e.g., TX765 .B35 2020</div></div><div class="form-group"><label>Description</label><textarea id="description" data-preview="true" rows="6">${item.description || ''}</textarea></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('coverImage', 'coverImage-status')">Upload Image</button><div id="coverImage-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Purchase Link</label><input type="text" id="link" value="${item.link || ''}"><div class="hint">Link to Amazon, Bookshop.org, etc.</div></div><div class="form-group"><label style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="recommended" ${recommendedChecked} style="width: auto; margin: 0;">Recommended Book</label></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Authors *</label><input type="text" id="authors" value="${item.authors || ''}" required></div><div class="form-group"><label>ISBN</label><input type="text" id="isbn" value="${item.isbn || ''}"></div><div class="form-group"><label>Publisher</label><input type="text" id="publisher" value="${item.publisher || ''}"></div><div class="form-group"><label>Publication Date</label><input type="text" id="publicationDate" value="${item.publicationDate || ''}"></div><div class="form-group"><label>LC Subject Headings (one per line)</label><textarea id="subjects" rows="4">${subjectsText}</textarea><div class="hint">Enter Library of Congress subject headings, one per line</div></div><div class="form-group"><label>LC Call Number</label><input type="text" id="lcCallNumber" value="${item.lcCallNumber || ''}"><div class="hint">e.g., TX765 .B35 2020</div></div><div class="form-group"><label>Description</label><textarea id="description" data-preview="true" rows="6">${item.description || ''}</textarea></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('coverImage', 'coverImage-status')">Upload Image</button><div id="coverImage-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Purchase Link</label><input type="text" id="link" value="${item.link || ''}"><div class="hint">Link to Amazon, Bookshop.org, etc.</div></div><div class="form-group"><label style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="recommended" ${recommendedChecked} style="width: auto; margin: 0;">Essential Book</label></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generatePlaylistForm(item) {
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description *</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Vibe</label><textarea id="vibe" data-preview="true" rows="3">${item.vibe || ''}</textarea></div><div class="form-group"><label>Spotify Embed URL *</label><input type="text" id="spotifyEmbedUrl" value="${item.spotifyEmbedUrl || ''}" required></div><div class="form-group"><label>Duration</label><select id="duration"><option value="short" ${item.duration === 'short' ? 'selected' : ''}>Short</option><option value="medium" ${item.duration === 'medium' ? 'selected' : ''}>Medium</option><option value="long" ${item.duration === 'long' ? 'selected' : ''}>Long</option></select></div><div class="form-group"><label>Status *</label><select id="status"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}"><button type="button" class="upload-btn" onclick="uploadToImageKit('coverImage', 'playlist-coverImage-status')">Upload Image</button><div id="playlist-coverImage-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required data-preview="true"></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description *</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Vibe</label><textarea id="vibe" data-preview="true" rows="3">${item.vibe || ''}</textarea></div><div class="form-group"><label>Spotify Embed URL *</label><input type="text" id="spotifyEmbedUrl" value="${item.spotifyEmbedUrl || ''}" required data-preview="true"><div class="hint">Paste Spotify embed URL (starts with https://open.spotify.com/embed/)</div></div><div class="form-group"><label>Duration</label><select id="duration" data-preview="true"><option value="short" ${item.duration === 'short' ? 'selected' : ''}>Short</option><option value="medium" ${item.duration === 'medium' ? 'selected' : ''}>Medium</option><option value="long" ${item.duration === 'long' ? 'selected' : ''}>Long</option></select></div><div class="form-group"><label>Status *</label><select id="status" data-preview="true"><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Draft</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Published</option></select></div><div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" value="${item.coverImage || ''}" data-preview="true"><button type="button" class="upload-btn" onclick="uploadToImageKit('coverImage', 'playlist-coverImage-status')">Upload Image</button><div id="playlist-coverImage-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function saveItem() {
