@@ -448,7 +448,7 @@
                 : ''
               }
               <div class="featured-card-content">
-                <div class="featured-card-tag">${currentBook.recommended ? '★ Recommended' : 'Reading List'}</div>
+                <div class="featured-card-tag">${currentBook.recommended ? '★ Essential' : 'Reading List'}</div>
                 <h3>${currentBook.title}</h3>
                 <p style="font-size: 0.95em; color: var(--color-text-muted); margin-bottom: 10px;">${currentBook.authors}</p>
                 ${currentBook.description ? `<p>${currentBook.description.substring(0, 120)}${currentBook.description.length > 120 ? '...' : ''}</p>` : ''}
@@ -479,7 +479,7 @@
             </div>
           ` : ''}
           <div class="modal-details">
-            ${currentBook.recommended ? '<div class="recommended-badge">★ Recommended</div>' : ''}
+            ${currentBook.recommended ? '<div class="recommended-badge">★ Essential</div>' : ''}
             <h2>${currentBook.title}</h2>
             ${currentBook.subtitle ? `<p style="font-size:1.1em;color:var(--color-text-muted);margin-top:-5px;">${currentBook.subtitle}</p>` : ''}
 
