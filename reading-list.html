@@ -534,7 +534,7 @@
         </select>
 
         <label style="margin-left: 20px;">
-          <input type="checkbox" id="recommendedOnly"> Recommended Only
+          <input type="checkbox" id="recommendedOnly"> Essential Only
         </label>
 
         <div class="view-toggle">
@@ -725,7 +725,7 @@
               </div>
             ` : ''}
             <div class="book-info">
-              ${book.recommended ? '<div class="recommended-badge">★ Recommended</div>' : ''}
+              ${book.recommended ? '<div class="recommended-badge">★ Essential</div>' : ''}
               <div class="book-title">${book.title}</div>
               <div class="book-author">${book.authors}</div>
               <div class="book-meta">
@@ -765,7 +765,7 @@
             </div>
           ` : ''}
           <div class="modal-details">
-            ${book.recommended ? '<div class="recommended-badge">★ Recommended</div>' : ''}
+            ${book.recommended ? '<div class="recommended-badge">★ Essential</div>' : ''}
             <h2>${book.title}</h2>
             ${book.subtitle ? `<p style="font-size:1.1em;color:var(--color-text-muted);margin-top:-5px;">${book.subtitle}</p>` : ''}
 
