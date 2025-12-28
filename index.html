@@ -227,7 +227,7 @@
   </main>
 
   <!-- Book Detail Modal -->
-  <div id="bookModal" class="modal" style="display: none;">
+  <div id="bookModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Book Details</h2>
@@ -240,7 +240,7 @@
   </div>
 
   <!-- Lexicon Term Modal -->
-  <div id="lexiconModal" class="modal" style="display: none;">
+  <div id="lexiconModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Lexicon Term</h2>
@@ -468,18 +468,9 @@
 
     // Open book modal
     window.openBookModal = function() {
-      console.log('openBookModal called', currentBook);
-      if (!currentBook) {
-        console.error('No book data available');
-        return;
-      }
+      if (!currentBook) return;
 
       const modalBody = document.getElementById('bookModalBody');
-      if (!modalBody) {
-        console.error('Modal body element not found');
-        return;
-      }
-
       modalBody.innerHTML = `
         <div class="modal-book-layout ${!currentBook.coverImage ? 'no-cover' : ''}">
           ${currentBook.coverImage ? `
@@ -558,15 +549,7 @@
         </div>
       `;
 
-      const modal = document.getElementById('bookModal');
-      if (!modal) {
-        console.error('Modal element not found');
-        return;
-      }
-
-      console.log('Opening modal, adding active class');
-      modal.classList.add('active');
-      console.log('Modal classes:', modal.className);
+      document.getElementById('bookModal').classList.add('active');
     };
 
     // Close book modal
