@@ -448,7 +448,7 @@
                 : ''
               }
               <div class="featured-card-content">
-                <div class="featured-card-tag">${currentBook.recommended ? '★ Recommended' : 'Reading List'}</div>
+                <div class="featured-card-tag">${currentBook.recommended ? '★ Essential' : 'Reading List'}</div>
                 <h3>${currentBook.title}</h3>
                 <p style="font-size: 0.95em; color: var(--color-text-muted); margin-bottom: 10px;">${currentBook.authors}</p>
                 ${currentBook.description ? `<p>${currentBook.description.substring(0, 120)}${currentBook.description.length > 120 ? '...' : ''}</p>` : ''}
@@ -468,9 +468,18 @@
 
     // Open book modal
     window.openBookModal = function() {
-      if (!currentBook) return;
+      console.log('openBookModal called', currentBook);
+      if (!currentBook) {
+        console.error('No book data available');
+        return;
+      }
 
       const modalBody = document.getElementById('bookModalBody');
+      if (!modalBody) {
+        console.error('Modal body element not found');
+        return;
+      }
+
       modalBody.innerHTML = `
         <div class="modal-book-layout ${!currentBook.coverImage ? 'no-cover' : ''}">
           ${currentBook.coverImage ? `
@@ -479,7 +488,7 @@
             </div>
           ` : ''}
           <div class="modal-details">
-            ${currentBook.recommended ? '<div class="recommended-badge">★ Recommended</div>' : ''}
+            ${currentBook.recommended ? '<div class="recommended-badge">★ Essential</div>' : ''}
             <h2>${currentBook.title}</h2>
             ${currentBook.subtitle ? `<p style="font-size:1.1em;color:var(--color-text-muted);margin-top:-5px;">${currentBook.subtitle}</p>` : ''}
 
@@ -549,7 +558,15 @@
         </div>
       `;
 
-      document.getElementById('bookModal').classList.add('active');
+      const modal = document.getElementById('bookModal');
+      if (!modal) {
+        console.error('Modal element not found');
+        return;
+      }
+
+      console.log('Opening modal, adding active class');
+      modal.classList.add('active');
+      console.log('Modal classes:', modal.className);
     };
 
     // Close book modal
