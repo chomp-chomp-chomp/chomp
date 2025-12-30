@@ -597,38 +597,34 @@
       currentPage = pagePath;
 
       try {
-        // Fetch page HTML from GitHub
-        const token = sessionStorage.getItem('github_token');
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${pagePath}?ref=${GITHUB_BRANCH}`, {
-          headers: {
-            'Authorization': `token ${token}`,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to load page');
-        }
-
-        const fileData = await response.json();
-        const html = atob(fileData.content);
-        originalPageHtml = html;
-
-        // Load into iframe
+        // Load page directly from site (relative path)
         const iframe = document.getElementById('pageFrame');
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-        iframeDoc.open();
-        iframeDoc.write(html);
-        iframeDoc.close();
+        // Construct the URL - account for admin subdirectory
+        const pageUrl = `../${pagePath}`;
 
-        // Setup edit mode
-        setupEditMode();
+        // Load page in iframe
+        iframe.src = pageUrl;
 
-        showStatus('Page loaded successfully', 'success');
+        // Wait for iframe to load
+        iframe.onload = () => {
+          try {
+            // Setup edit mode after page loads
+            setupEditMode();
+            showStatus('Page loaded successfully', 'success');
+          } catch (error) {
+            console.error('Setup error:', error);
+            showStatus('Page loaded but edit mode setup failed. Try refreshing.', 'error');
+          }
+        };
+
+        iframe.onerror = () => {
+          showStatus('Failed to load page. Check if the file exists.', 'error');
+        };
 
       } catch (error) {
         showStatus('Failed to load page: ' + error.message, 'error');
+        console.error('Load error:', error);
       }
     }
 
