@@ -711,6 +711,7 @@
           <button class="collection-tab" data-collection="recipes" onclick="switchCollection('recipes')">🍰 Recipes</button>
           <button class="collection-tab" data-collection="lexicon" onclick="switchCollection('lexicon')">📖 Lexicon</button>
           <button class="collection-tab" data-collection="reading-list" onclick="switchCollection('reading-list')">📚 Reading List</button>
+          <button class="collection-tab" data-collection="playlists" onclick="switchCollection('playlists')">🎵 Playlists</button>
         </div>
 
         <div class="search-box">
@@ -844,7 +845,7 @@
 
     // Load data from JSON files
     async function loadAllData() {
-      const collections = ['posts', 'recipes', 'lexicon', 'reading-list'];
+      const collections = ['posts', 'recipes', 'lexicon', 'reading-list', 'playlists'];
 
       for (const collection of collections) {
         try {
@@ -922,6 +923,8 @@
         return item.category || 'Uncategorized';
       } else if (currentCollection === 'reading-list') {
         return item.author || 'Unknown author';
+      } else if (currentCollection === 'playlists') {
+        return `${item.duration || ''} • ${item.status || 'draft'}`;
       }
       return '';
     }
@@ -968,6 +971,8 @@
         return { ...base, term: '', slug: '', definition: '', category: 'concept' };
       } else if (currentCollection === 'reading-list') {
         return { ...base, title: '', author: '', description: '', isbn: '', publisher: '', link: '', coverImage: '' };
+      } else if (currentCollection === 'playlists') {
+        return { ...base, title: '', slug: '', description: '', vibe: '', spotifyEmbedUrl: '', duration: 'medium', status: 'draft', coverImage: '' };
       }
 
       return base;
@@ -1107,6 +1112,36 @@
             <input type="text" id="coverImageInput" value="${currentItem.coverImage || ''}" placeholder="https://ik.imagekit.io/..." />
           </div>
         `;
+      } else if (currentCollection === 'playlists') {
+        metaEl.innerHTML = `
+          <div class="meta-field">
+            <label>Slug</label>
+            <input type="text" id="slugInput" value="${currentItem.slug || ''}" />
+          </div>
+          <div class="meta-field">
+            <label>Spotify Embed URL</label>
+            <input type="text" id="spotifyEmbedInput" value="${currentItem.spotifyEmbedUrl || ''}" placeholder="https://open.spotify.com/embed/..." />
+          </div>
+          <div class="meta-field">
+            <label>Duration</label>
+            <select id="durationInput">
+              <option value="short" ${currentItem.duration === 'short' ? 'selected' : ''}>Short</option>
+              <option value="medium" ${currentItem.duration === 'medium' ? 'selected' : ''}>Medium</option>
+              <option value="long" ${currentItem.duration === 'long' ? 'selected' : ''}>Long</option>
+            </select>
+          </div>
+          <div class="meta-field">
+            <label>Status</label>
+            <select id="statusInput">
+              <option value="draft" ${currentItem.status === 'draft' ? 'selected' : ''}>Draft</option>
+              <option value="published" ${currentItem.status === 'published' ? 'selected' : ''}>Published</option>
+            </select>
+          </div>
+          <div class="meta-field">
+            <label>Cover Image URL</label>
+            <input type="text" id="coverImageInput" value="${currentItem.coverImage || ''}" placeholder="https://ik.imagekit.io/..." />
+          </div>
+        `;
       }
     }
 
@@ -1125,6 +1160,9 @@
         content = currentItem.definition || '';
       } else if (currentCollection === 'reading-list') {
         content = currentItem.description || '';
+      } else if (currentCollection === 'playlists') {
+        content = `<h2>Description</h2><p>${currentItem.description || ''}</p>`;
+        content += `<h2>Vibe</h2><p>${currentItem.vibe || ''}</p>`;
       }
 
       if (editor) {
@@ -1387,6 +1425,15 @@
         currentItem.publisher = document.getElementById('publisherInput').value;
         currentItem.link = document.getElementById('linkInput').value;
         currentItem.coverImage = document.getElementById('coverImageInput').value;
+      } else if (currentCollection === 'playlists') {
+        // Parse the editor content for playlist sections
+        const sections = parsePlaylistContent(html);
+        currentItem.description = sections.description;
+        currentItem.vibe = sections.vibe;
+        currentItem.spotifyEmbedUrl = document.getElementById('spotifyEmbedInput').value;
+        currentItem.duration = document.getElementById('durationInput').value;
+        currentItem.status = document.getElementById('statusInput').value;
+        currentItem.coverImage = document.getElementById('coverImageInput').value;
       }
     }
 
@@ -1430,6 +1477,32 @@
           });
         } else if (currentSection === 'notes' && node.nodeName === 'P') {
           sections.notes += node.textContent + '\n';
+        }
+      });
+
+      return sections;
+    }
+
+    function parsePlaylistContent(html) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const sections = {
+        description: '',
+        vibe: ''
+      };
+
+      let currentSection = null;
+
+      doc.body.childNodes.forEach(node => {
+        if (node.nodeName === 'H2') {
+          const heading = node.textContent.toLowerCase();
+          if (heading.includes('description')) currentSection = 'description';
+          else if (heading.includes('vibe')) currentSection = 'vibe';
+        } else if (currentSection === 'description' && node.nodeName === 'P') {
+          sections.description += node.textContent + '\n';
+        } else if (currentSection === 'vibe' && node.nodeName === 'P') {
+          sections.vibe += node.textContent + '\n';
         }
       });
 
