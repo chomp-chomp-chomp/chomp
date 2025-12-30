@@ -507,10 +507,21 @@
         <input type="file" id="imageFileInput" accept="image/*" style="display: none;" />
       </div>
       <p style="text-align: center; margin: 15px 0; color: #999;">or</p>
-      <input type="text" class="image-url-input" id="imageUrlInput" placeholder="Paste image URL..." />
+      <input type="text" class="image-url-input" id="imageUrlInput" placeholder="Light mode image URL..." />
+
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+        <p style="font-size: 14px; color: #666; margin-bottom: 10px;">🌙 <strong>Dark Mode Image</strong> (optional)</p>
+        <p style="font-size: 13px; color: #999; margin-bottom: 10px;">Upload a different image for dark mode</p>
+        <div class="image-upload-area" id="darkImageUploadArea" style="padding: 20px;">
+          <p>📸 Upload dark mode version</p>
+          <input type="file" id="darkImageFileInput" accept="image/*" style="display: none;" />
+        </div>
+        <input type="text" class="image-url-input" id="darkImageUrlInput" placeholder="Dark mode image URL (optional)..." style="margin-top: 10px;" />
+      </div>
+
       <div class="image-modal-actions">
         <button onclick="closeImageModal()" style="background: #999; color: white;">Cancel</button>
-        <button onclick="replaceImage()" style="background: #4caf50; color: white;">Replace</button>
+        <button onclick="replaceImage()" style="background: #4caf50; color: white;">Replace Image(s)</button>
       </div>
     </div>
   </div>
@@ -692,6 +703,14 @@
       } else if (mode === 'style') {
         iframeDoc.body.classList.remove('edit-mode-active');
         document.getElementById('stylePanel').classList.add('active');
+
+        // Check if dark mode is active
+        const isDarkMode = iframeDoc.documentElement.classList.contains('dark-mode-preview');
+        if (isDarkMode) {
+          showDarkModeStyleControls();
+        } else {
+          showStatus('Click an element to edit its styles', 'info');
+        }
       }
     }
 
@@ -844,11 +863,177 @@
       showStatus('Styles applied!', 'success');
     }
 
+    // Show dark mode style controls
+    function showDarkModeStyleControls() {
+      const iframe = document.getElementById('pageFrame');
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      // Get current dark mode colors (from existing override or defaults)
+      const rootStyles = getComputedStyle(iframeDoc.documentElement);
+      const currentBg = rootStyles.getPropertyValue('--color-bg') || '#231f1f';
+      const currentText = rootStyles.getPropertyValue('--color-text') || '#d9d4d4';
+      const currentAccent = rootStyles.getPropertyValue('--color-accent') || '#ff6b7a';
+      const currentBorder = rootStyles.getPropertyValue('--color-border') || '#3b3636';
+
+      const controlsHtml = `
+        <div class="style-group">
+          <label>🌙 Dark Mode Theme Editor</label>
+          <p style="font-size: 13px; color: #999; margin-top: 5px;">Edit the main dark mode colors. Changes will be saved to the page.</p>
+        </div>
+
+        <div class="style-group">
+          <label>Background Color</label>
+          <div class="color-input-group">
+            <input type="color" id="darkBgColorPicker" value="${ensureHex(currentBg)}" />
+            <input type="text" id="darkBgColorInput" value="${currentBg}" />
+          </div>
+        </div>
+
+        <div class="style-group">
+          <label>Text Color</label>
+          <div class="color-input-group">
+            <input type="color" id="darkTextColorPicker" value="${ensureHex(currentText)}" />
+            <input type="text" id="darkTextColorInput" value="${currentText}" />
+          </div>
+        </div>
+
+        <div class="style-group">
+          <label>Accent Color (Links, Buttons)</label>
+          <div class="color-input-group">
+            <input type="color" id="darkAccentColorPicker" value="${ensureHex(currentAccent)}" />
+            <input type="text" id="darkAccentColorInput" value="${currentAccent}" />
+          </div>
+        </div>
+
+        <div class="style-group">
+          <label>Border Color</label>
+          <div class="color-input-group">
+            <input type="color" id="darkBorderColorPicker" value="${ensureHex(currentBorder)}" />
+            <input type="text" id="darkBorderColorInput" value="${currentBorder}" />
+          </div>
+        </div>
+
+        <div class="style-group">
+          <button onclick="applyDarkModeStyles()" style="width: 100%; padding: 12px; background: #ff6b7a; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer;">Apply Dark Mode Styles</button>
+        </div>
+
+        <div class="style-group" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+          <button onclick="resetDarkModeStyles()" style="width: 100%; padding: 10px; background: #999; color: white; border: none; border-radius: 6px; font-size: 13px; cursor: pointer;">Reset to Defaults</button>
+        </div>
+      `;
+
+      document.getElementById('styleControls').innerHTML = controlsHtml;
+
+      // Setup color pickers
+      ['darkBg', 'darkText', 'darkAccent', 'darkBorder'].forEach(prefix => {
+        const picker = document.getElementById(`${prefix}ColorPicker`);
+        const input = document.getElementById(`${prefix}ColorInput`);
+        if (picker && input) {
+          picker.addEventListener('input', (e) => {
+            input.value = e.target.value;
+          });
+        }
+      });
+    }
+
+    // Apply dark mode styles
+    function applyDarkModeStyles() {
+      const iframe = document.getElementById('pageFrame');
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      const bgColor = document.getElementById('darkBgColorInput').value;
+      const textColor = document.getElementById('darkTextColorInput').value;
+      const accentColor = document.getElementById('darkAccentColorInput').value;
+      const borderColor = document.getElementById('darkBorderColorInput').value;
+
+      // Update the dark mode override style tag
+      let darkStyle = iframeDoc.getElementById('dark-mode-override');
+      if (!darkStyle) {
+        darkStyle = iframeDoc.createElement('style');
+        darkStyle.id = 'dark-mode-override';
+        iframeDoc.head.appendChild(darkStyle);
+      }
+
+      darkStyle.textContent = `
+        /* Dark Mode Override Styles */
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --color-bg: ${bgColor} !important;
+            --color-text: ${textColor} !important;
+            --color-accent: ${accentColor} !important;
+            --color-border: ${borderColor} !important;
+            --color-text-muted: ${adjustBrightness(textColor, -20)} !important;
+            --color-sidebar: ${adjustBrightness(bgColor, 10)} !important;
+          }
+
+          body {
+            background: ${bgColor} !important;
+            color: ${textColor} !important;
+          }
+        }
+
+        /* Force apply in preview mode */
+        html.dark-mode-preview {
+          background: ${bgColor} !important;
+        }
+
+        html.dark-mode-preview body {
+          background: ${bgColor} !important;
+          color: ${textColor} !important;
+        }
+
+        html.dark-mode-preview a {
+          color: ${accentColor} !important;
+        }
+      `;
+
+      showStatus('Dark mode colors updated! Save the page to keep changes.', 'success');
+    }
+
+    // Reset dark mode styles to defaults
+    function resetDarkModeStyles() {
+      const iframe = document.getElementById('pageFrame');
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      const darkStyle = iframeDoc.getElementById('dark-mode-override');
+      if (darkStyle) {
+        darkStyle.textContent = `
+          html.dark-mode-preview {
+            background: #231f1f !important;
+            color: #d9d4d4 !important;
+          }
+        `;
+      }
+
+      showStatus('Reset to default dark mode colors', 'info');
+      showDarkModeStyleControls();
+    }
+
+    // Ensure color is in hex format
+    function ensureHex(color) {
+      if (color.startsWith('#')) return color;
+      return rgbToHex(color);
+    }
+
+    // Adjust brightness of hex color
+    function adjustBrightness(color, percent) {
+      const hex = ensureHex(color).replace('#', '');
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+
+      const adjust = (val) => Math.max(0, Math.min(255, val + Math.round(val * percent / 100)));
+
+      return `#${adjust(r).toString(16).padStart(2, '0')}${adjust(g).toString(16).padStart(2, '0')}${adjust(b).toString(16).padStart(2, '0')}`;
+    }
+
     // Image upload modal
     function showImageModal() {
       document.getElementById('imageModal').classList.add('active');
       document.getElementById('imageUrlInput').value = '';
+      document.getElementById('darkImageUrlInput').value = '';
 
+      // Setup light mode upload
       const uploadArea = document.getElementById('imageUploadArea');
       const fileInput = document.getElementById('imageFileInput');
 
@@ -856,7 +1041,7 @@
 
       fileInput.onchange = async (e) => {
         const file = e.target.files[0];
-        if (file) await uploadImageFile(file);
+        if (file) await uploadImageFile(file, 'light');
       };
 
       uploadArea.ondragover = (e) => {
@@ -873,7 +1058,36 @@
         uploadArea.classList.remove('dragover');
         const file = e.dataTransfer.files[0];
         if (file && file.type.startsWith('image/')) {
-          await uploadImageFile(file);
+          await uploadImageFile(file, 'light');
+        }
+      };
+
+      // Setup dark mode upload
+      const darkUploadArea = document.getElementById('darkImageUploadArea');
+      const darkFileInput = document.getElementById('darkImageFileInput');
+
+      darkUploadArea.onclick = () => darkFileInput.click();
+
+      darkFileInput.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (file) await uploadImageFile(file, 'dark');
+      };
+
+      darkUploadArea.ondragover = (e) => {
+        e.preventDefault();
+        darkUploadArea.classList.add('dragover');
+      };
+
+      darkUploadArea.ondragleave = () => {
+        darkUploadArea.classList.remove('dragover');
+      };
+
+      darkUploadArea.ondrop = async (e) => {
+        e.preventDefault();
+        darkUploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+          await uploadImageFile(file, 'dark');
         }
       };
     }
@@ -883,9 +1097,9 @@
       currentImageTarget = null;
     }
 
-    async function uploadImageFile(file) {
+    async function uploadImageFile(file, mode = 'light') {
       try {
-        showStatus('Uploading image...', 'info');
+        showStatus(`Uploading ${mode} mode image...`, 'info');
 
         const formData = new FormData();
         formData.append('file', file);
@@ -901,8 +1115,13 @@
         const result = await response.json();
         const imageUrl = result.url;
 
-        document.getElementById('imageUrlInput').value = imageUrl;
-        showStatus('Image uploaded successfully!', 'success');
+        if (mode === 'dark') {
+          document.getElementById('darkImageUrlInput').value = imageUrl;
+        } else {
+          document.getElementById('imageUrlInput').value = imageUrl;
+        }
+
+        showStatus(`${mode.charAt(0).toUpperCase() + mode.slice(1)} mode image uploaded!`, 'success');
 
       } catch (error) {
         showStatus('Failed to upload image', 'error');
@@ -911,16 +1130,46 @@
     }
 
     function replaceImage() {
-      const url = document.getElementById('imageUrlInput').value.trim();
+      const lightUrl = document.getElementById('imageUrlInput').value.trim();
+      const darkUrl = document.getElementById('darkImageUrlInput').value.trim();
 
-      if (!url) {
-        showStatus('Please provide an image URL', 'error');
+      if (!lightUrl) {
+        showStatus('Please provide at least a light mode image URL', 'error');
         return;
       }
 
       if (currentImageTarget) {
-        currentImageTarget.src = url;
-        showStatus('Image replaced!', 'success');
+        const iframe = document.getElementById('pageFrame');
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+        if (darkUrl) {
+          // Create <picture> element with both light and dark versions
+          const picture = iframeDoc.createElement('picture');
+
+          // Dark mode source
+          const darkSource = iframeDoc.createElement('source');
+          darkSource.setAttribute('srcset', darkUrl);
+          darkSource.setAttribute('media', '(prefers-color-scheme: dark)');
+          picture.appendChild(darkSource);
+
+          // Light mode img (fallback)
+          const newImg = currentImageTarget.cloneNode(true);
+          newImg.src = lightUrl;
+          picture.appendChild(newImg);
+
+          // Replace original img with picture
+          currentImageTarget.parentNode.replaceChild(picture, currentImageTarget);
+
+          // Update reference to new img
+          currentImageTarget = newImg;
+
+          showStatus('Image replaced with light/dark versions!', 'success');
+        } else {
+          // Just replace with single image
+          currentImageTarget.src = lightUrl;
+          showStatus('Image replaced!', 'success');
+        }
+
         closeImageModal();
       }
     }
