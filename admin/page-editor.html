@@ -480,6 +480,7 @@
           <button class="mode-btn active" id="editModeBtn" onclick="setMode('edit')">✏️ Edit</button>
           <button class="mode-btn" id="styleModeBtn" onclick="setMode('style')">🎨 Style</button>
         </div>
+        <button class="mode-btn" id="darkModeBtn" onclick="toggleDarkMode()" style="margin-left: 10px;">🌙 Dark</button>
         <button class="save-btn" id="saveBtn" onclick="savePage()">💾 Save & Publish</button>
         <button class="logout-btn" onclick="logout()">Logout</button>
       </div>
@@ -691,6 +692,59 @@
       } else if (mode === 'style') {
         iframeDoc.body.classList.remove('edit-mode-active');
         document.getElementById('stylePanel').classList.add('active');
+      }
+    }
+
+    // Toggle dark mode preview
+    function toggleDarkMode() {
+      const iframe = document.getElementById('pageFrame');
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const btn = document.getElementById('darkModeBtn');
+
+      if (!iframeDoc || !iframeDoc.documentElement) {
+        showStatus('Please load a page first', 'error');
+        return;
+      }
+
+      // Toggle dark mode by adding/removing a class and style tag
+      const isDarkMode = iframeDoc.documentElement.classList.contains('dark-mode-preview');
+
+      if (isDarkMode) {
+        // Remove dark mode
+        iframeDoc.documentElement.classList.remove('dark-mode-preview');
+        const darkStyle = iframeDoc.getElementById('dark-mode-override');
+        if (darkStyle) darkStyle.remove();
+        btn.textContent = '🌙 Dark';
+        btn.classList.remove('active');
+        showStatus('Light mode preview', 'info');
+      } else {
+        // Add dark mode
+        iframeDoc.documentElement.classList.add('dark-mode-preview');
+
+        // Inject a style tag to simulate prefers-color-scheme: dark
+        let darkStyle = iframeDoc.getElementById('dark-mode-override');
+        if (!darkStyle) {
+          darkStyle = iframeDoc.createElement('style');
+          darkStyle.id = 'dark-mode-override';
+          darkStyle.textContent = `
+            /* Force dark mode styles */
+            @media (prefers-color-scheme: light) {
+              :root {
+                color-scheme: dark;
+              }
+            }
+            /* Copy all dark mode media query styles to apply them */
+            html.dark-mode-preview {
+              background: #231f1f !important;
+              color: #d9d4d4 !important;
+            }
+          `;
+          iframeDoc.head.appendChild(darkStyle);
+        }
+
+        btn.textContent = '☀️ Light';
+        btn.classList.add('active');
+        showStatus('Dark mode preview - edit styles and save!', 'info');
       }
     }
 
@@ -923,23 +977,49 @@
       const token = sessionStorage.getItem('github_token');
       if (!token) throw new Error('Not authenticated');
 
-      // Step 1: Get current file SHA
-      const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`, {
+      let sha = null;
+
+      // Step 1: Try to get file from current branch
+      let getResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`, {
         headers: {
           'Authorization': `token ${token}`,
           'Accept': 'application/vnd.github.v3+json'
         }
       });
 
-      if (!getResponse.ok) {
-        throw new Error(`Failed to get file: ${getResponse.statusText}`);
+      // If file doesn't exist on current branch, try main branch
+      if (!getResponse.ok && getResponse.status === 404) {
+        console.log(`File not found on ${GITHUB_BRANCH}, trying main branch...`);
+        getResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=main`, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
       }
 
-      const currentFile = await getResponse.json();
-      const sha = currentFile.sha;
+      // Get SHA if file exists
+      if (getResponse.ok) {
+        const currentFile = await getResponse.json();
+        sha = currentFile.sha;
+      } else if (getResponse.status !== 404) {
+        throw new Error(`Failed to get file: ${getResponse.statusText}`);
+      }
+      // If 404, sha stays null (new file)
 
-      // Step 2: Update file
+      // Step 2: Update or create file
       const contentBase64 = btoa(unescape(encodeURIComponent(content)));
+
+      const updateBody = {
+        message: `Update ${filePath} via visual page editor`,
+        content: contentBase64,
+        branch: GITHUB_BRANCH
+      };
+
+      // Only include SHA if file exists
+      if (sha) {
+        updateBody.sha = sha;
+      }
 
       const updateResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
         method: 'PUT',
@@ -948,12 +1028,7 @@
           'Accept': 'application/vnd.github.v3+json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          message: `Update ${filePath} via visual page editor`,
-          content: contentBase64,
-          sha: sha,
-          branch: GITHUB_BRANCH
-        })
+        body: JSON.stringify(updateBody)
       });
 
       if (!updateResponse.ok) {
