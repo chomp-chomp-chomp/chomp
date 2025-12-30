@@ -849,7 +849,7 @@
 
       for (const collection of collections) {
         try {
-          const response = await fetch(`/data/${collection}.json`);
+          const response = await fetch(`../data/${collection}.json`);
           if (response.ok) {
             data[collection] = await response.json();
           } else {
