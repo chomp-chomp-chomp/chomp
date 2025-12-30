@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" class="dark-mode-preview"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chomp Chomp Store - Cookies, etc.</title>
@@ -28,25 +27,25 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <!-- Primary Meta Tags -->
-  <meta name="title" content="Chomp Chomp Store - Cookies & More">
+  <meta name="title" content="Chomp Chomp Store - Cookies &amp; More">
   <meta name="description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://chompchomp.cc/store">
-  <meta property="og:title" content="Chomp Chomp Store - Cookies & More">
+  <meta property="og:title" content="Chomp Chomp Store - Cookies &amp; More">
   <meta property="og:description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
   <meta property="og:image" content="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531979/Chomp_Chomp_store_logo-compressed_r70bif.jpg">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://chompchomp.cc/store">
-  <meta property="twitter:title" content="Chomp Chomp Store - Cookies & More">
+  <meta property="twitter:title" content="Chomp Chomp Store - Cookies &amp; More">
   <meta property="twitter:description" content="Small batch cookies made to order in small ovens, baked in Brooklyn, NY">
   <meta property="twitter:image" content="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531979/Chomp_Chomp_store_logo-compressed_r70bif.jpg">
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Source+Sans+3:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
 
   <!-- Shared Stylesheet -->
   <link rel="stylesheet" href="styles.css">
@@ -258,8 +257,20 @@
       }
     }
   </style>
-</head>
-<body>
+<style id="dark-mode-override">
+            /* Force dark mode styles */
+            @media (prefers-color-scheme: light) {
+              :root {
+                color-scheme: dark;
+              }
+            }
+            /* Copy all dark mode media query styles to apply them */
+            html.dark-mode-preview {
+              background: #231f1f !important;
+              color: #d9d4d4 !important;
+            }
+          </style></head>
+<body class="">
 
   <!-- Site Header / Navigation (no banner in header-center) -->
   <header class="site-header">
@@ -328,7 +339,7 @@
     <div class="store-header">
       <picture>
         <source srcset="NEED_STORE_DARK" media="(prefers-color-scheme: dark)">
-        <img src="NEED_STORE_LIGHT" alt="chomp chomp - cookies, etc.">
+        <picture><source srcset="https://ik.imagekit.io/chompchomp/Chomp_Chomp_store_-_dark_la1eQ7MB0.PNG" media="(prefers-color-scheme: dark)"><img src="https://ik.imagekit.io/chompchomp/Chomp_Chomp_store_-_light_ggueLok6qH.PNG" alt="chomp chomp - cookies, etc." style=""></picture>
       </picture>
     </div>
 
@@ -342,9 +353,7 @@
     <!-- Current Cookie Rotation -->
     <section class="menu-section">
       <h2 class="section-title">current cookie rotation</h2>
-      <ul class="menu-list" id="cookieRotation">
-        <!-- Cookies will be populated by JavaScript -->
-      </ul>
+      <ul class="menu-list" id="cookieRotation"><li class="menu-item">• <span class="menu-item-name">Blackstrap Five-Spice</span></li><li class="menu-item">• <span class="menu-item-name">Cardamom Espresso</span></li><li class="menu-item">• <span class="menu-item-name">Caffè &amp; Rose</span></li><li class="menu-item">• <span class="menu-item-name">Cobanero Chocolate</span></li><li class="menu-item">• <span class="menu-item-name">Matcha Amaretti</span></li><li class="menu-item">• <span class="menu-item-name">Ube Brûlée</span></li></ul>
     </section>
 
     <hr class="store-divider">
@@ -360,9 +369,7 @@
     <!-- Pup Cookie Rotation -->
     <section class="menu-section">
       <h2 class="section-title">current pup cookie rotation</h2>
-      <ul class="menu-list" id="pupCookieRotation">
-        <!-- Pup cookies will be populated by JavaScript -->
-      </ul>
+      <ul class="menu-list" id="pupCookieRotation"><li class="menu-item">• <span class="menu-item-name">Bébé's Breath Mints</span><span class="menu-item-description">parsley | mint | oats</span></li><li class="menu-item">• <span class="menu-item-name">Bonzer's Bones</span><span class="menu-item-description">peanut butter | applesauce | parsley | whole wheat</span></li><li class="menu-item">• <span class="menu-item-name">Jordie's Chomp Chomps</span><span class="menu-item-description">pumpkin | apples | peanut butter | whole wheat</span></li><li class="menu-item">• <span class="menu-item-name">Linus's Lite Bites</span><span class="menu-item-description">carrots | apples | oats | whole wheat</span></li></ul>
     </section>
 
     <hr class="store-divider">
@@ -474,5 +481,7 @@
     });
   </script>
 
-</body>
-</html>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+
+</body></html>

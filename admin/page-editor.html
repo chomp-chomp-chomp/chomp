@@ -458,6 +458,7 @@
             <option value="reading-list.html">📚 Reading List</option>
             <option value="about.html">ℹ️ About</option>
             <option value="store.html">🛍️ Store</option>
+            <option value="store/order.html">🛒 Orders</option>
           </optgroup>
           <optgroup label="Tools">
             <option value="tools/index.html">🔧 Tools Index</option>
@@ -1190,20 +1191,34 @@
         const iframe = document.getElementById('pageFrame');
         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
+        console.log('Saving page:', currentPage);
+
         // Clean up edit mode attributes
         const clone = iframeDoc.documentElement.cloneNode(true);
+
+        // Remove edit mode classes and attributes
+        clone.classList.remove('dark-mode-preview');
         clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
         clone.querySelectorAll('[data-editable-image]').forEach(el => el.removeAttribute('data-editable-image'));
         clone.querySelectorAll('[data-style-selected]').forEach(el => {
           el.removeAttribute('data-style-selected');
-          el.style.outline = '';
+          if (el.style) el.style.outline = '';
         });
-        clone.querySelector('body').classList.remove('edit-mode-active');
+
+        const body = clone.querySelector('body');
+        if (body) {
+          body.classList.remove('edit-mode-active');
+        }
 
         const modifiedHtml = '<!DOCTYPE html>\n' + clone.outerHTML;
 
+        console.log('HTML length:', modifiedHtml.length);
+        console.log('Calling saveToGitHub...');
+
         // Save to GitHub
         await saveToGitHub(currentPage, modifiedHtml);
+
+        console.log('Save completed successfully');
 
         saveBtn.classList.remove('saving');
         saveBtn.textContent = '✓ Published!';
@@ -1217,7 +1232,7 @@
         saveBtn.classList.remove('saving');
         saveBtn.textContent = '💾 Save & Publish';
         showStatus('Failed to save: ' + error.message, 'error');
-        console.error('Save error:', error);
+        console.error('Save error details:', error);
       }
     }
 
@@ -1226,9 +1241,12 @@
       const token = sessionStorage.getItem('github_token');
       if (!token) throw new Error('Not authenticated');
 
+      console.log('saveToGitHub called with filePath:', filePath);
+
       let sha = null;
 
       // Step 1: Try to get file from current branch
+      console.log(`Fetching from ${GITHUB_BRANCH}...`);
       let getResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`, {
         headers: {
           'Authorization': `token ${token}`,
@@ -1251,12 +1269,15 @@
       if (getResponse.ok) {
         const currentFile = await getResponse.json();
         sha = currentFile.sha;
+        console.log('Got SHA:', sha);
       } else if (getResponse.status !== 404) {
         throw new Error(`Failed to get file: ${getResponse.statusText}`);
+      } else {
+        console.log('File not found, will create new file');
       }
-      // If 404, sha stays null (new file)
 
       // Step 2: Update or create file
+      console.log('Encoding content...');
       const contentBase64 = btoa(unescape(encodeURIComponent(content)));
 
       const updateBody = {
@@ -1270,6 +1291,13 @@
         updateBody.sha = sha;
       }
 
+      console.log('Pushing to GitHub...', {
+        repo: GITHUB_REPO,
+        filePath,
+        branch: GITHUB_BRANCH,
+        hasSHA: !!sha
+      });
+
       const updateResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
         method: 'PUT',
         headers: {
@@ -1280,10 +1308,16 @@
         body: JSON.stringify(updateBody)
       });
 
+      console.log('GitHub response status:', updateResponse.status);
+
       if (!updateResponse.ok) {
         const errorData = await updateResponse.json();
+        console.error('GitHub API error:', errorData);
         throw new Error(errorData.message || updateResponse.statusText);
       }
+
+      const result = await updateResponse.json();
+      console.log('Save successful:', result.commit.sha);
     }
 
     // Utilities
