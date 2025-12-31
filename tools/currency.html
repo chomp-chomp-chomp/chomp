@@ -74,7 +74,7 @@
                 <div class="tool-controls">
                     <div class="control-group">
                         <label class="control-label" for="amount">Amount</label>
-                        <input type="number" id="amount" class="form-input" placeholder="Enter amount" value="100" step="0.01" min="0">
+                        <input type="number" id="amount" class="form-input" placeholder="Enter amount" value="1" step="0.01" min="0">
                     </div>
 
                     <div class="control-group">
@@ -226,7 +226,7 @@
             });
         }
 
-        function populateSelect(selectEl, currencies, defaults = []) {
+        function populateSelect(selectEl, currencies, defaultValue) {
             selectEl.innerHTML = '';
             const entries = Object.entries(currencies).sort((a, b) => a[0].localeCompare(b[0]));
             for (const [code, name] of entries) {
@@ -235,15 +235,16 @@
                 option.textContent = `${code} — ${name}`;
                 selectEl.appendChild(option);
             }
-            defaults.forEach((code, idx) => {
-                if (idx === 0 && selectEl === fromSelect) selectEl.value = code;
-                if (idx === 1 && selectEl === toSelect) selectEl.value = code;
-            });
+            if (defaultValue && selectEl.querySelector(`option[value="${defaultValue}"]`)) {
+                selectEl.value = defaultValue;
+            } else if (entries.length) {
+                selectEl.selectedIndex = 0;
+            }
         }
 
         function loadCurrencies() {
-            populateSelect(fromSelect, fallbackCurrencies, ['USD', 'EUR']);
-            populateSelect(toSelect, fallbackCurrencies, ['EUR', 'USD']);
+            populateSelect(fromSelect, fallbackCurrencies, 'USD');
+            populateSelect(toSelect, fallbackCurrencies, 'EUR');
         }
 
         function setMaxDate() {
@@ -258,7 +259,7 @@
         }
 
         function resetConverter() {
-            amountInput.value = 100;
+            amountInput.value = 1;
             rateDateInput.value = '';
             fromSelect.value = 'USD';
             toSelect.value = 'EUR';
