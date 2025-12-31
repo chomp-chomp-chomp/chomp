@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/tools-recipes-style.css">
 </head>
 <body>
-    <header class="site-header">
+        <header class="site-header">
         <nav class="site-nav">
             <a href="https://chompchomp.cc" class="site-logo">
                 <div class="site-logo-icon">
@@ -19,7 +19,7 @@
             <button class="menu-toggle" aria-label="Toggle menu">☰</button>
             <div class="nav-tools-dropdown">
                 <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
-                          <ul class="tools-dropdown-menu" id="toolsDropdown">
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
             <li><a href="../index.html">Home</a></li>
             <li class="menu-item-has-submenu">
               <a href="#">Content</a>
@@ -47,8 +47,10 @@
                     <li class="menu-item-has-submenu">
                         <a href="#">Ipsum</a>
                         <ul class="submenu">
+                            <li><a href="baking.html">Baking</a></li>
                             <li><a href="dante.html">Inferno</a></li>
                             <li><a href="nautical.html">Nautical</a></li>
+                            <li><a href="philosophy.html">Philosophy</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -56,12 +58,23 @@
         </nav>
     </header>
 
+
     <div class="page-container">
         <div class="tool-page">
             <div class="tool-header">
                 <div class="tool-hero" style="background: linear-gradient(135deg, #111 0%, #1a1a1a 50%, #252525 100%); padding: 28px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 12px 30px rgba(0,0,0,0.25);">
-                    <h1 style="margin: 0 0 6px 0;">Currency Converter</h1>
-                    <p class="tool-subtitle" style="margin: 0;">Live exchange rates powered by the Frankfurter (ECB) API</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1), transparent 40%), #0f0f0f; border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 16px; min-height: 140px; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); text-align: center;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 6px;">Main image placeholder</div>
+                                <div style="font-size: 0.95em;">Add the Currency icon artwork here when it’s ready.</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 style="margin: 0 0 6px 0;">Currency Converter</h1>
+                            <p class="tool-subtitle" style="margin: 0;">Live exchange rates powered directly by <a href="https://data.ecb.europa.eu" target="_blank" rel="noopener" style="color: var(--color-accent); text-decoration: underline;">ECB Data</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -110,7 +123,7 @@
                     </div>
                     <div class="result-item">
                         <span class="result-label">Source:</span>
-                        <span class="result-value">Frankfurter.app (ECB daily rates)</span>
+                        <span class="result-value" id="dataSource"><a href="https://data.ecb.europa.eu" target="_blank" rel="noopener" style="color: var(--color-accent);">ECB Data</a> daily reference rates</span>
                     </div>
 
                     <div class="info-box" id="popularRates" style="margin-top: 16px; display: none;">
@@ -124,14 +137,14 @@
                 <h2 class="section-title">Quick presets</h2>
                 <div class="tool-controls" style="gap: 10px; flex-wrap: wrap;">
                     <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','EUR')">USD → EUR</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','GBP')">USD → GBP</button>
                     <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','GBP')">EUR → GBP</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','CAD')">USD → CAD</button>
                     <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','JPY')">USD → JPY</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('AUD','USD')">AUD → USD</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('CAD','CHF')">CAD → CHF</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('INR','EUR')">INR → EUR</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','CNY')">USD → CNY</button>
                 </div>
                 <div class="info-box">
-                    <p style="margin: 0;">Frankfurter updates after 15:00 CET on business days. Historical conversions use the rate published on the selected date.</p>
+                    <p style="margin: 0;">Exchange rates come from the ECB daily reference data. Historical conversions use the rate published on the selected date.</p>
                 </div>
 
                 <div style="text-align: center; margin-top: 40px;">
@@ -153,26 +166,40 @@
     </footer>
 
     <script>
-        const API_BASE = 'https://api.frankfurter.app';
+        const ECB_API_BASE = 'https://data-api.ecb.europa.eu/service/data/EXR';
         const fallbackCurrencies = {
-            USD: 'United States Dollar',
-            EUR: 'Euro',
-            GBP: 'British Pound Sterling',
-            JPY: 'Japanese Yen',
             AUD: 'Australian Dollar',
+            BGN: 'Bulgarian Lev',
+            BRL: 'Brazilian Real',
             CAD: 'Canadian Dollar',
             CHF: 'Swiss Franc',
-            CNY: 'Chinese Yuan',
-            SEK: 'Swedish Krona',
-            NZD: 'New Zealand Dollar',
-            MXN: 'Mexican Peso',
-            INR: 'Indian Rupee',
-            SGD: 'Singapore Dollar',
-            ZAR: 'South African Rand',
-            NOK: 'Norwegian Krone',
+            CNY: 'Chinese Yuan Renminbi',
+            CZK: 'Czech Koruna',
             DKK: 'Danish Krone',
+            EUR: 'Euro',
+            GBP: 'British Pound Sterling',
+            HKD: 'Hong Kong Dollar',
+            HRK: 'Croatian Kuna',
+            HUF: 'Hungarian Forint',
+            IDR: 'Indonesian Rupiah',
+            ILS: 'Israeli Shekel',
+            INR: 'Indian Rupee',
+            ISK: 'Icelandic Króna',
+            JPY: 'Japanese Yen',
+            KRW: 'South Korean Won',
+            MXN: 'Mexican Peso',
+            MYR: 'Malaysian Ringgit',
+            NOK: 'Norwegian Krone',
+            NZD: 'New Zealand Dollar',
+            PHP: 'Philippine Peso',
             PLN: 'Polish Złoty',
-            BRL: 'Brazilian Real',
+            RON: 'Romanian Leu',
+            SEK: 'Swedish Krona',
+            SGD: 'Singapore Dollar',
+            THB: 'Thai Baht',
+            TRY: 'Turkish Lira',
+            USD: 'United States Dollar',
+            ZAR: 'South African Rand',
         };
         const popularTargets = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD'];
 
@@ -184,6 +211,7 @@
         const convertedAmountEl = document.getElementById('convertedAmount');
         const conversionRateEl = document.getElementById('conversionRate');
         const rateTimestampEl = document.getElementById('rateTimestamp');
+        const dataSourceEl = document.getElementById('dataSource');
         const popularRatesBox = document.getElementById('popularRates');
         const popularRatesList = document.getElementById('popularRatesList');
 
@@ -222,22 +250,9 @@
             });
         }
 
-        async function loadCurrencies() {
-            // Populate quickly with fallback, then hydrate with live list
+        function loadCurrencies() {
             populateSelect(fromSelect, fallbackCurrencies, ['USD', 'EUR']);
-            populateSelect(toSelect, fallbackCurrencies, ['USD', 'EUR']);
-
-            try {
-                const res = await fetch(`${API_BASE}/currencies`);
-                if (!res.ok) throw new Error('Failed to load currencies');
-                const data = await res.json();
-                populateSelect(fromSelect, data, ['USD', 'EUR']);
-                populateSelect(toSelect, data, ['USD', 'EUR']);
-            } catch (err) {
-                console.warn('Using fallback currencies:', err);
-                populateSelect(fromSelect, fallbackCurrencies, ['USD', 'EUR']);
-                populateSelect(toSelect, fallbackCurrencies, ['USD', 'EUR']);
-            }
+            populateSelect(toSelect, fallbackCurrencies, ['EUR', 'USD']);
         }
 
         function setMaxDate() {
@@ -267,6 +282,63 @@
             convertCurrency();
         }
 
+        function getSeriesIndex(dims, id) {
+            return dims.findIndex((dim) => dim.id === id);
+        }
+
+        function parseEcbRates(payload) {
+            const series = payload?.dataSets?.[0]?.series || {};
+            const seriesDims = payload?.structure?.dimensions?.series || [];
+            const obsDims = payload?.structure?.dimensions?.observation?.[0]?.values || [];
+            const currencyIdx = getSeriesIndex(seriesDims, 'CURRENCY');
+            const denomIdx = getSeriesIndex(seriesDims, 'CURRENCY_DENOM');
+            const rates = {};
+            let latestDate = '';
+
+            for (const [seriesKey, seriesData] of Object.entries(series)) {
+                const parts = seriesKey.split(':').map(Number);
+                const currency = seriesDims[currencyIdx]?.values?.[parts[currencyIdx]]?.id;
+                const denom = seriesDims[denomIdx]?.values?.[parts[denomIdx]]?.id;
+                if (!currency || denom !== 'EUR') continue;
+
+                const observationEntry = Object.entries(seriesData.observations || {})[0];
+                if (!observationEntry) continue;
+                const [obsIndex, [value]] = observationEntry;
+                const rateNumber = Number(value);
+                if (!Number.isFinite(rateNumber)) continue;
+                const obsDate = obsDims?.[Number(obsIndex)]?.id || obsDims?.[Number(obsIndex)]?.name;
+                rates[currency] = { value: rateNumber, date: obsDate };
+                if (obsDate && (!latestDate || obsDate > latestDate)) latestDate = obsDate;
+            }
+
+            if (latestDate) {
+                rates.EUR = { value: 1, date: latestDate };
+            }
+
+            return { rates, asOf: latestDate };
+        }
+
+        async function fetchEcbRates(codes, date) {
+            const uniqueCodes = Array.from(new Set(codes.filter(Boolean).map((c) => c.toUpperCase()).filter((c) => c !== 'EUR')));
+            const currencySegment = uniqueCodes.length ? uniqueCodes.join('+') : '';
+            const params = new URLSearchParams({ format: 'sdmx-json' });
+
+            if (date) {
+                params.set('startPeriod', date);
+                params.set('endPeriod', date);
+            } else {
+                params.set('lastNObservations', '1');
+            }
+
+            const url = `${ECB_API_BASE}/D.${currencySegment}.EUR.SP00.A?${params.toString()}`;
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Failed to fetch ECB data');
+            const data = await res.json();
+            const parsed = parseEcbRates(data);
+            if (!Object.keys(parsed.rates).length) throw new Error('No exchange rates returned.');
+            return parsed;
+        }
+
         async function convertCurrency() {
             const amount = parseFloat(amountInput.value);
             const from = fromSelect.value;
@@ -290,38 +362,38 @@
                 return;
             }
 
-            const targets = Array.from(new Set([...popularTargets, to])).filter((code) => code !== from);
-            const endpoint = date ? `${API_BASE}/${date}` : `${API_BASE}/latest`;
-            const url = `${endpoint}?amount=${amount}&from=${from}&to=${targets.join(',')}`;
+            const targets = Array.from(new Set([from, to, ...popularTargets]));
 
             conversionRateEl.textContent = 'Loading...';
             resultContainer.style.display = 'block';
 
             try {
-                const res = await fetch(url);
-                if (!res.ok) throw new Error('Failed to fetch rate');
-                const data = await res.json();
-                const rateValue = data.rates[to];
+                const { rates, asOf } = await fetchEcbRates(targets, date);
+                const fromRate = from === 'EUR' ? 1 : rates[from]?.value;
+                const toRate = to === 'EUR' ? 1 : rates[to]?.value;
+                const rateDate = date || asOf || 'Latest available';
 
-                if (rateValue === undefined) {
+                if (!fromRate || !toRate) {
                     throw new Error('Rate unavailable for this pair.');
                 }
 
-                const perUnitRate = rateValue / data.amount;
-                convertedAmountEl.textContent = `${rateValue.toFixed(4)} ${to}`;
+                const amountInEur = from === 'EUR' ? amount : amount / fromRate;
+                const convertedAmount = to === 'EUR' ? amountInEur : amountInEur * toRate;
+                const perUnitRate = to === 'EUR' ? 1 / fromRate : toRate / fromRate;
+
+                convertedAmountEl.textContent = `${convertedAmount.toFixed(4)} ${to}`;
                 conversionRateEl.textContent = `1 ${from} = ${perUnitRate.toFixed(6)} ${to}`;
-                rateTimestampEl.textContent = data.date || (date || 'Latest available');
+                rateTimestampEl.textContent = rateDate;
+                dataSourceEl.innerHTML = `<a href=\"https://data.ecb.europa.eu\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--color-accent);\">ECB Data</a> daily reference rates`;
 
-                const entries = Object.entries(data.rates)
-                    .filter(([code]) => code !== to)
-                    .slice(0, 8);
-
-                if (entries.length) {
-                    popularRatesList.innerHTML = entries.map(([code, value]) => {
-                        const perUnit = value / data.amount;
-                        return `<div style="background: var(--color-bg-secondary); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-                                    <div style="font-weight: 600;">${from} → ${code}</div>
-                                    <div style="color: var(--color-text-secondary); font-size: 0.95em;">1 ${from} = ${perUnit.toFixed(6)} ${code}</div>
+                const additionalTargets = popularTargets.filter((code) => code !== to && code !== from && rates[code]);
+                if (additionalTargets.length) {
+                    popularRatesList.innerHTML = additionalTargets.map((code) => {
+                        const codeRate = code === 'EUR' ? 1 : rates[code].value;
+                        const perUnit = code === 'EUR' ? 1 / fromRate : codeRate / fromRate;
+                        return `<div style=\"background: var(--color-bg-secondary); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);\">
+                                    <div style=\"font-weight: 600;\">${from} → ${code}</div>
+                                    <div style=\"color: var(--color-text-secondary); font-size: 0.95em;\">1 ${from} = ${perUnit.toFixed(6)} ${code}</div>
                                 </div>`;
                     }).join('');
                     popularRatesBox.style.display = 'block';
