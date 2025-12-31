@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Converter - Chomp Tools</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tools-recipes-style.css">
 </head>
-<body>
+<body class="">
         <header class="site-header">
         <nav class="site-nav">
             <a href="https://chompchomp.cc" class="site-logo">
@@ -64,7 +63,7 @@
             <div class="tool-header">
                 <picture>
                     <source srcset="https://ik.imagekit.io/chompchomp/Chomp_Chomp_weather_-_compressed_-_dark_4hw2yuFvr.JPG" media="(prefers-color-scheme: dark)">
-                    <img src="https://ik.imagekit.io/chompchomp/Chomp_Chomp_weather_-_compressed_-_light_MlKuSA_ZHK.JPG" alt="currency converter">
+                    <picture><source srcset="https://ik.imagekit.io/chompchomp/IMG_4599_wEs-f6fUD.jpeg" media="(prefers-color-scheme: dark)"><img src="https://ik.imagekit.io/chompchomp/Chomp_Chomp_logos.png_2eqSaeGtE.jpeg" alt="currency converter"></picture>
                 </picture>
                 <h1 style="margin: 16px 0 6px 0;">Currency Converter</h1>
                 <p class="tool-subtitle" style="margin: 0;">Live exchange rates powered directly by <a href="https://data.ecb.europa.eu" target="_blank" rel="noopener" style="color: var(--color-accent); text-decoration: underline;">ECB Data</a></p>
@@ -81,15 +80,15 @@
                     <div class="control-group">
                         <label class="control-label">From → To</label>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <select id="fromCurrency" class="form-select" style="flex: 1; min-width: 160px;"></select>
+                            <select id="fromCurrency" class="form-select" style="flex: 1; min-width: 160px;"><option value="AUD">AUD — Australian Dollar</option><option value="BGN">BGN — Bulgarian Lev</option><option value="BRL">BRL — Brazilian Real</option><option value="CAD">CAD — Canadian Dollar</option><option value="CHF">CHF — Swiss Franc</option><option value="CNY">CNY — Chinese Yuan Renminbi</option><option value="CZK">CZK — Czech Koruna</option><option value="DKK">DKK — Danish Krone</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound Sterling</option><option value="HKD">HKD — Hong Kong Dollar</option><option value="HRK">HRK — Croatian Kuna</option><option value="HUF">HUF — Hungarian Forint</option><option value="IDR">IDR — Indonesian Rupiah</option><option value="ILS">ILS — Israeli Shekel</option><option value="INR">INR — Indian Rupee</option><option value="ISK">ISK — Icelandic Króna</option><option value="JPY">JPY — Japanese Yen</option><option value="KRW">KRW — South Korean Won</option><option value="MXN">MXN — Mexican Peso</option><option value="MYR">MYR — Malaysian Ringgit</option><option value="NOK">NOK — Norwegian Krone</option><option value="NZD">NZD — New Zealand Dollar</option><option value="PHP">PHP — Philippine Peso</option><option value="PLN">PLN — Polish Złoty</option><option value="RON">RON — Romanian Leu</option><option value="SEK">SEK — Swedish Krona</option><option value="SGD">SGD — Singapore Dollar</option><option value="THB">THB — Thai Baht</option><option value="TRY">TRY — Turkish Lira</option><option value="USD">USD — United States Dollar</option><option value="ZAR">ZAR — South African Rand</option></select>
                             <button class="tool-button tool-button-secondary" onclick="swapCurrencies()" style="flex: 0 0 auto;">⇅ Swap</button>
-                            <select id="toCurrency" class="form-select" style="flex: 1; min-width: 160px;"></select>
+                            <select id="toCurrency" class="form-select" style="flex: 1; min-width: 160px;"><option value="AUD">AUD — Australian Dollar</option><option value="BGN">BGN — Bulgarian Lev</option><option value="BRL">BRL — Brazilian Real</option><option value="CAD">CAD — Canadian Dollar</option><option value="CHF">CHF — Swiss Franc</option><option value="CNY">CNY — Chinese Yuan Renminbi</option><option value="CZK">CZK — Czech Koruna</option><option value="DKK">DKK — Danish Krone</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound Sterling</option><option value="HKD">HKD — Hong Kong Dollar</option><option value="HRK">HRK — Croatian Kuna</option><option value="HUF">HUF — Hungarian Forint</option><option value="IDR">IDR — Indonesian Rupiah</option><option value="ILS">ILS — Israeli Shekel</option><option value="INR">INR — Indian Rupee</option><option value="ISK">ISK — Icelandic Króna</option><option value="JPY">JPY — Japanese Yen</option><option value="KRW">KRW — South Korean Won</option><option value="MXN">MXN — Mexican Peso</option><option value="MYR">MYR — Malaysian Ringgit</option><option value="NOK">NOK — Norwegian Krone</option><option value="NZD">NZD — New Zealand Dollar</option><option value="PHP">PHP — Philippine Peso</option><option value="PLN">PLN — Polish Złoty</option><option value="RON">RON — Romanian Leu</option><option value="SEK">SEK — Swedish Krona</option><option value="SGD">SGD — Singapore Dollar</option><option value="THB">THB — Thai Baht</option><option value="TRY">TRY — Turkish Lira</option><option value="USD">USD — United States Dollar</option><option value="ZAR">ZAR — South African Rand</option></select>
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="rateDate">Rate Date (optional)</label>
-                        <input type="date" id="rateDate" class="form-input">
+                        <input type="date" id="rateDate" class="form-input" max="2025-12-31">
                         <small style="display: block; color: var(--color-text-secondary); margin-top: 6px;">Defaults to the latest European Central Bank rates.</small>
                     </div>
 
@@ -151,9 +150,9 @@
             <div class="footer-links">
                 <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
                 <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
-                <a href="https://chompchomp.cc">chomp chomp: recipes & rituals</a>
+                <a href="https://chompchomp.cc">chomp chomp: recipes &amp; rituals</a>
             </div>
-            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+            <p style="margin-top: 15px;">© 2025 Chomp Chomp</p>
         </div>
     </footer>
 
@@ -406,5 +405,7 @@
         loadCurrencies();
         setMaxDate();
     </script>
-</body>
-</html>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+
+</body></html>
