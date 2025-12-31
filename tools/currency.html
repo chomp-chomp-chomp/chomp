@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="https://chompchomp.cc" class="site-logo">
+                <div class="site-logo-icon">
+                    <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+                    <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+                </div>
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+                          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="../index.html">Home</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Content</a>
+              <ul class="submenu">
+                <li><a href="../stories.html">Stories</a></li>
+                <li><a href="../recipes.html">Recipes</a></li>
+                <li><a href="../lexicon.html">Lexicon</a></li>
+                <li><a href="../reading-list.html">Reading List</a></li>
+              </ul>
+            </li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../store.html">Store</a></li>
+            <li class="menu-item-has-submenu">
+              <a href="#">Tools</a>
+                        <ul class="submenu">
+                            <li><a href="index.html">Index</a></li>
+                            <li><a href="ip.html">Whois</a></li>
+                            <li><a href="weather.html">Weather</a></li>
+                            <li><a href="convert.html">Convert</a></li>
+                            <li><a href="currency.html">Currency</a></li>
+                            <li><a href="encode.html">Encode</a></li>
+                            <li><a href="subnet.html">Subnet</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-submenu">
+                        <a href="#">Ipsum</a>
+                        <ul class="submenu">
+                            <li><a href="dante.html">Inferno</a></li>
+                            <li><a href="nautical.html">Nautical</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <div class="tool-hero" style="background: linear-gradient(135deg, #111 0%, #1a1a1a 50%, #252525 100%); padding: 28px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 12px 30px rgba(0,0,0,0.25);">
+                    <h1 style="margin: 0 0 6px 0;">Currency Converter</h1>
+                    <p class="tool-subtitle" style="margin: 0;">Live exchange rates powered by the Frankfurter (ECB) API</p>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <h2 class="section-title">Convert Currencies</h2>
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label" for="amount">Amount</label>
+                        <input type="number" id="amount" class="form-input" placeholder="Enter amount" value="100" step="0.01" min="0">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">From → To</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <select id="fromCurrency" class="form-select" style="flex: 1; min-width: 160px;"></select>
+                            <button class="tool-button tool-button-secondary" onclick="swapCurrencies()" style="flex: 0 0 auto;">⇅ Swap</button>
+                            <select id="toCurrency" class="form-select" style="flex: 1; min-width: 160px;"></select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="rateDate">Rate Date (optional)</label>
+                        <input type="date" id="rateDate" class="form-input">
+                        <small style="display: block; color: var(--color-text-secondary); margin-top: 6px;">Defaults to the latest European Central Bank rates.</small>
+                    </div>
+
+                    <div class="tool-actions">
+                        <button class="tool-button" onclick="convertCurrency()">Convert</button>
+                        <button class="tool-button tool-button-secondary" onclick="resetConverter()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="tool-result" id="conversionResult" style="display: none;">
+                    <h3 style="margin-bottom: 12px;">Result</h3>
+                    <div class="result-item">
+                        <span class="result-label">Converted Amount:</span>
+                        <span class="result-value" id="convertedAmount">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Rate:</span>
+                        <span class="result-value" id="conversionRate">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Rate Date:</span>
+                        <span class="result-value" id="rateTimestamp">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Source:</span>
+                        <span class="result-value">Frankfurter.app (ECB daily rates)</span>
+                    </div>
+
+                    <div class="info-box" id="popularRates" style="margin-top: 16px; display: none;">
+                        <p style="margin: 0 0 10px 0; font-weight: 600;">Popular targets from this base:</p>
+                        <div id="popularRatesList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <h2 class="section-title">Quick presets</h2>
+                <div class="tool-controls" style="gap: 10px; flex-wrap: wrap;">
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','EUR')">USD → EUR</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','GBP')">EUR → GBP</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','JPY')">USD → JPY</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('AUD','USD')">AUD → USD</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('CAD','CHF')">CAD → CHF</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('INR','EUR')">INR → EUR</button>
+                </div>
+                <div class="info-box">
+                    <p style="margin: 0;">Frankfurter updates after 15:00 CET on business days. Historical conversions use the rate published on the selected date.</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://chompchomp.cc">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = 'https://api.frankfurter.app';
+        const fallbackCurrencies = {
+            USD: 'United States Dollar',
+            EUR: 'Euro',
+            GBP: 'British Pound Sterling',
+            JPY: 'Japanese Yen',
+            AUD: 'Australian Dollar',
+            CAD: 'Canadian Dollar',
+            CHF: 'Swiss Franc',
+            CNY: 'Chinese Yuan',
+            SEK: 'Swedish Krona',
+            NZD: 'New Zealand Dollar',
+            MXN: 'Mexican Peso',
+            INR: 'Indian Rupee',
+            SGD: 'Singapore Dollar',
+            ZAR: 'South African Rand',
+            NOK: 'Norwegian Krone',
+            DKK: 'Danish Krone',
+            PLN: 'Polish Złoty',
+            BRL: 'Brazilian Real',
+        };
+        const popularTargets = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD'];
+
+        const amountInput = document.getElementById('amount');
+        const fromSelect = document.getElementById('fromCurrency');
+        const toSelect = document.getElementById('toCurrency');
+        const rateDateInput = document.getElementById('rateDate');
+        const resultContainer = document.getElementById('conversionResult');
+        const convertedAmountEl = document.getElementById('convertedAmount');
+        const conversionRateEl = document.getElementById('conversionRate');
+        const rateTimestampEl = document.getElementById('rateTimestamp');
+        const popularRatesBox = document.getElementById('popularRates');
+        const popularRatesList = document.getElementById('popularRatesList');
+
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) dropdown.classList.remove('active');
+            }
+        });
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
+        }
+
+        function populateSelect(selectEl, currencies, defaults = []) {
+            selectEl.innerHTML = '';
+            const entries = Object.entries(currencies).sort((a, b) => a[0].localeCompare(b[0]));
+            for (const [code, name] of entries) {
+                const option = document.createElement('option');
+                option.value = code;
+                option.textContent = `${code} — ${name}`;
+                selectEl.appendChild(option);
+            }
+            defaults.forEach((code, idx) => {
+                if (idx === 0 && selectEl === fromSelect) selectEl.value = code;
+                if (idx === 1 && selectEl === toSelect) selectEl.value = code;
+            });
+        }
+
+        async function loadCurrencies() {
+            // Populate quickly with fallback, then hydrate with live list
+            populateSelect(fromSelect, fallbackCurrencies, ['USD', 'EUR']);
+            populateSelect(toSelect, fallbackCurrencies, ['USD', 'EUR']);
+
+            try {
+                const res = await fetch(`${API_BASE}/currencies`);
+                if (!res.ok) throw new Error('Failed to load currencies');
+                const data = await res.json();
+                populateSelect(fromSelect, data, ['USD', 'EUR']);
+                populateSelect(toSelect, data, ['USD', 'EUR']);
+            } catch (err) {
+                console.warn('Using fallback currencies:', err);
+                populateSelect(fromSelect, fallbackCurrencies, ['USD', 'EUR']);
+                populateSelect(toSelect, fallbackCurrencies, ['USD', 'EUR']);
+            }
+        }
+
+        function setMaxDate() {
+            const today = new Date().toISOString().split('T')[0];
+            rateDateInput.max = today;
+        }
+
+        function swapCurrencies() {
+            const currentFrom = fromSelect.value;
+            fromSelect.value = toSelect.value;
+            toSelect.value = currentFrom;
+        }
+
+        function resetConverter() {
+            amountInput.value = 100;
+            rateDateInput.value = '';
+            fromSelect.value = 'USD';
+            toSelect.value = 'EUR';
+            resultContainer.style.display = 'none';
+            popularRatesBox.style.display = 'none';
+            popularRatesList.innerHTML = '';
+        }
+
+        function applyPreset(from, to) {
+            fromSelect.value = from;
+            toSelect.value = to;
+            convertCurrency();
+        }
+
+        async function convertCurrency() {
+            const amount = parseFloat(amountInput.value);
+            const from = fromSelect.value;
+            const to = toSelect.value;
+            const date = rateDateInput.value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter an amount greater than zero.');
+                return;
+            }
+            if (!from || !to) {
+                alert('Please select both currencies.');
+                return;
+            }
+            if (from === to) {
+                convertedAmountEl.textContent = `${amount.toFixed(2)} ${to}`;
+                conversionRateEl.textContent = '1:1 (same currency)';
+                rateTimestampEl.textContent = date || 'Latest available';
+                resultContainer.style.display = 'block';
+                popularRatesBox.style.display = 'none';
+                return;
+            }
+
+            const targets = Array.from(new Set([...popularTargets, to])).filter((code) => code !== from);
+            const endpoint = date ? `${API_BASE}/${date}` : `${API_BASE}/latest`;
+            const url = `${endpoint}?amount=${amount}&from=${from}&to=${targets.join(',')}`;
+
+            conversionRateEl.textContent = 'Loading...';
+            resultContainer.style.display = 'block';
+
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Failed to fetch rate');
+                const data = await res.json();
+                const rateValue = data.rates[to];
+
+                if (rateValue === undefined) {
+                    throw new Error('Rate unavailable for this pair.');
+                }
+
+                const perUnitRate = rateValue / data.amount;
+                convertedAmountEl.textContent = `${rateValue.toFixed(4)} ${to}`;
+                conversionRateEl.textContent = `1 ${from} = ${perUnitRate.toFixed(6)} ${to}`;
+                rateTimestampEl.textContent = data.date || (date || 'Latest available');
+
+                const entries = Object.entries(data.rates)
+                    .filter(([code]) => code !== to)
+                    .slice(0, 8);
+
+                if (entries.length) {
+                    popularRatesList.innerHTML = entries.map(([code, value]) => {
+                        const perUnit = value / data.amount;
+                        return `<div style="background: var(--color-bg-secondary); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                                    <div style="font-weight: 600;">${from} → ${code}</div>
+                                    <div style="color: var(--color-text-secondary); font-size: 0.95em;">1 ${from} = ${perUnit.toFixed(6)} ${code}</div>
+                                </div>`;
+                    }).join('');
+                    popularRatesBox.style.display = 'block';
+                } else {
+                    popularRatesBox.style.display = 'none';
+                    popularRatesList.innerHTML = '';
+                }
+            } catch (err) {
+                conversionRateEl.textContent = 'Could not fetch rates';
+                convertedAmountEl.textContent = '--';
+                rateTimestampEl.textContent = '--';
+                popularRatesBox.style.display = 'none';
+                popularRatesList.innerHTML = '';
+                alert(err.message || 'Conversion failed. Please try again.');
+            }
+        }
+
+        loadCurrencies();
+        setMaxDate();
+    </script>
+</body>
+</html>
