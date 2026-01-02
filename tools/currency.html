@@ -305,14 +305,35 @@
 
             if (latestDate) {
                 rates.EUR = { value: 1, date: latestDate };
+            } else if (!rates.EUR) {
+                rates.EUR = { value: 1, date: date || '' };
             }
 
             return { rates, asOf: latestDate };
         }
 
+        async function fetchSingleEcbRate(code, params) {
+            const url = new URL(`${ECB_API_BASE}/D.${code}.EUR.SP00.A`);
+            url.search = params.toString();
+            const res = await fetch(url.toString());
+
+            if (!res.ok) {
+                let message = `Failed to fetch ECB data for ${code}`;
+                const body = await res.text();
+                try {
+                    const errorPayload = JSON.parse(body);
+                    message = errorPayload?.detail || errorPayload?.title || message;
+                } catch (_) {
+                    if (body) message = body;
+                }
+                throw new Error(message);
+            }
+
+            return res.json();
+        }
+
         async function fetchEcbRates(codes, date) {
             const uniqueCodes = Array.from(new Set(codes.filter(Boolean).map((c) => c.toUpperCase()).filter((c) => c !== 'EUR')));
-            const currencySegment = uniqueCodes.length ? uniqueCodes.join('+') : '';
             const params = new URLSearchParams({ format: 'sdmx-json' });
 
             if (date) {
@@ -322,13 +343,31 @@
                 params.set('lastNObservations', '1');
             }
 
-            const url = `${ECB_API_BASE}/D.${currencySegment}.EUR.SP00.A?${params.toString()}`;
-            const res = await fetch(url);
-            if (!res.ok) throw new Error('Failed to fetch ECB data');
-            const data = await res.json();
-            const parsed = parseEcbRates(data);
-            if (!Object.keys(parsed.rates).length) throw new Error('No exchange rates returned.');
-            return parsed;
+            if (!uniqueCodes.length) {
+                return { rates: { EUR: { value: 1, date: date || '' } }, asOf: date || '' };
+            }
+
+            const responses = await Promise.all(uniqueCodes.map(async (code) => {
+                const data = await fetchSingleEcbRate(code, params);
+                const parsed = parseEcbRates(data);
+                const entry = parsed.rates?.[code];
+                if (!entry) throw new Error(`No exchange rate returned for ${code}.`);
+                return { code, entry };
+            }));
+
+            const rates = {};
+            let latestDate = '';
+
+            for (const { code, entry } of responses) {
+                rates[code] = entry;
+                if (entry.date && (!latestDate || entry.date > latestDate)) latestDate = entry.date;
+            }
+
+            if (latestDate) {
+                rates.EUR = { value: 1, date: latestDate };
+            }
+
+            return { rates, asOf: latestDate || date || '' };
         }
 
         async function convertCurrency() {
