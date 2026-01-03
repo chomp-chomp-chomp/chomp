@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text Tools - Chomp Tools</title>
+  <title>Text - Chomp Tools</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tools-recipes-style.css">
 </head>
@@ -46,7 +46,6 @@
               <li><a href="currency.html">Currency</a></li>
               <li><a href="encode.html">Encode</a></li>
               <li><a href="subnet.html">Subnet</a></li>
-              <!-- Add your new page link wherever you want in the list -->
               <li><a href="text.html" class="active">Text</a></li>
             </ul>
           </li>
@@ -83,7 +82,7 @@
           <label class="control-label" for="inputText">Input</label>
           <textarea id="inputText" class="form-input" placeholder="Paste or type text here…" rows="10" style="width: 100%; resize: vertical;"></textarea>
           <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
-            Tip: Most actions modify the text in place. Use Copy/Undo if you want to preserve a version.
+            Most actions modify the text in place. Use Copy/Undo if you want to preserve a version.
           </small>
         </div>
 
@@ -117,34 +116,120 @@
         </div>
       </div>
 
+      <!-- TRANSFORM -->
       <div class="tool-controls" style="margin-top: 18px;">
         <div class="control-group">
-          <label class="control-label">Core</label>
-          <div style="display:flex; gap: 10px; flex-wrap: wrap;">
-            <button class="tool-button tool-button-secondary" type="button" data-action="upper">UPPERCASE</button>
-            <button class="tool-button tool-button-secondary" type="button" data-action="lower">lowercase</button>
-            <button class="tool-button tool-button-secondary" type="button" data-action="title">Title Case</button>
+          <label class="control-label">Transform</label>
 
-            <button class="tool-button tool-button-secondary" type="button" data-action="trim">Trim whitespace</button>
-            <button class="tool-button tool-button-secondary" type="button" data-action="collapseSpaces">Collapse spaces</button>
-            <button class="tool-button tool-button-secondary" type="button" data-action="removeBlankLines">Remove blank lines</button>
-          </div>
-        </div>
+          <!-- Collapsible: Lines -->
+          <details open style="margin-top: 8px;">
+            <summary style="cursor: pointer; user-select: none; font-weight: 600; margin-bottom: 10px;">Lines</summary>
 
-        <div class="control-group">
-          <label class="control-label">Nice-to-have</label>
-          <div style="display:flex; gap: 10px; flex-wrap: wrap;">
-            <button class="tool-button tool-button-secondary" type="button" data-action="sortAsc">Sort lines A–Z</button>
-            <button class="tool-button tool-button-secondary" type="button" data-action="sortDesc">Sort lines Z–A</button>
-            <button class="tool-button tool-button-secondary" type="button" data-action="dedupeLines">Deduplicate lines</button>
+            <div style="display:flex; gap: 10px; flex-wrap: wrap;">
+              <button class="tool-button tool-button-secondary" type="button" data-action="sortAsc">Sort lines A–Z</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="sortDesc">Sort lines Z–A</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="dedupeLines">Deduplicate lines</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="reverseText">Reverse text</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="reverseLines">Reverse lines</button>
 
-            <button class="tool-button tool-button-secondary" type="button" data-action="reverseText">Reverse text</button>
-            <button class="tool-button tool-button-secondary" type="button" data-action="reverseLines">Reverse lines</button>
-          </div>
+              <button class="tool-button tool-button-secondary" type="button" data-action="numberLines">Number lines</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="removeLineNumbers">Remove line numbers</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="removeBullets">Remove bullets</button>
 
-          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
-            Sorting/deduping operate on lines; they preserve empty lines unless you remove them first.
-          </small>
+              <button class="tool-button tool-button-secondary" type="button" data-action="uniqueLinesCI">Keep only unique lines (case-insensitive)</button>
+            </div>
+
+            <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
+              <div style="flex: 1; min-width: 220px;">
+                <label class="control-label" for="prefixInput" style="margin-bottom: 6px;">Prefix each line</label>
+                <input id="prefixInput" class="form-input" type="text" placeholder="e.g., •  or  - " />
+              </div>
+              <div style="flex: 1; min-width: 220px;">
+                <label class="control-label" for="suffixInput" style="margin-bottom: 6px;">Suffix each line</label>
+                <input id="suffixInput" class="form-input" type="text" placeholder="e.g.,  ;" />
+              </div>
+              <button class="tool-button tool-button-secondary" type="button" data-action="addPrefixSuffix">Add prefix / suffix</button>
+            </div>
+
+            <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
+              <div style="width: 200px; min-width: 160px;">
+                <label class="control-label" for="wrapWidthInput" style="margin-bottom: 6px;">Wrap at N chars</label>
+                <input id="wrapWidthInput" class="form-input" type="number" min="10" step="1" value="80" />
+              </div>
+              <button class="tool-button tool-button-secondary" type="button" data-action="wrapLines">Wrap lines</button>
+            </div>
+
+            <small style="display:block; color: var(--color-text-secondary); margin-top: 8px;">
+              “Number lines” uses <code>1. </code> style. “Remove line numbers” targets patterns like <code>1.</code>, <code>1)</code>, <code>1 -</code>, <code>1:</code>.
+            </small>
+          </details>
+
+          <!-- Collapsible: Formatting -->
+          <details style="margin-top: 14px;">
+            <summary style="cursor: pointer; user-select: none; font-weight: 600; margin-bottom: 10px;">Formatting</summary>
+
+            <div style="display:flex; gap: 10px; flex-wrap: wrap;">
+              <button class="tool-button tool-button-secondary" type="button" data-action="sentenceCase">Sentence case</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="toggleCase">Toggle case</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="capitalizeLines">Capitalize first letter of each line</button>
+
+              <button class="tool-button tool-button-secondary" type="button" data-action="removeDiacritics">Remove diacritics (é → e)</button>
+
+              <button class="tool-button tool-button-secondary" type="button" data-action="smartQuotesToAscii">Smart quotes → ASCII</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="asciiToSmartQuotes">ASCII → smart quotes</button>
+
+              <button class="tool-button tool-button-secondary" type="button" data-action="removeTrailingWhitespace">Remove trailing whitespace</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="indentBlock">Indent</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="unindentBlock">Unindent</button>
+            </div>
+
+            <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
+              <div style="width: 220px; min-width: 180px;">
+                <label class="control-label" for="tabSizeInput" style="margin-bottom: 6px;">Tab size (spaces)</label>
+                <input id="tabSizeInput" class="form-input" type="number" min="1" step="1" value="2" />
+              </div>
+              <button class="tool-button tool-button-secondary" type="button" data-action="tabsToSpaces">Tabs → spaces</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="spacesToTabs">Spaces → tabs</button>
+            </div>
+
+            <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
+              <div style="width: 220px; min-width: 180px;">
+                <label class="control-label" for="indentSizeInput" style="margin-bottom: 6px;">Indent size (spaces)</label>
+                <input id="indentSizeInput" class="form-input" type="number" min="1" step="1" value="2" />
+              </div>
+            </div>
+
+            <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
+              <div style="width: 260px; min-width: 220px;">
+                <label class="control-label" for="delimiterInput" style="margin-bottom: 6px;">Align columns (delimiter)</label>
+                <input id="delimiterInput" class="form-input" type="text" placeholder="e.g., ,   |   :   tab" value="," />
+                <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">Tip: type <code>\t</code> for tab.</small>
+              </div>
+              <button class="tool-button tool-button-secondary" type="button" data-action="alignColumns">Align columns</button>
+            </div>
+          </details>
+
+          <!-- Collapsible: De-Em Dash -->
+          <details style="margin-top: 14px;">
+            <summary style="cursor: pointer; user-select: none; font-weight: 600; margin-bottom: 10px;">De-Em Dash</summary>
+
+            <div style="display:flex; gap: 10px; flex-wrap: wrap;">
+              <button class="tool-button tool-button-secondary" type="button" data-action="emDashToHyphen">Replace em dashes with hyphens</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="emDashToDoubleHyphen">Replace em dashes with double hyphens</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="emDashToColon">Replace em dashes with colons</button>
+              <button class="tool-button tool-button-secondary" type="button" data-action="emDashToSemicolon">Replace em dashes with semicolons</button>
+            </div>
+
+            <div class="info-box" style="margin-top: 12px;">
+              <p style="margin: 0;">
+                <strong>Warning:</strong> Before rushing to de-em dash your ChatGPT-generated text (lol), remember that an em dash replacement depends on grammar and the context of the sentence. As with all AI, use at your own risk. :-)
+              </p>
+              <p style="margin: 10px 0 0 0; color: var(--color-text-secondary);">
+                Replacements use: <code> space-hyphen-space </code>, <code> space-hyphen-hyphen-space </code>, <code> colon-space </code>, <code> semicolon-space </code>.
+              </p>
+            </div>
+          </details>
+
         </div>
       </div>
 
@@ -157,7 +242,6 @@
       <div style="text-align: center; margin-top: 40px;">
         <a href="index.html" class="btn btn-outline">← Back to Tools</a>
       </div>
-
     </div>
   </div>
 
@@ -209,7 +293,14 @@
     const undoBtn = document.getElementById('undoBtn');
     const resetBtn = document.getElementById('resetBtn');
 
-    // Simple undo stack (single-step is usually enough, but we can do more)
+    const prefixInput = document.getElementById('prefixInput');
+    const suffixInput = document.getElementById('suffixInput');
+    const wrapWidthInput = document.getElementById('wrapWidthInput');
+
+    const tabSizeInput = document.getElementById('tabSizeInput');
+    const indentSizeInput = document.getElementById('indentSizeInput');
+    const delimiterInput = document.getElementById('delimiterInput');
+
     const undoStack = [];
 
     function pushUndoState() {
@@ -226,15 +317,11 @@
       const charsWithSpaces = text.length;
       const charsNoSpaces = text.replace(/\s+/g, '').length;
 
-      // Words: split on whitespace, ignore empties
       const words = text.trim().length ? text.trim().split(/\s+/).filter(Boolean) : [];
       const wordCount = words.length;
 
-      // Lines: count newline-separated lines; treat empty as 0 lines
       const lines = text.length ? text.split(/\r\n|\r|\n/).length : 0;
 
-      // Sentences (basic): count occurrences of ., !, ? ending segments
-      // This is intentionally conservative and imperfect.
       const sentenceMatches = text
         .replace(/\s+/g, ' ')
         .trim()
@@ -253,16 +340,6 @@
       updateCounts();
     }
 
-    function toTitleCase(str) {
-      // Title-case each word, keep punctuation as-is
-      // (Simple approach: split on whitespace)
-      return str.replace(/\S+/g, (word) => {
-        const first = word.charAt(0);
-        const rest = word.slice(1);
-        return first.toUpperCase() + rest.toLowerCase();
-      });
-    }
-
     function getLines(text) {
       return text.split(/\r\n|\r|\n/);
     }
@@ -271,81 +348,339 @@
       return lines.join('\n');
     }
 
-    function applyAction(action) {
-      const text = inputText.value || '';
+    function parseIntSafe(val, fallback) {
+      const n = parseInt(String(val), 10);
+      return Number.isFinite(n) && n > 0 ? n : fallback;
+    }
 
-      // No-op actions shouldn’t create undo states
-      if (!text && !['trim', 'collapseSpaces', 'removeBlankLines'].includes(action)) {
-        return;
+    // --- Formatting helpers ---
+    function toSentenceCase(text) {
+      const lowered = text.toLowerCase();
+      let out = '';
+      let capitalizeNext = true;
+
+      for (let i = 0; i < lowered.length; i++) {
+        const ch = lowered[i];
+        if (capitalizeNext && /[a-z]/i.test(ch)) {
+          out += ch.toUpperCase();
+          capitalizeNext = false;
+        } else {
+          out += ch;
+        }
+        if (ch === '.' || ch === '!' || ch === '?') {
+          capitalizeNext = true;
+        }
+      }
+      return out;
+    }
+
+    function toggleCase(text) {
+      let out = '';
+      for (const ch of text) {
+        const upper = ch.toUpperCase();
+        const lower = ch.toLowerCase();
+        if (ch === upper && ch !== lower) out += lower;
+        else if (ch === lower && ch !== upper) out += upper;
+        else out += ch;
+      }
+      return out;
+    }
+
+    function capitalizeFirstLetterEachLine(text) {
+      const lines = getLines(text);
+      const out = lines.map(line => {
+        const idx = line.search(/[A-Za-z]/);
+        if (idx === -1) return line;
+        return line.slice(0, idx) + line[idx].toUpperCase() + line.slice(idx + 1);
+      });
+      return joinLines(out);
+    }
+
+    function removeDiacritics(text) {
+      return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC');
+    }
+
+    function smartQuotesToAscii(text) {
+      return text
+        .replace(/[“”„«»]/g, '"')
+        .replace(/[‘’‚‹›]/g, "'")
+        .replace(/\u00A0/g, ' ');
+    }
+
+    function asciiToSmartQuotes(text) {
+      let out = '';
+      let doubleOpen = true;
+      let singleOpen = true;
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+
+        if (ch === '"') {
+          out += doubleOpen ? '“' : '”';
+          doubleOpen = !doubleOpen;
+          continue;
+        }
+
+        if (ch === "'") {
+          const prev = text[i - 1] || '';
+          const next = text[i + 1] || '';
+          const isContraction = /[A-Za-z]/.test(prev) && /[A-Za-z]/.test(next);
+          if (isContraction) {
+            out += '’';
+          } else {
+            out += singleOpen ? '‘' : '’';
+            singleOpen = !singleOpen;
+          }
+          continue;
+        }
+
+        out += ch;
       }
 
-      // Save state before modification
+      return out;
+    }
+
+    function removeTrailingWhitespace(text) {
+      return getLines(text).map(line => line.replace(/[ \t]+$/g, '')).join('\n');
+    }
+
+    function tabsToSpaces(text, tabSize) {
+      const spaces = ' '.repeat(tabSize);
+      return text.replace(/\t/g, spaces);
+    }
+
+    function spacesToTabs(text, tabSize) {
+      const re = new RegExp(' {' + tabSize + '}', 'g');
+      return getLines(text).map(line => {
+        const leading = line.match(/^[ ]+/);
+        let converted = line;
+        if (leading && leading[0].length >= tabSize) {
+          const lead = leading[0].replace(re, '\t');
+          converted = lead + line.slice(leading[0].length);
+        }
+        return converted.replace(re, '\t');
+      }).join('\n');
+    }
+
+    function indentBlock(text, indentSize) {
+      const pad = ' '.repeat(indentSize);
+      return getLines(text).map(line => (line.length ? pad + line : line)).join('\n');
+    }
+
+    function unindentBlock(text, indentSize) {
+      const re = new RegExp('^ {1,' + indentSize + '}');
+      return getLines(text).map(line => line.replace(re, '')).join('\n');
+    }
+
+    function alignColumnsByDelimiter(text, delimiterRaw) {
+      const delimiter = delimiterRaw === '\\t' ? '\t' : delimiterRaw;
+      if (!delimiter) return text;
+
+      const lines = getLines(text);
+      const rows = lines.map(line => line.split(delimiter));
+
+      const colCount = Math.max(...rows.map(r => r.length));
+      const widths = Array(colCount).fill(0);
+
+      for (const row of rows) {
+        for (let i = 0; i < colCount; i++) {
+          const cell = (row[i] ?? '').trim();
+          widths[i] = Math.max(widths[i], cell.length);
+        }
+      }
+
+      const out = rows.map(row => {
+        const cells = [];
+        for (let i = 0; i < colCount; i++) {
+          const cell = (row[i] ?? '').trim();
+          if (i === colCount - 1) cells.push(cell);
+          else cells.push(cell.padEnd(widths[i], ' '));
+        }
+        const joiner = delimiter === '\t' ? '\t' : (delimiter + ' ');
+        return cells.join(joiner).trimEnd();
+      });
+
+      return out.join('\n');
+    }
+
+    // --- Line helpers ---
+    function sortAsc(text) {
+      const lines = getLines(text);
+      lines.sort((a, b) => a.localeCompare(b));
+      return joinLines(lines);
+    }
+
+    function sortDesc(text) {
+      const lines = getLines(text);
+      lines.sort((a, b) => b.localeCompare(a));
+      return joinLines(lines);
+    }
+
+    function dedupeLines(text) {
+      const lines = getLines(text);
+      const seen = new Set();
+      const out = [];
+      for (const line of lines) {
+        if (!seen.has(line)) {
+          seen.add(line);
+          out.push(line);
+        }
+      }
+      return joinLines(out);
+    }
+
+    function uniqueLinesCaseInsensitive(text) {
+      const lines = getLines(text);
+      const seen = new Set();
+      const out = [];
+      for (const line of lines) {
+        const key = line.trim().toLowerCase();
+        if (!key) continue;
+        if (!seen.has(key)) {
+          seen.add(key);
+          out.push(line);
+        }
+      }
+      return joinLines(out);
+    }
+
+    function reverseText(text) {
+      return text.split('').reverse().join('');
+    }
+
+    function reverseLines(text) {
+      return joinLines(getLines(text).reverse());
+    }
+
+    function numberLines(text) {
+      const lines = getLines(text);
+      let n = 0;
+      const out = lines.map(line => {
+        if (line.trim() === '') return line;
+        n += 1;
+        return `${n}. ${line}`;
+      });
+      return joinLines(out);
+    }
+
+    function removeLineNumbers(text) {
+      const re = /^\s*\d+\s*([.)\]:-])\s+/;
+      return getLines(text).map(line => line.replace(re, '')).join('\n');
+    }
+
+    function removeBullets(text) {
+      const re = /^\s*([-*•–—])\s+/;
+      return getLines(text).map(line => line.replace(re, '')).join('\n');
+    }
+
+    function addPrefixSuffix(text, prefix, suffix) {
+      const lines = getLines(text);
+      return lines.map(line => {
+        if (line === '') return line;
+        return `${prefix || ''}${line}${suffix || ''}`;
+      }).join('\n');
+    }
+
+    function wrapText(text, width) {
+      const lines = getLines(text);
+      const out = [];
+
+      for (const line of lines) {
+        if (line.length <= width || line.trim() === '') {
+          out.push(line);
+          continue;
+        }
+
+        let remaining = line;
+        while (remaining.length > width) {
+          let breakAt = remaining.lastIndexOf(' ', width);
+          if (breakAt <= 0) breakAt = width;
+          out.push(remaining.slice(0, breakAt));
+          remaining = remaining.slice(breakAt).replace(/^\s+/, '');
+        }
+        if (remaining.length) out.push(remaining);
+      }
+
+      return out.join('\n');
+    }
+
+    // --- De-em dash ---
+    function replaceEmDashes(text, mode) {
+      const em = /—/g;
+      if (mode === 'hyphen') return text.replace(em, ' - ');
+      if (mode === 'doublehyphen') return text.replace(em, ' -- ');
+      if (mode === 'colon') return text.replace(em, ': ');
+      if (mode === 'semicolon') return text.replace(em, '; ');
+      return text;
+    }
+
+    function applyAction(action) {
+      const text = inputText.value || '';
+      if (!text) return;
+
       pushUndoState();
 
       let next = text;
 
       switch (action) {
-        // Core
-        case 'upper':
-          next = text.toUpperCase();
+        // Lines
+        case 'sortAsc': next = sortAsc(text); break;
+        case 'sortDesc': next = sortDesc(text); break;
+        case 'dedupeLines': next = dedupeLines(text); break;
+        case 'reverseText': next = reverseText(text); break;
+        case 'reverseLines': next = reverseLines(text); break;
+        case 'numberLines': next = numberLines(text); break;
+        case 'removeLineNumbers': next = removeLineNumbers(text); break;
+        case 'removeBullets': next = removeBullets(text); break;
+        case 'uniqueLinesCI': next = uniqueLinesCaseInsensitive(text); break;
+        case 'addPrefixSuffix': next = addPrefixSuffix(text, prefixInput.value || '', suffixInput.value || ''); break;
+        case 'wrapLines': {
+          const width = parseIntSafe(wrapWidthInput.value, 80);
+          next = wrapText(text, width);
           break;
-        case 'lower':
-          next = text.toLowerCase();
-          break;
-        case 'title':
-          next = toTitleCase(text);
-          break;
-        case 'trim':
-          // Trim each line + overall
-          next = getLines(text).map(l => l.trim()).join('\n').trim();
-          break;
-        case 'collapseSpaces':
-          // Collapse multiple spaces/tabs (preserve newlines)
-          next = text
-            .split(/\r\n|\r|\n/)
-            .map(line => line.replace(/[ \t]+/g, ' ').trimEnd())
-            .join('\n');
-          break;
-        case 'removeBlankLines':
-          next = getLines(text).filter(line => line.trim() !== '').join('\n');
-          break;
+        }
 
-        // Nice-to-have
-        case 'sortAsc': {
-          const lines = getLines(text);
-          lines.sort((a, b) => a.localeCompare(b));
-          next = joinLines(lines);
+        // Formatting
+        case 'sentenceCase': next = toSentenceCase(text); break;
+        case 'toggleCase': next = toggleCase(text); break;
+        case 'capitalizeLines': next = capitalizeFirstLetterEachLine(text); break;
+        case 'removeDiacritics': next = removeDiacritics(text); break;
+        case 'smartQuotesToAscii': next = smartQuotesToAscii(text); break;
+        case 'asciiToSmartQuotes': next = asciiToSmartQuotes(text); break;
+        case 'tabsToSpaces': {
+          const tabSize = parseIntSafe(tabSizeInput.value, 2);
+          next = tabsToSpaces(text, tabSize);
           break;
         }
-        case 'sortDesc': {
-          const lines = getLines(text);
-          lines.sort((a, b) => b.localeCompare(a));
-          next = joinLines(lines);
+        case 'spacesToTabs': {
+          const tabSize = parseIntSafe(tabSizeInput.value, 2);
+          next = spacesToTabs(text, tabSize);
           break;
         }
-        case 'dedupeLines': {
-          const lines = getLines(text);
-          const seen = new Set();
-          const out = [];
-          for (const line of lines) {
-            if (!seen.has(line)) {
-              seen.add(line);
-              out.push(line);
-            }
-          }
-          next = joinLines(out);
+        case 'removeTrailingWhitespace': next = removeTrailingWhitespace(text); break;
+        case 'indentBlock': {
+          const n = parseIntSafe(indentSizeInput.value, 2);
+          next = indentBlock(text, n);
           break;
         }
-        case 'reverseText':
-          next = text.split('').reverse().join('');
-          break;
-        case 'reverseLines': {
-          const lines = getLines(text).reverse();
-          next = joinLines(lines);
+        case 'unindentBlock': {
+          const n = parseIntSafe(indentSizeInput.value, 2);
+          next = unindentBlock(text, n);
           break;
         }
+        case 'alignColumns': {
+          const delim = (delimiterInput.value || ',').trim();
+          next = alignColumnsByDelimiter(text, delim);
+          break;
+        }
+
+        // De-em dash
+        case 'emDashToHyphen': next = replaceEmDashes(text, 'hyphen'); break;
+        case 'emDashToDoubleHyphen': next = replaceEmDashes(text, 'doublehyphen'); break;
+        case 'emDashToColon': next = replaceEmDashes(text, 'colon'); break;
+        case 'emDashToSemicolon': next = replaceEmDashes(text, 'semicolon'); break;
+
         default:
-          // If unknown action, restore undo state push
           undoStack.pop();
           undoBtn.disabled = undoStack.length === 0;
           return;
@@ -354,7 +689,6 @@
       setText(next);
     }
 
-    // Button wiring
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-action]');
       if (!btn) return;
@@ -367,7 +701,6 @@
     copyBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(inputText.value || '');
-        // Soft confirmation without changing layout:
         const original = copyBtn.textContent;
         copyBtn.textContent = 'Copied';
         setTimeout(() => (copyBtn.textContent = original), 900);
@@ -390,7 +723,6 @@
       inputText.focus();
     });
 
-    // Init
     updateCounts();
   </script>
 </body>
