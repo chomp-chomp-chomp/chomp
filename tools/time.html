@@ -85,9 +85,6 @@
           <div class="control-group">
             <label class="control-label" for="nowTimeZone">Time zone</label>
             <select id="nowTimeZone" class="form-select"></select>
-            <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
-              Tip: Start typing to jump (browser-native select behavior varies).
-            </small>
           </div>
 
           <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
@@ -114,7 +111,19 @@
             <div class="result-value" id="nowDst">—</div>
           </div>
 
-          <!-- “Section 6 results not already covered” -->
+          <div class="result-item">
+            <div class="result-label">UTC Time</div>
+            <div class="result-value" id="nowUtcTime">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Unix (seconds)</div>
+            <div class="result-value" id="nowUnixS">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Unix (milliseconds)</div>
+            <div class="result-value" id="nowUnixMs">—</div>
+          </div>
+
           <div class="result-item">
             <div class="result-label">ISO Date</div>
             <div class="result-value" id="nowIsoDate">—</div>
@@ -135,6 +144,17 @@
         <h2 class="section-title">Time Zone Converter</h2>
 
         <div class="tool-controls">
+          <!-- From/To first -->
+          <div class="control-group">
+            <label class="control-label" for="convFromTz">From</label>
+            <select id="convFromTz" class="form-select"></select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="convToTz">To</label>
+            <select id="convToTz" class="form-select"></select>
+          </div>
+
           <div class="control-group">
             <label class="control-label" for="convDate">Date</label>
             <input id="convDate" class="form-input" type="date" />
@@ -146,16 +166,6 @@
             <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
               Uses minute precision.
             </small>
-          </div>
-
-          <div class="control-group">
-            <label class="control-label" for="convFromTz">From</label>
-            <select id="convFromTz" class="form-select"></select>
-          </div>
-
-          <div class="control-group">
-            <label class="control-label" for="convToTz">To</label>
-            <select id="convToTz" class="form-select"></select>
           </div>
 
           <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
@@ -174,12 +184,8 @@
             <div class="result-value" id="convDayShift">—</div>
           </div>
           <div class="result-item">
-            <div class="result-label">UTC (input)</div>
-            <div class="result-value" id="convUtcInput">—</div>
-          </div>
-          <div class="result-item">
-            <div class="result-label">UTC (converted)</div>
-            <div class="result-value" id="convUtcConverted">—</div>
+            <div class="result-label">UTC (instant)</div>
+            <div class="result-value" id="convUtcInstant">—</div>
           </div>
         </div>
 
@@ -330,6 +336,7 @@
           <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
             <button class="tool-button" type="button" onclick="convertUnixIso()">Convert</button>
             <button class="tool-button tool-button-secondary" type="button" onclick="resetUnixIso()">Reset</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="unixUseNow()">Get Current Time</button>
           </div>
         </div>
 
@@ -383,13 +390,11 @@
   </footer>
 
   <script>
-    // Tools dropdown toggle
     function toggleToolsDropdown() {
       const dropdown = document.getElementById('toolsDropdown');
       dropdown.classList.toggle('active');
     }
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.nav-tools-dropdown')) {
         const dropdown = document.getElementById('toolsDropdown');
@@ -397,7 +402,6 @@
       }
     });
 
-    // Mobile menu toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const toolsDropdown = document.querySelector('.nav-tools-dropdown');
     if (menuToggle && toolsDropdown) {
@@ -407,7 +411,7 @@
     }
 
     // ----------------------------
-    // Time/Date helpers
+    // Helpers
     // ----------------------------
     function getTimeZones() {
       try {
@@ -415,7 +419,6 @@
           return Intl.supportedValuesOf('timeZone');
         }
       } catch (e) {}
-      // Fallback short list (kept small on purpose)
       return [
         'UTC',
         'America/New_York',
@@ -442,18 +445,12 @@
         opt.textContent = tz;
         selectEl.appendChild(opt);
       }
-      if (defaultValue && zones.includes(defaultValue)) {
-        selectEl.value = defaultValue;
-      } else {
-        // best guess: user's current tz if available
-        const guess = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-        if (zones.includes(guess)) selectEl.value = guess;
-      }
+      const guess = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+      selectEl.value = zones.includes(defaultValue) ? defaultValue : (zones.includes(guess) ? guess : 'UTC');
     }
 
     function pad2(n) { return String(n).padStart(2, '0'); }
 
-    // Returns date parts for a specific timeZone (year, month, day, hour, minute, second)
     function getZonedParts(date, timeZone) {
       const dtf = new Intl.DateTimeFormat('en-US', {
         timeZone,
@@ -484,8 +481,6 @@
       return { dateStr, timeStr };
     }
 
-    // Get numeric offset minutes for timeZone at given date.
-    // Uses timeZoneName: 'shortOffset' when available; falls back to parse a GMT±HH:mm string.
     function getOffsetMinutes(date, timeZone) {
       try {
         const dtf = new Intl.DateTimeFormat('en-US', {
@@ -495,7 +490,6 @@
           hour12: false
         });
         const tzPart = dtf.formatToParts(date).find(p => p.type === 'timeZoneName')?.value || '';
-        // e.g., "GMT-5", "GMT+01:00"
         const m = tzPart.match(/GMT([+-])(\d{1,2})(?::?(\d{2}))?/);
         if (!m) return 0;
         const sign = m[1] === '-' ? -1 : 1;
@@ -516,58 +510,43 @@
     }
 
     function isDst(date, timeZone) {
-      // DST heuristic: compare offset in Jan vs Jul to current
       const y = date.getUTCFullYear();
       const jan = new Date(Date.UTC(y, 0, 15, 12, 0, 0));
       const jul = new Date(Date.UTC(y, 6, 15, 12, 0, 0));
       const offNow = getOffsetMinutes(date, timeZone);
       const offJan = getOffsetMinutes(jan, timeZone);
       const offJul = getOffsetMinutes(jul, timeZone);
-      const std = Math.max(offJan, offJul); // standard time typically has larger offset minutes (e.g. -300 > -240)
+      const std = Math.max(offJan, offJul);
       return offNow !== std;
     }
 
-    // ISO date from zoned parts: YYYY-MM-DD
     function isoDateFromZonedParts(parts) {
       return `${parts.year}-${pad2(parts.month)}-${pad2(parts.day)}`;
     }
 
-    // Day of year based on zoned Y-M-D, computed in UTC space for correctness
     function dayOfYearFromZonedYmd(parts) {
       const start = Date.UTC(parts.year, 0, 1);
       const current = Date.UTC(parts.year, parts.month - 1, parts.day);
       return Math.floor((current - start) / 86400000) + 1;
     }
 
-    // ISO week number based on zoned Y-M-D (calendar logic in UTC)
     function isoWeekNumberFromZonedYmd(parts) {
       const d = new Date(Date.UTC(parts.year, parts.month - 1, parts.day));
-      // ISO week: Thursday-based
-      const day = d.getUTCDay() || 7; // Mon=1..Sun=7
+      const day = d.getUTCDay() || 7;
       d.setUTCDate(d.getUTCDate() + 4 - day);
       const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-      const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-      return weekNo;
+      return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
     }
 
-    // Parse local date+time "as if in timeZone", produce a UTC Date instant.
-    // Approach: iterative correction using offsets.
     function zonedDateTimeToUtc(dateStr, timeStr, timeZone) {
       if (!dateStr || !timeStr) return null;
       const [y, m, d] = dateStr.split('-').map(Number);
       const [hh, mm] = timeStr.split(':').map(Number);
-
-      // Initial guess: treat input as UTC then correct by offset
       let utcGuess = new Date(Date.UTC(y, m - 1, d, hh, mm, 0));
-      // Correct using offset at that moment in that zone
       const offsetMin = getOffsetMinutes(utcGuess, timeZone);
       utcGuess = new Date(utcGuess.getTime() - offsetMin * 60000);
-
-      // One more pass improves around DST transitions
       const offsetMin2 = getOffsetMinutes(utcGuess, timeZone);
-      const corrected = new Date(Date.UTC(y, m - 1, d, hh, mm, 0) - offsetMin2 * 60000);
-
-      return corrected;
+      return new Date(Date.UTC(y, m - 1, d, hh, mm, 0) - offsetMin2 * 60000);
     }
 
     // ----------------------------
@@ -579,6 +558,10 @@
     const nowTime = document.getElementById('nowTime');
     const nowOffset = document.getElementById('nowOffset');
     const nowDst = document.getElementById('nowDst');
+
+    const nowUtcTime = document.getElementById('nowUtcTime');
+    const nowUnixS = document.getElementById('nowUnixS');
+    const nowUnixMs = document.getElementById('nowUnixMs');
 
     const nowIsoDate = document.getElementById('nowIsoDate');
     const nowWeekNumber = document.getElementById('nowWeekNumber');
@@ -593,12 +576,20 @@
     function refreshNow() {
       const tz = nowTimeZone.value || 'UTC';
       const d = new Date();
+
       const { dateStr, timeStr } = formatDateTimeInTZ(d, tz);
       nowDate.textContent = dateStr;
       nowTime.textContent = timeStr;
+
       const off = getOffsetMinutes(d, tz);
       nowOffset.textContent = formatOffset(off);
       nowDst.textContent = isDst(d, tz) ? 'Yes' : 'No';
+
+      nowUtcTime.textContent = d.toISOString().replace('.000', '');
+
+      const ms = d.getTime();
+      nowUnixMs.textContent = String(ms);
+      nowUnixS.textContent = String(Math.floor(ms / 1000));
 
       const parts = getZonedParts(d, tz);
       nowIsoDate.textContent = isoDateFromZonedParts(parts);
@@ -619,12 +610,9 @@
 
     const convConverted = document.getElementById('convConverted');
     const convDayShift = document.getElementById('convDayShift');
-    const convUtcInput = document.getElementById('convUtcInput');
-    const convUtcConverted = document.getElementById('convUtcConverted');
+    const convUtcInstant = document.getElementById('convUtcInstant');
 
     function resetTzConverter() {
-      convDate.value = '';
-      convTime.value = '';
       convResults.style.display = 'none';
     }
 
@@ -658,9 +646,7 @@
       const toFmt = formatDateTimeInTZ(utcInstant, to);
       convConverted.textContent = `${toFmt.dateStr} — ${toFmt.timeStr} (${to})`;
       convDayShift.textContent = shift;
-
-      convUtcInput.textContent = `${utcInstant.toISOString().replace('.000', '')}`;
-      convUtcConverted.textContent = `${utcInstant.toISOString().replace('.000', '')}`;
+      convUtcInstant.textContent = utcInstant.toISOString().replace('.000', '');
 
       convResults.style.display = 'block';
     }
@@ -679,9 +665,6 @@
     const diffYmd = document.getElementById('diffYmd');
 
     function resetDateDiff() {
-      diffStartDate.value = '';
-      diffEndDate.value = '';
-      diffIncludeEnd.checked = false;
       diffResults.style.display = 'none';
     }
 
@@ -708,21 +691,17 @@
       let days = Math.floor(ms / 86400000);
       if (diffIncludeEnd.checked) days += 1;
 
-      const absDays = Math.abs(days);
       diffTotalDays.textContent = `${days} day(s)`;
 
       const w = Math.trunc(days / 7);
       const r = days % 7;
       diffWeeksDays.textContent = `${w} week(s) + ${r} day(s)`;
 
-      // Approx months (30.44 days avg)
       const approxMonths = days / 30.44;
       const mWhole = Math.trunc(approxMonths);
       const mRem = Math.round((approxMonths - mWhole) * 30.44);
       diffMonthsDays.textContent = `${mWhole} month(s) + ${mRem} day(s)`;
 
-      // Calendar-aware Y/M/D breakdown
-      // Ensure start <= end for breakdown; keep sign for display.
       const forward = start <= end;
       const a = forward ? new Date(start.getTime()) : new Date(end.getTime());
       const b = forward ? new Date(end.getTime()) : new Date(start.getTime());
@@ -732,8 +711,7 @@
       let d = b.getUTCDate() - a.getUTCDate();
 
       if (d < 0) {
-        // borrow days from previous month
-        const prevMonth = new Date(Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), 0)); // last day of prev month
+        const prevMonth = new Date(Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), 0));
         d += prevMonth.getUTCDate();
         m -= 1;
       }
@@ -764,10 +742,6 @@
     const tdDhms = document.getElementById('tdDhms');
 
     function resetTimeDiff() {
-      timeStartDate.value = '';
-      timeStartTime.value = '';
-      timeEndDate.value = '';
-      timeEndTime.value = '';
       timeDiffResults.style.display = 'none';
     }
 
@@ -827,9 +801,14 @@
     const uiUnixMs = document.getElementById('uiUnixMs');
 
     function resetUnixIso() {
-      unixInput.value = '';
-      isoInput.value = '';
       unixIsoResults.style.display = 'none';
+    }
+
+    function unixUseNow() {
+      const d = new Date();
+      unixInput.value = String(Math.floor(d.getTime() / 1000));
+      isoInput.value = d.toISOString().replace('.000', '');
+      convertUnixIso();
     }
 
     function convertUnixIso() {
@@ -840,13 +819,11 @@
       let date = null;
 
       if (u) {
-        // Accept digits, allow spaces
         const digits = u.replace(/[^\d-]/g, '');
         if (!digits || !/^-?\d+$/.test(digits)) {
           alert('Unix timestamp must be an integer (seconds or milliseconds).');
           return;
         }
-        // Auto detect: >= 13 digits -> ms, else seconds
         const n = Number(digits);
         if (!Number.isFinite(n)) {
           alert('Unix timestamp is too large.');
@@ -908,7 +885,6 @@
       timeEndTime.value = `${hh}:${mi}:00`;
     }
 
-    // Populate all TZ selects
     populateTimeZoneSelect(nowTimeZone, Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
     populateTimeZoneSelect(convFromTz, 'America/New_York');
     populateTimeZoneSelect(convToTz, 'UTC');
