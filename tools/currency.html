@@ -11,47 +11,29 @@
         <nav class="site-nav">
             <a href="https://chompchomp.cc" class="site-logo">
                 <div class="site-logo-icon">
-                    <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
-                    <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+                    <img src="https://res.cloudinary.com/dlqfyv1...183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+                    <img src="https://res.cloudinary.com/dlqfyv1...35197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
                 </div>
+                <span class="site-logo-text">chomp chomp</span>
             </a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-            <div class="nav-tools-dropdown">
-                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
-                <ul class="tools-dropdown-menu" id="toolsDropdown">
-            <li><a href="../index.html">Home</a></li>
-            <li class="menu-item-has-submenu">
-              <a href="#">Content</a>
-              <ul class="submenu">
-                <li><a href="../stories.html">Stories</a></li>
-                <li><a href="../recipes.html">Recipes</a></li>
-                <li><a href="../lexicon.html">Lexicon</a></li>
-                <li><a href="../reading-list.html">Reading List</a></li>
-              </ul>
-            </li>
-            <li><a href="../about.html">About</a></li>
-            <li><a href="../store.html">Store</a></li>
-            <li class="menu-item-has-submenu">
-              <a href="#">Tools</a>
-                        <ul class="submenu">
-                            <li><a href="index.html">Index</a></li>
-                            <li><a href="ip.html">Whois</a></li>
-                            <li><a href="weather.html">Weather</a></li>
-                            <li><a href="convert.html">Convert</a></li>
-                            <li><a href="currency.html">Currency</a></li>
-                            <li><a href="encode.html">Encode</a></li>
-                            <li><a href="subnet.html">Subnet</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-submenu">
-                        <a href="#">Ipsum</a>
-                        <ul class="submenu">
-                            <li><a href="baking.html">Baking</a></li>
-                            <li><a href="dante.html">Inferno</a></li>
-                            <li><a href="nautical.html">Nautical</a></li>
-                            <li><a href="philosophy.html">Philosophy</a></li>
-                        </ul>
-                    </li>
+
+            <div class="nav-links">
+                <a href="https://chompchomp.cc/recipes.html">recipes</a>
+                <a href="https://chompchomp.cc/manifesto.html">manifesto</a>
+                <a href="https://chompchomp.cc/tools.html" class="active">tools</a>
+            </div>
+
+            <div class="nav-right">
+                <button class="tools-menu-toggle" onclick="toggleToolsDropdown()" aria-label="Toggle tools menu">
+                    tools
+                </button>
+                <ul class="tools-dropdown" id="toolsDropdown">
+                    <li><a href="https://chompchomp.cc/tools.html">Tools Index</a></li>
+                    <li><a href="https://chompchomp.cc/tools-weather.html">Weather</a></li>
+                    <li><a href="https://chompchomp.cc/tools-currency.html">Currency</a></li>
+                    <li><a href="https://chompchomp.cc/tools-subnet.html">Subnet</a></li>
+                    <li><a href="https://chompchomp.cc/tools-url.html">URL Tools</a></li>
+                    <li><a href="https://chompchomp.cc/tools-wikipedia.html">Random Wikipedia</a></li>
                 </ul>
             </div>
         </nav>
@@ -62,97 +44,74 @@
         <div class="tool-page">
             <div class="tool-header">
                 <picture>
-                    <source srcset="https://ik.imagekit.io/chompchomp/Chomp_Chomp_weather_-_compressed_-_dark_4hw2yuFvr.JPG" media="(prefers-color-scheme: dark)">
-                    <picture><source srcset="https://ik.imagekit.io/chompchomp/IMG_4599_wEs-f6fUD.jpeg" media="(prefers-color-scheme: dark)"><img src="https://ik.imagekit.io/chompchomp/Chomp_Chomp_logos.png_2eqSaeGtE.jpeg" alt="currency converter"></picture>
+                    <source srcset="https://ik.imagekit.io/chomp...ssed_-_dark_4hw2yuFvr.JPG" media="(prefers-color-scheme: dark)">
+                    <picture><source srcset="https://ik.imagekit...mp_logos.png_2eqSaeGtE.jpeg" alt="currency converter"></picture>
                 </picture>
-                <h1 style="margin: 16px 0 6px 0;"><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">[</span><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">Exchange rates from&nbsp;</span><a href="https://data.ecb.europa.eu/help/api/data" target="_blank" rel="noopener" style="color: rgb(231, 59, 66); text-decoration-line: underline; font-size: 16px; font-weight: 300;">European Central Bank Data</a><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">]</span></h1>
-                <p class="tool-subtitle" style="margin: 0;"><br></p>
+                <h1 style="margin: 16px 0 6px 0;"><span style="c...tyle="color: rgb(231, 59, 66); text-decoration-line: underline; 
+                </span></h1>
+                <p class="tool-description">
+                    Convert major currencies using daily reference rates from the European Central Bank (ECB).
+                </p>
             </div>
 
-            <div class="tool-section">
-                <h2 class="section-title">Convert Currencies</h2>
-                <div class="tool-controls">
-                    <div class="control-group">
-                        <label class="control-label" for="amount">Amount</label>
-                        <input type="number" id="amount" class="form-input" placeholder="Enter amount" value="1" step="0.01" min="0">
-                    </div>
+            <div class="tool-card">
+                <form id="currencyForm" class="tool-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fromCurrency">From</label>
+                            <select id="fromCurrency" required></select>
+                        </div>
 
-                    <div class="control-group">
-                        <label class="control-label">From → To</label>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <select id="fromCurrency" class="form-select" style="flex: 1; min-width: 160px;"><option value="AUD">AUD — Australian Dollar</option><option value="BGN">BGN — Bulgarian Lev</option><option value="BRL">BRL — Brazilian Real</option><option value="CAD">CAD — Canadian Dollar</option><option value="CHF">CHF — Swiss Franc</option><option value="CNY">CNY — Chinese Yuan Renminbi</option><option value="CZK">CZK — Czech Koruna</option><option value="DKK">DKK — Danish Krone</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound Sterling</option><option value="HKD">HKD — Hong Kong Dollar</option><option value="HRK">HRK — Croatian Kuna</option><option value="HUF">HUF — Hungarian Forint</option><option value="IDR">IDR — Indonesian Rupiah</option><option value="ILS">ILS — Israeli Shekel</option><option value="INR">INR — Indian Rupee</option><option value="ISK">ISK — Icelandic Króna</option><option value="JPY">JPY — Japanese Yen</option><option value="KRW">KRW — South Korean Won</option><option value="MXN">MXN — Mexican Peso</option><option value="MYR">MYR — Malaysian Ringgit</option><option value="NOK">NOK — Norwegian Krone</option><option value="NZD">NZD — New Zealand Dollar</option><option value="PHP">PHP — Philippine Peso</option><option value="PLN">PLN — Polish Złoty</option><option value="RON">RON — Romanian Leu</option><option value="SEK">SEK — Swedish Krona</option><option value="SGD">SGD — Singapore Dollar</option><option value="THB">THB — Thai Baht</option><option value="TRY">TRY — Turkish Lira</option><option value="USD">USD — United States Dollar</option><option value="ZAR">ZAR — South African Rand</option></select>
-                            <button class="tool-button tool-button-secondary" onclick="swapCurrencies()" style="flex: 0 0 auto;">⇅ Swap</button>
-                            <select id="toCurrency" class="form-select" style="flex: 1; min-width: 160px;"><option value="AUD">AUD — Australian Dollar</option><option value="BGN">BGN — Bulgarian Lev</option><option value="BRL">BRL — Brazilian Real</option><option value="CAD">CAD — Canadian Dollar</option><option value="CHF">CHF — Swiss Franc</option><option value="CNY">CNY — Chinese Yuan Renminbi</option><option value="CZK">CZK — Czech Koruna</option><option value="DKK">DKK — Danish Krone</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound Sterling</option><option value="HKD">HKD — Hong Kong Dollar</option><option value="HRK">HRK — Croatian Kuna</option><option value="HUF">HUF — Hungarian Forint</option><option value="IDR">IDR — Indonesian Rupiah</option><option value="ILS">ILS — Israeli Shekel</option><option value="INR">INR — Indian Rupee</option><option value="ISK">ISK — Icelandic Króna</option><option value="JPY">JPY — Japanese Yen</option><option value="KRW">KRW — South Korean Won</option><option value="MXN">MXN — Mexican Peso</option><option value="MYR">MYR — Malaysian Ringgit</option><option value="NOK">NOK — Norwegian Krone</option><option value="NZD">NZD — New Zealand Dollar</option><option value="PHP">PHP — Philippine Peso</option><option value="PLN">PLN — Polish Złoty</option><option value="RON">RON — Romanian Leu</option><option value="SEK">SEK — Swedish Krona</option><option value="SGD">SGD — Singapore Dollar</option><option value="THB">THB — Thai Baht</option><option value="TRY">TRY — Turkish Lira</option><option value="USD">USD — United States Dollar</option><option value="ZAR">ZAR — South African Rand</option></select>
+                        <button type="button" class="swap-button" id="swapButton" aria-label="Swap currencies">
+                            ⇄
+                        </button>
+
+                        <div class="form-group">
+                            <label for="toCurrency">To</label>
+                            <select id="toCurrency" required></select>
                         </div>
                     </div>
 
-                    <div class="control-group">
-                        <label class="control-label" for="rateDate">Rate Date (optional)</label>
-                        <input type="date" id="rateDate" class="form-input" max="2025-12-31">
-                        <small style="display: block; color: var(--color-text-secondary); margin-top: 6px;">Defaults to the latest European Central Bank rates.</small>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" value="1" min="0" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rateDate">Date (optional)</label>
+                            <input type="date" id="rateDate">
+                        </div>
                     </div>
 
-                    <div class="tool-actions">
-                        <button class="tool-button" onclick="convertCurrency()">Convert</button>
-                        <button class="tool-button tool-button-secondary" onclick="resetConverter()">Reset</button>
+                    <button type="submit" class="tool-button">Convert</button>
+                </form>
+
+                <div class="tool-result" id="conversionResult" style="display:none;">
+                    <div class="result-main">
+                        <div class="result-amount" id="convertedAmount"></div>
+                        <div class="result-rate" id="conversionRate"></div>
+                        <div class="result-meta" id="rateTimestamp"></div>
+                        <div class="result-meta" id="dataSource"></div>
                     </div>
                 </div>
 
-                <div class="tool-result" id="conversionResult" style="display: block;">
-                    <h3 style="margin-bottom: 12px;">Result</h3>
-                    <div class="result-item">
-                        <span class="result-label">Converted Amount:</span>
-                        <span class="result-value" id="convertedAmount">--</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Rate:</span>
-                        <span class="result-value" id="conversionRate">Could not fetch rates</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Rate Date:</span>
-                        <span class="result-value" id="rateTimestamp">--</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Source:</span>
-                        <span class="result-value" id="dataSource"><a href="https://data.ecb.europa.eu/help/api/data" target="_blank" rel="noopener" style="color: var(--color-accent);">European Central Bank Data</a> (EXR reference rates)</span>
-                    </div>
-
-                    <div class="info-box" id="popularRates" style="margin-top: 16px; display: none;">
-                        <p style="margin: 0 0 10px 0; font-weight: 600;">Popular targets from this base:</p>
-                        <div id="popularRatesList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;"></div>
-                    </div>
-                </div>
+                <div class="tool-error" id="conversionError" style="display:none;"></div>
             </div>
 
-            <div class="tool-section">
-                <h2 class="section-title">Quick presets</h2>
-                <div class="tool-controls" style="gap: 10px; flex-wrap: wrap;">
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','EUR')">USD → EUR</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','USD')">EUR → USD</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','GBP')">USD → GBP</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('GBP','USD')">GBP → USD</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','CAD')">USD → CAD</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','JPY')">USD → JPY</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','JPY')">EUR → JPY</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','CHF')">EUR → CHF</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','MXN')">USD → MXN</button>
-                </div>
-                <div class="info-box">
-                    <p style="margin: 0;">Exchange rates come directly from the European Central Bank (EXR dataset). Historical conversions use the rate published on the selected date when available.</p>
-                </div>
-
-                <div style="text-align: center; margin-top: 40px;">
-                    <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            <div class="tool-card">
+                <h2>Popular Rates</h2>
+                <p class="tool-description">Quick view of common conversions (updated with latest ECB rate).</p>
+                <div class="popular-rates" id="popularRates">
+                    <ul id="popularRatesList"></ul>
                 </div>
             </div>
         </div>
     </div>
 
     <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
-                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+        <div class="footer-inner">
+            <div class="footer-left">
                 <a href="https://chompchomp.cc">chomp chomp: recipes &amp; rituals</a>
             </div>
             <p style="margin-top: 15px;">© 2025 Chomp Chomp</p>
@@ -160,7 +119,7 @@
     </footer>
 
     <script>
-        const ECB_API_BASE = 'https://data.ecb.europa.eu/api/v1/data/EXR';
+const ECB_API_BASE = 'https://data-api.ecb.europa.eu/service/data/EXR';
         const ECB_SERIES_SUFFIX = 'SP00.A';
         const ecbCurrencies = {
             AUD: 'Australian Dollar',
@@ -178,7 +137,7 @@
             IDR: 'Indonesian Rupiah',
             ILS: 'Israeli Shekel',
             INR: 'Indian Rupee',
-            ISK: 'Icelandic Króna',
+            ISK: 'Icelandic Krona',
             JPY: 'Japanese Yen',
             KRW: 'South Korean Won',
             MXN: 'Mexican Peso',
@@ -186,20 +145,28 @@
             NOK: 'Norwegian Krone',
             NZD: 'New Zealand Dollar',
             PHP: 'Philippine Peso',
-            PLN: 'Polish Złoty',
+            PLN: 'Polish Zloty',
             RON: 'Romanian Leu',
             SEK: 'Swedish Krona',
             SGD: 'Singapore Dollar',
             THB: 'Thai Baht',
             TRY: 'Turkish Lira',
-            USD: 'United States Dollar',
+            USD: 'US Dollar',
             ZAR: 'South African Rand',
         };
-        const popularTargets = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY'];
 
-        const amountInput = document.getElementById('amount');
+        const popularPairs = [
+            { from: 'USD', to: 'EUR' },
+            { from: 'EUR', to: 'USD' },
+            { from: 'GBP', to: 'EUR' },
+            { from: 'EUR', to: 'GBP' },
+            { from: 'JPY', to: 'EUR' },
+            { from: 'CAD', to: 'EUR' },
+        ];
+
         const fromSelect = document.getElementById('fromCurrency');
         const toSelect = document.getElementById('toCurrency');
+        const amountInput = document.getElementById('amount');
         const rateDateInput = document.getElementById('rateDate');
         const resultContainer = document.getElementById('conversionResult');
         const convertedAmountEl = document.getElementById('convertedAmount');
@@ -215,34 +182,23 @@
         }
 
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-tools-dropdown')) {
-                const dropdown = document.getElementById('toolsDropdown');
-                if (dropdown) dropdown.classList.remove('active');
+            const dropdown = document.getElementById('toolsDropdown');
+            const toggle = document.querySelector('.tools-menu-toggle');
+            if (!dropdown || !toggle) return;
+            if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+                dropdown.classList.remove('active');
             }
         });
 
-        const menuToggle = document.querySelector('.menu-toggle');
-        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
-        if (menuToggle && toolsDropdown) {
-            menuToggle.addEventListener('click', () => {
-                toolsDropdown.classList.toggle('active');
-            });
-        }
-
-        function populateSelect(selectEl, currencies, defaultValue) {
+        function populateSelect(selectEl, items, defaultKey) {
             selectEl.innerHTML = '';
-            const entries = Object.entries(currencies).sort((a, b) => a[0].localeCompare(b[0]));
-            for (const [code, name] of entries) {
-                const option = document.createElement('option');
-                option.value = code;
-                option.textContent = `${code} — ${name}`;
-                selectEl.appendChild(option);
-            }
-            if (defaultValue && selectEl.querySelector(`option[value="${defaultValue}"]`)) {
-                selectEl.value = defaultValue;
-            } else if (entries.length) {
-                selectEl.selectedIndex = 0;
-            }
+            Object.keys(items).sort().forEach((code) => {
+                const opt = document.createElement('option');
+                opt.value = code;
+                opt.textContent = `${code} — ${items[code]}`;
+                if (code === defaultKey) opt.selected = true;
+                selectEl.appendChild(opt);
+            });
         }
 
         function loadCurrencies() {
@@ -256,43 +212,47 @@
         }
 
         function swapCurrencies() {
-            const currentFrom = fromSelect.value;
+            const fromVal = fromSelect.value;
             fromSelect.value = toSelect.value;
-            toSelect.value = currentFrom;
+            toSelect.value = fromVal;
         }
 
-        function resetConverter() {
-            amountInput.value = 1;
-            rateDateInput.value = '';
-            fromSelect.value = 'USD';
-            toSelect.value = 'EUR';
+        function showError(message) {
+            const el = document.getElementById('conversionError');
+            el.textContent = message;
+            el.style.display = 'block';
             resultContainer.style.display = 'none';
-            popularRatesBox.style.display = 'none';
-            popularRatesList.innerHTML = '';
         }
 
-        function applyPreset(from, to) {
-            fromSelect.value = from;
-            toSelect.value = to;
-            convertCurrency();
+        function clearError() {
+            const el = document.getElementById('conversionError');
+            el.textContent = '';
+            el.style.display = 'none';
         }
 
         function buildEcbUrl(currency, params) {
             const seriesKey = `D.${currency}.EUR.${ECB_SERIES_SUFFIX}`;
+            // Keep payload small and consistent
+            if (!params.has('detail')) params.set('detail', 'dataonly');
+            if (!params.has('format')) params.set('format', 'jsondata');
             return `${ECB_API_BASE}/${seriesKey}?${params.toString()}`;
         }
 
         function extractObservation(payload) {
             const seriesCollection = payload?.dataSets?.[0]?.series;
             if (!seriesCollection) return null;
+
             const firstSeriesKey = Object.keys(seriesCollection || {})[0];
             const observations = firstSeriesKey ? seriesCollection[firstSeriesKey]?.observations : null;
             const firstObservation = observations ? Object.entries(observations)[0] : null;
             if (!firstObservation) return null;
+
             const [obsIndex, values] = firstObservation;
             const rateValue = Array.isArray(values) ? values[0] : values;
+
             const timeDimension = payload?.structure?.dimensions?.observation?.[0]?.values?.[Number(obsIndex)];
             const dateValue = timeDimension?.id || timeDimension?.name || '';
+
             return { rate: rateValue, date: dateValue };
         }
 
@@ -301,7 +261,7 @@
                 return { rate: 1, date: date || 'Latest available' };
             }
 
-            const primaryParams = new URLSearchParams({ format: 'jsondata' });
+            const primaryParams = new URLSearchParams();
             if (date) {
                 primaryParams.set('startPeriod', date);
                 primaryParams.set('endPeriod', date);
@@ -309,28 +269,32 @@
                 primaryParams.set('lastNObservations', '1');
             }
 
-            const primaryRes = await fetch(buildEcbUrl(currency, primaryParams));
+            const primaryRes = await fetch(buildEcbUrl(currency, primaryParams), { headers: { 'Accept': 'application/json' } });
             if (!primaryRes.ok) {
                 throw new Error(`ECB data unavailable (${primaryRes.status})`);
             }
+
             let payload = await primaryRes.json();
             let observation = extractObservation(payload);
+            let numericRate = Number(observation?.rate);
 
-            if ((!observation || !Number.isFinite(observation.rate)) && date) {
+            // If the market was closed (weekend/holiday), request the latest observation up to that date.
+            if ((!observation || !Number.isFinite(numericRate)) && date) {
                 const fallbackParams = new URLSearchParams({
-                    format: 'jsondata',
                     endPeriod: date,
                     lastNObservations: '1',
                 });
-                const fallbackRes = await fetch(buildEcbUrl(currency, fallbackParams));
+
+                const fallbackRes = await fetch(buildEcbUrl(currency, fallbackParams), { headers: { 'Accept': 'application/json' } });
                 if (!fallbackRes.ok) {
                     throw new Error(`ECB data unavailable (${fallbackRes.status})`);
                 }
+
                 payload = await fallbackRes.json();
                 observation = extractObservation(payload);
             }
 
-            const numericRate = Number(observation?.rate);
+            numericRate = Number(observation?.rate);
 
             if (!observation || !Number.isFinite(numericRate)) {
                 throw new Error('No ECB data available for this currency on the requested date.');
@@ -342,97 +306,108 @@
             };
         }
 
-        async function fetchEcbRates(currencies, date) {
-            const unique = Array.from(new Set(currencies.filter(Boolean))).map((code) => code.toUpperCase());
-            const rates = { EUR: { rate: 1, date: date || 'Latest available' } };
-            for (const code of unique) {
-                if (code === 'EUR') continue;
-                rates[code] = await fetchEcbRate(code, date);
+        async function convertCurrencies({ from, to, amount, date }) {
+            if (from === to) {
+                return { converted: amount, rate: 1, date: date || 'Latest available' };
             }
-            return rates;
+
+            // ECB series are quoted as 1 EUR = X {currency}
+            const fromRateObj = await fetchEcbRate(from, date);
+            const toRateObj = await fetchEcbRate(to, date);
+
+            const fromPerEur = fromRateObj.rate; // 1 EUR = fromPerEur FROM
+            const toPerEur = toRateObj.rate;     // 1 EUR = toPerEur TO
+
+            // Convert: amount FROM -> EUR -> TO
+            const eurAmount = (from === 'EUR') ? amount : (amount / fromPerEur);
+            const converted = (to === 'EUR') ? eurAmount : (eurAmount * toPerEur);
+
+            // Effective cross rate: 1 FROM = ? TO
+            const crossRate = (to === 'EUR')
+                ? (1 / fromPerEur)
+                : (from === 'EUR')
+                    ? toPerEur
+                    : (toPerEur / fromPerEur);
+
+            // Prefer an actual observation date when available
+            const effectiveDate = (fromRateObj.date && fromRateObj.date !== 'Latest available')
+                ? fromRateObj.date
+                : (toRateObj.date && toRateObj.date !== 'Latest available')
+                    ? toRateObj.date
+                    : (date || 'Latest available');
+
+            return {
+                converted,
+                rate: crossRate,
+                date: effectiveDate,
+            };
         }
 
-        function computePairRate(from, to, rateMap) {
-            if (from === to) return 1;
-            if (!rateMap[from] || !rateMap[to]) return null;
-            if (from === 'EUR') return rateMap[to].rate;
-            if (to === 'EUR') return 1 / rateMap[from].rate;
-            return rateMap[to].rate / rateMap[from].rate;
+        function formatMoney(value, currency) {
+            try {
+                return new Intl.NumberFormat(undefined, {
+                    style: 'currency',
+                    currency,
+                    maximumFractionDigits: 2,
+                }).format(value);
+            } catch {
+                return `${value.toFixed(2)} ${currency}`;
+            }
         }
 
-        async function convertCurrency() {
-            const amount = parseFloat(amountInput.value);
+        function formatRate(value, from, to) {
+            const rate = Number(value);
+            if (!Number.isFinite(rate)) return '';
+            return `1 ${from} = ${rate.toFixed(6)} ${to}`;
+        }
+
+        async function renderPopularRates() {
+            popularRatesList.innerHTML = '';
+            for (const pair of popularPairs) {
+                try {
+                    const res = await convertCurrencies({ from: pair.from, to: pair.to, amount: 1, date: '' });
+                    const li = document.createElement('li');
+                    li.textContent = formatRate(res.rate, pair.from, pair.to);
+                    popularRatesList.appendChild(li);
+                } catch (e) {
+                    // If one fails, skip it quietly
+                }
+            }
+        }
+
+        document.getElementById('swapButton').addEventListener('click', swapCurrencies);
+
+        document.getElementById('currencyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearError();
+
             const from = fromSelect.value;
             const to = toSelect.value;
+            const amount = Number(amountInput.value);
             const date = rateDateInput.value;
 
-            if (isNaN(amount) || amount <= 0) {
-                alert('Please enter an amount greater than zero.');
+            if (!Number.isFinite(amount) || amount < 0) {
+                showError('Please enter a valid amount.');
                 return;
             }
-            if (!from || !to) {
-                alert('Please select both currencies.');
-                return;
-            }
-            if (from === to) {
-                convertedAmountEl.textContent = `${amount.toFixed(2)} ${to}`;
-                conversionRateEl.textContent = '1:1 (same currency)';
-                rateTimestampEl.textContent = date || 'Latest available';
-                resultContainer.style.display = 'block';
-                popularRatesBox.style.display = 'none';
-                return;
-            }
-
-            conversionRateEl.textContent = 'Loading...';
-            resultContainer.style.display = 'block';
 
             try {
-                const currenciesToLoad = Array.from(new Set([from, to, ...popularTargets]));
-                const rateMap = await fetchEcbRates(currenciesToLoad, date);
-                const pairRate = computePairRate(from, to, rateMap);
-                if (!Number.isFinite(pairRate)) {
-                    throw new Error('Rate unavailable for this pair.');
-                }
+                const res = await convertCurrencies({ from, to, amount, date });
 
-                const rateDate = rateMap[to]?.date || rateMap[from]?.date || date || 'Latest available';
-                const convertedAmount = amount * pairRate;
-
-                convertedAmountEl.textContent = `${convertedAmount.toFixed(4)} ${to}`;
-                conversionRateEl.textContent = `1 ${from} = ${pairRate.toFixed(6)} ${to}`;
-                rateTimestampEl.textContent = rateDate;
-                dataSourceEl.innerHTML = `<a href=\"https://data.ecb.europa.eu/help/api/data\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--color-accent);\">European Central Bank Data</a> (EXR reference source)`;
-
-                const additionalTargets = popularTargets.filter((code) => code !== to && code !== from && rateMap[code]);
-                if (additionalTargets.length) {
-                    popularRatesList.innerHTML = additionalTargets.map((code) => {
-                        const perUnit = computePairRate(from, code, rateMap);
-                        return `<div style=\"background: var(--color-bg-secondary); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);\">
-                                    <div style=\"font-weight: 600;\">${from} → ${code}</div>
-                                    <div style=\"color: var(--color-text-secondary); font-size: 0.95em;\">1 ${from} = ${perUnit.toFixed(6)} ${code}</div>
-                                </div>`;
-                    }).join('');
-                    popularRatesBox.style.display = 'block';
-                } else {
-                    popularRatesBox.style.display = 'none';
-                    popularRatesList.innerHTML = '';
-                }
+                resultContainer.style.display = 'block';
+                convertedAmountEl.textContent = formatMoney(res.converted, to);
+                conversionRateEl.textContent = formatRate(res.rate, from, to);
+                rateTimestampEl.textContent = `Rate date: ${res.date}`;
+                dataSourceEl.textContent = 'Source: European Central Bank (ECB)';
             } catch (err) {
-                conversionRateEl.textContent = 'Could not fetch rates';
-                convertedAmountEl.textContent = '--';
-                rateTimestampEl.textContent = '--';
-                popularRatesBox.style.display = 'none';
-                popularRatesList.innerHTML = '';
-                alert(err.message || 'Conversion failed. Please try again.');
+                showError(err?.message || 'Conversion failed. Please try again.');
             }
-        }
+        });
 
+        // Init
         loadCurrencies();
         setMaxDate();
+        renderPopularRates();
     </script>
-<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
-
-
-<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
-<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
 
 </body></html>
