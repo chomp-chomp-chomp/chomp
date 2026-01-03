@@ -65,7 +65,7 @@
                     <source srcset="https://ik.imagekit.io/chompchomp/Chomp_Chomp_weather_-_compressed_-_dark_4hw2yuFvr.JPG" media="(prefers-color-scheme: dark)">
                     <picture><source srcset="https://ik.imagekit.io/chompchomp/IMG_4599_wEs-f6fUD.jpeg" media="(prefers-color-scheme: dark)"><img src="https://ik.imagekit.io/chompchomp/Chomp_Chomp_logos.png_2eqSaeGtE.jpeg" alt="currency converter"></picture>
                 </picture>
-                <h1 style="margin: 16px 0 6px 0;"><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">[</span><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">Exchange rates powered directly by&nbsp;</span><a href="https://data.ecb.europa.eu/" target="_blank" rel="noopener" style="color: rgb(231, 59, 66); text-decoration-line: underline; font-size: 16px; font-weight: 300;">ECB Data</a><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">]</span></h1>
+                <h1 style="margin: 16px 0 6px 0;"><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">[</span><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">Exchange rates from&nbsp;</span><a href="https://exchangerate.host" target="_blank" rel="noopener" style="color: rgb(231, 59, 66); text-decoration-line: underline; font-size: 16px; font-weight: 300;">exchangerate.host</a><span style="color: rgb(125, 125, 125); font-size: 16px; font-weight: 300;">]</span></h1>
                 <p class="tool-subtitle" style="margin: 0;"><br></p>
             </div>
 
@@ -114,7 +114,7 @@
                     </div>
                     <div class="result-item">
                         <span class="result-label">Source:</span>
-                        <span class="result-value" id="dataSource"><a href="https://data.ecb.europa.eu" target="_blank" rel="noopener" style="color: var(--color-accent);">ECB Data</a> daily reference rates</span>
+                        <span class="result-value" id="dataSource"><a href="https://exchangerate.host" target="_blank" rel="noopener" style="color: var(--color-accent);">exchangerate.host</a> (ECB reference rates)</span>
                     </div>
 
                     <div class="info-box" id="popularRates" style="margin-top: 16px; display: none;">
@@ -128,14 +128,17 @@
                 <h2 class="section-title">Quick presets</h2>
                 <div class="tool-controls" style="gap: 10px; flex-wrap: wrap;">
                     <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','EUR')">USD → EUR</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','USD')">EUR → USD</button>
                     <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','GBP')">USD → GBP</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','GBP')">EUR → GBP</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('GBP','USD')">GBP → USD</button>
                     <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','CAD')">USD → CAD</button>
                     <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','JPY')">USD → JPY</button>
-                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','CNY')">USD → CNY</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','JPY')">EUR → JPY</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('EUR','CHF')">EUR → CHF</button>
+                    <button class="tool-button tool-button-secondary" onclick="applyPreset('USD','MXN')">USD → MXN</button>
                 </div>
                 <div class="info-box">
-                    <p style="margin: 0;">Exchange rates come from the ECB daily reference data. Historical conversions use the rate published on the selected date.</p>
+                    <p style="margin: 0;">Exchange rates come from exchangerate.host (ECB reference feed). Historical conversions use the rate published on the selected date when available.</p>
                 </div>
 
                 <div style="text-align: center; margin-top: 40px;">
@@ -157,7 +160,7 @@
     </footer>
 
     <script>
-        const ECB_API_BASE = 'https://data-api.ecb.europa.eu/service/data/EXR';
+        const EXCHANGE_API_BASE = 'https://api.exchangerate.host';
         const fallbackCurrencies = {
             AUD: 'Australian Dollar',
             BGN: 'Bulgarian Lev',
@@ -192,7 +195,7 @@
             USD: 'United States Dollar',
             ZAR: 'South African Rand',
         };
-        const popularTargets = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD'];
+        const popularTargets = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY'];
 
         const amountInput = document.getElementById('amount');
         const fromSelect = document.getElementById('fromCurrency');
@@ -242,9 +245,25 @@
             }
         }
 
-        function loadCurrencies() {
-            populateSelect(fromSelect, fallbackCurrencies, 'USD');
-            populateSelect(toSelect, fallbackCurrencies, 'EUR');
+        async function loadCurrencies() {
+            try {
+                const res = await fetch(`${EXCHANGE_API_BASE}/symbols`);
+                if (!res.ok) throw new Error('Failed to fetch currency list.');
+                const payload = await res.json();
+                const symbols = payload?.symbols || {};
+                if (!Object.keys(symbols).length) throw new Error('No currency symbols returned.');
+
+                const mapped = {};
+                for (const [code, info] of Object.entries(symbols)) {
+                    mapped[code] = info?.description || code;
+                }
+                populateSelect(fromSelect, mapped, 'USD');
+                populateSelect(toSelect, mapped, 'EUR');
+            } catch (err) {
+                console.warn('Using fallback currency list:', err);
+                populateSelect(fromSelect, fallbackCurrencies, 'USD');
+                populateSelect(toSelect, fallbackCurrencies, 'EUR');
+            }
         }
 
         function setMaxDate() {
@@ -274,102 +293,28 @@
             convertCurrency();
         }
 
-        function getSeriesIndex(dims, id) {
-            return dims.findIndex((dim) => dim.id === id);
-        }
-
-        function parseEcbRates(payload, fallbackDate = '') {
-            const series = payload?.dataSets?.[0]?.series || {};
-            const seriesDims = payload?.structure?.dimensions?.series || [];
-            const obsDims = payload?.structure?.dimensions?.observation?.[0]?.values || [];
-            const currencyIdx = getSeriesIndex(seriesDims, 'CURRENCY');
-            const denomIdx = getSeriesIndex(seriesDims, 'CURRENCY_DENOM');
-            const rates = {};
-            let latestDate = fallbackDate || '';
-
-            for (const [seriesKey, seriesData] of Object.entries(series)) {
-                const parts = seriesKey.split(':').map(Number);
-                const currency = seriesDims[currencyIdx]?.values?.[parts[currencyIdx]]?.id;
-                const denom = seriesDims[denomIdx]?.values?.[parts[denomIdx]]?.id;
-                if (!currency || denom !== 'EUR') continue;
-
-                const observationEntry = Object.entries(seriesData.observations || {})[0];
-                if (!observationEntry) continue;
-                const [obsIndex, [value]] = observationEntry;
-                const rateNumber = Number(value);
-                if (!Number.isFinite(rateNumber)) continue;
-                const obsDate = obsDims?.[Number(obsIndex)]?.id || obsDims?.[Number(obsIndex)]?.name || fallbackDate || '';
-                rates[currency] = { value: rateNumber, date: obsDate };
-                if (obsDate && (!latestDate || obsDate > latestDate)) latestDate = obsDate;
+        async function fetchRates(base, targets, date) {
+            const datePath = date || 'latest';
+            const symbols = Array.from(new Set(targets.filter(Boolean).map((c) => c.toUpperCase())));
+            if (!symbols.length) {
+                return { rates: {}, asOf: date || '' };
             }
 
-            const asOf = latestDate || fallbackDate || '';
-            const eurDate = asOf || rates.EUR?.date || '';
-            rates.EUR = rates.EUR || { value: 1, date: eurDate };
-
-            return { rates, asOf };
-        }
-
-        async function fetchSingleEcbRate(code, params) {
-            const url = new URL(`${ECB_API_BASE}/D.${code}.EUR.SP00.A`);
-            url.search = params.toString();
-            const res = await fetch(url.toString());
-
+            const url = `${EXCHANGE_API_BASE}/${datePath}?base=${encodeURIComponent(base)}&symbols=${symbols.join(',')}`;
+            const res = await fetch(url);
             if (!res.ok) {
-                let message = `Failed to fetch ECB data for ${code}`;
-                const body = await res.text();
-                try {
-                    const errorPayload = JSON.parse(body);
-                    message = errorPayload?.detail || errorPayload?.title || message;
-                } catch (_) {
-                    if (body) message = body;
-                }
-                throw new Error(message);
+                throw new Error(`Failed to fetch rates (${res.status})`);
             }
 
-            return res.json();
-        }
-
-        async function fetchEcbRates(codes, date) {
-            const uniqueCodes = Array.from(new Set(codes.filter(Boolean).map((c) => c.toUpperCase()).filter((c) => c !== 'EUR')));
-            const params = new URLSearchParams({ format: 'sdmx-json' });
-
-            if (date) {
-                params.set('startPeriod', date);
-                params.set('endPeriod', date);
-            } else {
-                params.set('lastNObservations', '1');
+            const payload = await res.json();
+            if (payload?.error || payload?.success === false) {
+                throw new Error(payload.error?.type || payload.error || 'Failed to fetch rates.');
             }
 
-            if (!uniqueCodes.length) {
-                return { rates: { EUR: { value: 1, date: date || '' } }, asOf: date || '' };
-            }
-
-            const responses = await Promise.all(uniqueCodes.map(async (code) => {
-                try {
-                    const data = await fetchSingleEcbRate(code, params);
-                    const parsed = parseEcbRates(data, date);
-                    const entry = parsed.rates?.[code];
-                    if (!entry) throw new Error(`No exchange rate returned for ${code}.`);
-                    return { code, entry };
-                } catch (err) {
-                    const reason = err?.message || 'Unknown error';
-                    throw new Error(`ECB lookup for ${code} failed: ${reason}`);
-                }
-            }));
-
-            const rates = {};
-            let latestDate = '';
-
-            for (const { code, entry } of responses) {
-                rates[code] = entry;
-                if (entry.date && (!latestDate || entry.date > latestDate)) latestDate = entry.date;
-            }
-
-            const asOf = latestDate || date || '';
-            rates.EUR = rates.EUR || { value: 1, date: asOf };
-
-            return { rates, asOf };
+            return {
+                rates: payload?.rates || {},
+                asOf: payload?.date || date || '',
+            };
         }
 
         async function convertCurrency() {
@@ -395,35 +340,30 @@
                 return;
             }
 
-            const targets = Array.from(new Set([from, to, ...popularTargets]));
+            const targets = Array.from(new Set([to, ...popularTargets]));
 
             conversionRateEl.textContent = 'Loading...';
             resultContainer.style.display = 'block';
 
             try {
-                const { rates, asOf } = await fetchEcbRates(targets, date);
-                const fromRate = from === 'EUR' ? 1 : rates[from]?.value;
-                const toRate = to === 'EUR' ? 1 : rates[to]?.value;
-                const rateDate = date || asOf || 'Latest available';
-
-                if (!fromRate || !toRate) {
+                const { rates, asOf } = await fetchRates(from, targets, date);
+                const pairRate = Number(rates?.[to]);
+                if (!Number.isFinite(pairRate)) {
                     throw new Error('Rate unavailable for this pair.');
                 }
 
-                const amountInEur = from === 'EUR' ? amount : amount / fromRate;
-                const convertedAmount = to === 'EUR' ? amountInEur : amountInEur * toRate;
-                const perUnitRate = to === 'EUR' ? 1 / fromRate : toRate / fromRate;
+                const rateDate = asOf || 'Latest available';
+                const convertedAmount = amount * pairRate;
 
                 convertedAmountEl.textContent = `${convertedAmount.toFixed(4)} ${to}`;
-                conversionRateEl.textContent = `1 ${from} = ${perUnitRate.toFixed(6)} ${to}`;
+                conversionRateEl.textContent = `1 ${from} = ${pairRate.toFixed(6)} ${to}`;
                 rateTimestampEl.textContent = rateDate;
-                dataSourceEl.innerHTML = `<a href=\"https://data.ecb.europa.eu\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--color-accent);\">ECB Data</a> daily reference rates`;
+                dataSourceEl.innerHTML = `<a href=\"https://exchangerate.host\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--color-accent);\">exchangerate.host</a> (ECB reference source)`;
 
-                const additionalTargets = popularTargets.filter((code) => code !== to && code !== from && rates[code]);
+                const additionalTargets = popularTargets.filter((code) => code !== to && code !== from && Number.isFinite(rates?.[code]));
                 if (additionalTargets.length) {
                     popularRatesList.innerHTML = additionalTargets.map((code) => {
-                        const codeRate = code === 'EUR' ? 1 : rates[code].value;
-                        const perUnit = code === 'EUR' ? 1 / fromRate : codeRate / fromRate;
+                        const perUnit = rates[code];
                         return `<div style=\"background: var(--color-bg-secondary); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);\">
                                     <div style=\"font-weight: 600;\">${from} → ${code}</div>
                                     <div style=\"color: var(--color-text-secondary); font-size: 0.95em;\">1 ${from} = ${perUnit.toFixed(6)} ${code}</div>
