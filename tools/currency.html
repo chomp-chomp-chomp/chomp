@@ -278,14 +278,14 @@
             return dims.findIndex((dim) => dim.id === id);
         }
 
-        function parseEcbRates(payload) {
+        function parseEcbRates(payload, fallbackDate = '') {
             const series = payload?.dataSets?.[0]?.series || {};
             const seriesDims = payload?.structure?.dimensions?.series || [];
             const obsDims = payload?.structure?.dimensions?.observation?.[0]?.values || [];
             const currencyIdx = getSeriesIndex(seriesDims, 'CURRENCY');
             const denomIdx = getSeriesIndex(seriesDims, 'CURRENCY_DENOM');
             const rates = {};
-            let latestDate = '';
+            let latestDate = fallbackDate || '';
 
             for (const [seriesKey, seriesData] of Object.entries(series)) {
                 const parts = seriesKey.split(':').map(Number);
@@ -298,18 +298,16 @@
                 const [obsIndex, [value]] = observationEntry;
                 const rateNumber = Number(value);
                 if (!Number.isFinite(rateNumber)) continue;
-                const obsDate = obsDims?.[Number(obsIndex)]?.id || obsDims?.[Number(obsIndex)]?.name;
+                const obsDate = obsDims?.[Number(obsIndex)]?.id || obsDims?.[Number(obsIndex)]?.name || fallbackDate || '';
                 rates[currency] = { value: rateNumber, date: obsDate };
                 if (obsDate && (!latestDate || obsDate > latestDate)) latestDate = obsDate;
             }
 
-            if (latestDate) {
-                rates.EUR = { value: 1, date: latestDate };
-            } else if (!rates.EUR) {
-                rates.EUR = { value: 1, date: date || '' };
-            }
+            const asOf = latestDate || fallbackDate || '';
+            const eurDate = asOf || rates.EUR?.date || '';
+            rates.EUR = rates.EUR || { value: 1, date: eurDate };
 
-            return { rates, asOf: latestDate };
+            return { rates, asOf };
         }
 
         async function fetchSingleEcbRate(code, params) {
@@ -348,11 +346,16 @@
             }
 
             const responses = await Promise.all(uniqueCodes.map(async (code) => {
-                const data = await fetchSingleEcbRate(code, params);
-                const parsed = parseEcbRates(data);
-                const entry = parsed.rates?.[code];
-                if (!entry) throw new Error(`No exchange rate returned for ${code}.`);
-                return { code, entry };
+                try {
+                    const data = await fetchSingleEcbRate(code, params);
+                    const parsed = parseEcbRates(data, date);
+                    const entry = parsed.rates?.[code];
+                    if (!entry) throw new Error(`No exchange rate returned for ${code}.`);
+                    return { code, entry };
+                } catch (err) {
+                    const reason = err?.message || 'Unknown error';
+                    throw new Error(`ECB lookup for ${code} failed: ${reason}`);
+                }
             }));
 
             const rates = {};
@@ -363,11 +366,10 @@
                 if (entry.date && (!latestDate || entry.date > latestDate)) latestDate = entry.date;
             }
 
-            if (latestDate) {
-                rates.EUR = { value: 1, date: latestDate };
-            }
+            const asOf = latestDate || date || '';
+            rates.EUR = rates.EUR || { value: 1, date: asOf };
 
-            return { rates, asOf: latestDate || date || '' };
+            return { rates, asOf };
         }
 
         async function convertCurrency() {
