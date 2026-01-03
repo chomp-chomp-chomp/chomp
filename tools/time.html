@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time/Date - Chomp Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tools-recipes-style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a href="https://chompchomp.cc" class="site-logo">
+        <div class="site-logo-icon">
+          <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+          <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+        </div>
+      </a>
+
+      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+
+      <div class="nav-tools-dropdown">
+        <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+        <ul class="tools-dropdown-menu" id="toolsDropdown">
+          <li><a href="../index.html">Home</a></li>
+          <li class="menu-item-has-submenu">
+            <a href="#">Content</a>
+            <ul class="submenu">
+              <li><a href="../stories.html">Stories</a></li>
+              <li><a href="../recipes.html">Recipes</a></li>
+              <li><a href="../lexicon.html">Lexicon</a></li>
+              <li><a href="../reading-list.html">Reading List</a></li>
+            </ul>
+          </li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../store.html">Store</a></li>
+
+          <li class="menu-item-has-submenu">
+            <a href="#">Tools</a>
+            <ul class="submenu">
+              <li><a href="index.html">Index</a></li>
+              <li><a href="ip.html">Whois</a></li>
+              <li><a href="weather.html">Weather</a></li>
+              <li><a href="convert.html">Convert</a></li>
+              <li><a href="currency.html">Currency</a></li>
+              <li><a href="encode.html">Encode</a></li>
+              <li><a href="subnet.html">Subnet</a></li>
+              <li><a href="text.html">Text</a></li>
+              <li><a href="time.html" class="active">Time/Date</a></li>
+            </ul>
+          </li>
+
+          <li class="menu-item-has-submenu">
+            <a href="#">Ipsum</a>
+            <ul class="submenu">
+              <li><a href="baking.html">Baking</a></li>
+              <li><a href="dante.html">Inferno</a></li>
+              <li><a href="nautical.html">Nautical</a></li>
+              <li><a href="philosophy.html">Philosophy</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-container">
+    <div class="tool-page">
+
+      <div class="tool-header">
+        <picture>
+          <source srcset="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2FTime%20-%20dark.JPG?alt=media"
+                  media="(prefers-color-scheme: dark)">
+          <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766531919/1764737720669_vert_l9ko5a.jpg" alt="Time and date tool">
+        </picture>
+        <p class="tool-subtitle">Convert time zones and calculate date &amp; time differences</p>
+      </div>
+
+      <!-- SECTION 1: Current Time -->
+      <div class="tool-section">
+        <h2 class="section-title">Current Time</h2>
+
+        <div class="tool-controls">
+          <div class="control-group">
+            <label class="control-label" for="nowTimeZone">Time zone</label>
+            <select id="nowTimeZone" class="form-select"></select>
+            <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+              Tip: Start typing to jump (browser-native select behavior varies).
+            </small>
+          </div>
+
+          <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
+            <button class="tool-button" type="button" onclick="refreshNow()">Get current time</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="useMyTimeZone()">Use my time zone</button>
+          </div>
+        </div>
+
+        <div class="tool-results" id="nowResults" style="display: none;">
+          <div class="result-item">
+            <div class="result-label">Date</div>
+            <div class="result-value" id="nowDate">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Time</div>
+            <div class="result-value" id="nowTime">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">UTC Offset</div>
+            <div class="result-value" id="nowOffset">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">DST</div>
+            <div class="result-value" id="nowDst">—</div>
+          </div>
+
+          <!-- “Section 6 results not already covered” -->
+          <div class="result-item">
+            <div class="result-label">ISO Date</div>
+            <div class="result-value" id="nowIsoDate">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Week Number (ISO)</div>
+            <div class="result-value" id="nowWeekNumber">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Day of Year</div>
+            <div class="result-value" id="nowDayOfYear">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: Time Zone Converter -->
+      <div class="tool-section">
+        <h2 class="section-title">Time Zone Converter</h2>
+
+        <div class="tool-controls">
+          <div class="control-group">
+            <label class="control-label" for="convDate">Date</label>
+            <input id="convDate" class="form-input" type="date" />
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="convTime">Time</label>
+            <input id="convTime" class="form-input" type="time" step="60" />
+            <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+              Uses minute precision.
+            </small>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="convFromTz">From</label>
+            <select id="convFromTz" class="form-select"></select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="convToTz">To</label>
+            <select id="convToTz" class="form-select"></select>
+          </div>
+
+          <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
+            <button class="tool-button" type="button" onclick="convertTimeZone()">Convert</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="resetTzConverter()">Reset</button>
+          </div>
+        </div>
+
+        <div class="tool-results" id="convResults" style="display: none;">
+          <div class="result-item">
+            <div class="result-label">Converted</div>
+            <div class="result-value" id="convConverted">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Day Shift</div>
+            <div class="result-value" id="convDayShift">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">UTC (input)</div>
+            <div class="result-value" id="convUtcInput">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">UTC (converted)</div>
+            <div class="result-value" id="convUtcConverted">—</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p style="margin: 0;">
+            <strong>Note:</strong> Time zone conversion is DST-aware based on the selected zones and date.
+          </p>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Date Difference -->
+      <div class="tool-section">
+        <h2 class="section-title">Date Difference</h2>
+
+        <div class="tool-controls">
+          <div class="control-group">
+            <label class="control-label" for="diffStartDate">Start date</label>
+            <input id="diffStartDate" class="form-input" type="date" />
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="diffEndDate">End date</label>
+            <input id="diffEndDate" class="form-input" type="date" />
+          </div>
+
+          <div class="control-group" style="display:flex; align-items:center; gap: 10px;">
+            <input id="diffIncludeEnd" type="checkbox" />
+            <label for="diffIncludeEnd" style="margin:0;">Include end date (inclusive)</label>
+          </div>
+
+          <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
+            <button class="tool-button" type="button" onclick="calculateDateDiff()">Calculate</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="resetDateDiff()">Reset</button>
+          </div>
+        </div>
+
+        <div class="tool-results" id="diffResults" style="display: none;">
+          <div class="result-item">
+            <div class="result-label">Total days</div>
+            <div class="result-value" id="diffTotalDays">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Weeks + days</div>
+            <div class="result-value" id="diffWeeksDays">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Months + days (approx)</div>
+            <div class="result-value" id="diffMonthsDays">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Years + months + days (calendar)</div>
+            <div class="result-value" id="diffYmd">—</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p style="margin: 0;">
+            <strong>Note:</strong> “Months + days (approx)” uses 30.44 days/month as a rough average. The Y/M/D breakdown is calendar-aware.
+          </p>
+        </div>
+      </div>
+
+      <!-- SECTION 4: Time Difference -->
+      <div class="tool-section">
+        <h2 class="section-title">Time Difference</h2>
+
+        <div class="tool-controls">
+          <div class="control-group">
+            <label class="control-label" for="timeDiffTz">Time zone</label>
+            <select id="timeDiffTz" class="form-select"></select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="timeStartDate">Start date</label>
+            <input id="timeStartDate" class="form-input" type="date" />
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="timeStartTime">Start time</label>
+            <input id="timeStartTime" class="form-input" type="time" step="1" />
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="timeEndDate">End date</label>
+            <input id="timeEndDate" class="form-input" type="date" />
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="timeEndTime">End time</label>
+            <input id="timeEndTime" class="form-input" type="time" step="1" />
+          </div>
+
+          <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
+            <button class="tool-button" type="button" onclick="calculateTimeDiff()">Calculate</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="resetTimeDiff()">Reset</button>
+          </div>
+        </div>
+
+        <div class="tool-results" id="timeDiffResults" style="display: none;">
+          <div class="result-item">
+            <div class="result-label">Total seconds</div>
+            <div class="result-value" id="tdSeconds">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Total minutes</div>
+            <div class="result-value" id="tdMinutes">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Total hours</div>
+            <div class="result-value" id="tdHours">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Days + h:m:s</div>
+            <div class="result-value" id="tdDhms">—</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p style="margin: 0;">
+            <strong>Tip:</strong> If you cross a DST boundary, the elapsed time may differ from the “clock time” difference you’d expect.
+          </p>
+        </div>
+      </div>
+
+      <!-- SECTION 5: Unix / ISO -->
+      <div class="tool-section">
+        <h2 class="section-title">Unix / ISO Converter</h2>
+
+        <div class="tool-controls">
+          <div class="control-group">
+            <label class="control-label" for="unixInput">Unix timestamp</label>
+            <input id="unixInput" class="form-input" type="text" placeholder="e.g., 1735852800 or 1735852800000" />
+            <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+              Auto-detects seconds vs milliseconds by length.
+            </small>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="isoInput">ISO 8601 datetime</label>
+            <input id="isoInput" class="form-input" type="text" placeholder="e.g., 2026-01-03T12:34:56Z" />
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="unixTz">Display time zone</label>
+            <select id="unixTz" class="form-select"></select>
+          </div>
+
+          <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
+            <button class="tool-button" type="button" onclick="convertUnixIso()">Convert</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="resetUnixIso()">Reset</button>
+          </div>
+        </div>
+
+        <div class="tool-results" id="unixIsoResults" style="display: none;">
+          <div class="result-item">
+            <div class="result-label">Local (display TZ)</div>
+            <div class="result-value" id="uiLocal">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">UTC</div>
+            <div class="result-value" id="uiUtc">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">ISO</div>
+            <div class="result-value" id="uiIso">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Unix (seconds)</div>
+            <div class="result-value" id="uiUnixS">—</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Unix (milliseconds)</div>
+            <div class="result-value" id="uiUnixMs">—</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p style="margin: 0;">
+            <strong>What this means:</strong> A Unix timestamp is the number of seconds (or milliseconds) since
+            <em>1970-01-01 00:00:00 UTC</em>. It’s time-zone independent — the same timestamp represents the same instant everywhere.
+            ISO 8601 is a standardized string format for datetimes (often ending in <code>Z</code> for UTC).
+          </p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
+        <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+        <a href="https://chompchomp.cc">chomp chomp: recipes &amp; rituals</a>
+      </div>
+      <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <script>
+    // Tools dropdown toggle
+    function toggleToolsDropdown() {
+      const dropdown = document.getElementById('toolsDropdown');
+      dropdown.classList.toggle('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.nav-tools-dropdown')) {
+        const dropdown = document.getElementById('toolsDropdown');
+        if (dropdown) dropdown.classList.remove('active');
+      }
+    });
+
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+    if (menuToggle && toolsDropdown) {
+      menuToggle.addEventListener('click', () => {
+        toolsDropdown.classList.toggle('active');
+      });
+    }
+
+    // ----------------------------
+    // Time/Date helpers
+    // ----------------------------
+    function getTimeZones() {
+      try {
+        if (Intl && typeof Intl.supportedValuesOf === 'function') {
+          return Intl.supportedValuesOf('timeZone');
+        }
+      } catch (e) {}
+      // Fallback short list (kept small on purpose)
+      return [
+        'UTC',
+        'America/New_York',
+        'America/Chicago',
+        'America/Denver',
+        'America/Los_Angeles',
+        'Europe/London',
+        'Europe/Paris',
+        'Europe/Berlin',
+        'Europe/Athens',
+        'Asia/Tokyo',
+        'Asia/Hong_Kong',
+        'Asia/Singapore',
+        'Australia/Sydney'
+      ];
+    }
+
+    function populateTimeZoneSelect(selectEl, defaultValue) {
+      const zones = getTimeZones();
+      selectEl.innerHTML = '';
+      for (const tz of zones) {
+        const opt = document.createElement('option');
+        opt.value = tz;
+        opt.textContent = tz;
+        selectEl.appendChild(opt);
+      }
+      if (defaultValue && zones.includes(defaultValue)) {
+        selectEl.value = defaultValue;
+      } else {
+        // best guess: user's current tz if available
+        const guess = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+        if (zones.includes(guess)) selectEl.value = guess;
+      }
+    }
+
+    function pad2(n) { return String(n).padStart(2, '0'); }
+
+    // Returns date parts for a specific timeZone (year, month, day, hour, minute, second)
+    function getZonedParts(date, timeZone) {
+      const dtf = new Intl.DateTimeFormat('en-US', {
+        timeZone,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      });
+      const parts = dtf.formatToParts(date);
+      const map = {};
+      for (const p of parts) map[p.type] = p.value;
+      return {
+        year: Number(map.year),
+        month: Number(map.month),
+        day: Number(map.day),
+        hour: Number(map.hour),
+        minute: Number(map.minute),
+        second: Number(map.second)
+      };
+    }
+
+    function formatDateTimeInTZ(date, timeZone) {
+      const dateStr = new Intl.DateTimeFormat('en-US', {
+        timeZone, weekday: 'short', year: 'numeric', month: 'short', day: '2-digit'
+      }).format(date);
+      const timeStr = new Intl.DateTimeFormat('en-US', {
+        timeZone, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).format(date);
+      return { dateStr, timeStr };
+    }
+
+    // Get numeric offset minutes for timeZone at given date.
+    // Uses timeZoneName: 'shortOffset' when available; falls back to parse a GMT±HH:mm string.
+    function getOffsetMinutes(date, timeZone) {
+      try {
+        const dtf = new Intl.DateTimeFormat('en-US', {
+          timeZone,
+          timeZoneName: 'shortOffset',
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12: false
+        });
+        const tzPart = dtf.formatToParts(date).find(p => p.type === 'timeZoneName')?.value || '';
+        // e.g., "GMT-5", "GMT+01:00"
+        const m = tzPart.match(/GMT([+-])(\d{1,2})(?::?(\d{2}))?/);
+        if (!m) return 0;
+        const sign = m[1] === '-' ? -1 : 1;
+        const hh = Number(m[2] || 0);
+        const mm = Number(m[3] || 0);
+        return sign * (hh * 60 + mm);
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    function formatOffset(minutes) {
+      const sign = minutes < 0 ? '-' : '+';
+      const abs = Math.abs(minutes);
+      const hh = Math.floor(abs / 60);
+      const mm = abs % 60;
+      return `UTC${sign}${pad2(hh)}:${pad2(mm)}`;
+    }
+
+    function isDst(date, timeZone) {
+      // DST heuristic: compare offset in Jan vs Jul to current
+      const y = date.getUTCFullYear();
+      const jan = new Date(Date.UTC(y, 0, 15, 12, 0, 0));
+      const jul = new Date(Date.UTC(y, 6, 15, 12, 0, 0));
+      const offNow = getOffsetMinutes(date, timeZone);
+      const offJan = getOffsetMinutes(jan, timeZone);
+      const offJul = getOffsetMinutes(jul, timeZone);
+      const std = Math.max(offJan, offJul); // standard time typically has larger offset minutes (e.g. -300 > -240)
+      return offNow !== std;
+    }
+
+    // ISO date from zoned parts: YYYY-MM-DD
+    function isoDateFromZonedParts(parts) {
+      return `${parts.year}-${pad2(parts.month)}-${pad2(parts.day)}`;
+    }
+
+    // Day of year based on zoned Y-M-D, computed in UTC space for correctness
+    function dayOfYearFromZonedYmd(parts) {
+      const start = Date.UTC(parts.year, 0, 1);
+      const current = Date.UTC(parts.year, parts.month - 1, parts.day);
+      return Math.floor((current - start) / 86400000) + 1;
+    }
+
+    // ISO week number based on zoned Y-M-D (calendar logic in UTC)
+    function isoWeekNumberFromZonedYmd(parts) {
+      const d = new Date(Date.UTC(parts.year, parts.month - 1, parts.day));
+      // ISO week: Thursday-based
+      const day = d.getUTCDay() || 7; // Mon=1..Sun=7
+      d.setUTCDate(d.getUTCDate() + 4 - day);
+      const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+      const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+      return weekNo;
+    }
+
+    // Parse local date+time "as if in timeZone", produce a UTC Date instant.
+    // Approach: iterative correction using offsets.
+    function zonedDateTimeToUtc(dateStr, timeStr, timeZone) {
+      if (!dateStr || !timeStr) return null;
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const [hh, mm] = timeStr.split(':').map(Number);
+
+      // Initial guess: treat input as UTC then correct by offset
+      let utcGuess = new Date(Date.UTC(y, m - 1, d, hh, mm, 0));
+      // Correct using offset at that moment in that zone
+      const offsetMin = getOffsetMinutes(utcGuess, timeZone);
+      utcGuess = new Date(utcGuess.getTime() - offsetMin * 60000);
+
+      // One more pass improves around DST transitions
+      const offsetMin2 = getOffsetMinutes(utcGuess, timeZone);
+      const corrected = new Date(Date.UTC(y, m - 1, d, hh, mm, 0) - offsetMin2 * 60000);
+
+      return corrected;
+    }
+
+    // ----------------------------
+    // Section 1: Current Time
+    // ----------------------------
+    const nowTimeZone = document.getElementById('nowTimeZone');
+    const nowResults = document.getElementById('nowResults');
+    const nowDate = document.getElementById('nowDate');
+    const nowTime = document.getElementById('nowTime');
+    const nowOffset = document.getElementById('nowOffset');
+    const nowDst = document.getElementById('nowDst');
+
+    const nowIsoDate = document.getElementById('nowIsoDate');
+    const nowWeekNumber = document.getElementById('nowWeekNumber');
+    const nowDayOfYear = document.getElementById('nowDayOfYear');
+
+    function useMyTimeZone() {
+      const guess = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+      nowTimeZone.value = guess;
+      refreshNow();
+    }
+
+    function refreshNow() {
+      const tz = nowTimeZone.value || 'UTC';
+      const d = new Date();
+      const { dateStr, timeStr } = formatDateTimeInTZ(d, tz);
+      nowDate.textContent = dateStr;
+      nowTime.textContent = timeStr;
+      const off = getOffsetMinutes(d, tz);
+      nowOffset.textContent = formatOffset(off);
+      nowDst.textContent = isDst(d, tz) ? 'Yes' : 'No';
+
+      const parts = getZonedParts(d, tz);
+      nowIsoDate.textContent = isoDateFromZonedParts(parts);
+      nowWeekNumber.textContent = String(isoWeekNumberFromZonedYmd(parts));
+      nowDayOfYear.textContent = String(dayOfYearFromZonedYmd(parts));
+
+      nowResults.style.display = 'block';
+    }
+
+    // ----------------------------
+    // Section 2: TZ Converter
+    // ----------------------------
+    const convDate = document.getElementById('convDate');
+    const convTime = document.getElementById('convTime');
+    const convFromTz = document.getElementById('convFromTz');
+    const convToTz = document.getElementById('convToTz');
+    const convResults = document.getElementById('convResults');
+
+    const convConverted = document.getElementById('convConverted');
+    const convDayShift = document.getElementById('convDayShift');
+    const convUtcInput = document.getElementById('convUtcInput');
+    const convUtcConverted = document.getElementById('convUtcConverted');
+
+    function resetTzConverter() {
+      convDate.value = '';
+      convTime.value = '';
+      convResults.style.display = 'none';
+    }
+
+    function convertTimeZone() {
+      const dStr = convDate.value;
+      const tStr = convTime.value;
+      const from = convFromTz.value || 'UTC';
+      const to = convToTz.value || 'UTC';
+
+      if (!dStr || !tStr) {
+        alert('Please enter both a date and time.');
+        return;
+      }
+
+      const utcInstant = zonedDateTimeToUtc(dStr, tStr, from);
+      if (!utcInstant || isNaN(utcInstant.getTime())) {
+        alert('Could not parse that date/time.');
+        return;
+      }
+
+      const fromParts = getZonedParts(utcInstant, from);
+      const toParts = getZonedParts(utcInstant, to);
+
+      const fromIso = isoDateFromZonedParts(fromParts);
+      const toIso = isoDateFromZonedParts(toParts);
+
+      let shift = 'Same day';
+      if (toIso < fromIso) shift = 'Previous day';
+      if (toIso > fromIso) shift = 'Next day';
+
+      const toFmt = formatDateTimeInTZ(utcInstant, to);
+      convConverted.textContent = `${toFmt.dateStr} — ${toFmt.timeStr} (${to})`;
+      convDayShift.textContent = shift;
+
+      convUtcInput.textContent = `${utcInstant.toISOString().replace('.000', '')}`;
+      convUtcConverted.textContent = `${utcInstant.toISOString().replace('.000', '')}`;
+
+      convResults.style.display = 'block';
+    }
+
+    // ----------------------------
+    // Section 3: Date Difference
+    // ----------------------------
+    const diffStartDate = document.getElementById('diffStartDate');
+    const diffEndDate = document.getElementById('diffEndDate');
+    const diffIncludeEnd = document.getElementById('diffIncludeEnd');
+    const diffResults = document.getElementById('diffResults');
+
+    const diffTotalDays = document.getElementById('diffTotalDays');
+    const diffWeeksDays = document.getElementById('diffWeeksDays');
+    const diffMonthsDays = document.getElementById('diffMonthsDays');
+    const diffYmd = document.getElementById('diffYmd');
+
+    function resetDateDiff() {
+      diffStartDate.value = '';
+      diffEndDate.value = '';
+      diffIncludeEnd.checked = false;
+      diffResults.style.display = 'none';
+    }
+
+    function parseDateOnlyUTC(dateStr) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(Date.UTC(y, m - 1, d, 0, 0, 0));
+    }
+
+    function calculateDateDiff() {
+      const s = diffStartDate.value;
+      const e = diffEndDate.value;
+      if (!s || !e) {
+        alert('Please enter both start and end dates.');
+        return;
+      }
+      const start = parseDateOnlyUTC(s);
+      const end = parseDateOnlyUTC(e);
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        alert('Invalid date input.');
+        return;
+      }
+
+      let ms = end.getTime() - start.getTime();
+      let days = Math.floor(ms / 86400000);
+      if (diffIncludeEnd.checked) days += 1;
+
+      const absDays = Math.abs(days);
+      diffTotalDays.textContent = `${days} day(s)`;
+
+      const w = Math.trunc(days / 7);
+      const r = days % 7;
+      diffWeeksDays.textContent = `${w} week(s) + ${r} day(s)`;
+
+      // Approx months (30.44 days avg)
+      const approxMonths = days / 30.44;
+      const mWhole = Math.trunc(approxMonths);
+      const mRem = Math.round((approxMonths - mWhole) * 30.44);
+      diffMonthsDays.textContent = `${mWhole} month(s) + ${mRem} day(s)`;
+
+      // Calendar-aware Y/M/D breakdown
+      // Ensure start <= end for breakdown; keep sign for display.
+      const forward = start <= end;
+      const a = forward ? new Date(start.getTime()) : new Date(end.getTime());
+      const b = forward ? new Date(end.getTime()) : new Date(start.getTime());
+
+      let y = b.getUTCFullYear() - a.getUTCFullYear();
+      let m = b.getUTCMonth() - a.getUTCMonth();
+      let d = b.getUTCDate() - a.getUTCDate();
+
+      if (d < 0) {
+        // borrow days from previous month
+        const prevMonth = new Date(Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), 0)); // last day of prev month
+        d += prevMonth.getUTCDate();
+        m -= 1;
+      }
+      if (m < 0) {
+        m += 12;
+        y -= 1;
+      }
+
+      const sign = forward ? '' : '-';
+      diffYmd.textContent = `${sign}${y} year(s), ${m} month(s), ${d} day(s)`;
+
+      diffResults.style.display = 'block';
+    }
+
+    // ----------------------------
+    // Section 4: Time Difference
+    // ----------------------------
+    const timeDiffTz = document.getElementById('timeDiffTz');
+    const timeStartDate = document.getElementById('timeStartDate');
+    const timeStartTime = document.getElementById('timeStartTime');
+    const timeEndDate = document.getElementById('timeEndDate');
+    const timeEndTime = document.getElementById('timeEndTime');
+
+    const timeDiffResults = document.getElementById('timeDiffResults');
+    const tdSeconds = document.getElementById('tdSeconds');
+    const tdMinutes = document.getElementById('tdMinutes');
+    const tdHours = document.getElementById('tdHours');
+    const tdDhms = document.getElementById('tdDhms');
+
+    function resetTimeDiff() {
+      timeStartDate.value = '';
+      timeStartTime.value = '';
+      timeEndDate.value = '';
+      timeEndTime.value = '';
+      timeDiffResults.style.display = 'none';
+    }
+
+    function calculateTimeDiff() {
+      const tz = timeDiffTz.value || 'UTC';
+      const sd = timeStartDate.value;
+      const st = timeStartTime.value;
+      const ed = timeEndDate.value;
+      const et = timeEndTime.value;
+
+      if (!sd || !st || !ed || !et) {
+        alert('Please enter start/end date and time.');
+        return;
+      }
+
+      const startUtc = zonedDateTimeToUtc(sd, st, tz);
+      const endUtc = zonedDateTimeToUtc(ed, et, tz);
+
+      if (!startUtc || !endUtc || isNaN(startUtc.getTime()) || isNaN(endUtc.getTime())) {
+        alert('Could not parse one of the date/time values.');
+        return;
+      }
+
+      const deltaMs = endUtc.getTime() - startUtc.getTime();
+      const deltaSec = Math.floor(deltaMs / 1000);
+
+      tdSeconds.textContent = `${deltaSec}`;
+      tdMinutes.textContent = `${(deltaSec / 60).toFixed(4)}`;
+      tdHours.textContent = `${(deltaSec / 3600).toFixed(4)}`;
+
+      const abs = Math.abs(deltaSec);
+      const sign = deltaSec < 0 ? '-' : '';
+      const days = Math.floor(abs / 86400);
+      const rem1 = abs % 86400;
+      const hours = Math.floor(rem1 / 3600);
+      const rem2 = rem1 % 3600;
+      const mins = Math.floor(rem2 / 60);
+      const secs = rem2 % 60;
+
+      tdDhms.textContent = `${sign}${days}d ${pad2(hours)}:${pad2(mins)}:${pad2(secs)}`;
+
+      timeDiffResults.style.display = 'block';
+    }
+
+    // ----------------------------
+    // Section 5: Unix / ISO
+    // ----------------------------
+    const unixInput = document.getElementById('unixInput');
+    const isoInput = document.getElementById('isoInput');
+    const unixTz = document.getElementById('unixTz');
+
+    const unixIsoResults = document.getElementById('unixIsoResults');
+    const uiLocal = document.getElementById('uiLocal');
+    const uiUtc = document.getElementById('uiUtc');
+    const uiIso = document.getElementById('uiIso');
+    const uiUnixS = document.getElementById('uiUnixS');
+    const uiUnixMs = document.getElementById('uiUnixMs');
+
+    function resetUnixIso() {
+      unixInput.value = '';
+      isoInput.value = '';
+      unixIsoResults.style.display = 'none';
+    }
+
+    function convertUnixIso() {
+      const tz = unixTz.value || 'UTC';
+      const u = (unixInput.value || '').trim();
+      const i = (isoInput.value || '').trim();
+
+      let date = null;
+
+      if (u) {
+        // Accept digits, allow spaces
+        const digits = u.replace(/[^\d-]/g, '');
+        if (!digits || !/^-?\d+$/.test(digits)) {
+          alert('Unix timestamp must be an integer (seconds or milliseconds).');
+          return;
+        }
+        // Auto detect: >= 13 digits -> ms, else seconds
+        const n = Number(digits);
+        if (!Number.isFinite(n)) {
+          alert('Unix timestamp is too large.');
+          return;
+        }
+        const isMs = Math.abs(n) >= 1e12;
+        date = new Date(isMs ? n : n * 1000);
+      } else if (i) {
+        const parsed = Date.parse(i);
+        if (isNaN(parsed)) {
+          alert('ISO datetime could not be parsed. Try something like 2026-01-03T12:34:56Z');
+          return;
+        }
+        date = new Date(parsed);
+      } else {
+        alert('Enter a Unix timestamp or an ISO datetime.');
+        return;
+      }
+
+      if (isNaN(date.getTime())) {
+        alert('Could not parse input into a valid date.');
+        return;
+      }
+
+      const { dateStr, timeStr } = formatDateTimeInTZ(date, tz);
+      uiLocal.textContent = `${dateStr} — ${timeStr} (${tz})`;
+      uiUtc.textContent = date.toISOString().replace('.000', '');
+      uiIso.textContent = date.toISOString();
+
+      const unixMs = date.getTime();
+      const unixS = Math.floor(unixMs / 1000);
+
+      uiUnixS.textContent = String(unixS);
+      uiUnixMs.textContent = String(unixMs);
+
+      unixIsoResults.style.display = 'block';
+    }
+
+    // ----------------------------
+    // Init defaults
+    // ----------------------------
+    function setDefaultDateTimeInputs() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = pad2(now.getMonth() + 1);
+      const dd = pad2(now.getDate());
+      const hh = pad2(now.getHours());
+      const mi = pad2(now.getMinutes());
+
+      convDate.value = `${yyyy}-${mm}-${dd}`;
+      convTime.value = `${hh}:${mi}`;
+
+      diffStartDate.value = `${yyyy}-${mm}-${dd}`;
+      diffEndDate.value = `${yyyy}-${mm}-${dd}`;
+
+      timeStartDate.value = `${yyyy}-${mm}-${dd}`;
+      timeEndDate.value = `${yyyy}-${mm}-${dd}`;
+      timeStartTime.value = `${hh}:${mi}:00`;
+      timeEndTime.value = `${hh}:${mi}:00`;
+    }
+
+    // Populate all TZ selects
+    populateTimeZoneSelect(nowTimeZone, Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
+    populateTimeZoneSelect(convFromTz, 'America/New_York');
+    populateTimeZoneSelect(convToTz, 'UTC');
+    populateTimeZoneSelect(timeDiffTz, 'America/New_York');
+    populateTimeZoneSelect(unixTz, Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
+
+    setDefaultDateTimeInputs();
+    refreshNow();
+  </script>
+</body>
+</html>
