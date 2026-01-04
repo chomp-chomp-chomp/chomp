@@ -77,6 +77,27 @@
         </picture>
         <p class="tool-subtitle">Generate random choices, numbers, shuffles, names &amp; tokens — ask anyway.</p>
       </div>
+      
+      <!-- 4) Magic Parallax Ontological Chomp -->
+      <div class="tool-section">
+        <h2 class="section-title">Magic Parallax Ontological Chomp</h2>
+
+        <div class="tool-controls">
+                      <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">Like a Magic 8 Ball, but this one is The Real. What’s your question? It makes no difference. Ask anyway.
+            </small>
+          <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
+            <button class="tool-button" type="button" onclick="askAnyway()">Ask Anyway</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="copyText('mpocOutput')">Copy</button>
+            <button class="tool-button tool-button-secondary" type="button" onclick="resetMpoc()">Reset</button>
+          </div>
+        </div>
+
+        <div class="tool-results" id="mpocResults" style="display:none;">
+          <div class="result-item">
+            <div class="result-label">Answer</div>
+            <div class="result-value" id="mpocOutput">—</div>
+          </div>
+        </div>
 
       <!-- 1) Coin flip x n -->
       <div class="tool-section">
@@ -186,34 +207,6 @@
         <div class="info-box">
           <p style="margin:0;">
             Generates integers within your range. Uncheck “Inclusive max” to treat max as exclusive.
-          </p>
-        </div>
-      </div>
-
-      <!-- 4) Magic Parallax Ontological Chomp -->
-      <div class="tool-section">
-        <h2 class="section-title">Magic Parallax Ontological Chomp</h2>
-
-        <div class="tool-controls">
-                      <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">Like a Magic 8 Ball, but this one is The Real. What’s your question? It makes no difference. Ask anyway.
-            </small>
-          <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
-            <button class="tool-button" type="button" onclick="askAnyway()">Ask Anyway</button>
-            <button class="tool-button tool-button-secondary" type="button" onclick="copyText('mpocOutput')">Copy</button>
-            <button class="tool-button tool-button-secondary" type="button" onclick="resetMpoc()">Reset</button>
-          </div>
-        </div>
-
-        <div class="tool-results" id="mpocResults" style="display:none;">
-          <div class="result-item">
-            <div class="result-label">Answer</div>
-            <div class="result-value" id="mpocOutput">—</div>
-          </div>
-        </div>
-
-        <div class="info-box">
-          <p style="margin:0;">
-            <strong>Ask anyway.</strong> The answer may undermine the question. That’s the point.
           </p>
         </div>
       </div>
