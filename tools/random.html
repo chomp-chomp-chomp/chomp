@@ -75,16 +75,18 @@
           <source srcset="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logos%20-%2024.jpeg" media="(prefers-color-scheme: dark)">
           <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logos%20-%2023.jpeg" alt="Randomizers hero image">
         </picture>
-        <p class="tool-subtitle">Generate random choices, numbers, shuffles, names &amp; tokens — ask anyway.</p>
+        <p class="tool-subtitle">Random choices, numbers, names &amp; tokens — ask anyway.</p>
       </div>
-      
-      <!-- 4) Magic Parallax Ontological Chomp -->
+
+      <!-- 1) Magic Chomp -->
       <div class="tool-section">
-        <h2 class="section-title">Magic Parallax Ontological Chomp</h2>
+        <h2 class="section-title">Magic Chomp</h2>
 
         <div class="tool-controls">
-                      <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">Like a Magic 8 Ball, but this one is The Real. What’s your question? It makes no difference. Ask anyway.
-            </small>
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            Like a Magic 8 Ball, but this one is The Real. What’s your question? It makes no difference. Ask anyway.
+          </small>
+
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="askAnyway()">Ask Anyway</button>
             <button class="tool-button tool-button-secondary" type="button" onclick="copyText('mpocOutput')">Copy</button>
@@ -98,8 +100,9 @@
             <div class="result-value" id="mpocOutput">—</div>
           </div>
         </div>
+      </div>
 
-      <!-- 1) Coin flip x n -->
+      <!-- 2) Coin flip -->
       <div class="tool-section">
         <h2 class="section-title">Coin Flip</h2>
 
@@ -107,10 +110,11 @@
           <div class="control-group">
             <label class="control-label" for="coinCount">How many flips</label>
             <input id="coinCount" class="form-input" type="number" min="1" max="5000" value="1">
-            <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
-              Outputs a sequence like <code>HTHTTH</code>.
-            </small>
           </div>
+
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            Outputs a spaced sequence like <code>H T H H H T</code>.
+          </small>
 
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="doCoinFlip()">Flip</button>
@@ -131,15 +135,19 @@
         </div>
       </div>
 
-      <!-- 2) Dice roll -->
+      <!-- 3) Dice -->
       <div class="tool-section">
-        <h2 class="section-title">Dice Roll</h2>
+        <h2 class="section-title">Dice</h2>
 
         <div class="tool-controls">
           <div class="control-group" style="display:flex; align-items:center; gap:10px;">
-            <input id="diceDouble" type="checkbox" />
-            <label for="diceDouble" style="margin:0;">Roll <strong>2 × 2d6</strong> (two pairs)</label>
+            <input id="diceTwo" type="checkbox" />
+            <label for="diceTwo" style="margin:0;">Roll <strong>2d6</strong> (sum of two dice)</label>
           </div>
+
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            Default is <strong>1d6</strong>. Check the box to roll <strong>2d6</strong>.
+          </small>
 
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="rollDice()">Roll</button>
@@ -157,17 +165,11 @@
             <div class="result-value" id="diceDetails">—</div>
           </div>
         </div>
-
-        <div class="info-box">
-          <p style="margin:0;">
-            Default is <strong>2d6</strong>. Check the box for <strong>2 × 2d6</strong>.
-          </p>
-        </div>
       </div>
 
-      <!-- 3) Random Number -->
+      <!-- 4) Random # -->
       <div class="tool-section">
-        <h2 class="section-title">Random Number</h2>
+        <h2 class="section-title">Random #</h2>
 
         <div class="tool-controls">
           <div class="control-group">
@@ -190,6 +192,10 @@
             <input id="numCount" class="form-input" type="number" value="1" min="1" max="5000" />
           </div>
 
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            Generates integers within your range. Uncheck “Inclusive max” to treat max as exclusive.
+          </small>
+
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="generateNumbers()">Generate</button>
             <button class="tool-button tool-button-secondary" type="button" onclick="copyTextArea('numOutput')">Copy</button>
@@ -203,19 +209,17 @@
             <textarea id="numOutput" class="form-input" rows="5" placeholder="Results will appear here…" style="width:100%; resize:vertical;"></textarea>
           </div>
         </div>
-
-        <div class="info-box">
-          <p style="margin:0;">
-            Generates integers within your range. Uncheck “Inclusive max” to treat max as exclusive.
-          </p>
-        </div>
       </div>
 
-      <!-- 5) What’s your Chomp Name -->
+      <!-- 5) Chomp Name -->
       <div class="tool-section">
-        <h2 class="section-title">What’s Your Chomp Name</h2>
+        <h2 class="section-title">Chomp Name</h2>
 
         <div class="tool-controls">
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            You have been hailed as the object, yet you are the subject. But who are you, really?
+          </small>
+
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="chompName()">Be yourself</button>
             <button class="tool-button tool-button-secondary" type="button" onclick="copyText('chompNameOutput')">Copy</button>
@@ -229,86 +233,11 @@
             <div class="result-value" id="chompNameOutput">—</div>
           </div>
         </div>
-
-        <div class="info-box">
-          <p style="margin:0;">
-            Combines a random cookie name with a philosopher last name.
-          </p>
-        </div>
       </div>
 
-      <!-- 6) Pick From List -->
+      <!-- 6) Password generator -->
       <div class="tool-section">
-        <h2 class="section-title">Pick From List</h2>
-
-        <div class="tool-controls">
-          <div class="control-group" style="width:100%;">
-            <label class="control-label" for="listInput">Items (one per line)</label>
-            <textarea id="listInput" class="form-input" rows="7" placeholder="Paste items here…" style="width:100%; resize:vertical;"></textarea>
-          </div>
-
-          <div class="control-group">
-            <label class="control-label" for="pickCount">How many picks</label>
-            <input id="pickCount" class="form-input" type="number" value="1" min="1" max="5000" />
-          </div>
-
-          <div class="control-group" style="display:flex; align-items:center; gap:10px;">
-            <input id="pickUnique" type="checkbox" checked />
-            <label for="pickUnique" style="margin:0;">Unique picks (no repeats)</label>
-          </div>
-
-          <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
-            <button class="tool-button" type="button" onclick="pickFromList()">Pick</button>
-            <button class="tool-button tool-button-secondary" type="button" onclick="copyText('pickOutput')">Copy</button>
-            <button class="tool-button tool-button-secondary" type="button" onclick="resetPick()">Reset</button>
-          </div>
-        </div>
-
-        <div class="tool-results" id="pickResults" style="display:none;">
-          <div class="result-item">
-            <div class="result-label">Picked</div>
-            <div class="result-value" id="pickOutput">—</div>
-          </div>
-          <div class="result-item">
-            <div class="result-label">Valid items</div>
-            <div class="result-value" id="pickLineCount">—</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 7) Shuffle Lines -->
-      <div class="tool-section">
-        <h2 class="section-title">Shuffle Lines</h2>
-
-        <div class="tool-controls">
-          <div class="control-group" style="width:100%;">
-            <label class="control-label" for="shuffleInput">Input (one per line)</label>
-            <textarea id="shuffleInput" class="form-input" rows="7" placeholder="Paste lines to shuffle…" style="width:100%; resize:vertical;"></textarea>
-          </div>
-
-          <div class="control-group" style="display:flex; align-items:center; gap:10px;">
-            <input id="shuffleIgnoreEmpty" type="checkbox" checked />
-            <label for="shuffleIgnoreEmpty" style="margin:0;">Ignore empty lines</label>
-          </div>
-
-          <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
-            <button class="tool-button" type="button" onclick="shuffleLines()">Shuffle</button>
-            <button class="tool-button tool-button-secondary" type="button" onclick="copyTextArea('shuffleOutput')">Copy</button>
-            <button class="tool-button tool-button-secondary" type="button" onclick="resetShuffle()">Reset</button>
-          </div>
-        </div>
-
-        <div class="tool-controls" style="margin-top:12px;">
-          <div class="control-group" style="width:100%;">
-            <label class="control-label" for="shuffleOutput">Output</label>
-            <textarea id="shuffleOutput" class="form-input" rows="7" placeholder="Shuffled lines will appear here…" style="width:100%; resize:vertical;"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- 8) Password / Token Generator -->
-      <div class="tool-section">
-        <h2 class="section-title">Password / Token Generator</h2>
+        <h2 class="section-title">Password Generator</h2>
 
         <div class="tool-controls">
           <div class="control-group">
@@ -335,6 +264,10 @@
             </div>
           </div>
 
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            For real credentials, use a password manager. This is best for quick tokens and test data.
+          </small>
+
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="generatePassword()">Generate</button>
             <button class="tool-button tool-button-secondary" type="button" onclick="copyText('pwOutput')">Copy</button>
@@ -352,15 +285,9 @@
             <div class="result-value" id="pwCharset">—</div>
           </div>
         </div>
-
-        <div class="info-box">
-          <p style="margin:0;">
-            For real credentials, use a password manager. This is best for quick tokens and test data.
-          </p>
-        </div>
       </div>
 
-      <!-- 9) Random Order / Ranker -->
+      <!-- 7) Random order / ranker -->
       <div class="tool-section">
         <h2 class="section-title">Random Order / Ranker</h2>
 
@@ -369,6 +296,10 @@
             <label class="control-label" for="rankInput">Items (one per line)</label>
             <textarea id="rankInput" class="form-input" rows="7" placeholder="Paste items to rank…" style="width:100%; resize:vertical;"></textarea>
           </div>
+
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            Produces a shuffled list with numeric ranks (1, 2, 3…).
+          </small>
 
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="rankItems()">Rank</button>
@@ -383,19 +314,17 @@
             <textarea id="rankOutput" class="form-input" rows="7" placeholder="Ranked items will appear here…" style="width:100%; resize:vertical;"></textarea>
           </div>
         </div>
-
-        <div class="info-box">
-          <p style="margin:0;">
-            Produces a shuffled list with numeric ranks (1, 2, 3…).
-          </p>
-        </div>
       </div>
 
-      <!-- 10) Random Color -->
+      <!-- 8) Random color -->
       <div class="tool-section">
         <h2 class="section-title">Random Color</h2>
 
         <div class="tool-controls">
+          <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">
+            Generates a random RGB color and shows HEX/RGB/HSL. Use the Color tool for palettes, conversions, and contrast checks.
+          </small>
+
           <div class="tool-actions" style="gap:10px; flex-wrap:wrap;">
             <button class="tool-button" type="button" onclick="randomColor()">Generate</button>
             <button class="tool-button tool-button-secondary" type="button" onclick="copyText('colorHex')">Copy HEX</button>
@@ -430,17 +359,11 @@
           </div>
 
           <div class="result-item">
-            <div class="result-label">Open Color Tool</div>
+            <div class="result-label">Color Tool</div>
             <div class="result-value">
               <a href="color.html" class="btn btn-outline" style="display:inline-block;">Go to Color →</a>
             </div>
           </div>
-        </div>
-
-        <div class="info-box">
-          <p style="margin:0;">
-            Generates a random RGB color and shows HEX/RGB/HSL. Use the Color tool for palettes, conversions, and contrast checks.
-          </p>
         </div>
       </div>
 
@@ -524,11 +447,6 @@
       return a;
     }
 
-    function cleanLines(text, ignoreEmpty) {
-      const lines = String(text || '').split(/\r\n|\r|\n/);
-      return ignoreEmpty ? lines.map(l => l.trim()).filter(l => l.length > 0) : lines;
-    }
-
     async function copyText(elId) {
       const el = document.getElementById(elId);
       const text = el ? (el.textContent || '') : '';
@@ -544,7 +462,7 @@
     }
 
     // ----------------------------
-    // Lists you provided
+    // Lists (Magic Chomp + Chomp Name)
     // ----------------------------
     const MPOC_LIST = [
       "Yes - but only because it fails first",
@@ -670,7 +588,24 @@
     ];
 
     // ----------------------------
-    // 1) Coin flip
+    // Magic Chomp
+    // ----------------------------
+    const mpocResults = document.getElementById('mpocResults');
+    const mpocOutput = document.getElementById('mpocOutput');
+
+    function askAnyway() {
+      const pick = MPOC_LIST[randInt(MPOC_LIST.length)];
+      mpocOutput.textContent = pick;
+      mpocResults.style.display = 'block';
+    }
+
+    function resetMpoc() {
+      mpocResults.style.display = 'none';
+      mpocOutput.textContent = '—';
+    }
+
+    // ----------------------------
+    // Coin flip (spaced output)
     // ----------------------------
     const coinCountEl = document.getElementById('coinCount');
     const coinResults = document.getElementById('coinResults');
@@ -692,7 +627,7 @@
         if (h) heads++; else tails++;
       }
 
-      coinOutput.textContent = out.join('');
+      coinOutput.textContent = out.join(' ');
       coinCounts.textContent = `${heads} H / ${tails} T`;
       coinResults.style.display = 'block';
     }
@@ -705,45 +640,44 @@
     }
 
     // ----------------------------
-    // 2) Dice roll
+    // Dice (1d6 default, checkbox for 2d6)
     // ----------------------------
-    const diceDouble = document.getElementById('diceDouble');
+    const diceTwo = document.getElementById('diceTwo');
     const diceResults = document.getElementById('diceResults');
     const diceTotal = document.getElementById('diceTotal');
     const diceDetails = document.getElementById('diceDetails');
 
-    function roll2d6() {
-      const a = 1 + randInt(6);
-      const b = 1 + randInt(6);
-      return { a, b, total: a + b };
+    function roll1d6() {
+      return 1 + randInt(6);
     }
 
     function rollDice() {
-      const isDouble = !!diceDouble.checked;
+      const isTwo = !!diceTwo.checked;
 
-      if (!isDouble) {
-        const r = roll2d6();
-        diceTotal.textContent = String(r.total);
-        diceDetails.textContent = `2d6: ${r.a} + ${r.b}`;
+      if (!isTwo) {
+        const a = roll1d6();
+        diceTotal.textContent = String(a);
+        diceDetails.textContent = `1d6: ${a}`;
       } else {
-        const r1 = roll2d6();
-        const r2 = roll2d6();
-        diceTotal.textContent = String(r1.total + r2.total);
-        diceDetails.textContent = `2×2d6: (${r1.a}+${r1.b}) + (${r2.a}+${r2.b}) = ${r1.total} + ${r2.total}`;
+        const a = roll1d6();
+        const b = roll1d6();
+        const total = a + b;
+        diceTotal.textContent = String(total);
+        diceDetails.textContent = `2d6: ${a} + ${b} = ${total}`;
       }
 
       diceResults.style.display = 'block';
     }
 
     function resetDice() {
-      diceDouble.checked = false;
+      diceTwo.checked = false;
       diceResults.style.display = 'none';
       diceTotal.textContent = '—';
       diceDetails.textContent = '—';
     }
 
     // ----------------------------
-    // 3) Random numbers
+    // Random #
     // ----------------------------
     const numMinEl = document.getElementById('numMin');
     const numMaxEl = document.getElementById('numMax');
@@ -791,24 +725,7 @@
     }
 
     // ----------------------------
-    // 4) MPOC (Ask Anyway)
-    // ----------------------------
-    const mpocResults = document.getElementById('mpocResults');
-    const mpocOutput = document.getElementById('mpocOutput');
-
-    function askAnyway() {
-      const pick = MPOC_LIST[randInt(MPOC_LIST.length)];
-      mpocOutput.textContent = pick;
-      mpocResults.style.display = 'block';
-    }
-
-    function resetMpoc() {
-      mpocResults.style.display = 'none';
-      mpocOutput.textContent = '—';
-    }
-
-    // ----------------------------
-    // 5) Chomp Name
+    // Chomp Name
     // ----------------------------
     const chompNameResults = document.getElementById('chompNameResults');
     const chompNameOutput = document.getElementById('chompNameOutput');
@@ -826,78 +743,7 @@
     }
 
     // ----------------------------
-    // 6) Pick from list
-    // ----------------------------
-    const listInput = document.getElementById('listInput');
-    const pickCount = document.getElementById('pickCount');
-    const pickUnique = document.getElementById('pickUnique');
-    const pickResults = document.getElementById('pickResults');
-    const pickOutput = document.getElementById('pickOutput');
-    const pickLineCount = document.getElementById('pickLineCount');
-
-    function pickFromList() {
-      const lines = cleanLines(listInput.value, true);
-      pickLineCount.textContent = String(lines.length);
-
-      let count = parseInt(String(pickCount.value), 10);
-      if (!Number.isFinite(count) || count < 1) count = 1;
-      if (count > 5000) count = 5000;
-
-      if (lines.length === 0) {
-        alert('Please add at least one item.');
-        return;
-      }
-
-      const unique = !!pickUnique.checked;
-      if (unique && count > lines.length) {
-        alert('Unique picks requested, but pick count is larger than the number of items.');
-        return;
-      }
-
-      let picks = [];
-      if (unique) {
-        picks = fisherYatesShuffle(lines).slice(0, count);
-      } else {
-        for (let i = 0; i < count; i++) picks.push(lines[randInt(lines.length)]);
-      }
-
-      pickOutput.textContent = picks.join(' • ');
-      pickResults.style.display = 'block';
-    }
-
-    function resetPick() {
-      listInput.value = '';
-      pickCount.value = '1';
-      pickUnique.checked = true;
-      pickResults.style.display = 'none';
-      pickOutput.textContent = '—';
-      pickLineCount.textContent = '—';
-    }
-
-    // ----------------------------
-    // 7) Shuffle lines
-    // ----------------------------
-    const shuffleInput = document.getElementById('shuffleInput');
-    const shuffleIgnoreEmpty = document.getElementById('shuffleIgnoreEmpty');
-    const shuffleOutput = document.getElementById('shuffleOutput');
-
-    function shuffleLines() {
-      const lines = cleanLines(shuffleInput.value, !!shuffleIgnoreEmpty.checked);
-      if (lines.length === 0) {
-        alert('Please add at least one line.');
-        return;
-      }
-      shuffleOutput.value = fisherYatesShuffle(lines).join('\n');
-    }
-
-    function resetShuffle() {
-      shuffleInput.value = '';
-      shuffleOutput.value = '';
-      shuffleIgnoreEmpty.checked = true;
-    }
-
-    // ----------------------------
-    // 8) Password / token
+    // Password generator
     // ----------------------------
     const pwLength = document.getElementById('pwLength');
     const pwLower = document.getElementById('pwLower');
@@ -961,17 +807,22 @@
     }
 
     // ----------------------------
-    // 9) Ranker
+    // Random order / ranker
     // ----------------------------
     const rankInput = document.getElementById('rankInput');
     const rankOutput = document.getElementById('rankOutput');
 
     function rankItems() {
-      const lines = cleanLines(rankInput.value, true);
+      const lines = String(rankInput.value || '')
+        .split(/\r\n|\r|\n/)
+        .map(l => l.trim())
+        .filter(l => l.length > 0);
+
       if (lines.length === 0) {
         alert('Please add at least one item.');
         return;
       }
+
       const ranked = fisherYatesShuffle(lines).map((v, i) => `${i + 1}. ${v}`);
       rankOutput.value = ranked.join('\n');
     }
@@ -982,7 +833,7 @@
     }
 
     // ----------------------------
-    // 10) Random color
+    // Random color
     // ----------------------------
     const colorResults = document.getElementById('colorResults');
     const colorSwatch = document.getElementById('colorSwatch');
