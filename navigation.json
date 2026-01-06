@@ -1,0 +1,57 @@
+{
+  "mainMenu": [
+    {
+      "label": "Home",
+      "url": "index.html",
+      "type": "link"
+    },
+    {
+      "label": "Content",
+      "type": "dropdown",
+      "items": [
+        { "label": "Stories", "url": "stories.html" },
+        { "label": "Recipes", "url": "recipes.html" },
+        { "label": "Lexicon", "url": "lexicon.html" },
+        { "label": "Reading List", "url": "reading-list.html" },
+        { "label": "Playlists", "url": "playlists.html" }
+      ]
+    },
+    {
+      "label": "About",
+      "url": "about.html",
+      "type": "link"
+    },
+    {
+      "label": "Store",
+      "url": "store.html",
+      "type": "link"
+    },
+    {
+      "label": "Tools",
+      "type": "dropdown",
+      "items": [
+        { "label": "Index", "url": "tools/index.html" },
+        { "label": "Color", "url": "tools/color.html" },
+        { "label": "Convert", "url": "tools/convert.html" },
+        { "label": "Currency", "url": "tools/currency.html" },
+        { "label": "Encode", "url": "tools/encode.html" },
+        { "label": "Whois", "url": "tools/ip.html" },
+        { "label": "Randomness", "url": "tools/random.html" },
+        { "label": "Subnet", "url": "tools/subnet.html" },
+        { "label": "Text", "url": "tools/text.html" },
+        { "label": "Time", "url": "tools/time.html" },
+        { "label": "Weather", "url": "tools/weather.html" }
+      ]
+    },
+    {
+      "label": "Ipsum",
+      "type": "dropdown",
+      "items": [
+        { "label": "Baking", "url": "tools/baking.html" },
+        { "label": "Inferno", "url": "tools/dante.html" },
+        { "label": "Nautical", "url": "tools/nautical.html" },
+        { "label": "Philosophy", "url": "tools/philosophy.html" }
+      ]
+    }
+  ]
+}
