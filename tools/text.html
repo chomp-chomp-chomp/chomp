@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text - Chomp Tools</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tools-recipes-style.css">
 </head>
 
-<body>
+<body class="">
   <header class="site-header">
     <nav class="site-nav">
       <a href="https://chompchomp.cc" class="site-logo">
@@ -82,9 +81,8 @@
 
       <div class="tool-header">
         <picture>
-          <source srcset="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logos%20-%2021.jpeg"
-                  media="(prefers-color-scheme: dark)">
-          <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logos%20-%2020.jpeg" alt="text tools">
+          <source srcset="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logos%20-%2021.jpeg" media="(prefers-color-scheme: dark)">
+          <picture><source srcset="https://ik.imagekit.io/chompchomp/Chomp_Chomp_logos_-_30_u6JOSpOZ5.jpeg" media="(prefers-color-scheme: dark)"><img src="https://ik.imagekit.io/chompchomp/Chomp_Chomp_logos_-_29_U1VdK0ODi.jpeg" alt="text tools"></picture>
         </picture>
 
         <p class="tool-subtitle">Analyze and transform text with counting, casing &amp; cleanup tools</p>
@@ -101,7 +99,7 @@
 
         <div class="tool-actions" style="gap: 10px; flex-wrap: wrap;">
           <button class="tool-button" id="copyBtn" type="button">Copy</button>
-          <button class="tool-button tool-button-secondary" id="undoBtn" type="button" disabled>Undo</button>
+          <button class="tool-button tool-button-secondary" id="undoBtn" type="button" disabled="">Undo</button>
           <button class="tool-button tool-button-secondary" id="resetBtn" type="button">Reset</button>
         </div>
       </div>
@@ -155,11 +153,11 @@
             <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
               <div style="flex: 1; min-width: 220px;">
                 <label class="control-label" for="prefixInput" style="margin-bottom: 6px;">Prefix each line</label>
-                <input id="prefixInput" class="form-input" type="text" placeholder="e.g., •  or  - " />
+                <input id="prefixInput" class="form-input" type="text" placeholder="e.g., •  or  - ">
               </div>
               <div style="flex: 1; min-width: 220px;">
                 <label class="control-label" for="suffixInput" style="margin-bottom: 6px;">Suffix each line</label>
-                <input id="suffixInput" class="form-input" type="text" placeholder="e.g.,  ;" />
+                <input id="suffixInput" class="form-input" type="text" placeholder="e.g.,  ;">
               </div>
               <button class="tool-button tool-button-secondary" type="button" data-action="addPrefixSuffix">Add prefix / suffix</button>
             </div>
@@ -167,7 +165,7 @@
             <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
               <div style="width: 200px; min-width: 160px;">
                 <label class="control-label" for="wrapWidthInput" style="margin-bottom: 6px;">Wrap at N chars</label>
-                <input id="wrapWidthInput" class="form-input" type="number" min="10" step="1" value="80" />
+                <input id="wrapWidthInput" class="form-input" type="number" min="10" step="1" value="80">
               </div>
               <button class="tool-button tool-button-secondary" type="button" data-action="wrapLines">Wrap lines</button>
             </div>
@@ -199,7 +197,7 @@
             <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
               <div style="width: 220px; min-width: 180px;">
                 <label class="control-label" for="tabSizeInput" style="margin-bottom: 6px;">Tab size (spaces)</label>
-                <input id="tabSizeInput" class="form-input" type="number" min="1" step="1" value="2" />
+                <input id="tabSizeInput" class="form-input" type="number" min="1" step="1" value="2">
               </div>
               <button class="tool-button tool-button-secondary" type="button" data-action="tabsToSpaces">Tabs → spaces</button>
               <button class="tool-button tool-button-secondary" type="button" data-action="spacesToTabs">Spaces → tabs</button>
@@ -208,14 +206,14 @@
             <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
               <div style="width: 220px; min-width: 180px;">
                 <label class="control-label" for="indentSizeInput" style="margin-bottom: 6px;">Indent size (spaces)</label>
-                <input id="indentSizeInput" class="form-input" type="number" min="1" step="1" value="2" />
+                <input id="indentSizeInput" class="form-input" type="number" min="1" step="1" value="2">
               </div>
             </div>
 
             <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: end;">
               <div style="width: 260px; min-width: 220px;">
                 <label class="control-label" for="delimiterInput" style="margin-bottom: 6px;">Align columns (delimiter)</label>
-                <input id="delimiterInput" class="form-input" type="text" placeholder="e.g., ,   |   :   tab" value="," />
+                <input id="delimiterInput" class="form-input" type="text" placeholder="e.g., ,   |   :   tab" value=",">
                 <small style="display:block; color: var(--color-text-secondary); margin-top: 6px;">Tip: type <code>\t</code> for tab.</small>
               </div>
               <button class="tool-button tool-button-secondary" type="button" data-action="alignColumns">Align columns</button>
@@ -265,7 +263,7 @@
         <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
         <a href="https://chompchomp.cc">chomp chomp: recipes &amp; rituals</a>
       </div>
-      <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+      <p style="margin-top: 15px;">© 2025 Chomp Chomp</p>
     </div>
   </footer>
 
@@ -738,5 +736,6 @@
 
     updateCounts();
   </script>
-</body>
-</html>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+</body></html>
