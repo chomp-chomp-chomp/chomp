@@ -1,0 +1,102 @@
+{
+  "name": "Epic Ipsum",
+  "subtitle": "Lorem ipsum generator inspired by Homeric and Hesiodic epic poetry",
+  "startPhrase": "In ages past when gods walked among mortals,",
+  "startCheckboxLabel": "Start with \"In ages past...\"",
+  "themes": {
+    "fate": {
+      "label": "Fate & Destiny",
+      "texts": [
+        "The grey-eyed goddess ordained by the will of Zeus the doom of bronze-clad warriors.",
+        "Swift-footed heroes spun upon the thread of destiny the journey home across wine-dark seas.",
+        "The Moirai, spinners of thread, measured out the portion allotted to suffering mortals.",
+        "As rosy-fingered dawn arose, the far-thundering one decreed by immortal counsel great sorrow upon the Achaeans.",
+        "Justice, daughter of Zeus, ordained from primordial Chaos the lot of suffering mortals.",
+        "When battle-fury seized mortal hearts, the fates had spun from the beginning the span of days upon the earth.",
+        "By divine decree unchangeable, none may escape what is destined for such is the law of the immortals.",
+        "From the beginning when Earth and Sky were sundered, the immortal ordinance measured the doom of heroes.",
+        "The thread of destiny runs through all mortal lives, woven by hands that know no mercy.",
+        "What the gods decree at dawn shall come to pass before the sun sets upon the wine-dark sea."
+      ]
+    },
+    "labor": {
+      "label": "Labor & Toil",
+      "texts": [
+        "The cunning shipwright labored upon the hollow ships, forging shields bright as the sun.",
+        "Bronze-armored warriors forged weapons in blazing furnaces until strength failed their weary limbs.",
+        "The tiller of earth plowed the fertile soil when the Pleiades rise above the horizon.",
+        "Mortals who work with their hands sowed seeds in the grain-giving earth through sweat and struggle.",
+        "When winter's cold loosens its grip, the industrious farmer toiled in the harvest ordained by seasons.",
+        "With hands skilled in craft, they labored to raise the great walls of Troy stone by stone.",
+        "Through honest work and righteous deeds, prosperity may come to the household at last.",
+        "For idleness brings only hunger and shame to those who will not bend their backs to labor.",
+        "The cooper mended barrels while the blacksmith forged new tools for the coming harvest.",
+        "They worked from dawn until dusk, for such is the lot appointed to mortal men."
+      ]
+    },
+    "endurance": {
+      "label": "Endurance & Suffering",
+      "texts": [
+        "Long-suffering Odysseus endured through ten years of wandering upon the wine-dark sea.",
+        "The steadfast companions bore countless hardships and the wrath of earth-shaking Poseidon.",
+        "Though tempests raged fierce, they bore trials beyond mortal measure with unfailing courage.",
+        "The patient sufferer endured through bitter winters and the five ages of mankind.",
+        "Those who endure hardship bore the burden of necessity sent by the gods above.",
+        "In the Iron Age of sorrow, mortals must bear their suffering until Justice departs from the earth.",
+        "They weathered storms that would break lesser men, holding fast to hope through darkest night.",
+        "Ten years they suffered upon the sea, yearning always for home and the smoke of their hearths.",
+        "Through grief and loss they pressed onward, for such is the nature of mortal existence.",
+        "The gods test those they would make great with trials that seem beyond all endurance."
+      ]
+    },
+    "genealogy": {
+      "label": "Genealogy & Origins",
+      "texts": [
+        "The cloud-gatherer Zeus begat mighty offspring, the race of demigods and heroes.",
+        "Achilles, son of Peleus, descended from the line of heroes whose glory echoes through generations.",
+        "Primordial Chaos gave birth to the race of Titans, the first generation of immortals.",
+        "Broad-breasted Earth engendered the deathless gods who rule the cosmos eternal.",
+        "In ages past, starry Sky, offspring of Gaia, fathered children born of immortal seed.",
+        "First of all came into being Chaos, and from it all other beings descended.",
+        "According to the sacred genealogy, powers arose that rule the cosmos from formless void.",
+        "From the union of Earth and Sky came the Titans who would challenge the Olympian gods.",
+        "The lineage of heroes stretches back to when immortals walked freely among mortal men.",
+        "Thus the cosmos was ordered from formless void, each generation giving birth to the next."
+      ]
+    },
+    "homer": {
+      "label": "Homer (Iliad/Odyssey)",
+      "texts": [
+        "Sing, O Muse, of the rage of Achilles, son of Peleus, that brought countless ills upon the Achaeans.",
+        "Tell me, Muse, of the man of many ways who wandered far after he sacked the sacred citadel of Troy.",
+        "Swift-footed Achilles raged beside the hollow ships, his heart black with anger at Agamemnon.",
+        "Odysseus of many devices sat upon the shore and wept, longing for his homeland and wife.",
+        "The grey-eyed goddess Athena descended from Olympus to stand beside her favored heroes.",
+        "Bronze-clad warriors clashed upon the plain before the walls of Troy, meeting their fates.",
+        "The wine-dark sea tossed their ships like toys as Poseidon's wrath pursued them.",
+        "Rosy-fingered dawn arose to find heroes still locked in combat, neither side yielding.",
+        "The cunning Odysseus devised a plan to breach the mighty walls through trickery and guile.",
+        "Zeus the cloud-gatherer watched from high Olympus as mortals played out their destined roles."
+      ]
+    },
+    "hesiod": {
+      "label": "Hesiod (Theogony/Works & Days)",
+      "texts": [
+        "First of all came Chaos into being, and then broad-breasted Earth, the eternal foundation.",
+        "From Chaos came Erebus and black Night, and from Night came Aether and Day.",
+        "Earth bore starry Heaven to be her equal, to cover her on all sides and be a home for the gods.",
+        "The Muses taught Hesiod glorious song while he was shepherding his lambs on holy Helicon.",
+        "Work is no disgrace; it is idleness which is a disgrace to mortal men.",
+        "Observe due measure, for measure is best in all things that concern mortal men.",
+        "When the Pleiades rise, begin your harvest, and plow when they set in the western sky.",
+        "Justice, daughter of Zeus, sits beside her father and reports the unjust minds of men.",
+        "There was first a golden race of mortal men who lived like gods, free from toil and grief.",
+        "Now is the race of iron, and men never cease from labor and sorrow by day or night."
+      ]
+    },
+    "mixed": {
+      "label": "Mixed (All Themes)",
+      "texts": []
+    }
+  }
+}
