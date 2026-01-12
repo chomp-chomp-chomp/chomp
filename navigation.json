@@ -9,11 +9,11 @@
       "label": "Content",
       "type": "dropdown",
       "items": [
-        { "label": "Stories", "url": "stories.html" },
-        { "label": "Recipes", "url": "recipes.html" },
-        { "label": "Lexicon", "url": "lexicon.html" },
-        { "label": "Reading List", "url": "reading-list.html" },
-        { "label": "Playlists", "url": "playlists.html" }
+        { "label": "Stories", "url": "stories.html", "type": "link" },
+        { "label": "Recipes", "url": "recipes.html", "type": "link" },
+        { "label": "Lexicon", "url": "lexicon.html", "type": "link" },
+        { "label": "Reading List", "url": "reading-list.html", "type": "link" },
+        { "label": "Playlists", "url": "playlists.html", "type": "link" }
       ]
     },
     {
@@ -30,27 +30,41 @@
       "label": "Tools",
       "type": "dropdown",
       "items": [
-        { "label": "Index", "url": "tools/index.html" },
-        { "label": "Color", "url": "tools/color.html" },
-        { "label": "Convert", "url": "tools/convert.html" },
-        { "label": "Currency", "url": "tools/currency.html" },
-        { "label": "Encode", "url": "tools/encode.html" },
-        { "label": "Whois", "url": "tools/ip.html" },
-        { "label": "Randomness", "url": "tools/random.html" },
-        { "label": "Subnet", "url": "tools/subnet.html" },
-        { "label": "Text", "url": "tools/text.html" },
-        { "label": "Time", "url": "tools/time.html" },
-        { "label": "Weather", "url": "tools/weather.html" }
+        { "label": "Index", "url": "tools/index.html", "type": "link" },
+        {
+          "label": "Everyday Tools",
+          "type": "dropdown",
+          "items": [
+            { "label": "Color", "url": "tools/color.html", "type": "link" },
+            { "label": "Convert", "url": "tools/convert.html", "type": "link" },
+            { "label": "Currency", "url": "tools/currency.html", "type": "link" },
+            { "label": "Randomness", "url": "tools/random.html", "type": "link" },
+            { "label": "Text", "url": "tools/text.html", "type": "link" },
+            { "label": "Time", "url": "tools/time.html", "type": "link" },
+            { "label": "Weather", "url": "tools/weather.html", "type": "link" }
+          ]
+        },
+        {
+          "label": "Developer Tools",
+          "type": "dropdown",
+          "items": [
+            { "label": "Encode", "url": "tools/encode.html", "type": "link" },
+            { "label": "Whois", "url": "tools/ip.html", "type": "link" },
+            { "label": "Subnet", "url": "tools/subnet.html", "type": "link" }
+          ]
+        }
       ]
     },
     {
       "label": "Ipsum",
       "type": "dropdown",
       "items": [
-        { "label": "Baking", "url": "tools/baking.html" },
-        { "label": "Inferno", "url": "tools/dante.html" },
-        { "label": "Nautical", "url": "tools/nautical.html" },
-        { "label": "Philosophy", "url": "tools/philosophy.html" }
+        { "label": "Index", "url": "tools/ipsum.html", "type": "link" },
+        { "label": "Baking", "url": "tools/baking.html", "type": "link" },
+        { "label": "Inferno", "url": "tools/dante.html", "type": "link" },
+        { "label": "Epic", "url": "tools/epic.html", "type": "link" },
+        { "label": "Nautical", "url": "tools/nautical.html", "type": "link" },
+        { "label": "Philosophy", "url": "tools/philosophy.html", "type": "link" }
       ]
     }
   ]

@@ -105,10 +105,7 @@
           <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
           <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
           <ul class="tools-dropdown-menu" id="toolsDropdown">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="stories.html">Stories</a></li>
-            <li><a href="recipes.html">Recipes</a></li>
-            <li><a href="about.html">About</a></li>
+            <!-- Navigation menu loaded dynamically by navigation.js -->
           </ul>
         </div>
       </div>
@@ -340,6 +337,9 @@
   </script>
 
   <!-- Navigation toggle -->
+  <!-- Dynamic Navigation System -->
+  <script src="/navigation.js"></script>
+
   <script>
     function toggleToolsDropdown() {
       const dropdown = document.getElementById('toolsDropdown');
