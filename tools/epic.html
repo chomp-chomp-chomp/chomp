@@ -6,7 +6,7 @@
     <title>Epic Ipsum - Chomp Tools</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tools-recipes-style.css">
-    <script src="js/epic-ipsum-generator.js"></script>
+    <script src="js/ipsum-generator.js"></script>
 </head>
 <body>
     <header class="site-header">
@@ -79,94 +79,49 @@
         <div class="tool-page">
             <div class="tool-header">
                 <h1>Epic Ipsum</h1>
-                <p class="tool-subtitle">Schema-driven lorem ipsum inspired by Homeric and Hesiodic epic poetry</p>
+                <p class="tool-subtitle">Lorem ipsum generator inspired by Homeric and Hesiodic epic poetry</p>
             </div>
 
             <div class="tool-controls">
-                <div class="control-group">
-                    <label class="control-label">Mode</label>
-                    <select id="mode" class="form-select">
-                        <option value="fate">Fate & Destiny</option>
-                        <option value="labor">Labor & Toil</option>
-                        <option value="endurance">Endurance & Suffering</option>
-                        <option value="genealogy">Genealogy & Origins</option>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Length</label>
-                    <select id="length" class="form-select">
-                        <option value="ui">UI (Short)</option>
-                        <option value="short">Short</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="long">Long</option>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Sentences per Paragraph</label>
-                    <input type="number" id="sentences" class="form-input" value="4" min="1" max="10">
-                </div>
-
                 <div class="control-group">
                     <label class="control-label">Number of Paragraphs</label>
                     <input type="number" id="paragraphs" class="form-input" value="3" min="1" max="20">
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">
-                        <input type="checkbox" id="useHomer" checked style="width: auto; margin-right: 8px;">
-                        Use Homer (Iliad/Odyssey)
-                    </label>
+                    <label class="control-label">Epic Theme</label>
+                    <select id="theme" class="form-select">
+                        <option value="fate">Fate & Destiny</option>
+                        <option value="labor">Labor & Toil</option>
+                        <option value="endurance">Endurance & Suffering</option>
+                        <option value="genealogy">Genealogy & Origins</option>
+                        <option value="homer">Homer (Iliad/Odyssey)</option>
+                        <option value="hesiod">Hesiod (Theogony/Works & Days)</option>
+                        <option value="mixed">Mixed (All Themes)</option>
+                    </select>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">
-                        <input type="checkbox" id="useHesiod" checked style="width: auto; margin-right: 8px;">
-                        Use Hesiod (Theogony/Works & Days)
+                    <label class="control-label" for="startCheckbox">
+                        <input type="checkbox" id="startCheckbox" style="width: auto; margin-right: 8px;">
+                        Start with "In ages past..."
                     </label>
-                </div>
-
-                <div class="control-group" id="blendGroup">
-                    <label class="control-label">Blend (0=Homer, 1=Hesiod): <span id="blendValue">0.50</span></label>
-                    <input type="range" id="blend" class="form-input" min="0" max="1" step="0.01" value="0.5" style="width: 100%;">
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">
-                        <input type="checkbox" id="useSeededRandom" style="width: auto; margin-right: 8px;">
-                        Use Seeded Random (reproducible)
-                    </label>
-                </div>
-
-                <div class="control-group" id="seedGroup" style="display: none;">
-                    <label class="control-label">Random Seed</label>
-                    <input type="number" id="randomSeed" class="form-input" value="42">
                 </div>
 
                 <div class="tool-actions">
                     <button class="tool-button" onclick="generate()">Generate</button>
                     <button class="tool-button tool-button-secondary" onclick="copyText()">Copy</button>
-                    <button class="tool-button tool-button-secondary" onclick="toggleDebug()">Debug</button>
                 </div>
             </div>
 
             <div class="tool-results" id="results">
                 <div class="result-item">
-                    <textarea class="control-input" id="output" readonly style="min-height: 400px; font-family: Georgia, serif; line-height: 1.8;">Loading Epic Ipsum Generator...</textarea>
-                </div>
-            </div>
-
-            <div class="tool-results" id="debugOutput" style="display: none; margin-top: 20px;">
-                <div class="result-item">
-                    <h3>Debug Information</h3>
-                    <pre id="debugContent" style="white-space: pre-wrap; font-size: 12px; background: #f5f5f5; padding: 15px; border-radius: 4px; overflow-x: auto;"></pre>
+                    <textarea class="control-input" id="output" readonly style="min-height: 400px; font-family: Georgia, serif; line-height: 1.8;">Click "Generate" to create epic placeholder text...</textarea>
                 </div>
             </div>
 
             <div class="info-box">
-                <p><strong>About:</strong> Epic Ipsum uses a schema-driven architecture to generate placeholder text from Homeric and Hesiodic fragments. The generator supports multiple modes (fate, labor, endurance, genealogy), configurable blending between sources, and reproducible seeded randomness. Fragment selection uses weighted sampling with intrusion-based mixing when both sources are enabled.</p>
-                <p><strong>Technical:</strong> Built with JSON schemas, separate fragment files, and a template-based pattern system. Fragments are selected based on mode+role matching with source filtering and weight-based probability distributions.</p>
+                <p><strong>About:</strong> Epic Ipsum generates placeholder text inspired by ancient Greek epic poetry. Draw from Homeric heroic narratives (Iliad and Odyssey) or Hesiodic cosmogonic and didactic traditions (Theogony and Works and Days). Choose themes of fate, labor, endurance, or genealogy.</p>
             </div>
 
             <div style="text-align: center; margin-top: 40px;">
@@ -187,9 +142,6 @@
     </footer>
 
     <script>
-        let epicGen = null;
-        let lastDebugInfo = null;
-
         // Tools dropdown toggle
         function toggleToolsDropdown() {
             const dropdown = document.getElementById('toolsDropdown');
@@ -216,95 +168,29 @@
             });
         }
 
-        // Update blend value display
-        document.getElementById('blend').addEventListener('input', (e) => {
-            document.getElementById('blendValue').textContent = parseFloat(e.target.value).toFixed(2);
-        });
+        // Initialize ipsum generator
+        let ipsumGen;
 
-        // Toggle seed input visibility
-        document.getElementById('useSeededRandom').addEventListener('change', (e) => {
-            document.getElementById('seedGroup').style.display = e.target.checked ? 'block' : 'none';
-        });
-
-        // Update blend group visibility based on source checkboxes
-        function updateBlendGroupVisibility() {
-            const useHomer = document.getElementById('useHomer').checked;
-            const useHesiod = document.getElementById('useHesiod').checked;
-            document.getElementById('blendGroup').style.display = (useHomer && useHesiod) ? 'block' : 'none';
-        }
-
-        document.getElementById('useHomer').addEventListener('change', updateBlendGroupVisibility);
-        document.getElementById('useHesiod').addEventListener('change', updateBlendGroupVisibility);
-
-        // Initialize generator
         async function initGenerator() {
-            epicGen = new EpicIpsumGenerator();
-            const success = await epicGen.loadSeed();
-
+            ipsumGen = new IpsumGenerator('data/epic.json', 'output');
+            const success = await ipsumGen.init();
             if (success) {
-                document.getElementById('output').value = 'Epic Ipsum Generator loaded successfully!\n\nClick "Generate" to create archaic-epic placeholder text.';
                 generate(); // Generate initial text
-            } else {
-                document.getElementById('output').value = 'Failed to load Epic Ipsum Generator. Please refresh the page.';
             }
         }
 
         function generate() {
-            if (!epicGen || !epicGen.seed) {
+            if (!ipsumGen) {
                 console.error('Generator not initialized');
                 return;
             }
 
-            const mode = document.getElementById('mode').value;
-            const length = document.getElementById('length').value;
-            const sentences = parseInt(document.getElementById('sentences').value) || 4;
-            const paragraphs = parseInt(document.getElementById('paragraphs').value) || 3;
-            const useHomer = document.getElementById('useHomer').checked;
-            const useHesiod = document.getElementById('useHesiod').checked;
-            const blend = parseFloat(document.getElementById('blend').value);
-            const useSeededRandom = document.getElementById('useSeededRandom').checked;
-            const seedRandom = useSeededRandom ? parseInt(document.getElementById('randomSeed').value) : null;
+            const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
+            const theme = document.getElementById('theme').value;
+            const includeStartPhrase = document.getElementById('startCheckbox').checked;
 
-            if (!useHomer && !useHesiod) {
-                document.getElementById('output').value = 'Please select at least one source (Homer or Hesiod).';
-                return;
-            }
-
-            try {
-                const result = epicGen.generateIpsum({
-                    mode,
-                    length,
-                    sentences,
-                    paragraphs,
-                    useHomer,
-                    useHesiod,
-                    blendMode: 'block',
-                    blend,
-                    seedRandom
-                });
-
-                document.getElementById('output').value = result.text;
-                lastDebugInfo = result.debug;
-            } catch (error) {
-                console.error('Generation error:', error);
-                document.getElementById('output').value = `Error generating text: ${error.message}`;
-            }
-        }
-
-        function toggleDebug() {
-            const debugDiv = document.getElementById('debugOutput');
-            const isVisible = debugDiv.style.display !== 'none';
-
-            if (isVisible) {
-                debugDiv.style.display = 'none';
-            } else {
-                if (lastDebugInfo) {
-                    document.getElementById('debugContent').textContent = JSON.stringify(lastDebugInfo, null, 2);
-                    debugDiv.style.display = 'block';
-                } else {
-                    alert('No debug information available. Generate text first.');
-                }
-            }
+            const text = ipsumGen.generate(numParagraphs, theme, includeStartPhrase);
+            ipsumGen.render(text);
         }
 
         function copyText() {
