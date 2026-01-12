@@ -1,0 +1,126 @@
+{
+  "name": "Philosophy Ipsum",
+  "subtitle": "Lorem ipsum generator inspired by critical theory & continental philosophy",
+  "startPhrase": "And so on and so on...",
+  "startCheckboxLabel": "Start with \"And so on and so on...\"",
+  "themes": {
+    "zizek": {
+      "label": "Žižek (Ideology & Psychoanalysis)",
+      "texts": [
+        "And so on and so on—but the true obscenity is not the explicit content itself, you see, but rather the ideological fantasy that structures our perception of reality in the first place, no?",
+        "The paradox here is that ideology functions most effectively precisely when it appears absent, when we think we have escaped its grasp and achieved some kind of objective distance.",
+        "What we encounter in trauma is not simply a disturbance in the symbolic order, but rather the Real itself erupting, the horrifying kernel around which all signification revolves.",
+        "The subject emerges not despite but precisely because of this fundamental gap, this void at the heart of being that cannot be symbolized or integrated into the big Other.",
+        "Enjoyment—jouissance—is not something we simply pursue; rather, it is that obscene surplus we cannot rid ourselves of, the stain that marks our symbolic identity.",
+        "The pervert, unlike the neurotic, knows very well what the Other wants and dedicates himself to being the instrument of the Other's jouissance.",
+        "Capitalism's genius lies in its ability to commodify even its own critique, to package resistance itself as just another lifestyle choice in the cultural supermarket.",
+        "The choice between coffee or tea is a false one—what matters is the ideological framework that makes this appear as a meaningful exercise of freedom.",
+        "Tolerance today functions as its opposite: the multicultural discourse of tolerance masks the new forms of racism that operate through respect for cultural difference.",
+        "The symptom is not something that disturbs the normal functioning of society—rather, society itself is sustained by its symptomatic exceptions and transgressions.",
+        "We do not believe in ideology, yet we act as if we do—this gap between belief and behavior is the space where ideology truly operates.",
+        "The Real is not reality, but that which resists symbolization absolutely, the traumatic kernel that returns again and again to disrupt our fantasmatic narratives.",
+        "Love is not about finding the perfect complement but rather about accepting and even embracing the absolute otherness, the irreducible strangeness of the beloved.",
+        "Revolution is not about changing the state of things but about intervening in the very coordinates that determine what counts as possible change."
+      ]
+    },
+    "marx": {
+      "label": "Marx (Political Economy)",
+      "texts": [
+        "The bourgeoisie has resolved personal worth into exchange value and has set up that single, unconscionable freedom—Free Trade.",
+        "Capitalist production subordinates every other relation to the exchange relation, transforming all social bonds into mere monetary transactions.",
+        "The worker becomes poorer the more wealth he produces, the more his production increases in power and extent, alienated from the products of his labor.",
+        "The ruling ideas of each age have ever been the ideas of its ruling class, masquerading as universal truths while serving particular interests.",
+        "Commodity fetishism obscures the social character of labor, making the relations between producers appear as relations between things.",
+        "Capital is dead labor which, vampire-like, lives only by sucking living labor, and lives the more, the more labor it sucks.",
+        "The history of all hitherto existing society is the history of class struggles, freeman and slave, patrician and plebeian, lord and serf.",
+        "The executive of the modern state is but a committee for managing the common affairs of the whole bourgeoisie.",
+        "Workers have nothing to lose but their chains, yet they have a world to win through collective organization and revolutionary praxis.",
+        "The mode of production of material life conditions the general process of social, political, and intellectual life—consciousness does not determine being.",
+        "Accumulation of wealth at one pole is therefore at the same time accumulation of misery at the opposite pole.",
+        "The rate of profit is the compelling force of capitalist production, which produces only what and as much as can be produced at a profit.",
+        "Use value realizes itself only in use or consumption, while exchange value manifests in the quantitative relation of commodities.",
+        "Surplus value is created in the sphere of production but realized only in circulation through the metamorphosis of commodities."
+      ]
+    },
+    "hegel": {
+      "label": "Hegel (Dialectics)",
+      "texts": [
+        "The True is the whole, yet the whole is nothing other than the essence consummating itself through its development and self-realization.",
+        "What is rational is actual and what is actual is rational—this conviction belongs to philosophy as much as to religious consciousness.",
+        "Self-consciousness exists in itself and for itself only insofar as it exists for another self-consciousness; that is, it is recognized.",
+        "The master achieves recognition from the slave, yet this recognition is inadequate because it comes from one who is not recognized as free.",
+        "Spirit is the absolute negativity that sublates every determinate content, yet in this movement it returns to itself enriched.",
+        "The Notion realizes itself by negating its immediacy, passing through difference and contradiction before returning to itself as concrete universal.",
+        "History is the unfolding of Spirit's self-knowledge, the progressive actualization of freedom through various shapes of consciousness.",
+        "Absolute knowing is Spirit that knows itself in the shape of Spirit, comprehending both the form and the content of its own truth.",
+        "The life of Spirit is not the life that shrinks from death but rather that which endures death and maintains itself within it.",
+        "Each stage of consciousness discovers the inadequacy of its standpoint through the experience of its own internal contradictions.",
+        "The owl of Minerva spreads its wings only with the falling of dusk—philosophy comprehends its epoch only after the fact.",
+        "Contradiction is not something to be avoided but is rather the principle of all movement and vitality in the dialectical process.",
+        "The ethical life of the state represents the unity of individual will and universal reason, freedom objectified in social institutions.",
+        "Art, religion, and philosophy are the three forms of Absolute Spirit, each grasping the Absolute in its own distinctive medium."
+      ]
+    },
+    "lacan": {
+      "label": "Lacan (Psychoanalysis)",
+      "texts": [
+        "The unconscious is structured like a language, articulated through signifying chains that determine the subject without its knowledge.",
+        "Desire is always the desire of the Other, circulating endlessly around an object that is forever lost and can never be recuperated.",
+        "The Real resists symbolization absolutely—it is the traumatic kernel that the symbolic order fails to integrate or represent.",
+        "The subject emerges only as divided, split between the enunciation and the statement, between being and meaning.",
+        "The phallus functions as the privileged signifier, marking the point where biological sex becomes caught up in the symbolic register.",
+        "There is no sexual relation, no formula or program that would prescribe the encounter between the sexes in the symbolic order.",
+        "The gaze is always already in the field of vision, looking back at us from the place of the object, disturbing our mastery.",
+        "The mirror stage establishes the imaginary register, where the ego is formed through identification with an external image.",
+        "The Name-of-the-Father is the fundamental signifier that anchors the symbolic order and enables access to language and law.",
+        "Jouissance transgresses the pleasure principle, that painful satisfaction beyond pleasure that marks our relation to the Real.",
+        "The objet petit a is the object-cause of desire, not the object we desire but that which makes us desire in the first place.",
+        "The big Other is the symbolic order itself, the treasury of signifiers that pre-exists the subject and structures its reality.",
+        "Analysis aims not at strengthening the ego but at confronting the subject with the truth of its desire and fundamental lack.",
+        "Fantasy is not opposed to reality but is rather the frame through which we access reality, screening the traumatic Real."
+      ]
+    },
+    "gramsci": {
+      "label": "Gramsci (Hegemony)",
+      "texts": [
+        "Hegemony operates not through force alone but through the manufacturing of consent, making ruling-class ideology appear natural and inevitable.",
+        "The organic intellectual emerges from and remains connected to a social class, articulating its worldview and organizing its cultural leadership.",
+        "Civil society is the sphere where hegemony is exercised, distinct from the state apparatus yet inseparable from it in complex articulations.",
+        "A war of position is necessary in advanced capitalist societies, where direct assault on state power must be supplemented by cultural struggle.",
+        "Common sense is the incoherent and spontaneous philosophy of the masses, containing both progressive elements and residues of past hegemonies.",
+        "The subaltern classes lack unified consciousness and organization, their voices mediated through the categories of dominant groups.",
+        "Every relationship of hegemony is necessarily an educational relationship, operating in society as a whole and between social forces.",
+        "Historical blocs unite structure and superstructure, material forces and ideological currents, in temporary but concrete configurations.",
+        "The crisis of hegemony occurs when the ruling class loses its capacity to lead but maintains power through increasingly coercive means.",
+        "National-popular movements must address the specific cultural traditions and experiences of the masses rather than imposing abstract formulae.",
+        "The modern Prince—the revolutionary party—must be both teacher and expression of popular will, organizing collective consciousness.",
+        "Passive revolution describes transformations that restructure society while preventing genuine popular participation and radical rupture.",
+        "Intellectuals always serve class interests, but their relationship to social classes varies in directness, consciousness, and organizational form.",
+        "Hegemony must be continually renewed and recreated, actively maintained through constant negotiation with subordinate groups."
+      ]
+    },
+    "general": {
+      "label": "General Philosophy",
+      "texts": [
+        "Ontology interrogates the fundamental structures of being itself, questioning what it means for something to exist at all.",
+        "Epistemology concerns itself with the conditions of possibility for knowledge, the limits of cognition, and the grounds of justified belief.",
+        "The transcendental subject is not an empirical entity but rather the formal condition that makes experience possible in the first place.",
+        "Phenomenology brackets the natural attitude to describe the structures of consciousness and the ways phenomena appear to us.",
+        "Hermeneutics recognizes that all understanding involves interpretation within horizons shaped by historical and linguistic contexts.",
+        "The aporia names an impasse in thought, a genuine perplexity that resists resolution through conventional conceptual resources.",
+        "Différance operates beneath presence and absence, spacing and temporizing in the generation of meaning and identity.",
+        "Dasein's being is an issue for it—human existence is characterized by this reflexive concern with its own being.",
+        "Intentionality defines consciousness as always directed toward objects, never existing as empty interiority but always consciousness-of.",
+        "The categorical imperative demands that we act according to maxims we could will as universal laws for all rational beings.",
+        "Being-in-the-world describes our primordial situation as always already embedded in contexts of practical engagement and meaning.",
+        "The dialectic moves through contradiction toward higher syntheses, yet each resolution generates new contradictions requiring further sublation.",
+        "Deconstruction reveals how texts undermine their own explicit claims through internal tensions and supplementary logics.",
+        "The lifeworld provides the taken-for-granted background against which all scientific theorizing and conscious reflection occur."
+      ]
+    },
+    "mixed": {
+      "label": "Mixed (All Thinkers)",
+      "texts": []
+    }
+  }
+}

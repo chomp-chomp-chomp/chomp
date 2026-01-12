@@ -1,0 +1,88 @@
+{
+  "name": "Baking Ipsum",
+  "subtitle": "Lorem ipsum generator inspired by baking traditions & southern kitchens",
+  "startPhrase": "Bless your heart, let me tell you about baking.",
+  "startCheckboxLabel": "Start with \"Bless your heart...\"",
+  "themes": {
+    "southern": {
+      "label": "Southern Sayings",
+      "texts": [
+        "Bless your heart, that cake's been in the oven longer than Sunday service. You gotta watch it like a hawk watches a henhouse.",
+        "Now don't go gettin' your dough all in a twist. Room temperature butter is softer than a summer peach and twice as important.",
+        "That meringue ain't gonna whip itself, sugar. You need peaks stiffer than starched Sunday collars, I tell you what.",
+        "My grandmama always said a pinch of salt makes the sweet sweeter, and she was right as rain on that account.",
+        "Well I'll be switched, that bread's rising faster than gossip at the church social. Must be the yeast is feeling right perky today.",
+        "You fold that batter gentle-like, don't go beating it to death. Treat it tender as a baby chick, you hear?",
+        "Lord have mercy, that crust is flakier than my Aunt Pearline's promises to go on a diet. Just melts right on your tongue.",
+        "Now listen here, you can't hurry good biscuits no more than you can hurry Christmas morning. These things take their own sweet time.",
+        "That's finer than frog hair split four ways. Your lattice work would make any pie proud as punch to wear it.",
+        "Honey, if your kitchen don't smell like heaven's front porch when you're baking, you ain't doing it right.",
+        "Well butter my biscuit and call me happy, that sourdough starter's bubbling like a spring creek after the rain.",
+        "Don't you dare open that oven door, child. You'll let all the heat out faster than teenagers leave church.",
+        "That dough needs to rest longer than Papaw in his recliner after Sunday dinner. Give it time to relax and rise proper.",
+        "Mercy me, those cookies are spread out flatter than a pancake on a hot griddle. Needs more chill time, I reckon."
+      ]
+    },
+    "techniques": {
+      "label": "Techniques & Methods",
+      "texts": [
+        "The lamination process requires precise temperature control, folding butter into dough repeatedly to create those delicate, flaky layers.",
+        "Proper gluten development depends on adequate hydration and kneading, building that essential protein network for structure and chew.",
+        "Creaming butter and sugar incorporates air into the mixture, creating tiny pockets that expand during baking for a tender crumb.",
+        "The windowpane test reveals when dough has developed sufficient gluten—stretch it thin enough to see light through without tearing.",
+        "Tempering chocolate demands patience and precision, carefully controlling crystal formation for that perfect snap and shine.",
+        "Proofing yeast activates those microscopic organisms, their fermentation producing carbon dioxide that leavens the dough.",
+        "The Maillard reaction occurs when proteins and sugars meet heat, creating complex flavors and that golden-brown exterior.",
+        "Autolyse allows flour to fully hydrate before kneading, developing gluten naturally and improving dough extensibility.",
+        "Blind baking prevents soggy bottoms in custard pies, weighing down the crust with beans or weights during pre-baking.",
+        "Scoring bread dough controls expansion during baking, creating weak points for steam to escape in decorative patterns.",
+        "The tangzhong method involves cooking a portion of flour with liquid to create a roux, yielding exceptionally soft, moist bread.",
+        "Folding incorporates delicate ingredients without deflating, using a gentle motion from bottom to top in a circular pattern.",
+        "Resting dough allows gluten strands to relax, making rolling easier and preventing shrinkage during baking.",
+        "Egg washing creates shine and promotes browning, while different ratios affect the finished appearance and texture."
+      ]
+    },
+    "ingredients": {
+      "label": "Ingredients & Flavors",
+      "texts": [
+        "Vanilla extract deepens sweetness with its complex aromatic compounds, derived from cured orchid pods aged to perfection.",
+        "Dutch-processed cocoa has been alkalized for a mellower flavor and darker color, behaving differently than natural cocoa in recipes.",
+        "Cultured butter brings tangy complexity from fermentation, its higher fat content yielding superior flavor and flakiness.",
+        "Bread flour's higher protein content develops more gluten, providing structure for yeasted breads and chewy textures.",
+        "Brown sugar contains molasses for moisture and caramel notes, its hygroscopic nature keeping baked goods tender longer.",
+        "Active dry yeast must be proofed in warm water, while instant yeast can be mixed directly with dry ingredients.",
+        "Almond flour adds moisture and delicate nutty sweetness, though its lack of gluten requires binding adjustments.",
+        "Buttermilk's acidity tenderizes gluten and reacts with baking soda for lift, lending tang to cakes and biscuits.",
+        "Sea salt flakes provide bursts of salinity and textural contrast, elevating sweet applications with savory complexity.",
+        "Cake flour's low protein and fine texture create tender, delicate crumbs in layer cakes and delicate pastries.",
+        "Cream of tartar stabilizes egg whites and prevents sugar crystallization, essential for glossy meringues and frostings.",
+        "Espresso powder intensifies chocolate flavor without adding coffee taste, amplifying richness in brownies and cakes.",
+        "Orange zest contributes bright citrus oils without excess moisture, complementing both sweet and savory baked goods.",
+        "Cardamom brings floral, citrusy warmth to Scandinavian and Middle Eastern baking traditions, ground fresh for maximum impact."
+      ]
+    },
+    "general": {
+      "label": "General Baking",
+      "texts": [
+        "Every oven has its own personality and hot spots, requiring bakers to adjust temperatures and rotation for even results.",
+        "Mise en place ensures success, measuring and preparing all ingredients before beginning the actual mixing and baking process.",
+        "The ratio of ingredients determines structure and texture, with small variations dramatically affecting the final product.",
+        "Ambient temperature affects dough behavior significantly, influencing fermentation rates and butter incorporation in pastry.",
+        "Precision matters more in baking than cooking, where chemistry demands accurate measurements for consistent results.",
+        "Carryover cooking continues after removing items from the oven, so timing removal correctly prevents overbaking.",
+        "Fresh ingredients yield superior flavor and performance, particularly with leaveners, spices, and nuts that can go stale.",
+        "The crumb structure reveals proper technique—even air pockets indicate good mixing and fermentation control.",
+        "Scaling recipes requires understanding baker's percentages and how ingredient ratios interact at different volumes.",
+        "Patience cannot be rushed in baking, whether waiting for butter to soften or dough to prove at its own pace.",
+        "Understanding your ingredients' behavior helps troubleshoot problems and adapt recipes to available substitutions.",
+        "The sound of a properly baked loaf is hollow when tapped on the bottom, indicating full cooking throughout.",
+        "Steam in the first minutes of baking creates crispy crusts on bread while keeping the interior moist and tender.",
+        "Cooling completely before cutting allows structure to set and prevents gummy textures in cakes and quick breads."
+      ]
+    },
+    "mixed": {
+      "label": "Mixed (All Themes)",
+      "texts": []
+    }
+  }
+}

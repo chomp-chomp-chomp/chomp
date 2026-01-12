@@ -1,0 +1,163 @@
+{
+  "version": "1.0.0",
+  "name": "Archaic Epic Ipsum",
+  "description": "Lorem ipsum generator inspired by Homeric and Hesiodic epic poetry",
+  "sources": {
+    "HOMER": {
+      "label": "Homer",
+      "description": "Iliad and Odyssey - heroic narrative, divine intervention, warrior ethos",
+      "default_weight": 1.0
+    },
+    "HESIOD": {
+      "label": "Hesiod",
+      "description": "Theogony and Works and Days - genealogy, cosmogony, agricultural wisdom",
+      "default_weight": 1.0
+    }
+  },
+  "modes": {
+    "fate": {
+      "label": "Fate & Destiny",
+      "description": "Prophecy, doom, divine will, and the inexorable march of fate"
+    },
+    "labor": {
+      "label": "Labor & Toil",
+      "description": "Work, struggle, cultivation, and the sweat of the brow"
+    },
+    "endurance": {
+      "label": "Endurance & Suffering",
+      "description": "Patient suffering, resilience, and the bearing of hardships"
+    },
+    "genealogy": {
+      "label": "Genealogy & Origins",
+      "description": "Lineage, ancestry, cosmogony, and the birth of gods and mortals"
+    }
+  },
+  "roles": {
+    "subject": {
+      "label": "Subject",
+      "description": "The primary actor or entity"
+    },
+    "action": {
+      "label": "Action",
+      "description": "The deed or occurrence"
+    },
+    "object": {
+      "label": "Object",
+      "description": "The recipient or target"
+    },
+    "modifier": {
+      "label": "Modifier",
+      "description": "Descriptive or qualifying element"
+    },
+    "consequence": {
+      "label": "Consequence",
+      "description": "Result or outcome"
+    }
+  },
+  "templates": [
+    {
+      "mode": "fate",
+      "length": "ui",
+      "pattern": "{subject} {action}",
+      "weight": 1.0
+    },
+    {
+      "mode": "fate",
+      "length": "short",
+      "pattern": "{subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "fate",
+      "length": "medium",
+      "pattern": "{modifier} {subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "fate",
+      "length": "long",
+      "pattern": "{modifier} {subject} {action} {object}, {consequence}",
+      "weight": 1.0
+    },
+    {
+      "mode": "labor",
+      "length": "ui",
+      "pattern": "{subject} {action}",
+      "weight": 1.0
+    },
+    {
+      "mode": "labor",
+      "length": "short",
+      "pattern": "{subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "labor",
+      "length": "medium",
+      "pattern": "{modifier} {subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "labor",
+      "length": "long",
+      "pattern": "{modifier} {subject} {action} {object}, {consequence}",
+      "weight": 1.0
+    },
+    {
+      "mode": "endurance",
+      "length": "ui",
+      "pattern": "{subject} {action}",
+      "weight": 1.0
+    },
+    {
+      "mode": "endurance",
+      "length": "short",
+      "pattern": "{subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "endurance",
+      "length": "medium",
+      "pattern": "{modifier} {subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "endurance",
+      "length": "long",
+      "pattern": "{modifier} {subject} {action} {object}, {consequence}",
+      "weight": 1.0
+    },
+    {
+      "mode": "genealogy",
+      "length": "ui",
+      "pattern": "{subject} {action}",
+      "weight": 1.0
+    },
+    {
+      "mode": "genealogy",
+      "length": "short",
+      "pattern": "{subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "genealogy",
+      "length": "medium",
+      "pattern": "{modifier} {subject} {action} {object}",
+      "weight": 1.0
+    },
+    {
+      "mode": "genealogy",
+      "length": "long",
+      "pattern": "{modifier} {subject} {action} {object}, {consequence}",
+      "weight": 1.0
+    }
+  ],
+  "fragments": [],
+  "combination_rules": {
+    "block": {
+      "intrusion_rate_min": 0.1,
+      "intrusion_rate_max": 0.3,
+      "intrusion_role_bias": ["modifier", "consequence"]
+    }
+  }
+}
