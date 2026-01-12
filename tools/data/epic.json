@@ -4,68 +4,8 @@
   "startPhrase": "In ages past when gods walked among mortals,",
   "startCheckboxLabel": "Start with \"In ages past...\"",
   "themes": {
-    "fate": {
-      "label": "Fate & Destiny",
-      "texts": [
-        "The grey-eyed goddess ordained by the will of Zeus the doom of bronze-clad warriors.",
-        "Swift-footed heroes spun upon the thread of destiny the journey home across wine-dark seas.",
-        "The Moirai, spinners of thread, measured out the portion allotted to suffering mortals.",
-        "As rosy-fingered dawn arose, the far-thundering one decreed by immortal counsel great sorrow upon the Achaeans.",
-        "Justice, daughter of Zeus, ordained from primordial Chaos the lot of suffering mortals.",
-        "When battle-fury seized mortal hearts, the fates had spun from the beginning the span of days upon the earth.",
-        "By divine decree unchangeable, none may escape what is destined for such is the law of the immortals.",
-        "From the beginning when Earth and Sky were sundered, the immortal ordinance measured the doom of heroes.",
-        "The thread of destiny runs through all mortal lives, woven by hands that know no mercy.",
-        "What the gods decree at dawn shall come to pass before the sun sets upon the wine-dark sea."
-      ]
-    },
-    "labor": {
-      "label": "Labor & Toil",
-      "texts": [
-        "The cunning shipwright labored upon the hollow ships, forging shields bright as the sun.",
-        "Bronze-armored warriors forged weapons in blazing furnaces until strength failed their weary limbs.",
-        "The tiller of earth plowed the fertile soil when the Pleiades rise above the horizon.",
-        "Mortals who work with their hands sowed seeds in the grain-giving earth through sweat and struggle.",
-        "When winter's cold loosens its grip, the industrious farmer toiled in the harvest ordained by seasons.",
-        "With hands skilled in craft, they labored to raise the great walls of Troy stone by stone.",
-        "Through honest work and righteous deeds, prosperity may come to the household at last.",
-        "For idleness brings only hunger and shame to those who will not bend their backs to labor.",
-        "The cooper mended barrels while the blacksmith forged new tools for the coming harvest.",
-        "They worked from dawn until dusk, for such is the lot appointed to mortal men."
-      ]
-    },
-    "endurance": {
-      "label": "Endurance & Suffering",
-      "texts": [
-        "Long-suffering Odysseus endured through ten years of wandering upon the wine-dark sea.",
-        "The steadfast companions bore countless hardships and the wrath of earth-shaking Poseidon.",
-        "Though tempests raged fierce, they bore trials beyond mortal measure with unfailing courage.",
-        "The patient sufferer endured through bitter winters and the five ages of mankind.",
-        "Those who endure hardship bore the burden of necessity sent by the gods above.",
-        "In the Iron Age of sorrow, mortals must bear their suffering until Justice departs from the earth.",
-        "They weathered storms that would break lesser men, holding fast to hope through darkest night.",
-        "Ten years they suffered upon the sea, yearning always for home and the smoke of their hearths.",
-        "Through grief and loss they pressed onward, for such is the nature of mortal existence.",
-        "The gods test those they would make great with trials that seem beyond all endurance."
-      ]
-    },
-    "genealogy": {
-      "label": "Genealogy & Origins",
-      "texts": [
-        "The cloud-gatherer Zeus begat mighty offspring, the race of demigods and heroes.",
-        "Achilles, son of Peleus, descended from the line of heroes whose glory echoes through generations.",
-        "Primordial Chaos gave birth to the race of Titans, the first generation of immortals.",
-        "Broad-breasted Earth engendered the deathless gods who rule the cosmos eternal.",
-        "In ages past, starry Sky, offspring of Gaia, fathered children born of immortal seed.",
-        "First of all came into being Chaos, and from it all other beings descended.",
-        "According to the sacred genealogy, powers arose that rule the cosmos from formless void.",
-        "From the union of Earth and Sky came the Titans who would challenge the Olympian gods.",
-        "The lineage of heroes stretches back to when immortals walked freely among mortal men.",
-        "Thus the cosmos was ordered from formless void, each generation giving birth to the next."
-      ]
-    },
     "homer": {
-      "label": "Homer (Iliad/Odyssey)",
+      "label": "Homer (Iliad & Odyssey)",
       "texts": [
         "Sing, O Muse, of the rage of Achilles, son of Peleus, that brought countless ills upon the Achaeans.",
         "Tell me, Muse, of the man of many ways who wandered far after he sacked the sacred citadel of Troy.",
@@ -76,11 +16,41 @@
         "The wine-dark sea tossed their ships like toys as Poseidon's wrath pursued them.",
         "Rosy-fingered dawn arose to find heroes still locked in combat, neither side yielding.",
         "The cunning Odysseus devised a plan to breach the mighty walls through trickery and guile.",
-        "Zeus the cloud-gatherer watched from high Olympus as mortals played out their destined roles."
+        "Zeus the cloud-gatherer watched from high Olympus as mortals played out their destined roles.",
+        "Hector of the flashing helmet stood foremost among the Trojans, defender of his city.",
+        "Brave Diomedes, tamer of horses, drove his chariot through the ranks of the enemy.",
+        "Patroclus donned the armor of Achilles and led the Myrmidons into battle against the Trojans.",
+        "The heralds led the wine and lambs for sacrifice, while the armies gathered on the plain.",
+        "Old Priam came by night to Achilles' tent, kissing the hands that slew his many sons.",
+        "Penelope of many wiles delayed the suitors with promises, unweaving her web each night.",
+        "The Cyclops Polyphemus sealed the cave with a massive stone that twenty wagons could not move.",
+        "Circe of the braided tresses turned Odysseus' men into swine with her magical potions.",
+        "Tiresias the blind prophet spoke from the underworld, revealing the path that lay ahead.",
+        "Scylla with her twelve feet and six long necks snatched sailors from passing ships.",
+        "The Sirens sang their enchanting song from their flowery meadow rimmed with bones.",
+        "Calypso the nymph kept Odysseus seven years upon her island, offering immortality.",
+        "Nausicaa, white-armed daughter of King Alcinous, found the shipwrecked hero on the shore.",
+        "The suitors feasted daily in Odysseus' halls, consuming his wealth and courting his wife.",
+        "Telemachus journeyed to Pylos and Sparta, seeking news of his long-lost father.",
+        "Eumaeus the swineherd remained faithful, though his master had been gone twenty years.",
+        "Eurycleia the old nurse recognized Odysseus by the scar upon his thigh.",
+        "The bow of Odysseus could not be strung by any of the suitors who sought his wife.",
+        "Ajax the great, bulwark of the Achaeans, carried his shield like a tower into battle.",
+        "Nestor of Pylos, wise counselor, spoke from his many years of experience.",
+        "Menelaus the war-like and fair-haired Helen were the cause of the great war.",
+        "Agamemnon, lord of men, led the assembled host of Greeks to Troy.",
+        "Phoenix, old tutor of Achilles, came with Odysseus to plead for the hero's return.",
+        "The horses of Achilles wept for fallen Patroclus, their heads bowed to the earth.",
+        "Hephaestus the lame god forged wondrous armor for Achilles at Thetis' request.",
+        "The ghost of Patroclus appeared in dreams, begging for funeral rites and burial.",
+        "Achilles dragged Hector's body three times around the walls of Troy in his fury.",
+        "The funeral games for Patroclus brought together the greatest heroes in competition.",
+        "Black ships were drawn up on the shore, their crews awaiting favorable winds.",
+        "The heralds poured water over the hands of the lords before the feast began."
       ]
     },
     "hesiod": {
-      "label": "Hesiod (Theogony/Works & Days)",
+      "label": "Hesiod (Theogony & Works and Days)",
       "texts": [
         "First of all came Chaos into being, and then broad-breasted Earth, the eternal foundation.",
         "From Chaos came Erebus and black Night, and from Night came Aether and Day.",
@@ -91,11 +61,41 @@
         "When the Pleiades rise, begin your harvest, and plow when they set in the western sky.",
         "Justice, daughter of Zeus, sits beside her father and reports the unjust minds of men.",
         "There was first a golden race of mortal men who lived like gods, free from toil and grief.",
-        "Now is the race of iron, and men never cease from labor and sorrow by day or night."
+        "Now is the race of iron, and men never cease from labor and sorrow by day or night.",
+        "Ocean, flowing back upon itself, surrounds the earth with its endless stream.",
+        "The Titans made war upon the Olympians, and the battle shook the foundations of the world.",
+        "Zeus loosed the hundred-handed ones from their bonds to fight against the Titans.",
+        "Typhoeus, child of Earth and Tartarus, battled Zeus with flames shooting from his eyes.",
+        "Prometheus stole fire from heaven and gave it to mortals in a hollow fennel stalk.",
+        "Zeus sent Pandora to mankind, the first woman, bearing her jar of evils.",
+        "From Pandora's jar flew out all manner of evils to afflict mankind forever after.",
+        "Hope alone remained within the jar, trapped beneath its rim when the lid was replaced.",
+        "Kronos, youngest of the Titans, castrated his father Heaven with a sickle of adamant.",
+        "From the blood of Heaven sprang the Furies, the Giants, and the Melian nymphs.",
+        "Aphrodite was born from the foam where Heaven's severed parts fell into the sea.",
+        "Styx, eldest daughter of Ocean, was the first to join Zeus against the Titans.",
+        "The hundred-handed ones hurled three hundred rocks at once against the Titans.",
+        "Zeus bound the defeated Titans in Tartarus, as far below Hades as heaven is above earth.",
+        "Night bore hateful Doom, black Fate, Death, Sleep, and the tribe of Dreams.",
+        "Strife bore painful Toil, Forgetfulness, Famine, Sorrows, and Battles.",
+        "The Graces dance with the Hours and with Harmonia, Hebe, and Aphrodite.",
+        "The Muses are nine: Clio, Euterpe, Thalia, Melpomene, Terpsichore, Erato, Polyhymnia, Urania, and Calliope.",
+        "Nereus the Old Man of the Sea had fifty daughters, the nymphs who aid sailors.",
+        "Thaumas and Electra begat swift Iris and the long-haired Harpies.",
+        "Plow naked, sow naked, reap naked, if you wish to bring in Demeter's harvest in season.",
+        "Do not urinate while facing the sun, nor at night on the road facing forward.",
+        "Make friends with friendly neighbors, for neighbors are at hand when kinsmen are far away.",
+        "Invite your friend to dinner but leave your enemy uninvited.",
+        "A man who trusts a woman trusts a thief, for women are created to deceive.",
+        "Add to your store in summer and in harvest time; winter finds men unprepared.",
+        "When fifty days have passed after the summer solstice, the season for sailing comes.",
+        "Avoid sailing in the autumn when the winds blow from all directions.",
+        "The son should wait until he is thirty years old before he takes a wife.",
+        "Marry a virgin so you can teach her good habits and ways."
       ]
     },
     "mixed": {
-      "label": "Mixed (All Themes)",
+      "label": "Mixed (Homer & Hesiod)",
       "texts": []
     }
   }
