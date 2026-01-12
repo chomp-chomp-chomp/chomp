@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Archaic Epic Ipsum Seed Schema",
+  "type": "object",
+  "required": ["version", "name", "sources", "modes", "templates", "fragments", "combination_rules"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Z_]+$": {
+          "type": "object",
+          "required": ["label", "default_weight"],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "default_weight": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "modes": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "type": "object",
+          "required": ["label"],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "type": "object",
+          "required": ["label"],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["mode", "length", "pattern"],
+        "properties": {
+          "mode": {
+            "type": "string"
+          },
+          "length": {
+            "type": "string",
+            "enum": ["ui", "short", "medium", "long"]
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "fragments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "mode", "role", "text"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "combination_rules": {
+      "type": "object",
+      "required": ["block"],
+      "properties": {
+        "block": {
+          "type": "object",
+          "required": ["intrusion_rate_min", "intrusion_rate_max", "intrusion_role_bias"],
+          "properties": {
+            "intrusion_rate_min": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "intrusion_rate_max": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "intrusion_role_bias": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,372 @@
+{
+  "meta": {
+    "description": "Combined reference file containing schema, seed configuration, and all fragments for Epic Ipsum Generator",
+    "created": "2026-01-12",
+    "version": "1.0.0"
+  },
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Archaic Epic Ipsum Seed Schema",
+    "type": "object",
+    "required": ["version", "name", "sources", "modes", "templates", "fragments", "combination_rules"],
+    "properties": {
+      "version": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+\\.\\d+$"
+      },
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "sources": {
+        "type": "object",
+        "patternProperties": {
+          "^[A-Z_]+$": {
+            "type": "object",
+            "required": ["label", "default_weight"],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "default_weight": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      },
+      "modes": {
+        "type": "object",
+        "patternProperties": {
+          "^[a-z_]+$": {
+            "type": "object",
+            "required": ["label"],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "roles": {
+        "type": "object",
+        "patternProperties": {
+          "^[a-z_]+$": {
+            "type": "object",
+            "required": ["label"],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "templates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["mode", "length", "pattern"],
+          "properties": {
+            "mode": {
+              "type": "string"
+            },
+            "length": {
+              "type": "string",
+              "enum": ["ui", "short", "medium", "long"]
+            },
+            "pattern": {
+              "type": "string"
+            },
+            "weight": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      },
+      "fragments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["id", "source", "mode", "role", "text"],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "weight": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      },
+      "combination_rules": {
+        "type": "object",
+        "required": ["block"],
+        "properties": {
+          "block": {
+            "type": "object",
+            "required": ["intrusion_rate_min", "intrusion_rate_max", "intrusion_role_bias"],
+            "properties": {
+              "intrusion_rate_min": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "intrusion_rate_max": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "intrusion_role_bias": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "seed_core": {
+    "version": "1.0.0",
+    "name": "Archaic Epic Ipsum",
+    "description": "Lorem ipsum generator inspired by Homeric and Hesiodic epic poetry",
+    "sources": {
+      "HOMER": {
+        "label": "Homer",
+        "description": "Iliad and Odyssey - heroic narrative, divine intervention, warrior ethos",
+        "default_weight": 1.0
+      },
+      "HESIOD": {
+        "label": "Hesiod",
+        "description": "Theogony and Works and Days - genealogy, cosmogony, agricultural wisdom",
+        "default_weight": 1.0
+      }
+    },
+    "modes": {
+      "fate": {
+        "label": "Fate & Destiny",
+        "description": "Prophecy, doom, divine will, and the inexorable march of fate"
+      },
+      "labor": {
+        "label": "Labor & Toil",
+        "description": "Work, struggle, cultivation, and the sweat of the brow"
+      },
+      "endurance": {
+        "label": "Endurance & Suffering",
+        "description": "Patient suffering, resilience, and the bearing of hardships"
+      },
+      "genealogy": {
+        "label": "Genealogy & Origins",
+        "description": "Lineage, ancestry, cosmogony, and the birth of gods and mortals"
+      }
+    },
+    "roles": {
+      "subject": {
+        "label": "Subject",
+        "description": "The primary actor or entity"
+      },
+      "action": {
+        "label": "Action",
+        "description": "The deed or occurrence"
+      },
+      "object": {
+        "label": "Object",
+        "description": "The recipient or target"
+      },
+      "modifier": {
+        "label": "Modifier",
+        "description": "Descriptive or qualifying element"
+      },
+      "consequence": {
+        "label": "Consequence",
+        "description": "Result or outcome"
+      }
+    },
+    "templates": [
+      { "mode": "fate", "length": "ui", "pattern": "{subject} {action}", "weight": 1.0 },
+      { "mode": "fate", "length": "short", "pattern": "{subject} {action} {object}", "weight": 1.0 },
+      { "mode": "fate", "length": "medium", "pattern": "{modifier} {subject} {action} {object}", "weight": 1.0 },
+      { "mode": "fate", "length": "long", "pattern": "{modifier} {subject} {action} {object}, {consequence}", "weight": 1.0 },
+      { "mode": "labor", "length": "ui", "pattern": "{subject} {action}", "weight": 1.0 },
+      { "mode": "labor", "length": "short", "pattern": "{subject} {action} {object}", "weight": 1.0 },
+      { "mode": "labor", "length": "medium", "pattern": "{modifier} {subject} {action} {object}", "weight": 1.0 },
+      { "mode": "labor", "length": "long", "pattern": "{modifier} {subject} {action} {object}, {consequence}", "weight": 1.0 },
+      { "mode": "endurance", "length": "ui", "pattern": "{subject} {action}", "weight": 1.0 },
+      { "mode": "endurance", "length": "short", "pattern": "{subject} {action} {object}", "weight": 1.0 },
+      { "mode": "endurance", "length": "medium", "pattern": "{modifier} {subject} {action} {object}", "weight": 1.0 },
+      { "mode": "endurance", "length": "long", "pattern": "{modifier} {subject} {action} {object}, {consequence}", "weight": 1.0 },
+      { "mode": "genealogy", "length": "ui", "pattern": "{subject} {action}", "weight": 1.0 },
+      { "mode": "genealogy", "length": "short", "pattern": "{subject} {action} {object}", "weight": 1.0 },
+      { "mode": "genealogy", "length": "medium", "pattern": "{modifier} {subject} {action} {object}", "weight": 1.0 },
+      { "mode": "genealogy", "length": "long", "pattern": "{modifier} {subject} {action} {object}, {consequence}", "weight": 1.0 }
+    ],
+    "combination_rules": {
+      "block": {
+        "intrusion_rate_min": 0.1,
+        "intrusion_rate_max": 0.3,
+        "intrusion_role_bias": ["modifier", "consequence"]
+      }
+    }
+  },
+  "fragments": {
+    "homer": [
+      { "id": "h_fate_subj_1", "source": "HOMER", "mode": "fate", "role": "subject", "text": "the grey-eyed goddess", "weight": 1.0 },
+      { "id": "h_fate_subj_2", "source": "HOMER", "mode": "fate", "role": "subject", "text": "swift-footed heroes", "weight": 1.0 },
+      { "id": "h_fate_subj_3", "source": "HOMER", "mode": "fate", "role": "subject", "text": "the far-thundering one", "weight": 1.0 },
+      { "id": "h_fate_act_1", "source": "HOMER", "mode": "fate", "role": "action", "text": "ordained by the will of Zeus", "weight": 1.0 },
+      { "id": "h_fate_act_2", "source": "HOMER", "mode": "fate", "role": "action", "text": "spun upon the thread of destiny", "weight": 1.0 },
+      { "id": "h_fate_act_3", "source": "HOMER", "mode": "fate", "role": "action", "text": "decreed by immortal counsel", "weight": 1.0 },
+      { "id": "h_fate_obj_1", "source": "HOMER", "mode": "fate", "role": "object", "text": "the doom of bronze-clad warriors", "weight": 1.0 },
+      { "id": "h_fate_obj_2", "source": "HOMER", "mode": "fate", "role": "object", "text": "the journey home across wine-dark seas", "weight": 1.0 },
+      { "id": "h_fate_mod_1", "source": "HOMER", "mode": "fate", "role": "modifier", "text": "As rosy-fingered dawn arose,", "weight": 1.0 },
+      { "id": "h_fate_mod_2", "source": "HOMER", "mode": "fate", "role": "modifier", "text": "When battle-fury seized mortal hearts,", "weight": 1.0 },
+      { "id": "h_fate_cons_1", "source": "HOMER", "mode": "fate", "role": "consequence", "text": "and great sorrow befell the Achaeans", "weight": 1.0 },
+      { "id": "h_fate_cons_2", "source": "HOMER", "mode": "fate", "role": "consequence", "text": "as the fates had spun from the beginning", "weight": 1.0 },
+      { "id": "h_labor_subj_1", "source": "HOMER", "mode": "labor", "role": "subject", "text": "the cunning shipwright", "weight": 1.0 },
+      { "id": "h_labor_subj_2", "source": "HOMER", "mode": "labor", "role": "subject", "text": "bronze-armored warriors", "weight": 1.0 },
+      { "id": "h_labor_act_1", "source": "HOMER", "mode": "labor", "role": "action", "text": "labored upon the hollow ships", "weight": 1.0 },
+      { "id": "h_labor_act_2", "source": "HOMER", "mode": "labor", "role": "action", "text": "forged weapons in blazing furnaces", "weight": 1.0 },
+      { "id": "h_labor_obj_1", "source": "HOMER", "mode": "labor", "role": "object", "text": "shields bright as the sun", "weight": 1.0 },
+      { "id": "h_labor_obj_2", "source": "HOMER", "mode": "labor", "role": "object", "text": "the great walls of Troy", "weight": 1.0 },
+      { "id": "h_labor_mod_1", "source": "HOMER", "mode": "labor", "role": "modifier", "text": "With hands skilled in craft,", "weight": 1.0 },
+      { "id": "h_labor_cons_1", "source": "HOMER", "mode": "labor", "role": "consequence", "text": "until strength failed their weary limbs", "weight": 1.0 },
+      { "id": "h_endur_subj_1", "source": "HOMER", "mode": "endurance", "role": "subject", "text": "long-suffering Odysseus", "weight": 1.0 },
+      { "id": "h_endur_subj_2", "source": "HOMER", "mode": "endurance", "role": "subject", "text": "the steadfast companions", "weight": 1.0 },
+      { "id": "h_endur_act_1", "source": "HOMER", "mode": "endurance", "role": "action", "text": "endured through ten years of wandering", "weight": 1.0 },
+      { "id": "h_endur_act_2", "source": "HOMER", "mode": "endurance", "role": "action", "text": "bore countless hardships upon the sea", "weight": 1.0 },
+      { "id": "h_endur_obj_1", "source": "HOMER", "mode": "endurance", "role": "object", "text": "the wrath of earth-shaking Poseidon", "weight": 1.0 },
+      { "id": "h_endur_obj_2", "source": "HOMER", "mode": "endurance", "role": "object", "text": "trials beyond mortal measure", "weight": 1.0 },
+      { "id": "h_endur_mod_1", "source": "HOMER", "mode": "endurance", "role": "modifier", "text": "Though tempests raged fierce,", "weight": 1.0 },
+      { "id": "h_endur_cons_1", "source": "HOMER", "mode": "endurance", "role": "consequence", "text": "yet never did their courage fail", "weight": 1.0 },
+      { "id": "h_geneal_subj_1", "source": "HOMER", "mode": "genealogy", "role": "subject", "text": "the cloud-gatherer Zeus", "weight": 1.0 },
+      { "id": "h_geneal_subj_2", "source": "HOMER", "mode": "genealogy", "role": "subject", "text": "Achilles, son of Peleus", "weight": 1.0 },
+      { "id": "h_geneal_act_1", "source": "HOMER", "mode": "genealogy", "role": "action", "text": "begat mighty offspring", "weight": 1.0 },
+      { "id": "h_geneal_act_2", "source": "HOMER", "mode": "genealogy", "role": "action", "text": "descended from the line of heroes", "weight": 1.0 },
+      { "id": "h_geneal_obj_1", "source": "HOMER", "mode": "genealogy", "role": "object", "text": "the race of demigods", "weight": 1.0 },
+      { "id": "h_geneal_obj_2", "source": "HOMER", "mode": "genealogy", "role": "object", "text": "children born of immortal seed", "weight": 1.0 },
+      { "id": "h_geneal_mod_1", "source": "HOMER", "mode": "genealogy", "role": "modifier", "text": "In ages past,", "weight": 1.0 },
+      { "id": "h_geneal_cons_1", "source": "HOMER", "mode": "genealogy", "role": "consequence", "text": "whose glory echoes through countless generations", "weight": 1.0 }
+    ],
+    "hesiod": [
+      { "id": "he_fate_subj_1", "source": "HESIOD", "mode": "fate", "role": "subject", "text": "the Moirai, spinners of thread", "weight": 1.0 },
+      { "id": "he_fate_subj_2", "source": "HESIOD", "mode": "fate", "role": "subject", "text": "Justice, daughter of Zeus", "weight": 1.0 },
+      { "id": "he_fate_subj_3", "source": "HESIOD", "mode": "fate", "role": "subject", "text": "the immortal ordinance", "weight": 1.0 },
+      { "id": "he_fate_act_1", "source": "HESIOD", "mode": "fate", "role": "action", "text": "measured out the portion allotted", "weight": 1.0 },
+      { "id": "he_fate_act_2", "source": "HESIOD", "mode": "fate", "role": "action", "text": "ordained from primordial Chaos", "weight": 1.0 },
+      { "id": "he_fate_obj_1", "source": "HESIOD", "mode": "fate", "role": "object", "text": "the lot of suffering mortals", "weight": 1.0 },
+      { "id": "he_fate_obj_2", "source": "HESIOD", "mode": "fate", "role": "object", "text": "the span of days upon the earth", "weight": 1.0 },
+      { "id": "he_fate_mod_1", "source": "HESIOD", "mode": "fate", "role": "modifier", "text": "From the beginning when Earth and Sky were sundered,", "weight": 1.0 },
+      { "id": "he_fate_mod_2", "source": "HESIOD", "mode": "fate", "role": "modifier", "text": "By divine decree unchangeable,", "weight": 1.0 },
+      { "id": "he_fate_cons_1", "source": "HESIOD", "mode": "fate", "role": "consequence", "text": "and none may escape what is destined", "weight": 1.0 },
+      { "id": "he_fate_cons_2", "source": "HESIOD", "mode": "fate", "role": "consequence", "text": "for such is the law of the immortals", "weight": 1.0 },
+      { "id": "he_labor_subj_1", "source": "HESIOD", "mode": "labor", "role": "subject", "text": "the tiller of earth", "weight": 1.0 },
+      { "id": "he_labor_subj_2", "source": "HESIOD", "mode": "labor", "role": "subject", "text": "mortals who work with their hands", "weight": 1.0 },
+      { "id": "he_labor_subj_3", "source": "HESIOD", "mode": "labor", "role": "subject", "text": "the industrious farmer", "weight": 1.0 },
+      { "id": "he_labor_act_1", "source": "HESIOD", "mode": "labor", "role": "action", "text": "plowed the fertile soil", "weight": 1.0 },
+      { "id": "he_labor_act_2", "source": "HESIOD", "mode": "labor", "role": "action", "text": "sowed seeds when the Pleiades rise", "weight": 1.0 },
+      { "id": "he_labor_act_3", "source": "HESIOD", "mode": "labor", "role": "action", "text": "toiled through sweat and struggle", "weight": 1.0 },
+      { "id": "he_labor_obj_1", "source": "HESIOD", "mode": "labor", "role": "object", "text": "the grain-giving earth", "weight": 1.0 },
+      { "id": "he_labor_obj_2", "source": "HESIOD", "mode": "labor", "role": "object", "text": "the harvest ordained by seasons", "weight": 1.0 },
+      { "id": "he_labor_mod_1", "source": "HESIOD", "mode": "labor", "role": "modifier", "text": "When winter's cold loosens its grip,", "weight": 1.0 },
+      { "id": "he_labor_mod_2", "source": "HESIOD", "mode": "labor", "role": "modifier", "text": "Through honest work and righteous deeds,", "weight": 1.0 },
+      { "id": "he_labor_cons_1", "source": "HESIOD", "mode": "labor", "role": "consequence", "text": "for idleness brings only hunger and shame", "weight": 1.0 },
+      { "id": "he_labor_cons_2", "source": "HESIOD", "mode": "labor", "role": "consequence", "text": "thus may prosperity come to the household", "weight": 1.0 },
+      { "id": "he_endur_subj_1", "source": "HESIOD", "mode": "endurance", "role": "subject", "text": "the patient sufferer", "weight": 1.0 },
+      { "id": "he_endur_subj_2", "source": "HESIOD", "mode": "endurance", "role": "subject", "text": "those who endure hardship", "weight": 1.0 },
+      { "id": "he_endur_act_1", "source": "HESIOD", "mode": "endurance", "role": "action", "text": "bore the burden of necessity", "weight": 1.0 },
+      { "id": "he_endur_act_2", "source": "HESIOD", "mode": "endurance", "role": "action", "text": "endured through bitter winters", "weight": 1.0 },
+      { "id": "he_endur_obj_1", "source": "HESIOD", "mode": "endurance", "role": "object", "text": "the five ages of mankind", "weight": 1.0 },
+      { "id": "he_endur_obj_2", "source": "HESIOD", "mode": "endurance", "role": "object", "text": "trials sent by the gods above", "weight": 1.0 },
+      { "id": "he_endur_mod_1", "source": "HESIOD", "mode": "endurance", "role": "modifier", "text": "In the Iron Age of sorrow,", "weight": 1.0 },
+      { "id": "he_endur_cons_1", "source": "HESIOD", "mode": "endurance", "role": "consequence", "text": "until Justice departs from the earth", "weight": 1.0 },
+      { "id": "he_geneal_subj_1", "source": "HESIOD", "mode": "genealogy", "role": "subject", "text": "primordial Chaos", "weight": 1.0 },
+      { "id": "he_geneal_subj_2", "source": "HESIOD", "mode": "genealogy", "role": "subject", "text": "broad-breasted Earth", "weight": 1.0 },
+      { "id": "he_geneal_subj_3", "source": "HESIOD", "mode": "genealogy", "role": "subject", "text": "starry Sky, offspring of Gaia", "weight": 1.0 },
+      { "id": "he_geneal_act_1", "source": "HESIOD", "mode": "genealogy", "role": "action", "text": "gave birth to the race of Titans", "weight": 1.0 },
+      { "id": "he_geneal_act_2", "source": "HESIOD", "mode": "genealogy", "role": "action", "text": "engendered the deathless gods", "weight": 1.0 },
+      { "id": "he_geneal_obj_1", "source": "HESIOD", "mode": "genealogy", "role": "object", "text": "the first generation of immortals", "weight": 1.0 },
+      { "id": "he_geneal_obj_2", "source": "HESIOD", "mode": "genealogy", "role": "object", "text": "powers that rule the cosmos eternal", "weight": 1.0 },
+      { "id": "he_geneal_mod_1", "source": "HESIOD", "mode": "genealogy", "role": "modifier", "text": "First of all came into being", "weight": 1.0 },
+      { "id": "he_geneal_mod_2", "source": "HESIOD", "mode": "genealogy", "role": "modifier", "text": "According to the sacred genealogy,", "weight": 1.0 },
+      { "id": "he_geneal_cons_1", "source": "HESIOD", "mode": "genealogy", "role": "consequence", "text": "from whom all other beings descended", "weight": 1.0 },
+      { "id": "he_geneal_cons_2", "source": "HESIOD", "mode": "genealogy", "role": "consequence", "text": "and thus the cosmos was ordered from formless void", "weight": 1.0 }
+    ]
+  },
+  "usage_examples": {
+    "basic_generation": {
+      "description": "Generate 3 paragraphs of medium-length fate-themed text",
+      "code": "const result = epicGen.generateIpsum({ mode: 'fate', length: 'medium', paragraphs: 3 });",
+      "options": {
+        "mode": "fate",
+        "length": "medium",
+        "paragraphs": 3
+      }
+    },
+    "homer_only": {
+      "description": "Generate only Homer fragments",
+      "code": "const result = epicGen.generateIpsum({ mode: 'labor', useHomer: true, useHesiod: false });",
+      "options": {
+        "mode": "labor",
+        "useHomer": true,
+        "useHesiod": false
+      }
+    },
+    "blended_with_bias": {
+      "description": "Generate blended text with Hesiod bias",
+      "code": "const result = epicGen.generateIpsum({ mode: 'genealogy', blend: 0.75, sentences: 5 });",
+      "options": {
+        "mode": "genealogy",
+        "blend": 0.75,
+        "sentences": 5,
+        "note": "blend > 0.5 makes Hesiod dominant"
+      }
+    },
+    "reproducible": {
+      "description": "Generate reproducible output with seeded random",
+      "code": "const result = epicGen.generateIpsum({ mode: 'endurance', seedRandom: 42 });",
+      "options": {
+        "mode": "endurance",
+        "seedRandom": 42,
+        "note": "Same seed always produces identical output"
+      }
+    }
+  },
+  "architecture_notes": {
+    "fragment_selection": "Fragments are selected based on mode+role matching, then filtered by source (HOMER/HESIOD), then weighted random selection",
+    "blending_logic": "When both sources are enabled, blend parameter (0-1) determines dominant source per paragraph. Non-dominant fragments 'intrude' at a rate between intrusion_rate_min and intrusion_rate_max",
+    "intrusion_bias": "Roles listed in intrusion_role_bias (modifier, consequence) have 1.5x higher chance of being intrusions",
+    "deduplication": "Fragment IDs are tracked per paragraph to avoid repetition within the same paragraph",
+    "weight_calculation": "effectiveWeight = fragment.weight * sources[source].default_weight",
+    "template_patterns": "Templates use {role} tokens that are replaced with matching fragments during generation"
+  }
+}

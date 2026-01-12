@@ -1,0 +1,338 @@
+[
+  {
+    "id": "he_fate_subj_1",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "subject",
+    "text": "the Moirai, spinners of thread",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_subj_2",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "subject",
+    "text": "Justice, daughter of Zeus",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_subj_3",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "subject",
+    "text": "the immortal ordinance",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_act_1",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "action",
+    "text": "measured out the portion allotted",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_act_2",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "action",
+    "text": "ordained from primordial Chaos",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_obj_1",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "object",
+    "text": "the lot of suffering mortals",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_obj_2",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "object",
+    "text": "the span of days upon the earth",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_mod_1",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "modifier",
+    "text": "From the beginning when Earth and Sky were sundered,",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_mod_2",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "modifier",
+    "text": "By divine decree unchangeable,",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_cons_1",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "consequence",
+    "text": "and none may escape what is destined",
+    "weight": 1.0
+  },
+  {
+    "id": "he_fate_cons_2",
+    "source": "HESIOD",
+    "mode": "fate",
+    "role": "consequence",
+    "text": "for such is the law of the immortals",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_subj_1",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "subject",
+    "text": "the tiller of earth",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_subj_2",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "subject",
+    "text": "mortals who work with their hands",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_subj_3",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "subject",
+    "text": "the industrious farmer",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_act_1",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "action",
+    "text": "plowed the fertile soil",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_act_2",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "action",
+    "text": "sowed seeds when the Pleiades rise",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_act_3",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "action",
+    "text": "toiled through sweat and struggle",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_obj_1",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "object",
+    "text": "the grain-giving earth",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_obj_2",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "object",
+    "text": "the harvest ordained by seasons",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_mod_1",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "modifier",
+    "text": "When winter's cold loosens its grip,",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_mod_2",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "modifier",
+    "text": "Through honest work and righteous deeds,",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_cons_1",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "consequence",
+    "text": "for idleness brings only hunger and shame",
+    "weight": 1.0
+  },
+  {
+    "id": "he_labor_cons_2",
+    "source": "HESIOD",
+    "mode": "labor",
+    "role": "consequence",
+    "text": "thus may prosperity come to the household",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_subj_1",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "subject",
+    "text": "the patient sufferer",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_subj_2",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "subject",
+    "text": "those who endure hardship",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_act_1",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "action",
+    "text": "bore the burden of necessity",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_act_2",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "action",
+    "text": "endured through bitter winters",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_obj_1",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "object",
+    "text": "the five ages of mankind",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_obj_2",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "object",
+    "text": "trials sent by the gods above",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_mod_1",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "modifier",
+    "text": "In the Iron Age of sorrow,",
+    "weight": 1.0
+  },
+  {
+    "id": "he_endur_cons_1",
+    "source": "HESIOD",
+    "mode": "endurance",
+    "role": "consequence",
+    "text": "until Justice departs from the earth",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_subj_1",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "subject",
+    "text": "primordial Chaos",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_subj_2",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "subject",
+    "text": "broad-breasted Earth",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_subj_3",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "subject",
+    "text": "starry Sky, offspring of Gaia",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_act_1",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "action",
+    "text": "gave birth to the race of Titans",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_act_2",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "action",
+    "text": "engendered the deathless gods",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_obj_1",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "object",
+    "text": "the first generation of immortals",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_obj_2",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "object",
+    "text": "powers that rule the cosmos eternal",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_mod_1",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "modifier",
+    "text": "First of all came into being",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_mod_2",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "modifier",
+    "text": "According to the sacred genealogy,",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_cons_1",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "consequence",
+    "text": "from whom all other beings descended",
+    "weight": 1.0
+  },
+  {
+    "id": "he_geneal_cons_2",
+    "source": "HESIOD",
+    "mode": "genealogy",
+    "role": "consequence",
+    "text": "and thus the cosmos was ordered from formless void",
+    "weight": 1.0
+  }
+]

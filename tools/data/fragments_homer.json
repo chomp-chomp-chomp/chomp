@@ -1,0 +1,290 @@
+[
+  {
+    "id": "h_fate_subj_1",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "subject",
+    "text": "the grey-eyed goddess",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_subj_2",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "subject",
+    "text": "swift-footed heroes",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_subj_3",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "subject",
+    "text": "the far-thundering one",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_act_1",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "action",
+    "text": "ordained by the will of Zeus",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_act_2",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "action",
+    "text": "spun upon the thread of destiny",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_act_3",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "action",
+    "text": "decreed by immortal counsel",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_obj_1",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "object",
+    "text": "the doom of bronze-clad warriors",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_obj_2",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "object",
+    "text": "the journey home across wine-dark seas",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_mod_1",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "modifier",
+    "text": "As rosy-fingered dawn arose,",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_mod_2",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "modifier",
+    "text": "When battle-fury seized mortal hearts,",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_cons_1",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "consequence",
+    "text": "and great sorrow befell the Achaeans",
+    "weight": 1.0
+  },
+  {
+    "id": "h_fate_cons_2",
+    "source": "HOMER",
+    "mode": "fate",
+    "role": "consequence",
+    "text": "as the fates had spun from the beginning",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_subj_1",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "subject",
+    "text": "the cunning shipwright",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_subj_2",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "subject",
+    "text": "bronze-armored warriors",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_act_1",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "action",
+    "text": "labored upon the hollow ships",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_act_2",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "action",
+    "text": "forged weapons in blazing furnaces",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_obj_1",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "object",
+    "text": "shields bright as the sun",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_obj_2",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "object",
+    "text": "the great walls of Troy",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_mod_1",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "modifier",
+    "text": "With hands skilled in craft,",
+    "weight": 1.0
+  },
+  {
+    "id": "h_labor_cons_1",
+    "source": "HOMER",
+    "mode": "labor",
+    "role": "consequence",
+    "text": "until strength failed their weary limbs",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_subj_1",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "subject",
+    "text": "long-suffering Odysseus",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_subj_2",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "subject",
+    "text": "the steadfast companions",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_act_1",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "action",
+    "text": "endured through ten years of wandering",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_act_2",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "action",
+    "text": "bore countless hardships upon the sea",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_obj_1",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "object",
+    "text": "the wrath of earth-shaking Poseidon",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_obj_2",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "object",
+    "text": "trials beyond mortal measure",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_mod_1",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "modifier",
+    "text": "Though tempests raged fierce,",
+    "weight": 1.0
+  },
+  {
+    "id": "h_endur_cons_1",
+    "source": "HOMER",
+    "mode": "endurance",
+    "role": "consequence",
+    "text": "yet never did their courage fail",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_subj_1",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "subject",
+    "text": "the cloud-gatherer Zeus",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_subj_2",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "subject",
+    "text": "Achilles, son of Peleus",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_act_1",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "action",
+    "text": "begat mighty offspring",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_act_2",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "action",
+    "text": "descended from the line of heroes",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_obj_1",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "object",
+    "text": "the race of demigods",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_obj_2",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "object",
+    "text": "children born of immortal seed",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_mod_1",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "modifier",
+    "text": "In ages past,",
+    "weight": 1.0
+  },
+  {
+    "id": "h_geneal_cons_1",
+    "source": "HOMER",
+    "mode": "genealogy",
+    "role": "consequence",
+    "text": "whose glory echoes through countless generations",
+    "weight": 1.0
+  }
+]
