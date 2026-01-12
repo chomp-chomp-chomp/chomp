@@ -5,6 +5,7 @@
     <title>Inferno Ipsum - Chomp Tools</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tools-recipes-style.css">
+    <script src="js/ipsum-generator.js"></script>
 </head>
 <body class="">
         <header class="site-header">
@@ -109,8 +110,8 @@
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">
-                        <input type="checkbox" id="startWithDante" style="width: auto; margin-right: 8px;">
+                    <label class="control-label" for="startCheckbox">
+                        <input type="checkbox" id="startCheckbox" style="width: auto; margin-right: 8px;">
                         Start with "Nel mezzo del cammin..."
                     </label>
                 </div>
@@ -175,143 +176,88 @@
             });
         }
 
-        // Dante text fragments - Italian versions
-        const infernoItalian = [
-            "Nel mezzo del cammin di nostra vita mi ritrovai per una selva oscura ché la diritta via era smarrita.",
-            "Per me si va ne la città dolente, per me si va ne l'etterno dolore, per me si va tra la perduta gente.",
-            "Lasciate ogne speranza, voi ch'intrate. Queste parole di colore oscuro vid' io scritte al sommo d'una porta.",
-            "La bufera infernal, che mai non resta, mena li spirti con la sua rapina; voltando e percotendo li molesta.",
-            "Quivi sospiri, pianti e alti guai risonavan per l'aere sanza stelle, per ch'io al cominciar ne lagrimai.",
-            "Oscura e profonda era e nebulosa tanto che, per ficcar lo viso a fondo, io non vi discernea alcuna cosa.",
-            "Luogo è in inferno detto Malebolge, tutto di pietra di color ferrigno, come la cerchia che dintorno il volge.",
-            "Giustizia mosse il mio alto fattore; fecemi la divina potestate, la somma sapienza e 'l primo amore.",
-            "Questi sciaurati, che mai non fur vivi, erano ignudi e stimolati molto da mosconi e da vespe ch'eran ivi.",
-            "Nessun maggior dolore che ricordarsi del tempo felice ne la miseria; e ciò sa 'l tuo dottore.",
-            "Quel giorno più non vi leggemmo avante. Amor, ch'a nullo amato amar perdona, mi prese del costui piacer sì forte.",
-            "E caddi come corpo morto cade. Quivi, secondo che per ascoltare, non avea pianto mai che di sospiri."
-        ];
+        // Initialize data from JSON
+        let databaseData = null;
 
-        const infernoEnglish = [
-            "Through me the way into the suffering city, through me the way to the eternal pain, through me the way that runs among the lost.",
-            "Abandon all hope, ye who enter here. These words of gloomy color I beheld written upon the summit of a gate.",
-            "The infernal storm, eternal in its rage, sweeps and drives the spirits with its blast. It whirls them, lashing them with punishment.",
-            "Here sighs and lamentations and loud cries were echoing across the starless air, so that it made me weep when I first heard.",
-            "Dark, profound it was, and nebulous, so that though I gazed into its depth I could not discern anything within it.",
-            "There is a place in Hell called Malebolge, all of stone and iron-hued, like the wall that makes its rounds.",
-            "Justice divine moved my maker supreme. Wisdom and primal love created me.",
-            "The wretched souls of those who lived without disgrace and without praise maintain the neutral condition.",
-            "No greater sorrow than to recall a happy time in wretchedness, as your teacher knows.",
-            "That day we read no further. Love, which absolves no one beloved from loving, seized me so strongly with his charm.",
-            "And I fell as a dead body falls. There, according to what I heard, no wail was there except of sighs."
-        ];
-
-        const purgatorioItalian = [
-            "Per correr miglior acque alza le vele omai la navicella del mio ingegno, che lascia dietro a sé mar sì crudele.",
-            "O voi che siete in piccioletta barca, desiderosi d'ascoltar, seguiti dietro al mio legno che cantando varca.",
-            "Dolce color d'orïental zaffiro, che s'accoglieva nel sereno aspetto del mezzo, puro infino al primo giro.",
-            "Noi eravam lunghesso mare ancora, come gente che pensa a suo cammino, che va col cuore e col corpo dimora.",
-            "Lo bel pianeto che d'amar conforta faceva tutto rider l'oriente, velando i Pesci ch'erano in sua scorta.",
-            "Io vidi un veglio solo, degno di tanta reverenza in vista, che più non dee a padre alcun figliuolo.",
-            "La concreata e perpetua sete del deïforme regno cen portava veloci quasi come 'l ciel vedete.",
-            "La natural sete che mai non sazia se non con l'acqua onde la femminetta samaritana domandò la grazia.",
-            "E come clivo in acqua di suo imo si specchia, quasi per vedersi addorno, quando è nel verde e ne' fioretti opimo."
-        ];
-
-        const purgatorioEnglish = [
-            "To course across more kindly waters now my talent's little vessel lifts her sails, leaving behind herself a sea so cruel.",
-            "O you who are within your little bark, eager to listen, following behind my ship that singing makes her way.",
-            "Through better waters now you course, my ship, that leaves behind herself a sea so cruel.",
-            "The dawn was vanquishing the hour of dark that fled before it, so that from afar I recognized the trembling of the sea.",
-            "We were upon the lonely plain, like one who seeks the road he lost and till he finds it seems to move in vain.",
-            "The beautiful planet that to love incites made all the East to smile with radiant light.",
-            "Higher up I saw a venerable old man, whose look commanded such respect that more no son can owe his father.",
-            "The natural thirst that never satisfied save with the water for whose grace the woman of Samaria besought."
-        ];
-
-        const paradisoItalian = [
-            "La gloria di colui che tutto move per l'universo penetra, e risplende in una parte più e meno altrove.",
-            "E 'n la sua volontade è nostra pace: ell'è quel mare al qual tutto si move ciò ch'ella crïa o che natura face.",
-            "Frate, la nostra volontà quïeta virtù di carità, che fa volerne sol quel ch'avemo, e d'altro non ci asseta.",
-            "L'amor che move il sole e l'altre stelle. Ma già volgeva il mio disio e 'l velle, sì come rota ch'igualmente è mossa.",
-            "Considerate la vostra semenza: fatti non foste a viver come bruti, ma per seguir virtute e canoscenza.",
-            "Guardando nel suo Figlio con l'Amore che l'uno e l'altro etternalmente spira, lo primo e ineffabile Valore.",
-            "Nel suo profondo vidi che s'interna, legato con amore in un volume, ciò che per l'universo si squaderna.",
-            "E quindi il mio veder fu maggio che 'l parlar mostra, ch'a tal vista cede, e cede la memoria a tanto oltraggio.",
-            "All'alta fantasia qui mancò possa; ma già volgeva il mio disio e 'l velle, sì come rota ch'igualmente è mossa.",
-            "La forma universal di questo nodo credo ch'i' vidi, perché più di largo, dicendo questo, mi sento ch'i' godo."
-        ];
-
-        const paradisoEnglish = [
-            "The glory of Him who moves all things penetrates the universe and shines in one part more and in another less.",
-            "His will is our peace. It is that sea to which all things move, both what it creates and what nature makes.",
-            "The love that moves the sun and other stars enlightened my mind with such clear light.",
-            "You were not made to live as brutes, but to pursue virtue and knowledge with your hearts.",
-            "The heavens declare the glory of the eternal power which in them shines supreme.",
-            "Within its depths I saw ingathered, bound by love in one volume, the scattered leaves of all the universe.",
-            "My vision, becoming pure, was entering more and more the ray of that high light which in itself is true.",
-            "Here power failed the lofty fantasy, but like a wheel in even motion my desire and will were turned.",
-            "The universal form of this complex I think I saw, because in telling this I feel my joy increase."
-        ];
+        async function loadData() {
+            try {
+                const response = await fetch('data/dante.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load data: ${response.statusText}`);
+                }
+                databaseData = await response.json();
+                generate(); // Generate initial text
+            } catch (error) {
+                console.error('Error loading dante data:', error);
+                document.getElementById('output').value = 'Failed to load content. Please refresh the page.';
+            }
+        }
 
         function getRandomFromArray(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
         function generate() {
+            if (!databaseData) {
+                console.error('Data not loaded yet');
+                return;
+            }
+
             const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
             const style = document.getElementById('textStyle').value;
             const language = document.getElementById('language').value;
-            const startWithDante = document.getElementById('startWithDante').checked;
+            const includeStartPhrase = document.getElementById('startCheckbox').checked;
 
-            // Select text arrays based on style and language
-            let textSource;
+            // Get data from JSON
+            const themes = databaseData.themes;
+            let textSource = [];
 
             if (language === 'italian') {
                 // All Italian
                 switch(style) {
                     case 'inferno':
-                        textSource = infernoItalian;
+                        textSource = themes.inferno_italian.texts;
                         break;
                     case 'purgatorio':
-                        textSource = purgatorioItalian;
+                        textSource = themes.purgatorio_italian.texts;
                         break;
                     case 'paradiso':
-                        textSource = paradisoItalian;
+                        textSource = themes.paradiso_italian.texts;
                         break;
                     case 'mixed':
-                        textSource = [...infernoItalian, ...purgatorioItalian, ...paradisoItalian];
+                        textSource = [...themes.inferno_italian.texts, ...themes.purgatorio_italian.texts, ...themes.paradiso_italian.texts];
                         break;
                 }
             } else if (language === 'english') {
                 // All English
                 switch(style) {
                     case 'inferno':
-                        textSource = infernoEnglish;
+                        textSource = themes.inferno_english.texts;
                         break;
                     case 'purgatorio':
-                        textSource = purgatorioEnglish;
+                        textSource = themes.purgatorio_english.texts;
                         break;
                     case 'paradiso':
-                        textSource = paradisoEnglish;
+                        textSource = themes.paradiso_english.texts;
                         break;
                     case 'mixed':
-                        textSource = [...infernoEnglish, ...purgatorioEnglish, ...paradisoEnglish];
+                        textSource = [...themes.inferno_english.texts, ...themes.purgatorio_english.texts, ...themes.paradiso_english.texts];
                         break;
                 }
             } else {
                 // Mixed Italian & English
                 switch(style) {
                     case 'inferno':
-                        textSource = [...infernoItalian, ...infernoEnglish];
+                        textSource = [...themes.inferno_italian.texts, ...themes.inferno_english.texts];
                         break;
                     case 'purgatorio':
-                        textSource = [...purgatorioItalian, ...purgatorioEnglish];
+                        textSource = [...themes.purgatorio_italian.texts, ...themes.purgatorio_english.texts];
                         break;
                     case 'paradiso':
-                        textSource = [...paradisoItalian, ...paradisoEnglish];
+                        textSource = [...themes.paradiso_italian.texts, ...themes.paradiso_english.texts];
                         break;
                     case 'mixed':
-                        textSource = [...infernoItalian, ...infernoEnglish, ...purgatorioItalian, ...purgatorioEnglish, ...paradisoItalian, ...paradisoEnglish];
+                        textSource = [...themes.inferno_italian.texts, ...themes.inferno_english.texts, ...themes.purgatorio_italian.texts, ...themes.purgatorio_english.texts, ...themes.paradiso_italian.texts, ...themes.paradiso_english.texts];
                         break;
                 }
             }
@@ -319,8 +265,8 @@
             let result = [];
 
             // Add opening if requested
-            if (startWithDante) {
-                result.push("Nel mezzo del cammin di nostra vita mi ritrovai per una selva oscura ché la diritta via era smarrita.\n");
+            if (includeStartPhrase && databaseData.startPhrase) {
+                result.push(databaseData.startPhrase + '\n');
             }
 
             // Generate paragraphs
@@ -351,8 +297,8 @@
             }, 2000);
         }
 
-        // Generate initial text on load
-        window.addEventListener('load', generate);
+        // Initialize on load
+        window.addEventListener('load', loadData);
     </script>
 <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
 

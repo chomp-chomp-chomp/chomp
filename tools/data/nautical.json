@@ -1,0 +1,72 @@
+{
+  "name": "Nautical Ipsum",
+  "subtitle": "Lorem ipsum generator inspired by Moby Dick & maritime tales",
+  "startPhrase": "Call me Ishmael.",
+  "startCheckboxLabel": "Start with \"Call me Ishmael...\"",
+  "themes": {
+    "moby": {
+      "label": "Moby Dick",
+      "texts": [
+        "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+        "There is a wisdom that is woe; but there is a woe that is madness. And there is a Catskill eagle in some souls that can alike dive down into the blackest gorges, and soar out of them again and become invisible in the sunny spaces.",
+        "The sea had jeeringly kept his finite body up, but drowned the infinite of his soul. Not drowned entirely, though. Rather carried down alive to wondrous depths.",
+        "It is not down on any map; true places never are. The white whale swam before him as the monomaniac incarnation of all those malicious agencies.",
+        "For as this appalling ocean surrounds the verdant land, so in the soul of man there lies one insular Tahiti, full of peace and joy, but encompassed by all the horrors of the half known life.",
+        "Better sleep with a sober cannibal than a drunken Christian. The helmsman steered; the ship moved on; yet never a breeze up stirred.",
+        "There she blows! A hump like a snow-hill! It is Moby Dick! The white whale rolled his island bulk in the sea.",
+        "I know not all that may be coming, but be it what it will, I'll go to it laughing. The sea is his; he owns it.",
+        "From hell's heart I stab at thee; for hate's sake I spit my last breath at thee. Towards thee I roll, thou all-destroying but unconquering whale.",
+        "The great shroud of the sea rolled on as it rolled five thousand years ago, indifferent to the fortunes of men."
+      ]
+    },
+    "general": {
+      "label": "General Nautical",
+      "texts": [
+        "The anchor was weighed, the sails were set, and the vessel began to move through the harbor toward the open sea.",
+        "Steady as she goes, helmsman. Keep her head to the wind and watch for shoals ahead.",
+        "The rigging creaked and groaned as the ship heeled to starboard, cutting through the waves with practiced ease.",
+        "All hands on deck! Reef the mainsail and prepare to come about. The storm approaches from the north.",
+        "The captain stood at the quarterdeck, his weathered face scanning the horizon for any sign of land.",
+        "Barnacles clung to the hull, testament to months spent navigating distant waters and uncharted seas.",
+        "The bosun's whistle pierced the morning air, calling the crew to their stations as dawn broke over the waves.",
+        "Charts and compass lay spread upon the navigation table, plotting their course through treacherous waters.",
+        "The crow's nest swayed high above the deck, where the lookout kept constant vigil for rocks and reefs.",
+        "Salt spray and sea foam marked the bow as she cut through the swells, making good headway eastward."
+      ]
+    },
+    "whaling": {
+      "label": "Whaling & Ships",
+      "texts": [
+        "There she blows! The lookout's cry sent the crew scrambling to lower the whaleboats into the churning sea.",
+        "The harpoon struck true, and the line sang out as the great leviathan dove deep beneath the surface.",
+        "Blubber and bone, oil and ivory—these were the treasures sought by the whaling fleet across the seven seas.",
+        "The trying-works burned day and night, rendering whale oil from the massive creatures of the deep.",
+        "Fast to a whale! The boat raced across the waves, towed by the wounded beast in its desperate flight.",
+        "The cutting-in began at dawn, flensing the great body with razor-sharp spades and massive hooks.",
+        "Whaling grounds stretched from the Arctic to the Pacific, where pods of sperm whales dove to impossible depths.",
+        "The cooper mended barrels while the blacksmith forged new harpoons for the next hunt.",
+        "Years at sea in pursuit of the great whales had marked every man aboard with scars and stories.",
+        "The whale's flukes rose high above the waves before it sounded, diving to the darkness below."
+      ]
+    },
+    "sea": {
+      "label": "Sea & Ocean",
+      "texts": [
+        "The ocean stretched endless in all directions, a vast expanse of blue meeting blue at the distant horizon.",
+        "Waves rolled in steady rhythm, their crests topped with white foam that sparkled in the sunlight.",
+        "Deep currents moved beneath the surface, carrying ships and stories across the face of the waters.",
+        "The tide ebbed and flowed, an ancient dance choreographed by moon and sun and the turning of the earth.",
+        "Phosphorescence glowed in the ship's wake, a trail of light marking their passage through the dark waters.",
+        "Storm clouds gathered on the horizon, promising rough seas and harder sailing in the hours ahead.",
+        "The doldrums held them fast, the sails hanging limp in air that would not stir no matter how they wished.",
+        "Flying fish burst from the waves, gliding on spread fins before disappearing back into the blue depths.",
+        "Seabirds wheeled and called above the masts, a sign that land might not be far beyond the edge of sight.",
+        "The sea held mysteries in her depths, secrets that no sailor could hope to fully know or understand."
+      ]
+    },
+    "mixed": {
+      "label": "Mixed (All Themes)",
+      "texts": []
+    }
+  }
+}
