@@ -58,6 +58,11 @@
 
             <div class="tool-controls">
                 <div class="control-group">
+                    <label class="control-label">Number of Paragraphs</label>
+                    <input type="number" id="paragraphs" class="form-input" value="3" min="1" max="20">
+                </div>
+
+                <div class="control-group">
                     <label class="control-label">Generation Mode</label>
                     <select id="mode" class="form-select">
                         <option value="mixed">Love & Hate</option>
@@ -79,7 +84,7 @@
             </div>
 
             <div class="info-box">
-                <p><strong>About:</strong> The Shakespeare Love & Hate Generator creates unique phrases by combining romantic declarations with Shakespearean insults. Choose "Love & Hate" for a poetic collision of affection and vitriol, "Love" for pure romantic phrases, or "Insult" for classic Shakespeare shade. Each generation produces 8-12 fragments joined together with occasional "and" or "but" connectors.</p>
+                <p><strong>About:</strong> The Shakespeare Love & Hate Generator creates unique phrases by combining romantic declarations with Shakespearean insults. Choose "Love & Hate" for a poetic collision of affection and vitriol, "Love" for pure romantic phrases, or "Insult" for classic Shakespeare shade. Each paragraph contains 8-12 fragments joined together with occasional "and" or "but" connectors.</p>
             </div>
 
             <div style="text-align: center; margin-top: 40px;">
@@ -143,8 +148,9 @@
                 return;
             }
 
+            const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
             const mode = document.getElementById('mode').value;
-            const text = shakespeareGen.generate(mode);
+            const text = shakespeareGen.generate(numParagraphs, mode);
             shakespeareGen.render(text);
         }
 
