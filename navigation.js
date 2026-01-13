@@ -59,9 +59,50 @@
       // Insert into DOM
       menuContainer.innerHTML = menuHTML;
 
+      // Add mobile submenu toggle functionality
+      setupMobileSubmenus();
+
     } catch (error) {
       console.error('Error building navigation:', error);
     }
+  }
+
+  /**
+   * Setup mobile submenu expand/collapse functionality
+   */
+  function setupMobileSubmenus() {
+    // Only activate on mobile (viewport width <= 768px)
+    const isMobile = window.innerWidth <= 768;
+
+    if (!isMobile) return;
+
+    const menuContainer = document.getElementById('toolsDropdown');
+    if (!menuContainer) return;
+
+    // Find all items with submenus
+    const menuItems = menuContainer.querySelectorAll('.menu-item-has-submenu');
+
+    menuItems.forEach(item => {
+      const link = item.querySelector('a');
+      if (!link) return;
+
+      // Remove any existing click handlers
+      link.onclick = null;
+
+      // Add click handler for mobile
+      link.addEventListener('click', function(e) {
+        // Check if this is a dropdown (has submenu)
+        const hasSubmenu = this.parentElement.classList.contains('menu-item-has-submenu');
+
+        if (hasSubmenu) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Toggle expanded class
+          this.parentElement.classList.toggle('expanded');
+        }
+      });
+    });
   }
 
   /**
@@ -80,4 +121,13 @@
   } else {
     buildNavigation();
   }
+
+  // Re-setup mobile menus on resize (debounced)
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      setupMobileSubmenus();
+    }, 250);
+  });
 })();
