@@ -64,7 +64,8 @@
         { "label": "Inferno", "url": "tools/dante.html", "type": "link" },
         { "label": "Epic", "url": "tools/epic.html", "type": "link" },
         { "label": "Nautical", "url": "tools/nautical.html", "type": "link" },
-        { "label": "Philosophy", "url": "tools/philosophy.html", "type": "link" }
+        { "label": "Philosophy", "url": "tools/philosophy.html", "type": "link" },
+        { "label": "Shakespeare", "url": "tools/shakespeare.html", "type": "link" }
       ]
     }
   ]

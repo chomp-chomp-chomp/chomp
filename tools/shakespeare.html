@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Shakespeare Love & Hate Generator - Chomp Tools">
+    <meta name="description" content="Generate random phrases combining Shakespeare's insults with declarations of love and desire - a poetic collision of affection and vitriol">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chompchomp.cc/tools/shakespeare.html">
+    <meta property="og:title" content="Shakespeare Love & Hate Generator - Chomp Tools">
+    <meta property="og:description" content="Generate random phrases combining Shakespeare's insults with declarations of love and desire - a poetic collision of affection and vitriol">
+    <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743198558_IMG_3461.jpeg?alt=media&token=663baf71-e6ff-474f-88f4-3a0e8e0422ea">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://chompchomp.cc/tools/shakespeare.html">
+    <meta property="twitter:title" content="Shakespeare Love & Hate Generator - Chomp Tools">
+    <meta property="twitter:description" content="Generate random phrases combining Shakespeare's insults with declarations of love and desire - a poetic collision of affection and vitriol">
+    <meta property="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764743198558_IMG_3461.jpeg?alt=media&token=663baf71-e6ff-474f-88f4-3a0e8e0422ea">
+
+    <title>Shakespeare Love & Hate - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+    <script src="js/shakespeare-generator.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="https://chompchomp.cc" class="site-logo">
+                <div class="site-logo-icon">
+                    <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+                    <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+                </div>
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
+                    <!-- Navigation menu loaded dynamically by navigation.js -->
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <picture>
+                    <source srcset="https://ik.imagekit.io/chompchomp/placeholder-dark.jpg" media="(prefers-color-scheme: dark)">
+                    <img src="https://ik.imagekit.io/chompchomp/placeholder-light.jpg" alt="shakespeare love and hate">
+                </picture>
+                <p class="tool-subtitle">Random text generator combining Shakespeare's insults with declarations of love and desire</p>
+            </div>
+
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label class="control-label">Generation Mode</label>
+                    <select id="mode" class="form-select">
+                        <option value="mixed">Love & Hate</option>
+                        <option value="love">Love</option>
+                        <option value="insult">Insult</option>
+                    </select>
+                </div>
+
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="generate()">Generate</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyText()">Copy</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results">
+                <div class="result-item">
+                    <textarea class="control-input" id="output" readonly style="min-height: 300px; font-family: Georgia, serif; line-height: 1.8;">Click "Generate" to create your Shakespeare-inspired text...</textarea>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>About:</strong> The Shakespeare Love & Hate Generator creates unique phrases by combining romantic declarations with Shakespearean insults. Choose "Love & Hate" for a poetic collision of affection and vitriol, "Love" for pure romantic phrases, or "Insult" for classic Shakespeare shade. Each generation produces 8-12 fragments joined together with occasional "and" or "but" connectors.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="ipsum.html" class="btn btn-outline">← Back to Ipsum</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://chompchomp.cc">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">© 2025 Chomp Chomp</p>
+        </div>
+    </footer>
+
+    <!-- Dynamic Navigation System -->
+    <script src="/navigation.js"></script>
+
+    <script>
+        // Tools dropdown toggle
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
+        }
+
+        // Initialize Shakespeare generator
+        let shakespeareGen;
+
+        function initGenerator() {
+            shakespeareGen = new ShakespeareGenerator('output');
+            generate(); // Generate initial text
+        }
+
+        function generate() {
+            if (!shakespeareGen) {
+                console.error('Generator not initialized');
+                return;
+            }
+
+            const mode = document.getElementById('mode').value;
+            const text = shakespeareGen.generate(mode);
+            shakespeareGen.render(text);
+        }
+
+        function copyText() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }
+
+        // Initialize on load
+        window.addEventListener('load', initGenerator);
+    </script>
+</body>
+</html>
