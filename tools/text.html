@@ -10,20 +10,23 @@
 <body class="">
   <header class="site-header">
     <nav class="site-nav">
-      <a href="https://chompchomp.cc" class="site-logo">
-        <div class="site-logo-icon">
-          <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
-          <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
-        </div>
-      </a>
+      <div class="header-left">
+        <a href="https://chompchomp.cc" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+            <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
 
-      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-
-      <div class="nav-tools-dropdown">
-        <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
-        <ul class="tools-dropdown-menu" id="toolsDropdown">
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
             <!-- Navigation menu loaded dynamically by navigation.js -->
-        </ul>
+          </ul>
+        </div>
       </div>
     </nav>
   </header>
