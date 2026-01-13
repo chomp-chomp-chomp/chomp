@@ -236,6 +236,8 @@ img {
   list-style: none;
   margin-top: 8px;
   min-width: 200px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   z-index: 1000;
 }
 
@@ -284,6 +286,8 @@ img {
   list-style: none;
   min-width: 180px;
   margin-right: 4px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   z-index: 1001;
 }
 
