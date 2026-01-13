@@ -1145,6 +1145,71 @@ p {
     display: none;
   }
 
+  /* Mobile navigation menu improvements */
+  .tools-dropdown-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    border-radius: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mobile submenu styling - stack vertically instead of flyout */
+  .tools-dropdown-menu .submenu {
+    position: static !important;
+    display: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-left: 3px solid var(--color-accent);
+    min-width: auto;
+  }
+
+  /* Show submenu when parent is active (we'll add JS for this) */
+  .tools-dropdown-menu .menu-item-has-submenu.expanded > .submenu {
+    display: block !important;
+  }
+
+  /* Mobile submenu items - add indentation */
+  .tools-dropdown-menu .submenu a {
+    padding-left: calc(var(--spacing-md) + 20px) !important;
+    font-size: 0.95em;
+  }
+
+  /* Nested submenu (3rd level) - more indentation */
+  .tools-dropdown-menu .submenu .submenu a {
+    padding-left: calc(var(--spacing-md) + 40px) !important;
+    font-size: 0.9em;
+  }
+
+  /* Change arrow to point down on mobile for expandable items */
+  .tools-dropdown-menu .menu-item-has-submenu > a::after {
+    content: ' ▼' !important;
+    float: right;
+    font-size: 0.7em;
+    transition: transform 0.2s;
+  }
+
+  /* Rotate arrow when expanded */
+  .tools-dropdown-menu .menu-item-has-submenu.expanded > a::after {
+    transform: rotate(180deg);
+  }
+
+  /* Larger touch targets on mobile */
+  .tools-dropdown-menu a {
+    padding: 15px var(--spacing-md) !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+
+  /* Add visual separation between top-level items */
+  .tools-dropdown-menu > li {
+    border-bottom: 1px solid var(--color-border);
+  }
+
   /* Hide recipe sidebar on mobile */
   .recipe-sidebar {
     display: none;
