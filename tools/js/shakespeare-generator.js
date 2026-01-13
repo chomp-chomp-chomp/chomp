@@ -226,7 +226,7 @@ class ShakespeareGenerator {
         return shuffled;
     }
 
-    generate(mode) {
+    generateParagraph(mode) {
         const totalFragments = Math.floor(Math.random() * 5) + 8; // 8-12 fragments
         let fragments = [];
 
@@ -272,6 +272,14 @@ class ShakespeareGenerator {
         }
 
         return result.join(' ');
+    }
+
+    generate(numParagraphs, mode) {
+        const paragraphs = [];
+        for (let i = 0; i < numParagraphs; i++) {
+            paragraphs.push(this.generateParagraph(mode));
+        }
+        return paragraphs.join('\n\n');
     }
 
     render(text) {
