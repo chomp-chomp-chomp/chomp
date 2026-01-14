@@ -1,42 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>encrypt</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Encrypt - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/libsodium-wrappers/0.7.11/libsodium.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            color: #434343;
-            line-height: 1.5;
-        }
-        .header {
-            background-color: #ffffff;
-            padding: 30px 20px 10px 20px;
-            text-align: center;
-        }
-        .header img {
-            max-width: 300px;
-            height: auto;
-        }
-        .container {
+        /* Page-specific styles */
+        .encrypt-container {
             max-width: 800px;
             margin: 20px auto;
             padding: 0 20px;
         }
         .section-title {
-            color: #fe0032;
+            color: var(--color-accent);
             font-size: 1.15em;
             font-weight: 700;
             margin-bottom: 15px;
             text-transform: lowercase;
         }
-        label {
+        .encrypt-container label {
             display: block;
             margin-bottom: 8px;
             font-weight: 400;
@@ -44,24 +29,26 @@
             font-size: 0.95em;
             text-transform: lowercase;
         }
-        input[type="password"], textarea {
+        .encrypt-container input[type="password"],
+        .encrypt-container textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #434343;
+            border: 1px solid var(--color-border);
             border-radius: 8px;
-            font-family: 'Roboto', sans-serif;
+            font-family: var(--font-primary);
             font-size: 0.95em;
-            color: #434343;
-            background-color: #ffffff;
+            color: var(--color-text);
+            background-color: var(--color-bg);
             margin-bottom: 20px;
         }
-        textarea {
+        .encrypt-container textarea {
             min-height: 120px;
             resize: vertical;
         }
-        input[type="password"]:focus, textarea:focus {
+        .encrypt-container input[type="password"]:focus,
+        .encrypt-container textarea:focus {
             outline: none;
-            border-color: #fe0032;
+            border-color: var(--color-accent);
         }
         .button-group {
             display: flex;
@@ -70,26 +57,26 @@
             flex-wrap: wrap;
             justify-content: flex-start;
         }
-        button {
+        .encrypt-container button {
             padding: 10px 16px;
-            font-family: 'Roboto', sans-serif;
+            font-family: var(--font-primary);
             font-size: 13px;
             font-weight: 400;
             text-transform: lowercase;
-            background-color: #ffffff;
-            color: #434343;
-            border: 1px solid #434343;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
         }
-        button:hover {
-            border-color: #fe0032;
+        .encrypt-container button:hover {
+            border-color: var(--color-accent);
         }
-        button:active {
+        .encrypt-container button:active {
             transform: scale(0.98);
         }
-        button:disabled {
+        .encrypt-container button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
@@ -98,7 +85,7 @@
             top: 80px;
             left: 50%;
             transform: translateX(-50%) scale(0.9);
-            background-color: #fe0032;
+            background-color: var(--color-accent);
             color: #ffffff;
             padding: 12px 24px;
             border-radius: 8px;
@@ -127,12 +114,37 @@
     </style>
 </head>
 <body>
-    <div class="header">
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="https://chompchomp.cc" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+            <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <!-- Navigation menu loaded dynamically by navigation.js -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-container">
+    <div class="tool-page">
+      <div class="tool-header">
         <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/encrypt.png" alt="encrypt">
-    </div>
+      </div>
 
 ```
-<div class="container">
+<div class="encrypt-container">
     <div class="section-title">input data</div>
     
     <label for="password">password (used for key derivation)</label>
@@ -326,6 +338,12 @@
     }
 </script>
 ```
+
+    </div>
+  </div>
+
+  <!-- Dynamic Navigation System -->
+  <script src="/navigation.js"></script>
 
 </body>
 </html>

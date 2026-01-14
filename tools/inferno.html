@@ -1,42 +1,27 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>inferno ipsum</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>Inferno Ipsum - Chomp Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tools-recipes-style.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #fff;
-      color: #434343;
-      line-height: 1.5;
-    }
-    .header {
-      background-color: #ffffff;
-      padding: 30px 20px 10px 20px;
-      text-align: center;
-    }
-    .header img {
-      max-width: 300px;
-      height: auto;
-    }
-    .container {
+    /* Page-specific styles */
+    .inferno-container {
       max-width: 800px;
       margin: 20px auto;
       padding: 0 20px;
     }
     .section-title {
-      color: #fe0032;
+      color: var(--color-accent);
       font-size: 1.15em;
       font-weight: 700;
       margin-bottom: 15px;
       text-transform: lowercase;
     }
     .subsection-title {
-      color: #434343;
+      color: var(--color-text);
       font-size: 1em;
       font-weight: 400;
       margin-bottom: 15px;
@@ -46,179 +31,126 @@
     .control-group {
       margin-bottom: 8px;
     }
-    label {
+    .inferno-container label {
       display: block;
-      color: #434343;
+      color: var(--color-text);
       font-size: 0.95em;
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-primary);
       margin-bottom: 8px;
       text-transform: lowercase;
     }
-    input[type="number"] {
+    .inferno-container input[type="number"],
+    .inferno-container select {
       width: 250px;
       padding: 12px 16px;
       font-size: 15px;
-      font-family: 'Roboto', sans-serif;
-      border: 1px solid #434343;
+      font-family: var(--font-primary);
+      border: 1px solid var(--color-border);
       border-radius: 8px;
-      background-color: #ffffff;
-      color: #434343;
+      background-color: var(--color-bg);
+      color: var(--color-text);
       margin-bottom: 8px;
       height: 52px;
       box-sizing: border-box;
     }
-    select {
-      width: 250px;
-      padding: 12px 16px;
-      font-size: 15px;
-      font-family: 'Roboto', sans-serif;
-      border: 1px solid #434343;
-      border-radius: 8px;
-      background-color: #ffffff;
-      color: #434343;
-      margin-bottom: 8px;
-      height: 52px;
-      box-sizing: border-box;
-    }
-    select:focus, input[type="number"]:focus {
+    .inferno-container select:focus,
+    .inferno-container input[type="number"]:focus {
       outline: none;
-      border-color: #fe0032;
+      border-color: var(--color-accent);
     }
-
-   .info-section2 {
-            margin-top: 40px;
-            padding: 30px;
-            background-color: #F2F2F4;
-            color: #000000;
-            border-radius: 8px;
-            border: 1px solid #434343;
-            margin-bottom: 40px;
-        }
-
-        .info-section2 strong {
-            color: #fe0032;
-            font-weight: 400;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1em;
-            text-transform: lowercase;
-        }
-
-        .info-section2 p {
-            margin: 0 0 15px 0;
-            color: #000000;
-            font-weight: 300;
-            line-height: 1.8;
-            font-size: 0.95em;
-        }
-
-        .info-section2 p:last-child {
-            margin-bottom: 0;
-        }
-    
-    textarea {
-      width: 100%;
-      height: 400px;
-      padding: 12px;
-      border: 1px solid #434343;
+    .info-section2 {
+      margin-top: 40px;
+      padding: 30px;
+      background-color: var(--color-sidebar-bg);
+      color: var(--color-text);
       border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.9em;
-      color: #434343;
-      background-color: #ffffff;
+      border: 1px solid var(--color-border);
       margin-bottom: 40px;
-      margin-top: 8px;
-      line-height: 1.8;
     }
-    textarea:focus {
-      outline: none;
-      border-color: #fe0032;
+    .info-section2 strong {
+      color: var(--color-accent);
+      font-weight: 400;
     }
-    .button-group {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-start;
+    .info-section2 p {
+      font-size: 0.95em;
+      margin-bottom: 10px;
     }
-    button {
-      width: 250px;
-      padding: 10px 16px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 13px;
+    .inferno-container button {
+      padding: 12px 24px;
+      font-family: var(--font-primary);
+      font-size: 15px;
       font-weight: 400;
       text-transform: lowercase;
-      background-color: #ffffff;
-      color: #434343;
-      border: 1px solid #434343;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
-      height: 52px;
-      box-sizing: border-box;
+      margin-bottom: 20px;
     }
-    button:hover {
-       background-color: #fe0032;
-            border-color: #fe0032;
-            color: #ffffff;
+    .inferno-container button:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: white;
     }
-    button:active {
+    .inferno-container button:active {
       transform: scale(0.98);
     }
-    .toast {
-      position: fixed;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%) scale(0.9);
-      background-color: #fe0032;
-      color: #ffffff;
-      padding: 12px 24px;
+    .inferno-container textarea {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Georgia', serif;
+      font-size: 15px;
+      line-height: 1.8;
+      border: 1px solid var(--color-border);
       border-radius: 8px;
-      font-size: 14px;
-      opacity: 0;
-      transition: all 0.3s ease;
-      pointer-events: none;
-      z-index: 1000;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      resize: vertical;
+      min-height: 400px;
+      box-sizing: border-box;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) scale(1);
+    .inferno-container textarea:focus {
+      outline: none;
+      border-color: var(--color-accent);
     }
     .spacer {
       height: 100px;
     }
-    nav {
-      padding: 20px;
-      text-align: right;
-    }
-    nav a {
-      color: #999;
-      text-decoration: none;
-      margin-left: 30px;
-      font-size: 0.95em;
-    }
-    nav a:hover {
-      color: #333;
-    }
-
-    /* Dark mode - invert header image colors */
-    @media (prefers-color-scheme: dark) {
-      .header img {
-        filter: invert(1) hue-rotate(180deg);
-      }
-    }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="https://chompchomp.cc/tools">all tools</a>
-  </nav>
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="https://chompchomp.cc" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+            <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
 
-  <div class="header">
-    <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/inferno.png" alt="inferno ipsum">
-  </div>
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <!-- Navigation menu loaded dynamically by navigation.js -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-  <div class="container">
+  <div class="page-container">
+    <div class="tool-page">
+      <div class="tool-header">
+        <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/inferno.png" alt="inferno ipsum">
+      </div>
+
+  <div class="inferno-container">
     <div class="info-section2">
     <p><strong>About Inferno Ipsum:</strong> this tool generates placeholder text for your designs or impressive emails, but instead of the usual aljoicjeoi or Lorem Ipsum, it uses lines/tercets from Dante's <a href="https://www.gutenberg.org/ebooks/41537"><em>Inferno</em></a>, part one of <a href="https://digitaldante.columbia.edu/dante/divine-comedy/">The Divine Comedy</em></a>.
     <p>---
@@ -631,6 +563,12 @@
     };
 </script>
 ```
+
+    </div>
+  </div>
+
+  <!-- Dynamic Navigation System -->
+  <script src="/navigation.js"></script>
 
 </body>
 </html>
