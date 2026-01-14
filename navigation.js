@@ -136,6 +136,20 @@
     document.addEventListener('click', function(e) {
       const dropdown = document.getElementById('toolsDropdown');
       const navContainer = document.querySelector('.nav-tools-dropdown');
+      const toggleButtons = document.querySelectorAll('.menu-toggle, .tools-dropdown-btn');
+      
+      // Check if click is on a toggle button
+      let isToggleButton = false;
+      toggleButtons.forEach(btn => {
+        if (btn.contains(e.target)) {
+          isToggleButton = true;
+        }
+      });
+      
+      // If click is on toggle button, let the toggle function handle it
+      if (isToggleButton) {
+        return;
+      }
       
       // If click is outside the navigation container and dropdown is active, close it
       if (dropdown && navContainer && dropdown.classList.contains('active')) {
