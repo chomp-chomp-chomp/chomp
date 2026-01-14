@@ -109,11 +109,29 @@
           currentItem.classList.toggle('expanded');
         });
       } else {
-        // Desktop: click to expand, hover also works via CSS
+        // Desktop: hybrid hover + click behavior
         newLink.style.pointerEvents = 'auto';
         newLink.style.cursor = 'pointer';
 
-        // On desktop, clicking a submenu parent should toggle expanded state
+        let hoverTimeout;
+
+        // Show on hover (with slight delay to prevent accidental shows)
+        item.addEventListener('mouseenter', function() {
+          const self = this;
+          hoverTimeout = setTimeout(() => {
+            self.classList.add('hover-active');
+          }, 100);
+        });
+
+        // Hide on mouse leave (only if not clicked to expand)
+        item.addEventListener('mouseleave', function() {
+          clearTimeout(hoverTimeout);
+          if (!this.classList.contains('expanded')) {
+            this.classList.remove('hover-active');
+          }
+        });
+
+        // Click to lock open/closed
         newLink.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
@@ -125,13 +143,19 @@
             child !== currentItem && child.classList.contains('menu-item-has-submenu')
           );
 
-          // Collapse all siblings
+          // Collapse all siblings (both expanded and hover-active)
           siblings.forEach(sibling => {
-            sibling.classList.remove('expanded');
+            sibling.classList.remove('expanded', 'hover-active');
           });
 
-          // Toggle current item
-          currentItem.classList.toggle('expanded');
+          // Toggle current item - if it was expanded, collapse it
+          // Otherwise, expand it (and remove hover-active since we're now in expanded mode)
+          if (isCurrentlyExpanded) {
+            currentItem.classList.remove('expanded', 'hover-active');
+          } else {
+            currentItem.classList.remove('hover-active');
+            currentItem.classList.add('expanded');
+          }
         });
       }
     });
