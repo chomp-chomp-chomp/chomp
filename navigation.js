@@ -127,8 +127,12 @@
    */
   window.toggleToolsDropdown = function() {
     const dropdown = document.getElementById('toolsDropdown');
+    const navContainer = document.querySelector('.nav-tools-dropdown');
     if (dropdown) {
       dropdown.classList.toggle('active');
+    }
+    if (navContainer) {
+      navContainer.classList.toggle('active');
     }
   };
 
@@ -158,6 +162,7 @@
       if (dropdown && navContainer && dropdown.classList.contains('active')) {
         if (!navContainer.contains(e.target)) {
           dropdown.classList.remove('active');
+          navContainer.classList.remove('active');
         }
       }
     });
