@@ -591,7 +591,13 @@
   <script>
     function toggleToolsDropdown() {
       const dropdown = document.getElementById('toolsDropdown');
-      dropdown.classList.toggle('active');
+      const navContainer = document.querySelector('.nav-tools-dropdown');
+      if (dropdown) {
+        dropdown.classList.toggle('active');
+      }
+      if (navContainer) {
+        navContainer.classList.toggle('active');
+      }
     }
   </script>
 
