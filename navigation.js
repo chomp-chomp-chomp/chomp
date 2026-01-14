@@ -98,8 +98,22 @@
           e.preventDefault();
           e.stopPropagation();
 
-          // Toggle expanded class
-          this.parentElement.classList.toggle('expanded');
+          const currentItem = this.parentElement;
+          const isCurrentlyExpanded = currentItem.classList.contains('expanded');
+
+          // Get all siblings at the same level
+          const parent = currentItem.parentElement;
+          const siblings = Array.from(parent.children).filter(child => 
+            child !== currentItem && child.classList.contains('menu-item-has-submenu')
+          );
+
+          // Collapse all sibling submenus
+          siblings.forEach(sibling => {
+            sibling.classList.remove('expanded');
+          });
+
+          // Toggle current submenu
+          currentItem.classList.toggle('expanded');
         }
       });
     });
@@ -115,11 +129,32 @@
     }
   };
 
+  /**
+   * Setup click-outside-to-close handler for dropdown menu
+   */
+  function setupClickOutsideHandler() {
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('toolsDropdown');
+      const navContainer = document.querySelector('.nav-tools-dropdown');
+      
+      // If click is outside the navigation container and dropdown is active, close it
+      if (dropdown && navContainer && dropdown.classList.contains('active')) {
+        if (!navContainer.contains(e.target)) {
+          dropdown.classList.remove('active');
+        }
+      }
+    });
+  }
+
   // Initialize navigation when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', buildNavigation);
+    document.addEventListener('DOMContentLoaded', function() {
+      buildNavigation();
+      setupClickOutsideHandler();
+    });
   } else {
     buildNavigation();
+    setupClickOutsideHandler();
   }
 
   // Re-setup mobile menus on resize (debounced)
