@@ -118,5 +118,48 @@
     }
   </script>
 
+  <!-- Ipsum Generator Initialization -->
+  <script>
+    let generator;
+
+    // Initialize generator when page loads
+    window.addEventListener('DOMContentLoaded', async () => {
+      generator = new IpsumGenerator('data/philosophy.json', 'output');
+      await generator.init();
+    });
+
+    // Generate function called by button
+    function generate() {
+      if (!generator) {
+        console.error('Generator not initialized');
+        return;
+      }
+
+      const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
+      const theme = document.getElementById('theme').value;
+      const includeStart = document.getElementById('startCheckbox').checked;
+
+      const text = generator.generate(numParagraphs, theme, includeStart);
+      generator.render(text);
+    }
+
+    // Copy text to clipboard
+    function copyText() {
+      const output = document.getElementById('output');
+      if (output) {
+        output.select();
+        document.execCommand('copy');
+
+        // Visual feedback
+        const copyBtn = event.target;
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 2000);
+      }
+    }
+  </script>
+
 <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;86fcb4ca4b83420ebe528484ba025b0c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
 </body></html>
