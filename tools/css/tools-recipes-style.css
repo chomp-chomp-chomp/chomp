@@ -228,6 +228,7 @@ img {
   margin-top: 8px;
   min-width: 200px;
   max-height: calc(100vh - 100px);
+  overflow-x: visible;
   overflow-y: auto;
   pointer-events: auto;
   z-index: 1000;
@@ -279,6 +280,7 @@ img {
   min-width: 180px;
   margin-right: 4px;
   max-height: calc(100vh - 100px);
+  overflow-x: visible;
   overflow-y: auto;
   pointer-events: auto;
   z-index: 1001;
