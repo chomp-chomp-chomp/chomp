@@ -112,6 +112,23 @@
         // Desktop: ensure links are clickable, hover handles submenu display via CSS
         newLink.style.pointerEvents = 'auto';
         newLink.style.cursor = 'pointer';
+
+        item.addEventListener('mouseenter', function() {
+          const parent = this.parentElement;
+          const siblings = Array.from(parent.children).filter(child =>
+            child !== this && child.classList.contains('menu-item-has-submenu')
+          );
+
+          siblings.forEach(sibling => {
+            sibling.classList.remove('expanded');
+          });
+
+          this.classList.add('expanded');
+        });
+
+        item.addEventListener('mouseleave', function() {
+          this.classList.remove('expanded');
+        });
         
         // On desktop, clicking a submenu parent should toggle expanded state
         newLink.addEventListener('click', function(e) {
