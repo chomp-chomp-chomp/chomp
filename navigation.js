@@ -59,8 +59,8 @@
       // Insert into DOM
       menuContainer.innerHTML = menuHTML;
 
-      // Add mobile submenu toggle functionality
-      setupMobileSubmenus();
+      // Setup submenu functionality for current viewport
+      setupSubmenus();
 
     } catch (error) {
       console.error('Error building navigation:', error);
@@ -68,54 +68,57 @@
   }
 
   /**
-   * Setup mobile submenu expand/collapse functionality
+   * Setup submenu functionality for both mobile and desktop
    */
-  function setupMobileSubmenus() {
-    // Only activate on mobile (viewport width <= 768px)
-    const isMobile = window.innerWidth <= 768;
-
-    if (!isMobile) return;
-
+  function setupSubmenus() {
     const menuContainer = document.getElementById('toolsDropdown');
     if (!menuContainer) return;
 
-    // Find all items with submenus
+    const isMobile = window.innerWidth <= 768;
     const menuItems = menuContainer.querySelectorAll('.menu-item-has-submenu');
 
     menuItems.forEach(item => {
       const link = item.querySelector('a');
       if (!link) return;
 
-      // Remove any existing click handlers
-      link.onclick = null;
+      // Remove all existing event listeners by cloning and replacing
+      const newLink = link.cloneNode(true);
+      link.parentNode.replaceChild(newLink, link);
 
-      // Add click handler for mobile
-      link.addEventListener('click', function(e) {
-        // Check if this is a dropdown (has submenu)
-        const hasSubmenu = this.parentElement.classList.contains('menu-item-has-submenu');
-
-        if (hasSubmenu) {
+      if (isMobile) {
+        // Mobile: click-to-expand accordion behavior
+        newLink.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
 
           const currentItem = this.parentElement;
           const isCurrentlyExpanded = currentItem.classList.contains('expanded');
 
-          // Get all siblings at the same level
+          // Get all siblings at the same level (same parent)
           const parent = currentItem.parentElement;
           const siblings = Array.from(parent.children).filter(child => 
             child !== currentItem && child.classList.contains('menu-item-has-submenu')
           );
 
-          // Collapse all sibling submenus
+          // Collapse all sibling submenus at the same level
           siblings.forEach(sibling => {
             sibling.classList.remove('expanded');
           });
 
           // Toggle current submenu
           currentItem.classList.toggle('expanded');
-        }
-      });
+        });
+      } else {
+        // Desktop: ensure links are clickable, hover handles submenu display via CSS
+        newLink.style.pointerEvents = 'auto';
+        newLink.style.cursor = 'pointer';
+        
+        // On desktop, clicking a submenu parent should not navigate
+        newLink.addEventListener('click', function(e) {
+          // Allow the hover to show submenu, but prevent navigation for dropdown parents
+          e.preventDefault();
+        });
+      }
     });
   }
 
@@ -171,12 +174,12 @@
     setupClickOutsideHandler();
   }
 
-  // Re-setup mobile menus on resize (debounced)
+  // Re-setup submenus on resize (debounced)
   let resizeTimer;
   window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
-      setupMobileSubmenus();
+      setupSubmenus();
     }, 250);
   });
 })();
