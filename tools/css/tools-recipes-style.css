@@ -195,6 +195,7 @@ img {
 /* Tools Dropdown Navigation */
 .nav-tools-dropdown {
   position: relative;
+  z-index: 200;
 }
 
 .tools-dropdown-btn {
@@ -228,6 +229,7 @@ img {
   min-width: 200px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
+  pointer-events: auto;
   z-index: 1000;
 }
 
@@ -278,6 +280,7 @@ img {
   margin-right: 4px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
+  pointer-events: auto;
   z-index: 1001;
 }
 
@@ -869,12 +872,12 @@ textarea.control-input {
   .tools-dropdown-menu {
     position: fixed;
     top: 70px;
-    left: 0;
-    right: 0;
-    width: 100%;
+    right: var(--spacing-md);
+    left: auto;
+    width: min(90vw, 260px);
     max-height: calc(100vh - 80px);
     overflow-y: auto;
-    border-radius: 0;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
