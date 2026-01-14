@@ -1194,11 +1194,14 @@ p {
     top: 70px;
     left: 0;
     right: 0;
+    bottom: 0;
     width: 100%;
-    max-height: calc(100vh - 80px);
+    height: auto;
     overflow-y: auto;
     border-radius: 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Prevent scroll jumping on iOS/mobile browsers */
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Mobile submenu styling - stack vertically instead of flyout */
