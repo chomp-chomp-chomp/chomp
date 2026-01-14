@@ -257,11 +257,13 @@ img {
   top: 0;
   background-color: var(--color-sidebar-bg);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   list-style: none;
   min-width: 180px;
   margin-right: 4px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   z-index: 1001;
 }
 
