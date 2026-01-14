@@ -312,6 +312,19 @@ img {
   color: white;
 }
 
+/* Nested submenu styling (for multi-level dropdowns) */
+.submenu .submenu {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  margin-right: 4px;
+  z-index: 1002;
+}
+
+.submenu .menu-item-has-submenu:hover > .submenu {
+  display: block;
+}
+
 /* Mobile hamburger menu */
 .menu-toggle {
   display: none;
