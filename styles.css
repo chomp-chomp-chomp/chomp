@@ -295,6 +295,10 @@ img {
   display: block;
 }
 
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
 .submenu li {
   margin: 0;
 }
@@ -1313,6 +1317,21 @@ p {
 
   h2 {
     font-size: 1.4em;
+  }
+}
+
+@media (min-width: 769px) {
+  .site-header,
+  .site-nav {
+    overflow: visible;
+  }
+
+  .tools-dropdown-menu {
+    overflow: visible;
+  }
+
+  .submenu {
+    overflow: visible;
   }
 }
 
