@@ -77,8 +77,12 @@
     const isMobile = window.innerWidth <= 768;
     const menuItems = menuContainer.querySelectorAll('.menu-item-has-submenu');
 
+    // Store timeout IDs for delayed closing
+    const closeTimeouts = new Map();
+
     menuItems.forEach(item => {
       const link = item.querySelector('a');
+      const submenu = item.querySelector('.submenu');
       if (!link) return;
 
       // Clear any existing click-to-expand marker
@@ -109,29 +113,70 @@
           currentItem.classList.toggle('expanded');
         });
       } else {
-        // Desktop: ensure links are clickable, hover handles submenu display via CSS
-        newLink.style.pointerEvents = 'auto';
-        newLink.style.cursor = 'pointer';
+        // Desktop: hover to show, with delayed closing to allow mouse movement to submenu
+        link.style.pointerEvents = 'auto';
+        link.style.cursor = 'pointer';
 
+        // Helper function to cancel any pending close timeout
+        const cancelClose = () => {
+          if (closeTimeouts.has(item)) {
+            clearTimeout(closeTimeouts.get(item));
+            closeTimeouts.delete(item);
+          }
+        };
+
+        // Helper function to schedule closing
+        const scheduleClose = () => {
+          cancelClose();
+          const timeoutId = setTimeout(() => {
+            item.classList.remove('expanded');
+            closeTimeouts.delete(item);
+          }, 300); // 300ms delay to allow mouse movement to submenu
+          closeTimeouts.set(item, timeoutId);
+        };
+
+        // When hovering over the parent menu item
         item.addEventListener('mouseenter', function() {
+          // Cancel any pending close
+          cancelClose();
+
           const parent = this.parentElement;
           const siblings = Array.from(parent.children).filter(child =>
             child !== this && child.classList.contains('menu-item-has-submenu')
           );
 
+          // Close sibling submenus
           siblings.forEach(sibling => {
             sibling.classList.remove('expanded');
+            if (closeTimeouts.has(sibling)) {
+              clearTimeout(closeTimeouts.get(sibling));
+              closeTimeouts.delete(sibling);
+            }
           });
 
+          // Open this submenu
           this.classList.add('expanded');
         });
 
+        // When leaving the parent menu item
         item.addEventListener('mouseleave', function() {
-          this.classList.remove('expanded');
+          // Schedule closing with delay
+          scheduleClose();
         });
+
+        // Keep submenu open when hovering over it
+        if (submenu) {
+          submenu.addEventListener('mouseenter', function() {
+            cancelClose();
+          });
+
+          submenu.addEventListener('mouseleave', function() {
+            scheduleClose();
+          });
+        }
         
         // On desktop, clicking a submenu parent should toggle expanded state
-        newLink.addEventListener('click', function(e) {
+        link.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
 
