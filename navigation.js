@@ -81,13 +81,13 @@
       const link = item.querySelector('a');
       if (!link) return;
 
-      // Remove all existing event listeners by cloning and replacing
-      const newLink = link.cloneNode(true);
-      link.parentNode.replaceChild(newLink, link);
+      // Clear any existing click-to-expand marker
+      if (link.dataset.hasClickHandler) return;
+      link.dataset.hasClickHandler = 'true';
 
       if (isMobile) {
         // Mobile: click-to-expand accordion behavior
-        newLink.addEventListener('click', function(e) {
+        link.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
 
@@ -96,7 +96,7 @@
 
           // Get all siblings at the same level (same parent)
           const parent = currentItem.parentElement;
-          const siblings = Array.from(parent.children).filter(child => 
+          const siblings = Array.from(parent.children).filter(child =>
             child !== currentItem && child.classList.contains('menu-item-has-submenu')
           );
 
@@ -110,11 +110,11 @@
         });
       } else {
         // Desktop: click-only (no hover interference)
-        newLink.style.pointerEvents = 'auto';
-        newLink.style.cursor = 'pointer';
+        link.style.pointerEvents = 'auto';
+        link.style.cursor = 'pointer';
 
         // Click to toggle open/closed
-        newLink.addEventListener('click', function(e) {
+        link.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
 
@@ -131,9 +131,7 @@
           });
 
           // Toggle current item
-          if (!isCurrentlyExpanded) {
-            currentItem.classList.add('expanded');
-          }
+          currentItem.classList.toggle('expanded');
         });
       }
     });
