@@ -1190,13 +1190,12 @@ p {
   .tools-dropdown-menu {
     position: fixed;
     top: 70px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: auto;
+    right: var(--spacing-md);
+    left: auto;
+    width: min(90vw, 280px);
+    max-height: calc(100vh - 80px);
     overflow-y: auto;
-    border-radius: 0;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     /* Prevent scroll jumping on iOS/mobile browsers */
     -webkit-overflow-scrolling: touch;
