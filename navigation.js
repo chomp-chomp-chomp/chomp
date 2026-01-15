@@ -109,29 +109,11 @@
           currentItem.classList.toggle('expanded');
         });
       } else {
-        // Desktop: hybrid hover + click behavior
+        // Desktop: click-only (no hover interference)
         newLink.style.pointerEvents = 'auto';
         newLink.style.cursor = 'pointer';
 
-        let hoverTimeout;
-
-        // Show on hover (with slight delay to prevent accidental shows)
-        item.addEventListener('mouseenter', function() {
-          const self = this;
-          hoverTimeout = setTimeout(() => {
-            self.classList.add('hover-active');
-          }, 100);
-        });
-
-        // Hide on mouse leave (only if not clicked to expand)
-        item.addEventListener('mouseleave', function() {
-          clearTimeout(hoverTimeout);
-          if (!this.classList.contains('expanded')) {
-            this.classList.remove('hover-active');
-          }
-        });
-
-        // Click to lock open/closed
+        // Click to toggle open/closed
         newLink.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
@@ -143,17 +125,13 @@
             child !== currentItem && child.classList.contains('menu-item-has-submenu')
           );
 
-          // Collapse all siblings (both expanded and hover-active)
+          // Collapse all siblings
           siblings.forEach(sibling => {
-            sibling.classList.remove('expanded', 'hover-active');
+            sibling.classList.remove('expanded');
           });
 
-          // Toggle current item - if it was expanded, collapse it
-          // Otherwise, expand it (and remove hover-active since we're now in expanded mode)
-          if (isCurrentlyExpanded) {
-            currentItem.classList.remove('expanded', 'hover-active');
-          } else {
-            currentItem.classList.remove('hover-active');
+          // Toggle current item
+          if (!isCurrentlyExpanded) {
             currentItem.classList.add('expanded');
           }
         });
