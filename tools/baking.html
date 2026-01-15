@@ -102,16 +102,46 @@
   <!-- Dynamic Navigation System -->
   <script src="/navigation.js"></script>
 
-  <!-- Navigation toggle -->
+
+  <!-- Ipsum Generator Initialization -->
   <script>
-    function toggleToolsDropdown() {
-      const dropdown = document.getElementById('toolsDropdown');
-      const navContainer = document.querySelector('.nav-tools-dropdown');
-      if (dropdown) {
-        dropdown.classList.toggle('active');
+    let generator;
+
+    // Initialize generator when page loads
+    window.addEventListener('DOMContentLoaded', async () => {
+      generator = new IpsumGenerator('data/baking.json', 'output');
+      await generator.init();
+    });
+
+    // Generate function called by button
+    function generate() {
+      if (!generator) {
+        console.error('Generator not initialized');
+        return;
       }
-      if (navContainer) {
-        navContainer.classList.toggle('active');
+
+      const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
+      const theme = document.getElementById('theme').value;
+      const includeStart = document.getElementById('startCheckbox').checked;
+
+      const text = generator.generate(numParagraphs, theme, includeStart);
+      generator.render(text);
+    }
+
+    // Copy text to clipboard
+    function copyText() {
+      const output = document.getElementById('output');
+      if (output) {
+        output.select();
+        document.execCommand('copy');
+
+        // Visual feedback
+        const copyBtn = event.target;
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 2000);
       }
     }
   </script>
