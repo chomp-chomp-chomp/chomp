@@ -49,7 +49,11 @@
 
                 <div class="control-group">
                     <label class="control-label">Epic Source</label>
-                    <select id="theme" class="form-select"><option value="homer">Homer (Iliad &amp; Odyssey)</option><option value="hesiod">Hesiod (Theogony &amp; Works and Days)</option><option value="mixed">Mixed (Homer &amp; Hesiod)</option></select>
+                    <div class="category-buttons">
+                        <button class="category-btn active" data-theme="homer" onclick="selectTheme('homer')">Homer</button>
+                        <button class="category-btn" data-theme="hesiod" onclick="selectTheme('hesiod')">Hesiod</button>
+                        <button class="category-btn" data-theme="mixed" onclick="selectTheme('mixed')">Mixed</button>
+                    </div>
                 </div>
 
                 <div class="control-group">
@@ -96,12 +100,28 @@
   <!-- Ipsum Generator Initialization -->
   <script>
     let generator;
+    let currentTheme = 'homer';
 
     // Initialize generator when page loads
     window.addEventListener('DOMContentLoaded', async () => {
       generator = new IpsumGenerator('data/epic.json', 'output');
       await generator.init();
     });
+
+    // Theme selection
+    function selectTheme(theme) {
+      currentTheme = theme;
+
+      // Update button states
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.theme === theme) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
 
     // Generate function called by button
     function generate() {
@@ -111,10 +131,9 @@
       }
 
       const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
-      const theme = document.getElementById('theme').value;
       const includeStart = document.getElementById('startCheckbox').checked;
 
-      const text = generator.generate(numParagraphs, theme, includeStart);
+      const text = generator.generate(numParagraphs, currentTheme, includeStart);
       generator.render(text);
     }
 

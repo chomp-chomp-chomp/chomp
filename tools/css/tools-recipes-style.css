@@ -712,8 +712,14 @@ textarea.control-input {
 .tool-actions {
   display: flex;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .tool-actions {
+    justify-content: center;
+  }
 }
 
 .tool-button {
@@ -742,6 +748,49 @@ textarea.control-input {
 .tool-button-secondary:hover {
   background-color: var(--color-sidebar-bg);
   border-color: var(--color-border);
+}
+
+/* ---------------------------------------------------- */
+/* === CATEGORY SELECTION BUTTONS === */
+/* ---------------------------------------------------- */
+.category-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+
+.category-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.category-btn:hover {
+  border-color: var(--color-accent);
+  background: var(--color-sidebar-bg);
+}
+
+.category-btn.active {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .category-buttons {
+    flex-direction: column;
+  }
+
+  .category-btn {
+    width: 100%;
+  }
 }
 
 /* ---------------------------------------------------- */
