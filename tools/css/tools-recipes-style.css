@@ -286,7 +286,11 @@ img {
   z-index: 1001;
 }
 
-.menu-item-has-submenu:hover > .submenu {
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
+.menu-item-has-submenu.expanded > .submenu {
   display: block;
 }
 
@@ -320,7 +324,7 @@ img {
   z-index: 1002;
 }
 
-.submenu .menu-item-has-submenu:hover > .submenu {
+.submenu .menu-item-has-submenu.expanded > .submenu {
   display: block;
 }
 
