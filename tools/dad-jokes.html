@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dad Jokes Ipsum - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+    <script src="js/dad-jokes-generator.js"></script>
+    <style>
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-family: var(--font-primary);
+            background: var(--color-bg);
+            border: 2px solid var(--color-border);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .category-btn:hover {
+            border-color: var(--color-accent);
+            background: var(--color-sidebar);
+        }
+
+        .category-btn.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        @media (max-width: 768px) {
+            .category-buttons {
+                flex-direction: column;
+            }
+
+            .category-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="">
+        <header class="site-header">
+        <nav class="site-nav">
+            <div class="header-left">
+                <a href="https://chompchomp.cc" class="site-logo">
+                    <div class="site-logo-icon">
+                        <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+                        <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+                    </div>
+                </a>
+            </div>
+
+            <div class="header-right">
+                <div class="nav-tools-dropdown">
+                    <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+                    <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+                    <ul class="tools-dropdown-menu" id="toolsDropdown">
+                        <!-- Navigation menu loaded dynamically by navigation.js -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <!-- PLACEHOLDER FOR HERO IMAGE -->
+                <picture>
+                    <source srcset="https://via.placeholder.com/1200x400/231f1f/ff6b7a?text=Dad+Jokes+Ipsum" media="(prefers-color-scheme: dark)">
+                    <img src="https://via.placeholder.com/1200x400/fdfdfd/e73b42?text=Dad+Jokes+Ipsum" alt="dad jokes ipsum">
+                </picture>
+                <p class="tool-subtitle">The joke makes more sense if you don't think about it.</p>
+            </div>
+
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label class="control-label">Number of Paragraphs</label>
+                    <input type="number" id="paragraphs" class="form-input" value="3" min="1" max="20">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Dad Joke Category</label>
+                    <div class="category-buttons">
+                        <button class="category-btn active" data-category="good" onclick="selectCategory('good')">Good</button>
+                        <button class="category-btn" data-category="random" onclick="selectCategory('random')">Random</button>
+                        <button class="category-btn" data-category="ionesco" onclick="selectCategory('ionesco')">Ionesco</button>
+                    </div>
+                </div>
+
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="generate()">Generate</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyText()">Copy</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results">
+                <div class="result-item">
+                    <textarea class="control-input" id="output" readonly style="min-height: 400px; font-family: Georgia, serif; line-height: 1.8;">Click "Generate" to create dad joke placeholder text...</textarea>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>About:</strong> Dad Jokes Ipsum generates placeholder text using three distinct modes of dad humor:</p>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li><strong>Good:</strong> Classic dad jokes with familiar setups and groans.</li>
+                    <li><strong>Random:</strong> Algorithmically generated jokes that follow dad-joke cadence but with delightful chaos.</li>
+                    <li><strong>Ionesco:</strong> Absurdist dad jokes inspired by Theatre of the Absurd—deadpan observations that almost make sense.</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="ipsum.html" class="btn btn-outline">← Back to Ipsum</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://chompchomp.cc">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">© 2025 Chomp Chomp</p>
+        </div>
+    </footer>
+
+  <!-- Dynamic Navigation System -->
+  <script src="/navigation.js"></script>
+
+
+  <!-- Dad Jokes Generator Initialization -->
+  <script>
+    let generator;
+    let currentCategory = 'good';
+
+    // Initialize generator when page loads
+    window.addEventListener('DOMContentLoaded', async () => {
+      generator = new DadJokesGenerator('data/dad-jokes.json', 'output');
+      await generator.init();
+    });
+
+    // Category selection
+    function selectCategory(category) {
+      currentCategory = category;
+
+      // Update button states
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // Generate function called by button
+    function generate() {
+      if (!generator) {
+        console.error('Generator not initialized');
+        return;
+      }
+
+      const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
+      const text = generator.generate(numParagraphs, currentCategory);
+      generator.render(text);
+    }
+
+    // Copy text to clipboard
+    function copyText() {
+      const output = document.getElementById('output');
+      if (output) {
+        output.select();
+        document.execCommand('copy');
+
+        // Visual feedback
+        const copyBtn = event.target;
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 2000);
+      }
+    }
+  </script>
+
+</body>
+</html>

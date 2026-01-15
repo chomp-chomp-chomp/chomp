@@ -61,6 +61,7 @@
       "items": [
         { "label": "Index", "url": "/tools/ipsum.html", "type": "link" },
         { "label": "Baking", "url": "/tools/baking.html", "type": "link" },
+        { "label": "Dad Jokes", "url": "/tools/dad-jokes.html", "type": "link" },
         { "label": "Inferno", "url": "/tools/dante.html", "type": "link" },
         { "label": "Epic", "url": "/tools/epic.html", "type": "link" },
         { "label": "Nautical", "url": "/tools/nautical.html", "type": "link" },
