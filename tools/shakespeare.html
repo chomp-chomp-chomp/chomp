@@ -69,11 +69,11 @@
 
                 <div class="control-group">
                     <label class="control-label">Generation Mode</label>
-                    <select id="mode" class="form-select">
-                        <option value="mixed">Love & Hate</option>
-                        <option value="love">Love</option>
-                        <option value="insult">Insult</option>
-                    </select>
+                    <div class="category-buttons">
+                        <button class="category-btn active" data-mode="mixed" onclick="selectMode('mixed')">Love & Hate</button>
+                        <button class="category-btn" data-mode="love" onclick="selectMode('love')">Love</button>
+                        <button class="category-btn" data-mode="insult" onclick="selectMode('insult')">Insult</button>
+                    </div>
                 </div>
 
                 <div class="tool-actions">
@@ -116,11 +116,27 @@
   <!-- Shakespeare Generator Initialization -->
   <script>
     let generator;
+    let currentMode = 'mixed';
 
     // Initialize generator when page loads
     window.addEventListener('DOMContentLoaded', () => {
       generator = new ShakespeareGenerator('output');
     });
+
+    // Mode selection
+    function selectMode(mode) {
+      currentMode = mode;
+
+      // Update button states
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.mode === mode) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
 
     // Generate function called by button
     function generate() {
@@ -130,9 +146,8 @@
       }
 
       const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
-      const mode = document.getElementById('mode').value;
 
-      const text = generator.generate(numParagraphs, mode);
+      const text = generator.generate(numParagraphs, currentMode);
       generator.render(text);
     }
 

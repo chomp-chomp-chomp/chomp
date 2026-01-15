@@ -50,12 +50,12 @@
 
                 <div class="control-group">
                     <label class="control-label">Text Style</label>
-                    <select id="textStyle" class="form-select">
-                        <option value="inferno">Inferno (Hell)</option>
-                        <option value="purgatorio">Purgatorio (Purgatory)</option>
-                        <option value="paradiso">Paradiso (Paradise)</option>
-                        <option value="mixed">Mixed (All Three)</option>
-                    </select>
+                    <div class="category-buttons">
+                        <button class="category-btn active" data-style="inferno" onclick="selectStyle('inferno')">Inferno</button>
+                        <button class="category-btn" data-style="purgatorio" onclick="selectStyle('purgatorio')">Purgatorio</button>
+                        <button class="category-btn" data-style="paradiso" onclick="selectStyle('paradiso')">Paradiso</button>
+                        <button class="category-btn" data-style="mixed" onclick="selectStyle('mixed')">Mixed</button>
+                    </div>
                 </div>
 
                 <div class="control-group">
@@ -114,12 +114,28 @@
   <!-- Ipsum Generator Initialization -->
   <script>
     let generator;
+    let currentTextStyle = 'inferno';
 
     // Initialize generator when page loads
     window.addEventListener('DOMContentLoaded', async () => {
       generator = new IpsumGenerator('data/dante.json', 'output');
       await generator.init();
     });
+
+    // Text style selection
+    function selectStyle(style) {
+      currentTextStyle = style;
+
+      // Update button states
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.style === style) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
 
     // Generate function called by button (custom for dante with textStyle and language)
     function generate() {
@@ -129,16 +145,15 @@
       }
 
       const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
-      const textStyle = document.getElementById('textStyle').value;
       const language = document.getElementById('language').value;
       const includeStart = document.getElementById('startCheckbox').checked;
 
       // Combine textStyle and language to get theme
       let theme;
-      if (textStyle === 'mixed' || language === 'mixed') {
+      if (currentTextStyle === 'mixed' || language === 'mixed') {
         theme = 'mixed';
       } else {
-        theme = `${textStyle}_${language}`;
+        theme = `${currentTextStyle}_${language}`;
       }
 
       const text = generator.generate(numParagraphs, theme, includeStart);

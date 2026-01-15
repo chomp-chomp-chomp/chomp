@@ -50,13 +50,13 @@
 
                 <div class="control-group">
                     <label class="control-label">Baking Theme</label>
-                    <select id="theme" class="form-select">
-                        <option value="southern">Southern Sayings</option>
-                        <option value="techniques">Techniques &amp; Methods</option>
-                        <option value="ingredients">Ingredients &amp; Flavors</option>
-                        <option value="general">General Baking</option>
-                        <option value="mixed">Mixed (All Themes)</option>
-                    </select>
+                    <div class="category-buttons">
+                        <button class="category-btn active" data-theme="southern" onclick="selectTheme('southern')">Southern Sayings</button>
+                        <button class="category-btn" data-theme="techniques" onclick="selectTheme('techniques')">Techniques & Methods</button>
+                        <button class="category-btn" data-theme="ingredients" onclick="selectTheme('ingredients')">Ingredients & Flavors</button>
+                        <button class="category-btn" data-theme="general" onclick="selectTheme('general')">General Baking</button>
+                        <button class="category-btn" data-theme="mixed" onclick="selectTheme('mixed')">Mixed</button>
+                    </div>
                 </div>
 
                 <div class="control-group">
@@ -106,12 +106,28 @@
   <!-- Ipsum Generator Initialization -->
   <script>
     let generator;
+    let currentTheme = 'southern';
 
     // Initialize generator when page loads
     window.addEventListener('DOMContentLoaded', async () => {
       generator = new IpsumGenerator('data/baking.json', 'output');
       await generator.init();
     });
+
+    // Theme selection
+    function selectTheme(theme) {
+      currentTheme = theme;
+
+      // Update button states
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.theme === theme) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
 
     // Generate function called by button
     function generate() {
@@ -121,10 +137,9 @@
       }
 
       const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
-      const theme = document.getElementById('theme').value;
       const includeStart = document.getElementById('startCheckbox').checked;
 
-      const text = generator.generate(numParagraphs, theme, includeStart);
+      const text = generator.generate(numParagraphs, currentTheme, includeStart);
       generator.render(text);
     }
 

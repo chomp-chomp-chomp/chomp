@@ -50,13 +50,13 @@
 
                 <div class="control-group">
                     <label class="control-label">Maritime Theme</label>
-                    <select id="theme" class="form-select">
-                        <option value="moby">Moby Dick</option>
-                        <option value="general">General Nautical</option>
-                        <option value="whaling">Whaling &amp; Ships</option>
-                        <option value="sea">Sea &amp; Ocean</option>
-                        <option value="mixed">Mixed (All Themes)</option>
-                    </select>
+                    <div class="category-buttons">
+                        <button class="category-btn active" data-theme="moby" onclick="selectTheme('moby')">Moby Dick</button>
+                        <button class="category-btn" data-theme="general" onclick="selectTheme('general')">General Nautical</button>
+                        <button class="category-btn" data-theme="whaling" onclick="selectTheme('whaling')">Whaling & Ships</button>
+                        <button class="category-btn" data-theme="sea" onclick="selectTheme('sea')">Sea & Ocean</button>
+                        <button class="category-btn" data-theme="mixed" onclick="selectTheme('mixed')">Mixed</button>
+                    </div>
                 </div>
 
                 <div class="control-group">
@@ -106,12 +106,28 @@
   <!-- Ipsum Generator Initialization -->
   <script>
     let generator;
+    let currentTheme = 'moby';
 
     // Initialize generator when page loads
     window.addEventListener('DOMContentLoaded', async () => {
       generator = new IpsumGenerator('data/nautical.json', 'output');
       await generator.init();
     });
+
+    // Theme selection
+    function selectTheme(theme) {
+      currentTheme = theme;
+
+      // Update button states
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.theme === theme) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
 
     // Generate function called by button
     function generate() {
@@ -121,10 +137,9 @@
       }
 
       const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
-      const theme = document.getElementById('theme').value;
       const includeStart = document.getElementById('startCheckbox').checked;
 
-      const text = generator.generate(numParagraphs, theme, includeStart);
+      const text = generator.generate(numParagraphs, currentTheme, includeStart);
       generator.render(text);
     }
 

@@ -50,15 +50,15 @@
 
                 <div class="control-group">
                     <label class="control-label">Philosophical School</label>
-                    <select id="theme" class="form-select">
-                        <option value="zizek">Žižek (Ideology &amp; Psychoanalysis)</option>
-                        <option value="marx">Marx (Political Economy)</option>
-                        <option value="hegel">Hegel (Dialectics)</option>
-                        <option value="lacan">Lacan (Psychoanalysis)</option>
-                        <option value="gramsci">Gramsci (Hegemony)</option>
-                        <option value="general">General Philosophy</option>
-                        <option value="mixed">Mixed (All Thinkers)</option>
-                    </select>
+                    <div class="category-buttons">
+                        <button class="category-btn active" data-theme="zizek" onclick="selectTheme('zizek')">Žižek</button>
+                        <button class="category-btn" data-theme="marx" onclick="selectTheme('marx')">Marx</button>
+                        <button class="category-btn" data-theme="hegel" onclick="selectTheme('hegel')">Hegel</button>
+                        <button class="category-btn" data-theme="lacan" onclick="selectTheme('lacan')">Lacan</button>
+                        <button class="category-btn" data-theme="gramsci" onclick="selectTheme('gramsci')">Gramsci</button>
+                        <button class="category-btn" data-theme="general" onclick="selectTheme('general')">General</button>
+                        <button class="category-btn" data-theme="mixed" onclick="selectTheme('mixed')">Mixed</button>
+                    </div>
                 </div>
 
                 <div class="control-group">
@@ -108,12 +108,28 @@
   <!-- Ipsum Generator Initialization -->
   <script>
     let generator;
+    let currentTheme = 'zizek';
 
     // Initialize generator when page loads
     window.addEventListener('DOMContentLoaded', async () => {
       generator = new IpsumGenerator('data/philosophy.json', 'output');
       await generator.init();
     });
+
+    // Theme selection
+    function selectTheme(theme) {
+      currentTheme = theme;
+
+      // Update button states
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.theme === theme) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
 
     // Generate function called by button
     function generate() {
@@ -123,10 +139,9 @@
       }
 
       const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
-      const theme = document.getElementById('theme').value;
       const includeStart = document.getElementById('startCheckbox').checked;
 
-      const text = generator.generate(numParagraphs, theme, includeStart);
+      const text = generator.generate(numParagraphs, currentTheme, includeStart);
       generator.render(text);
     }
 
