@@ -290,6 +290,10 @@ img {
   display: block;
 }
 
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
 .submenu li {
   margin: 0;
 }
@@ -530,6 +534,16 @@ input[type="time"] {
   input[type="time"] {
     font-size: 14px;
     padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+@media (min-width: 769px) {
+  .tools-dropdown-menu {
+    overflow: visible;
+  }
+
+  .submenu {
+    overflow: visible;
   }
 }
 

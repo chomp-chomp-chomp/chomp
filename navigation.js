@@ -109,28 +109,42 @@
           currentItem.classList.toggle('expanded');
         });
       } else {
-        // Desktop: click-only (no hover interference)
-        link.style.pointerEvents = 'auto';
-        link.style.cursor = 'pointer';
+        // Desktop: ensure links are clickable, hover handles submenu display via CSS
+        newLink.style.pointerEvents = 'auto';
+        newLink.style.cursor = 'pointer';
 
-        // Click to toggle open/closed
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const currentItem = this.parentElement;
-          const isCurrentlyExpanded = currentItem.classList.contains('expanded');
-          const parent = currentItem.parentElement;
+        item.addEventListener('mouseenter', function() {
+          const parent = this.parentElement;
           const siblings = Array.from(parent.children).filter(child =>
-            child !== currentItem && child.classList.contains('menu-item-has-submenu')
+            child !== this && child.classList.contains('menu-item-has-submenu')
           );
 
-          // Collapse all siblings
           siblings.forEach(sibling => {
             sibling.classList.remove('expanded');
           });
 
-          // Toggle current item
+          this.classList.add('expanded');
+        });
+
+        item.addEventListener('mouseleave', function() {
+          this.classList.remove('expanded');
+        });
+        
+        // On desktop, clicking a submenu parent should toggle expanded state
+        newLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const currentItem = this.parentElement;
+          const parent = currentItem.parentElement;
+          const siblings = Array.from(parent.children).filter(child => 
+            child !== currentItem && child.classList.contains('menu-item-has-submenu')
+          );
+
+          siblings.forEach(sibling => {
+            sibling.classList.remove('expanded');
+          });
+
           currentItem.classList.toggle('expanded');
         });
       }
