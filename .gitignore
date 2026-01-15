@@ -10,3 +10,6 @@ content-admin*.html
 
 # Data files (used for bulk import)
 data-*.txt
+
+# Test files
+test-*.html
