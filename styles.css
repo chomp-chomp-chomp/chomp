@@ -291,7 +291,15 @@ img {
   z-index: 1001;
 }
 
-.menu-item-has-submenu:hover > .submenu {
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
+.menu-item-has-submenu.expanded > .submenu {
   display: block;
 }
 
@@ -325,7 +333,7 @@ img {
   z-index: 1002;
 }
 
-.submenu .menu-item-has-submenu:hover > .submenu {
+.submenu .menu-item-has-submenu.expanded > .submenu {
   display: block;
 }
 
@@ -1192,13 +1200,15 @@ p {
   .tools-dropdown-menu {
     position: fixed;
     top: 70px;
-    left: 0;
-    right: 0;
-    width: 100%;
+    right: var(--spacing-md);
+    left: auto;
+    width: min(90vw, 280px);
     max-height: calc(100vh - 80px);
     overflow-y: auto;
-    border-radius: 0;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Prevent scroll jumping on iOS/mobile browsers */
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Mobile submenu styling - stack vertically instead of flyout */

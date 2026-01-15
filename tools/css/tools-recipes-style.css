@@ -195,6 +195,7 @@ img {
 /* Tools Dropdown Navigation */
 .nav-tools-dropdown {
   position: relative;
+  z-index: 200;
 }
 
 .tools-dropdown-btn {
@@ -277,11 +278,21 @@ img {
   min-width: 180px;
   margin-right: 4px;
   max-height: calc(100vh - 100px);
+  overflow-x: visible;
   overflow-y: auto;
+  pointer-events: auto;
   z-index: 1001;
 }
 
-.menu-item-has-submenu:hover > .submenu {
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
+.menu-item-has-submenu.expanded > .submenu {
   display: block;
 }
 
@@ -315,7 +326,7 @@ img {
   z-index: 1002;
 }
 
-.submenu .menu-item-has-submenu:hover > .submenu {
+.submenu .menu-item-has-submenu.expanded > .submenu {
   display: block;
 }
 
