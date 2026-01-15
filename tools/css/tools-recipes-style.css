@@ -300,6 +300,10 @@ img {
   display: block;
 }
 
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
+}
+
 .submenu li {
   margin: 0;
 }
