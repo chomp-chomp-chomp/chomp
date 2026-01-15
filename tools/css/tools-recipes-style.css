@@ -228,9 +228,7 @@ img {
   margin-top: 8px;
   min-width: 200px;
   max-height: calc(100vh - 100px);
-  overflow-x: visible;
   overflow-y: auto;
-  pointer-events: auto;
   z-index: 1000;
 }
 
@@ -284,6 +282,10 @@ img {
   overflow-y: auto;
   pointer-events: auto;
   z-index: 1001;
+}
+
+.menu-item-has-submenu.expanded > .submenu {
+  display: block;
 }
 
 .menu-item-has-submenu.expanded > .submenu {
