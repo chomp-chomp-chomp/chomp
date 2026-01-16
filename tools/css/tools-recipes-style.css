@@ -750,6 +750,17 @@ textarea.control-input {
   border-color: var(--color-border);
 }
 
+.ipsum-page .tool-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  border-width: 2px;
+}
+
+.ipsum-page .tool-button-secondary {
+  border-width: 2px;
+}
+
 /* ---------------------------------------------------- */
 /* === CATEGORY SELECTION BUTTONS === */
 /* ---------------------------------------------------- */
@@ -781,6 +792,18 @@ textarea.control-input {
   background: var(--color-accent);
   color: white;
   border-color: var(--color-accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ipsum-page .tool-button:not(.tool-button-secondary) {
+    background-color: #e73b42;
+    border-color: #e73b42;
+  }
+
+  .ipsum-page .tool-button:not(.tool-button-secondary):hover {
+    background-color: #d12d34;
+    border-color: #d12d34;
+  }
 }
 
 @media (max-width: 768px) {
