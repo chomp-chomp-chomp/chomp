@@ -753,12 +753,23 @@ textarea.control-input {
 .ipsum-page .tool-button {
   padding: 10px 20px;
   font-size: 14px;
+  font-family: var(--font-primary);
+  font-weight: 400;
+  line-height: 1.2;
   border-radius: 4px;
   border-width: 2px;
 }
 
 .ipsum-page .tool-button-secondary {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+  color: var(--color-text);
   border-width: 2px;
+}
+
+.ipsum-page .tool-button-secondary:hover {
+  border-color: var(--color-accent);
+  background: var(--color-sidebar-bg);
 }
 
 /* ---------------------------------------------------- */
@@ -781,6 +792,11 @@ textarea.control-input {
   cursor: pointer;
   transition: all 0.2s ease;
   border-radius: 4px;
+}
+
+.ipsum-page .category-btn {
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 .category-btn:hover {
