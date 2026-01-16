@@ -120,6 +120,13 @@
       gap: 20px;
     }
 
+    .page-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .control-left h1 {
       color: #e73b42;
       font-size: 20px;
@@ -134,6 +141,25 @@
       background: white;
       cursor: pointer;
       min-width: 250px;
+    }
+
+    .add-page-btn,
+    .refresh-pages-btn {
+      padding: 10px 12px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #444;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-page-btn:hover,
+    .refresh-pages-btn:hover {
+      border-color: #e73b42;
+      color: #e73b42;
     }
 
     .control-right {
@@ -446,43 +472,13 @@
     <div class="control-panel">
       <div class="control-left">
         <h1>Visual Page Editor</h1>
-        <select class="page-selector" id="pageSelector" onchange="loadPage()">
-          <option value="">Select a page...</option>
-          <optgroup label="Main Pages">
-            <option value="index.html">🏠 Homepage</option>
-            <option value="recipes.html">🍰 Recipes</option>
-            <option value="recipe.html">🍰 Recipe Detail</option>
-            <option value="stories.html">📝 Stories</option>
-            <option value="post.html">📝 Post Detail</option>
-            <option value="lexicon.html">📖 Lexicon</option>
-            <option value="playlists.html">🎵 Playlists</option>
-            <option value="reading-list.html">📚 Reading List</option>
-            <option value="about.html">ℹ️ About</option>
-            <option value="store.html">🛍️ Store</option>
-            <option value="store/order.html">🛒 Orders</option>
-          </optgroup>
-          <optgroup label="Tools">
-            <option value="tools/index.html">🔧 Tools Index</option>
-            <option value="tools/color.html">🎨 Color</option>
-            <option value="tools/convert.html">🔄 Convert</option>
-            <option value="tools/currency.html">💱 Currency</option>
-            <option value="tools/encode.html">🔐 Encode</option>
-            <option value="tools/ip.html">🌐 Whois</option>
-            <option value="tools/random.html">🎲 Randomness</option>
-            <option value="tools/subnet.html">🔢 Subnet</option>
-            <option value="tools/text.html">📝 Text</option>
-            <option value="tools/time.html">⏰ Time</option>
-            <option value="tools/weather.html">🌤️ Weather</option>
-          </optgroup>
-          <optgroup label="Ipsum Generators">
-            <option value="tools/ipsum.html">📜 Ipsum Index</option>
-            <option value="tools/baking.html">🍰 Baking</option>
-            <option value="tools/dante.html">🔥 Inferno</option>
-            <option value="tools/epic.html">⚔️ Epic</option>
-            <option value="tools/nautical.html">⚓ Nautical</option>
-            <option value="tools/philosophy.html">🤔 Philosophy</option>
-          </optgroup>
-        </select>
+        <div class="page-controls">
+          <select class="page-selector" id="pageSelector" onchange="loadPage()">
+            <option value="">Select a page...</option>
+          </select>
+          <button class="add-page-btn" type="button" onclick="addCustomPage()">➕ Add Page</button>
+          <button class="refresh-pages-btn" type="button" onclick="refreshPageList()">↻ Refresh</button>
+        </div>
       </div>
 
       <div class="control-right">
@@ -547,6 +543,7 @@
     const IMAGEKIT_PUBLIC_KEY = 'public_hoCjk5sip7G9wwX4ObrUSur0Rs8=';
     const IMAGEKIT_URL_ENDPOINT = 'https://ik.imagekit.io/chompchomp';
     const IMAGEKIT_UPLOAD_URL = '/api/imagekit-upload';
+    const CUSTOM_PAGES_STORAGE_KEY = 'pageEditorCustomPages';
 
     // State
     let currentPage = '';
@@ -555,6 +552,55 @@
     let currentImageTarget = null;
     let originalPageHtml = '';
     let imagekit = null;
+    let navigationPageGroups = [];
+
+    const DEFAULT_PAGE_GROUPS = [
+      {
+        label: 'Main Pages',
+        pages: [
+          { value: 'index.html', label: '🏠 Homepage' },
+          { value: 'recipes.html', label: '🍰 Recipes' },
+          { value: 'recipe.html', label: '🍰 Recipe Detail' },
+          { value: 'stories.html', label: '📝 Stories' },
+          { value: 'post.html', label: '📝 Post Detail' },
+          { value: 'lexicon.html', label: '📖 Lexicon' },
+          { value: 'playlists.html', label: '🎵 Playlists' },
+          { value: 'reading-list.html', label: '📚 Reading List' },
+          { value: 'about.html', label: 'ℹ️ About' },
+          { value: 'store.html', label: '🛍️ Store' },
+          { value: 'store/order.html', label: '🛒 Orders' }
+        ]
+      },
+      {
+        label: 'Tools',
+        pages: [
+          { value: 'tools/index.html', label: '🔧 Tools Index' },
+          { value: 'tools/color.html', label: '🎨 Color' },
+          { value: 'tools/convert.html', label: '🔄 Convert' },
+          { value: 'tools/currency.html', label: '💱 Currency' },
+          { value: 'tools/encode.html', label: '🔐 Encode' },
+          { value: 'tools/ip.html', label: '🌐 Whois' },
+          { value: 'tools/random.html', label: '🎲 Randomness' },
+          { value: 'tools/subnet.html', label: '🔢 Subnet' },
+          { value: 'tools/text.html', label: '📝 Text' },
+          { value: 'tools/time.html', label: '⏰ Time' },
+          { value: 'tools/weather.html', label: '🌤️ Weather' }
+        ]
+      },
+      {
+        label: 'Ipsum Generators',
+        pages: [
+          { value: 'tools/ipsum.html', label: '📜 Ipsum Index' },
+          { value: 'tools/baking.html', label: '🍰 Baking' },
+          { value: 'tools/dad-jokes.html', label: '😂 Dad Jokes' },
+          { value: 'tools/dante.html', label: '🔥 Inferno' },
+          { value: 'tools/epic.html', label: '⚔️ Epic' },
+          { value: 'tools/nautical.html', label: '⚓ Nautical' },
+          { value: 'tools/philosophy.html', label: '🤔 Philosophy' },
+          { value: 'tools/shakespeare.html', label: '🎭 Shakespeare' }
+        ]
+      }
+    ];
 
     // Initialize ImageKit
     if (typeof ImageKit !== 'undefined') {
@@ -609,6 +655,157 @@
       const errorEl = document.getElementById('loginError');
       errorEl.textContent = message;
       errorEl.classList.add('show');
+    }
+
+    function normalizePagePath(path) {
+      return path.replace(/^\/+/, '');
+    }
+
+    function loadCustomPages() {
+      try {
+        const stored = localStorage.getItem(CUSTOM_PAGES_STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (error) {
+        console.error('Failed to load custom pages:', error);
+        return [];
+      }
+    }
+
+    function saveCustomPages(pages) {
+      localStorage.setItem(CUSTOM_PAGES_STORAGE_KEY, JSON.stringify(pages));
+    }
+
+    function addCustomPage() {
+      const label = prompt('Page label (e.g., "Tool: New Page")');
+      if (!label) return;
+
+      const pathInput = prompt('Page path (e.g., "tools/new-tool.html")');
+      if (!pathInput) return;
+
+      const value = normalizePagePath(pathInput.trim());
+      if (!value) {
+        showStatus('Please provide a valid path for the page.', 'error');
+        return;
+      }
+
+      const pages = loadCustomPages();
+      pages.push({ label: label.trim(), value });
+      saveCustomPages(pages);
+      buildPageOptions(value);
+      showStatus('Custom page added to the menu.', 'success');
+    }
+
+    function refreshPageList() {
+      loadNavigationPages(true);
+    }
+
+    function buildNavigationGroups(navigationData) {
+      if (!navigationData || !Array.isArray(navigationData.mainMenu)) {
+        return [];
+      }
+
+      const groups = new Map();
+
+      const addToGroup = (groupLabel, page) => {
+        if (!groups.has(groupLabel)) {
+          groups.set(groupLabel, []);
+        }
+        groups.get(groupLabel).push(page);
+      };
+
+      const walkItems = (items, parentLabels = [], groupLabel = 'Navigation') => {
+        items.forEach(item => {
+          if (item.type === 'link' && item.url) {
+            const pathLabels = parentLabels.length > 1 ? parentLabels.slice(1) : [];
+            const displayLabel = pathLabels.length
+              ? `${pathLabels.join(' / ')} / ${item.label}`
+              : item.label;
+            addToGroup(groupLabel, {
+              value: normalizePagePath(item.url),
+              label: displayLabel
+            });
+          }
+
+          if (item.type === 'dropdown' && Array.isArray(item.items)) {
+            const nextLabels = [...parentLabels, item.label];
+            const nextGroupLabel = parentLabels.length === 0 ? item.label : groupLabel;
+            walkItems(item.items, nextLabels, nextGroupLabel);
+          }
+        });
+      };
+
+      navigationData.mainMenu.forEach(item => {
+        if (item.type === 'link' && item.url) {
+          addToGroup('Navigation Links', {
+            value: normalizePagePath(item.url),
+            label: item.label
+          });
+        } else if (item.type === 'dropdown' && Array.isArray(item.items)) {
+          walkItems(item.items, [item.label], item.label);
+        }
+      });
+
+      return Array.from(groups.entries()).map(([label, pages]) => ({ label, pages }));
+    }
+
+    function buildPageOptions(preselectValue = '') {
+      const selector = document.getElementById('pageSelector');
+      const previousValue = preselectValue || selector.value;
+      const usedValues = new Set();
+
+      selector.innerHTML = '';
+      selector.appendChild(new Option('Select a page...', ''));
+
+      const addGroup = (group) => {
+        if (!group.pages || group.pages.length === 0) return;
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = group.label;
+        group.pages.forEach(page => {
+          if (!page.value || usedValues.has(page.value)) return;
+          usedValues.add(page.value);
+          const option = document.createElement('option');
+          option.value = page.value;
+          option.textContent = page.label;
+          optgroup.appendChild(option);
+        });
+        if (optgroup.children.length > 0) {
+          selector.appendChild(optgroup);
+        }
+      };
+
+      DEFAULT_PAGE_GROUPS.forEach(addGroup);
+      navigationPageGroups.forEach(addGroup);
+
+      const customPages = loadCustomPages();
+      if (customPages.length > 0) {
+        addGroup({ label: 'Custom Pages', pages: customPages });
+      }
+
+      if (previousValue && usedValues.has(previousValue)) {
+        selector.value = previousValue;
+      }
+    }
+
+    async function loadNavigationPages(showMessage = false) {
+      try {
+        const response = await fetch('../navigation.json');
+        if (!response.ok) {
+          throw new Error('Unable to load navigation.json');
+        }
+        const navData = await response.json();
+        navigationPageGroups = buildNavigationGroups(navData);
+        buildPageOptions();
+        if (showMessage) {
+          showStatus('Navigation menu refreshed.', 'success');
+        }
+      } catch (error) {
+        console.error('Navigation load error:', error);
+        navigationPageGroups = [];
+        buildPageOptions();
+        if (showMessage) {
+          showStatus('Could not load navigation.json. Using default list.', 'error');
+        }
+      }
     }
 
     // Load page into iframe
@@ -1363,6 +1560,9 @@
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('app').classList.add('authenticated');
       }
+
+      buildPageOptions();
+      loadNavigationPages();
     });
   </script>
 </body>

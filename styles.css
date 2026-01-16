@@ -272,6 +272,8 @@ img {
   content: ' ◂';
   float: right;
   margin-left: 10px;
+  font-size: 1.05em;
+  line-height: 1;
 }
 
 .submenu {

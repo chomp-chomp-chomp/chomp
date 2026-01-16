@@ -747,20 +747,67 @@
       try {
         // Validate JSON first
         JSON.parse(jsonText);
-
-        // Create blob and download
-        const blob = new Blob([jsonText], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'navigation.json';
-        a.click();
-        URL.revokeObjectURL(url);
-
-        alert('✓ navigation.json downloaded! Upload it to replace the existing file.\n\nRefresh any page to see the navigation changes.');
-        document.querySelector('div[style*="fixed"]').remove();
       } catch (error) {
         alert('❌ Invalid JSON! Please fix the syntax errors:\n\n' + error.message);
+        return;
+      }
+
+      try {
+        const token = sessionStorage.getItem('cms_token');
+        if (!token) {
+          alert('Please log in with a GitHub token to save navigation.json.');
+          return;
+        }
+
+        const repo = 'chomp-chomp-chomp/chomp';
+        const branch = 'main';
+        const filePath = 'navigation.json';
+
+        let sha = null;
+        const getResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (getResponse.ok) {
+          const currentFile = await getResponse.json();
+          sha = currentFile.sha;
+        } else if (getResponse.status !== 404) {
+          throw new Error(`Failed to load navigation.json: ${getResponse.status}`);
+        }
+
+        const contentBase64 = btoa(unescape(encodeURIComponent(jsonText)));
+        const updateBody = {
+          message: 'Update navigation.json via CMS',
+          content: contentBase64,
+          branch: branch
+        };
+
+        if (sha) {
+          updateBody.sha = sha;
+        }
+
+        const updateResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateBody)
+        });
+
+        if (!updateResponse.ok) {
+          const errorData = await updateResponse.json();
+          throw new Error(errorData.message || updateResponse.statusText);
+        }
+
+        alert('✓ navigation.json saved to GitHub! Refresh any page to see the updates.');
+        document.querySelector('div[style*="fixed"]').remove();
+      } catch (error) {
+        alert(`❌ Failed to save navigation.json:\n\n${error.message}`);
       }
     }
 
