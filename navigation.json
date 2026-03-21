@@ -27,7 +27,7 @@
       "type": "link"
     },
     {
-      "label": "Tools",
+      "label": "Lab",
       "type": "dropdown",
       "items": [
         { "label": "Index", "url": "/tools/index.html", "type": "link" },
