@@ -163,6 +163,20 @@
     body.dark-theme .config-warning { background: #3a3a1a; border-color: #6a6a2a; }
     body.dark-theme .config-warning h3 { color: #d0d080; }
 
+    /* URL Import */
+    .import-section.url-import { background: #f3e5f5; border-color: #9c27b0; }
+    .import-section.url-import h3 { color: #7b1fa2; }
+    .import-section.url-import .hint { color: #7b1fa2; }
+    .url-import-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .url-import-row input[type="url"] { flex: 1; padding: 12px; border: 1px solid #9c27b0; border-radius: 6px; font-size: 15px; font-family: inherit; transition: border-color 0.2s; }
+    .url-import-row input[type="url"]:focus { outline: none; border-color: #6a1b9a; }
+    .url-import-row button { background: #9c27b0; white-space: nowrap; }
+    .url-import-row button:hover { background: #7b1fa2; }
+    body.dark-theme .import-section.url-import { background: #1e1a2e; border-color: #7b1fa2; }
+    body.dark-theme .import-section.url-import h3 { color: #ce93d8; }
+    body.dark-theme .import-section.url-import .hint { color: #ba68c8; }
+    body.dark-theme .url-import-row input[type="url"] { background: #333; color: #e0e0e0; border-color: #7b1fa2; }
+
     .list-container { margin-bottom: 6px; }
     .list-row { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; }
     .list-row .list-input { flex: 1; padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
@@ -266,6 +280,19 @@
       <!-- Recipes Tab -->
       <div id="recipes-tab" class="tab-content active">
         <div class="stats"><div class="stat-card"><div class="stat-value" id="recipes-count">0</div><div class="stat-label">Total Recipes</div></div></div>
+
+        <!-- URL Import Section -->
+        <div class="import-section url-import">
+          <h3>Import Recipe from Web URL</h3>
+          <div class="hint">Paste a recipe URL to automatically import it. Works with most food sites that use structured recipe data (food.com, Bon Appétit, Sugar Spun Run, NYT Cooking, and more).</div>
+          <div class="url-import-row">
+            <input type="url" id="recipe-url-input" placeholder="https://www.food.com/recipe/..." onkeydown="if(event.key==='Enter') importFromURL()">
+            <button onclick="importFromURL()">Import from URL</button>
+          </div>
+          <div class="import-progress" id="recipe-url-import-progress">
+            <div id="recipe-url-import-status">Processing...</div>
+          </div>
+        </div>
 
         <!-- Markdown Import Section -->
         <div class="import-section">
@@ -1852,6 +1879,211 @@
         statusDiv.textContent = `Error: ${error.message}`;
         console.error('HTML import error:', error);
       }
+    }
+
+    // URL Recipe Importer
+    async function importFromURL() {
+      const urlInput = document.getElementById('recipe-url-input');
+      const url = urlInput.value.trim();
+      const progressDiv = document.getElementById('recipe-url-import-progress');
+      const statusDiv = document.getElementById('recipe-url-import-status');
+
+      if (!url) { alert('Please enter a recipe URL'); return; }
+      if (!/^https?:\/\//i.test(url)) { alert('Please enter a valid URL starting with http:// or https://'); return; }
+
+      progressDiv.classList.add('show');
+      statusDiv.textContent = 'Fetching recipe...';
+
+      let html = '';
+      const proxies = [
+        { url: `https://corsproxy.io/?url=${encodeURIComponent(url)}`, json: false },
+        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, json: true }
+      ];
+
+      let fetchError = '';
+      for (let i = 0; i < proxies.length; i++) {
+        try {
+          if (i > 0) statusDiv.textContent = 'Retrying with alternate proxy...';
+          const resp = await fetch(proxies[i].url);
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          if (proxies[i].json) {
+            const j = await resp.json();
+            html = j.contents || '';
+          } else {
+            html = await resp.text();
+          }
+          if (html) break;
+        } catch (err) {
+          fetchError = err.message;
+        }
+      }
+
+      if (!html) {
+        statusDiv.textContent = `Could not fetch the page (${fetchError}). Try using the HTML importer below — save the page as HTML and paste the source.`;
+        return;
+      }
+
+      statusDiv.textContent = 'Parsing recipe data...';
+
+      try {
+        const recipe = parseJSONLDRecipe(html, url);
+
+        const existingIdx = data['recipes'].findIndex(r => r.slug === recipe.slug);
+        if (existingIdx !== -1) {
+          if (!confirm(`A recipe with slug "${recipe.slug}" already exists ("${data['recipes'][existingIdx].title}"). Overwrite it?`)) {
+            statusDiv.textContent = 'Import cancelled.';
+            setTimeout(() => progressDiv.classList.remove('show'), 3000);
+            return;
+          }
+          data['recipes'].splice(existingIdx, 1, recipe);
+        } else {
+          data['recipes'].push(recipe);
+        }
+
+        renderList('recipes');
+        document.getElementById('recipes-count').textContent = data['recipes'].length;
+        openModal('recipes', existingIdx !== -1 ? existingIdx : data['recipes'].length - 1);
+
+        statusDiv.textContent = `Successfully imported "${recipe.title}"!`;
+        urlInput.value = '';
+
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = `Imported "${recipe.title}" from URL! Review and publish when ready.`;
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 5000);
+        setTimeout(() => progressDiv.classList.remove('show'), 3000);
+
+      } catch (error) {
+        statusDiv.textContent = `Error: ${error.message}`;
+        console.error('URL import error:', error);
+      }
+    }
+
+    function parseJSONLDRecipe(html, sourceUrl) {
+      // Find all JSON-LD blocks and look for a Recipe type
+      const jsonLdRegex = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+      let match;
+      let ld = null;
+
+      while ((match = jsonLdRegex.exec(html)) !== null) {
+        try {
+          let schema = JSON.parse(match[1].trim());
+
+          // @graph wrapper
+          if (schema['@graph']) {
+            const node = schema['@graph'].find(n =>
+              n['@type'] === 'Recipe' || (Array.isArray(n['@type']) && n['@type'].includes('Recipe'))
+            );
+            if (node) { ld = node; break; }
+          }
+
+          // Direct Recipe
+          if (schema['@type'] === 'Recipe' ||
+              (Array.isArray(schema['@type']) && schema['@type'].includes('Recipe'))) {
+            ld = schema; break;
+          }
+
+          // Array of schemas
+          if (Array.isArray(schema)) {
+            const node = schema.find(n =>
+              n['@type'] === 'Recipe' || (Array.isArray(n['@type']) && n['@type'].includes('Recipe'))
+            );
+            if (node) { ld = node; break; }
+          }
+        } catch (e) { /* skip malformed blocks */ }
+      }
+
+      if (!ld) {
+        throw new Error('No recipe data found on this page. The site may not support structured recipe markup, or the recipe may be behind a paywall. Try pasting the page HTML into the HTML importer below.');
+      }
+
+      const title = (ld.name || '').trim();
+      if (!title) throw new Error('Recipe has no title in structured data.');
+
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+      // Ingredients
+      const ingredients = Array.isArray(ld.recipeIngredient)
+        ? ld.recipeIngredient.map(i => i.trim()).filter(Boolean)
+        : [];
+
+      // Instructions — handle strings, HowToStep, and HowToSection
+      let instructions = [];
+      if (Array.isArray(ld.recipeInstructions)) {
+        for (const item of ld.recipeInstructions) {
+          if (typeof item === 'string') {
+            if (item.trim()) instructions.push(item.trim());
+          } else if (item['@type'] === 'HowToSection') {
+            if (item.name) instructions.push(`### ${item.name}`);
+            const steps = item.itemListElement || [];
+            for (const step of steps) {
+              const text = typeof step === 'string' ? step : (step.text || step.name || '');
+              if (text.trim()) instructions.push(text.trim());
+            }
+          } else {
+            const text = (item.text || item.name || '').trim();
+            if (text) instructions.push(text);
+          }
+        }
+      }
+
+      // Times
+      const prepTime = formatISODuration(ld.prepTime || '');
+      const cookTime = formatISODuration(ld.cookTime || '');
+      const totalTime = formatISODuration(ld.totalTime || '');
+      const totalTimeInMinutes = parseTimeToMinutes(ld.totalTime || '');
+
+      // Servings
+      let servings = ld.recipeYield || '';
+      if (Array.isArray(servings)) servings = servings[0] || servings.join(', ');
+      else servings = String(servings);
+
+      // Image — string, array of strings, array of ImageObject, or ImageObject
+      let image = '';
+      if (ld.image) {
+        if (typeof ld.image === 'string' && ld.image.startsWith('http')) {
+          image = ld.image;
+        } else if (Array.isArray(ld.image)) {
+          image = ld.image.find(i => typeof i === 'string' && i.startsWith('http')) || '';
+          if (!image) {
+            const obj = ld.image.find(i => i && typeof i.url === 'string' && i.url.startsWith('http'));
+            if (obj) image = obj.url;
+          }
+        } else if (ld.image && typeof ld.image.url === 'string' && ld.image.url.startsWith('http')) {
+          image = ld.image.url;
+        }
+      }
+
+      // Source
+      const sourceHref = sourceUrl || ld.url || '';
+      let sourceName = '';
+      if (sourceHref) {
+        try { sourceName = new URL(sourceHref).hostname.replace(/^www\./, ''); }
+        catch (e) { sourceName = sourceHref; }
+      }
+
+      // Notes
+      let noteParts = [];
+      if (ld.notes && String(ld.notes).trim()) noteParts.push(String(ld.notes).trim());
+
+      return {
+        title,
+        slug,
+        description: (ld.description || '').trim(),
+        image,
+        servings,
+        prepTime,
+        cookTime,
+        totalTime,
+        totalTimeInMinutes,
+        source: sourceName ? { text: sourceName, href: sourceHref } : (sourceHref || ''),
+        category: 'chomp chomp',
+        ingredients,
+        instructions,
+        notes: noteParts.join('\n\n'),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
     }
 
     // Image Manager
