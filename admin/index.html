@@ -268,6 +268,18 @@
           </div>
         </div>
 
+        <!-- HTML Import Section -->
+        <div class="import-section">
+          <h3>Import Recipe from HTML (Paprika / JSON-LD)</h3>
+          <div class="hint">Paste the full HTML file content below, or upload an .html file. Recipe data is extracted from the embedded JSON-LD &lt;script&gt; tag.</div>
+          <input type="file" id="recipe-html-file" accept=".html" style="margin-bottom:8px;" onchange="loadHTMLFile(event)">
+          <textarea id="recipe-html-input" placeholder="Paste HTML file content here..."></textarea>
+          <button onclick="importHTMLRecipe()" class="secondary">Import HTML Recipe</button>
+          <div class="import-progress" id="recipe-html-import-progress">
+            <div id="recipe-html-import-status">Processing...</div>
+          </div>
+        </div>
+
         <div class="controls">
           <input type="text" class="search-box" id="recipes-search" placeholder="Search recipes...">
           <button onclick="loadData('recipes')">Reload</button>
@@ -1578,6 +1590,145 @@
       } catch (error) {
         statusDiv.textContent = `Error: ${error.message}`;
         console.error('Markdown import error:', error);
+      }
+    }
+
+    // Recipe HTML Import (JSON-LD / Paprika)
+    function loadHTMLFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('recipe-html-input').value = e.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    function importHTMLRecipe() {
+      const input = document.getElementById('recipe-html-input').value.trim();
+      const progressDiv = document.getElementById('recipe-html-import-progress');
+      const statusDiv = document.getElementById('recipe-html-import-status');
+
+      if (!input) {
+        alert('Please paste HTML content or upload an .html file');
+        return;
+      }
+
+      progressDiv.classList.add('show');
+      statusDiv.textContent = 'Parsing HTML...';
+
+      try {
+        // Extract JSON-LD script tag content
+        const jsonLdMatch = input.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
+        if (!jsonLdMatch) {
+          throw new Error('No JSON-LD recipe data found in this HTML file. Expected a <script type="application/ld+json"> tag.');
+        }
+
+        const schemaData = JSON.parse(jsonLdMatch[1].trim());
+
+        // Support @graph wrapper (some exporters nest under @graph array)
+        let ld = schemaData;
+        if (schemaData['@graph']) {
+          ld = schemaData['@graph'].find(n => n['@type'] === 'Recipe') || schemaData['@graph'][0];
+        }
+
+        const title = ld.name || '';
+        if (!title) throw new Error('No recipe name found in JSON-LD data.');
+
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+        // Ingredients: array of strings
+        const ingredients = Array.isArray(ld.recipeIngredient) ? ld.recipeIngredient : [];
+
+        // Instructions: may be array of strings or array of HowToStep objects
+        let instructions = [];
+        if (Array.isArray(ld.recipeInstructions)) {
+          instructions = ld.recipeInstructions.map(step => {
+            if (typeof step === 'string') return step;
+            return step.text || step.name || '';
+          }).filter(Boolean);
+        }
+
+        // Times — already human-readable strings (e.g. "25min", "2h 35min")
+        const prepTime = ld.prepTime || '';
+        const cookTime = ld.cookTime || '';
+        const totalTime = ld.totalTime || '';
+
+        // Compute totalTimeInMinutes from totalTime string
+        let totalTimeInMinutes = 0;
+        if (totalTime) {
+          const hoursMatch = totalTime.match(/(\d+)\s*h/i);
+          const minsMatch = totalTime.match(/(\d+)\s*min/i);
+          totalTimeInMinutes = (hoursMatch ? parseInt(hoursMatch[1]) * 60 : 0) +
+                               (minsMatch ? parseInt(minsMatch[1]) : 0);
+        }
+
+        const servings = ld.recipeYield || '';
+        const description = ld.description || '';
+
+        // Notes: combine ld.notes and nutrition info (skip if empty)
+        let noteParts = [];
+        if (ld.notes && ld.notes.trim()) noteParts.push(ld.notes.trim());
+        if (ld.nutrition && ld.nutrition.trim()) noteParts.push('**Nutrition**\n' + ld.nutrition.trim());
+        const notes = noteParts.join('\n\n');
+
+        // Source
+        const sourceHref = ld._source || ld.url || '';
+        let sourceName = '';
+        if (sourceHref) {
+          try {
+            sourceName = new URL(sourceHref).hostname.replace(/^www\./, '');
+          } catch (e) {
+            sourceName = sourceHref;
+          }
+        }
+
+        // Skip base64 images — only use http(s) URLs
+        let image = '';
+        if (ld.image && typeof ld.image === 'string' && ld.image.startsWith('http')) {
+          image = ld.image;
+        } else if (Array.isArray(ld.image)) {
+          image = ld.image.find(i => typeof i === 'string' && i.startsWith('http')) || '';
+        }
+
+        const recipe = {
+          title,
+          slug,
+          description,
+          image,
+          servings: Array.isArray(servings) ? servings.join(', ') : String(servings),
+          prepTime,
+          cookTime,
+          totalTime,
+          totalTimeInMinutes,
+          source: sourceName ? { text: sourceName, href: sourceHref } : (sourceHref || ''),
+          category: 'chomp chomp',
+          ingredients,
+          instructions,
+          notes,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        data['recipes'].push(recipe);
+        renderList('recipes');
+        document.getElementById('recipes-count').textContent = data['recipes'].length;
+
+        statusDiv.textContent = `Successfully imported "${title}"!`;
+
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = `Imported recipe "${title}" from HTML! Download the updated JSON file.`;
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 5000);
+
+        // Clear inputs
+        document.getElementById('recipe-html-input').value = '';
+        document.getElementById('recipe-html-file').value = '';
+        setTimeout(() => progressDiv.classList.remove('show'), 3000);
+
+      } catch (error) {
+        statusDiv.textContent = `Error: ${error.message}`;
+        console.error('HTML import error:', error);
       }
     }
 
