@@ -529,6 +529,7 @@
                 <button onclick="emailRecipe()">✉️ Email Recipe</button>
                 <button onclick="downloadPDF()">📄 Download PDF</button>
                 <button onclick="downloadAsText()">📝 Download as Text</button>
+                <button onclick="copyAllText()">📋 Copy All Text</button>
               </div>
             </div>
 
@@ -956,10 +957,10 @@
       }, 100);
     }
 
-    // Download recipe as plain text
-    function downloadAsText() {
+    // Build plain text representation of the current recipe
+    function buildRecipeText() {
       const recipe = window.currentRecipe;
-      if (!recipe) return;
+      if (!recipe) return '';
 
       const lines = [];
 
@@ -1031,7 +1032,14 @@
 
       lines.push(`chompchomp.cc/recipe.html?slug=${recipe.slug}`);
 
-      const text = lines.join('\n');
+      return lines.join('\n');
+    }
+
+    // Download recipe as plain text
+    function downloadAsText() {
+      const text = buildRecipeText();
+      if (!text) return;
+      const recipe = window.currentRecipe;
       const blob = new Blob([text], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1039,9 +1047,20 @@
       a.download = `${recipe.slug || 'recipe'}.txt`;
       a.click();
       URL.revokeObjectURL(url);
-
       toggleShareDropdown();
       showToast('✓ Recipe downloaded as text!');
+    }
+
+    // Copy full recipe text to clipboard
+    function copyAllText() {
+      const text = buildRecipeText();
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        toggleShareDropdown();
+        showToast('✓ Recipe copied to clipboard!');
+      }).catch(() => {
+        showToast('❌ Failed to copy text');
+      });
     }
 
     // Toggle cook mode
