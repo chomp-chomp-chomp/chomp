@@ -1767,19 +1767,11 @@
           }).filter(Boolean);
         }
 
-        // Times — already human-readable strings (e.g. "25min", "2h 35min")
-        const prepTime = ld.prepTime || '';
-        const cookTime = ld.cookTime || '';
-        const totalTime = ld.totalTime || '';
-
-        // Compute totalTimeInMinutes from totalTime string
-        let totalTimeInMinutes = 0;
-        if (totalTime) {
-          const hoursMatch = totalTime.match(/(\d+)\s*h/i);
-          const minsMatch = totalTime.match(/(\d+)\s*min/i);
-          totalTimeInMinutes = (hoursMatch ? parseInt(hoursMatch[1]) * 60 : 0) +
-                               (minsMatch ? parseInt(minsMatch[1]) : 0);
-        }
+        // Times — convert ISO 8601 to human-readable if needed
+        const prepTime = formatISODuration(ld.prepTime || '');
+        const cookTime = formatISODuration(ld.cookTime || '');
+        const totalTime = formatISODuration(ld.totalTime || '');
+        const totalTimeInMinutes = parseTimeToMinutes(ld.totalTime || '');
 
         const servings = ld.recipeYield || '';
         const description = ld.description || '';
@@ -1828,9 +1820,21 @@
           updated_at: new Date().toISOString()
         };
 
-        data['recipes'].push(recipe);
+        // Check for duplicate slug
+        const existingHtmlIdx = data['recipes'].findIndex(r => r.slug === recipe.slug);
+        if (existingHtmlIdx !== -1) {
+          if (!confirm(`A recipe with slug "${recipe.slug}" already exists ("${data['recipes'][existingHtmlIdx].title}"). Overwrite it?`)) {
+            statusDiv.textContent = 'Import cancelled.';
+            setTimeout(() => progressDiv.classList.remove('show'), 3000);
+            return;
+          }
+          data['recipes'].splice(existingHtmlIdx, 1, recipe);
+        } else {
+          data['recipes'].push(recipe);
+        }
         renderList('recipes');
         document.getElementById('recipes-count').textContent = data['recipes'].length;
+        openModal('recipes', existingHtmlIdx !== -1 ? existingHtmlIdx : data['recipes'].length - 1);
 
         statusDiv.textContent = `Successfully imported "${title}"!`;
 
@@ -1969,6 +1973,10 @@
         alert('Failed to copy URL');
       });
     }
+
+    window.addEventListener('beforeunload', (e) => {
+      if (modalDirty) { e.preventDefault(); e.returnValue = ''; }
+    });
   </script>
 </body>
 </html>
