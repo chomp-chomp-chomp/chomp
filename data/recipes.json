@@ -1851,5 +1851,47 @@
     "cookTime": null,
     "dishType": "Forgotten Cookies",
     "slug": "wayfarers-puck"
+  },
+  {
+    "title": "Gluten-Free Carrot Cake",
+    "slug": "gluten-free-carrot-cake",
+    "description": "This supermoist, dairy-free, gluten-free almond cake has a lot going for it. The cake is flavored with a bit of lemon zest and finely grated carrots that seem to melt into the cake, adding moisture and a pleasantly chewy texture. The tangy lemon glaze and toasted almonds dress it up visually and add a crunch to each bite, but the cake is also delicious with just a simple dusting of powdered sugar. This cake keeps well at room temperature, so feel free to bake it the day before you plan to serve it and glaze it when you’re ready to enjoy it. If making this for Passover, you can seek out baking powder that is kosher for Passover.",
+    "image": "",
+    "servings": "8 to 10 servings",
+    "prepTime": "25min",
+    "cookTime": "2h 35min",
+    "totalTime": "3h",
+    "totalTimeInMinutes": 180,
+    "source": {
+      "text": "cooking.nytimes.com",
+      "href": "https://cooking.nytimes.com/recipes/773932585-gluten-free-carrot-cake?smid=nytcore-ios-share"
+    },
+    "category": "chomp chomp",
+    "ingredients": [
+      "½ cup neutral oil, such as avocado or grapeseed, plus more for the pan",
+      "¾ cup/150 grams granulated sugar",
+      "Finely grated zest of 2 medium lemons",
+      "3 large eggs",
+      "2 cups/200 grams blanched almond flour",
+      "1 cup/100 grams finely shredded carrots (2 to 3 carrots)",
+      "2 tablespoons potato starch",
+      "1 ½ teaspoons baking powder",
+      "½ teaspoon kosher salt (such as Diamond Crystal)",
+      "1 cup/120 grams powdered sugar",
+      "2 to 3 tablespoons fresh lemon juice",
+      "Pinch kosher salt",
+      "⅓ cup/35 grams toasted sliced almonds"
+    ],
+    "instructions": [
+      "Prepare the cake: Heat oven to 350 degrees. Lightly oil an 8-inch round cake pan and line the bottom with a round of parchment paper.",
+      "Add the granulated sugar and lemon zest to a large bowl; using your fingers, rub together until zest is fragrant and evenly dispersed into the sugar. Add the eggs to the bowl and, using an electric mixer on low speed, whip the mixture until it lightens in color and doubles in volume, 4 to 6 minutes. With the mixer running, stream in the oil and blend until combined. Add the almond flour, carrots, potato starch, baking powder and salt and stir with a flexible spatula until well combined.",
+      "Scrape the batter into the cake pan and smooth the top. Bake until golden and a toothpick inserted center comes out clean, 30 to 40 minutes. (Tent with foil if it’s browning too fast in the last few minutes.) Let the cake cool for 15 minutes, then run a thin knife around the edge of the pan. Let the cake cool completely in the pan set on a wire rack, about 1½ hours.",
+      "While the cake cools, make the glaze: In a medium bowl, combine the powdered sugar, 2 tablespoons lemon juice and a pinch of salt. Whisk until smooth. The glaze should be thick and opaque but pourable. If it is too thick, add more lemon juice, a few drops at a time.",
+      "Run a table knife around the edge of the cooled cake to loosen it from the pan, then invert the cake onto a serving plate and remove the parchment. Top the cake with the glaze and sprinkle with almonds. Let the glaze set for at least 20 minutes before serving. (This cake keeps well at room temperature for up to 3 days. The glaze will get sticky and seep into the cake as it sits.)"
+    ],
+    "notes": "**Nutrition**\n**Calories** 293.9 kcals\n**Fat** 14.4 grams\n**Saturated fat** 1.5 grams\n**Unsaturated fat** 0.9 grams\n**Cholesterol** 55.8 milligrams\n**Sodium** 194 milligrams\n**Carbohydrates** 37.2 grams\n**Fiber** 3.9 grams\n**Sugar** 28.9 grams\n**Protein** 7.6 grams",
+    "created_at": "2026-03-29T01:46:49.667Z",
+    "updated_at": "2026-03-29T01:47:12.378Z",
+    "dishType": ""
   }
 ]
