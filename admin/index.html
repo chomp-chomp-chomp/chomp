@@ -163,6 +163,16 @@
     body.dark-theme .config-warning { background: #3a3a1a; border-color: #6a6a2a; }
     body.dark-theme .config-warning h3 { color: #d0d080; }
 
+    .list-container { margin-bottom: 6px; }
+    .list-row { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; }
+    .list-row .list-input { flex: 1; padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+    .list-row .list-input:focus { outline: none; border-color: #e73b42; }
+    .list-row .list-btn { padding: 5px 9px; font-size: 13px; min-width: 30px; }
+    .list-row .list-btn.move { background: #9e9e9e; }
+    .list-row .list-btn.remove { background: #f44336; }
+    .list-add-btn { background: #9e9e9e; font-size: 13px; padding: 6px 14px; margin-top: 4px; }
+    body.dark-theme .list-row .list-input { background: #333; color: #e0e0e0; border-color: #444; }
+
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .modal-content { flex-direction: column; padding: 20px; }
@@ -265,6 +275,18 @@
           <button onclick="importMarkdownRecipe()" class="secondary">Import Markdown Recipe</button>
           <div class="import-progress" id="recipe-import-progress">
             <div id="recipe-import-status">Processing...</div>
+          </div>
+        </div>
+
+        <!-- HTML Import Section -->
+        <div class="import-section">
+          <h3>Import Recipe from HTML (Paprika / JSON-LD)</h3>
+          <div class="hint">Paste the full HTML file content below, or upload an .html file. Recipe data is extracted from the embedded JSON-LD &lt;script&gt; tag.</div>
+          <input type="file" id="recipe-html-file" accept=".html" style="margin-bottom:8px;" onchange="loadHTMLFile(event)">
+          <textarea id="recipe-html-input" placeholder="Paste HTML file content here..."></textarea>
+          <button onclick="importHTMLRecipe()" class="secondary">Import HTML Recipe</button>
+          <div class="import-progress" id="recipe-html-import-progress">
+            <div id="recipe-html-import-status">Processing...</div>
           </div>
         </div>
 
@@ -540,6 +562,7 @@
     let currentCollection = 'recipes';
     let currentItem = null;
     let currentIndex = null;
+    let modalDirty = false;
 
     // Check for existing authentication on load
     window.addEventListener('load', () => {
@@ -688,7 +711,8 @@
         const title = item.title || item.term || 'Untitled';
         const meta = getItemMeta(collection, item);
         const actualIndex = data[collection].indexOf(item);
-        return `<div class="item-card"><div class="item-info"><h3>${title}</h3><div class="item-meta">${meta}</div></div><div class="item-actions"><button onclick="openModal('${collection}', ${actualIndex})">Edit</button><button class="danger" onclick="deleteItem('${collection}', ${actualIndex})">Delete</button></div></div>`;
+        const dupeBtn = collection === 'recipes' ? `<button style="background:#ff9800;" onclick="duplicateRecipe(${actualIndex})">Duplicate</button>` : '';
+        return `<div class="item-card"><div class="item-info"><h3>${title}</h3><div class="item-meta">${meta}</div></div><div class="item-actions"><button onclick="openModal('${collection}', ${actualIndex})">Edit</button>${dupeBtn}<button class="danger" onclick="deleteItem('${collection}', ${actualIndex})">Delete</button></div></div>`;
       }).join('');
     }
 
@@ -819,18 +843,22 @@
       modalTitle.textContent = index !== null ? `Edit ${getCollectionName(collection)}` : `New ${getCollectionName(collection)}`;
       const formContainer = document.getElementById('modal-form');
       formContainer.innerHTML = generateForm(collection, currentItem);
+      modalDirty = false;
       setTimeout(() => {
-        const textareas = document.querySelectorAll('textarea[data-preview]');
-        textareas.forEach(textarea => textarea.addEventListener('input', updatePreview));
+        const formEl = document.getElementById('modal-form');
+        formEl.addEventListener('input', updatePreview);
+        formEl.addEventListener('input', () => { modalDirty = true; });
         updatePreview();
       }, 100);
       document.getElementById('editModal').classList.add('active');
     }
 
     function closeModal() {
+      if (modalDirty && !confirm('You have unsaved changes. Close anyway?')) return;
       document.getElementById('editModal').classList.remove('active');
       currentItem = null;
       currentIndex = null;
+      modalDirty = false;
     }
 
     function getCollectionName(collection) {
@@ -853,12 +881,9 @@
         const dishType = document.getElementById('dishType')?.value || '';
         const sourceText = document.getElementById('sourceText')?.value || '';
         const sourceHref = document.getElementById('sourceHref')?.value || '';
-        const ingredientsText = document.getElementById('ingredients')?.value || '';
-        const instructionsText = document.getElementById('instructions')?.value || '';
+        const ingredients = [...(document.querySelectorAll('#ingredients-list .list-input') || [])].map(i => i.value.trim()).filter(Boolean);
+        const instructions = [...(document.querySelectorAll('#instructions-list .list-input') || [])].map(i => i.value.trim()).filter(Boolean);
         const notes = document.getElementById('notes')?.value || '';
-
-        const ingredients = ingredientsText.split('\n').filter(i => i.trim());
-        const instructions = instructionsText.split('\n').filter(i => i.trim());
 
         previewHTML = `<div style="text-align: center; margin-bottom: 30px;">
           <h1 style="font-size: 2em; margin-bottom: 15px; color: #e73b42;">${title}</h1>
@@ -1123,6 +1148,95 @@
       }
     }
 
+    // Shared time utilities
+    function parseTimeToMinutes(str) {
+      if (!str) return 0;
+      // Handle ISO 8601: PT1H30M, PT25M, PT2H, P0DT1H30M
+      if (/^P/i.test(str)) {
+        const h = parseInt((str.match(/(\d+)H/i) || [0,0])[1]);
+        const m = parseInt((str.match(/(\d+)M/i) || [0,0])[1]);
+        return h * 60 + m;
+      }
+      // Human-readable: "1h 30min", "25min", "2h", "90 minutes"
+      const hoursMatch = str.match(/(\d+)\s*h(?:our)?s?/i);
+      const minsMatch = str.match(/(\d+)\s*m(?:in(?:ute)?s?)?/i);
+      return (hoursMatch ? parseInt(hoursMatch[1]) * 60 : 0) + (minsMatch ? parseInt(minsMatch[1]) : 0);
+    }
+
+    function formatISODuration(str) {
+      if (!str || !/^P/i.test(str)) return str;
+      const h = parseInt((str.match(/(\d+)H/i) || [0,0])[1]);
+      const m = parseInt((str.match(/(\d+)M/i) || [0,0])[1]);
+      if (h && m) return `${h}h ${m}min`;
+      if (h) return `${h}h`;
+      if (m) return `${m}min`;
+      return str;
+    }
+
+    function generateListHTML(containerId, items, placeholder) {
+      const rows = (items || []).map(item =>
+        `<div class="list-row">
+          <button type="button" class="list-btn move" onclick="moveListRow('${containerId}',this,-1)" title="Move up">↑</button>
+          <button type="button" class="list-btn move" onclick="moveListRow('${containerId}',this,1)" title="Move down">↓</button>
+          <input type="text" class="list-input" value="${(item||'').replace(/"/g,'&quot;')}" placeholder="${placeholder}">
+          <button type="button" class="list-btn remove" onclick="removeListRow(this)" title="Remove">×</button>
+        </div>`
+      ).join('');
+      return `<div id="${containerId}" class="list-container">${rows}</div>
+        <button type="button" class="list-add-btn" onclick="addListRow('${containerId}','${placeholder}')">+ Add</button>`;
+    }
+
+    function moveListRow(containerId, btn, dir) {
+      const row = btn.closest('.list-row');
+      const container = document.getElementById(containerId);
+      if (dir === -1 && row.previousElementSibling) {
+        container.insertBefore(row, row.previousElementSibling);
+      } else if (dir === 1 && row.nextElementSibling) {
+        container.insertBefore(row.nextElementSibling, row);
+      }
+      updatePreview();
+    }
+
+    function removeListRow(btn) {
+      btn.closest('.list-row').remove();
+      updatePreview();
+      modalDirty = true;
+    }
+
+    function addListRow(containerId, placeholder) {
+      const container = document.getElementById(containerId);
+      const row = document.createElement('div');
+      row.className = 'list-row';
+      row.innerHTML = `
+        <button type="button" class="list-btn move" onclick="moveListRow('${containerId}',this,-1)" title="Move up">↑</button>
+        <button type="button" class="list-btn move" onclick="moveListRow('${containerId}',this,1)" title="Move down">↓</button>
+        <input type="text" class="list-input" placeholder="${placeholder||''}">
+        <button type="button" class="list-btn remove" onclick="removeListRow(this)" title="Remove">×</button>
+      `;
+      container.appendChild(row);
+      row.querySelector('.list-input').focus();
+      updatePreview();
+      modalDirty = true;
+    }
+
+    function isSlugDuplicate(slug, excludeIndex) {
+      return data['recipes'].some((r, i) => r.slug === slug && i !== excludeIndex);
+    }
+
+    function duplicateRecipe(index) {
+      const original = data['recipes'][index];
+      const copy = JSON.parse(JSON.stringify(original));
+      copy.title = original.title + ' (copy)';
+      copy.slug = copy.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      copy.created_at = new Date().toISOString();
+      copy.updated_at = new Date().toISOString();
+      delete copy.id;
+      data['recipes'].push(copy);
+      renderList('recipes');
+      document.getElementById('recipes-count').textContent = data['recipes'].length;
+      openModal('recipes', data['recipes'].length - 1);
+    }
+
     function generateForm(collection, item) {
       const forms = { 'recipes': generateRecipeForm, 'posts': generatePostForm, 'lexicon': generateLexiconForm, 'reading-list': generateBookForm, 'playlists': generatePlaylistForm };
       return forms[collection](item);
@@ -1132,7 +1246,7 @@
     function generateRecipeForm(item) {
       const sourceText = (typeof item.source === 'object' && item.source !== null) ? item.source.text || '' : item.source || '';
       const sourceHref = (typeof item.source === 'object' && item.source !== null) ? item.source.href || '' : '';
-      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}" data-preview="true"><button type="button" class="upload-btn" onclick="uploadToImageKit('image', 'image-status')">Upload Image</button><div id="image-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Category</label><input type="text" id="category" list="category-suggestions" value="${item.category || 'chomp chomp'}" placeholder="Enter category" data-preview="true"><datalist id="category-suggestions"><option value="chomp chomp"><option value="desserts"><option value="breads"><option value="pastries"><option value="cookies"><option value="cakes"><option value="pies"></datalist><div class="hint">Type to enter a custom category or select from suggestions</div></div><div class="form-group"><label>Dish Type</label><input type="text" id="dishType" list="dishtype-suggestions" value="${item.dishType || ''}" placeholder="Enter dish type" data-preview="true"><datalist id="dishtype-suggestions"><option value="Dessert/Pastry"><option value="Cookie/Bar"><option value="Frozen Dessert"><option value="Pudding/Cream"><option value="Main Dish"><option value="Soup"><option value="Other Baked Goods"></datalist><div class="hint">Type to enter a custom dish type or select from suggestions</div></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}" data-preview="true"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}" placeholder="e.g., 20min" data-preview="true"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}" placeholder="e.g., 65-80 minutes" data-preview="true"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}" placeholder="e.g., 1h 45min" data-preview="true"></div><div class="form-group"><label>Total Time (Minutes)</label><input type="number" id="totalTimeInMinutes" value="${item.totalTimeInMinutes || ''}" placeholder="e.g., 105" data-preview="true"><div class="hint">Numeric value for sorting and filtering</div></div><div class="form-group"><label>Source Name</label><input type="text" id="sourceText" value="${sourceText}" placeholder="e.g., Bon Appétit" data-preview="true"><div class="hint">Name of the recipe source</div></div><div class="form-group"><label>Source Link</label><input type="url" id="sourceHref" value="${sourceHref}" placeholder="https://..." data-preview="true"><div class="hint">URL to the original recipe</div></div><div class="form-group"><label>Ingredients (one per line, Markdown supported)</label><textarea id="ingredients" rows="10" data-preview="true">${(item.ingredients || []).join('\n')}</textarea><div class="hint">Use **bold** for measurements, *italic* for emphasis</div></div><div class="form-group"><label>Instructions (one per line, Markdown supported)</label><textarea id="instructions" rows="10" data-preview="true">${(item.instructions || []).join('\n')}</textarea><div class="hint">Each line becomes a numbered step</div></div><div class="form-group"><label>Notes (Markdown)</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
+      return `<div class="form-group"><label>Title *</label><input type="text" id="title" value="${item.title || ''}" required><div class="validation-error" id="title-error">Title is required</div></div><div class="form-group"><label>Slug *</label><input type="text" id="slug" value="${item.slug || ''}" required></div><div class="form-group"><label>Description (Markdown)</label><textarea id="description" data-preview="true" rows="4">${item.description || ''}</textarea></div><div class="form-group"><label>Image URL</label><input type="text" id="image" value="${item.image || ''}" data-preview="true"><button type="button" class="upload-btn" onclick="uploadToImageKit('image', 'image-status')">Upload Image</button><div id="image-status" class="upload-status"></div><div class="hint">Or paste an existing image URL</div></div><div class="form-group"><label>Category</label><input type="text" id="category" list="category-suggestions" value="${item.category || 'chomp chomp'}" placeholder="Enter category" data-preview="true"><datalist id="category-suggestions"><option value="chomp chomp"><option value="desserts"><option value="breads"><option value="pastries"><option value="cookies"><option value="cakes"><option value="pies"></datalist><div class="hint">Type to enter a custom category or select from suggestions</div></div><div class="form-group"><label>Dish Type</label><input type="text" id="dishType" list="dishtype-suggestions" value="${item.dishType || ''}" placeholder="Enter dish type" data-preview="true"><datalist id="dishtype-suggestions"><option value="Dessert/Pastry"><option value="Cookie/Bar"><option value="Frozen Dessert"><option value="Pudding/Cream"><option value="Main Dish"><option value="Soup"><option value="Other Baked Goods"></datalist><div class="hint">Type to enter a custom dish type or select from suggestions</div></div><div class="form-group"><label>Servings</label><input type="text" id="servings" value="${item.servings || ''}" data-preview="true"></div><div class="form-group"><label>Prep Time</label><input type="text" id="prepTime" value="${item.prepTime || ''}" placeholder="e.g., 20min" data-preview="true"></div><div class="form-group"><label>Cook Time</label><input type="text" id="cookTime" value="${item.cookTime || ''}" placeholder="e.g., 65-80 minutes" data-preview="true"></div><div class="form-group"><label>Total Time</label><input type="text" id="totalTime" value="${item.totalTime || ''}" placeholder="e.g., 1h 45min" data-preview="true" onblur="const mins=parseTimeToMinutes(this.value);if(mins){const f=document.getElementById('totalTimeInMinutes');if(f&&!f.value)f.value=mins;}"></div><div class="form-group"><label>Total Time (Minutes)</label><input type="number" id="totalTimeInMinutes" value="${item.totalTimeInMinutes || ''}" placeholder="e.g., 105" data-preview="true"><div class="hint">Numeric value for sorting and filtering</div></div><div class="form-group"><label>Source Name</label><input type="text" id="sourceText" value="${sourceText}" placeholder="e.g., Bon Appétit" data-preview="true"><div class="hint">Name of the recipe source</div></div><div class="form-group"><label>Source Link</label><input type="url" id="sourceHref" value="${sourceHref}" placeholder="https://..." data-preview="true"><div class="hint">URL to the original recipe</div></div><div class="form-group"><label>Ingredients (Markdown supported per line)</label>${generateListHTML('ingredients-list', item.ingredients || [], 'e.g. 2 cups flour')}<div class="hint">Use **bold** for measurements, *italic* for emphasis</div></div><div class="form-group"><label>Instructions (Markdown supported per line)</label>${generateListHTML('instructions-list', item.instructions || [], 'e.g. Preheat oven to 350°F')}<div class="hint">Each line becomes a numbered step</div></div><div class="form-group"><label>Notes (Markdown)</label><textarea id="notes" data-preview="true" rows="5">${item.notes || ''}</textarea></div><div class="form-actions"><button onclick="saveItem()">Save</button><button onclick="closeModal()" class="secondary">Cancel</button></div>`;
     }
 
     function generatePostForm(item) {
@@ -1168,8 +1282,12 @@
         }
       });
       if (currentCollection === 'recipes') {
-        if (formData.ingredients) formData.ingredients = formData.ingredients.split('\n').filter(i => i.trim());
-        if (formData.instructions) formData.instructions = formData.instructions.split('\n').filter(i => i.trim());
+        formData.ingredients = [...document.querySelectorAll('#ingredients-list .list-input')].map(i => i.value.trim()).filter(Boolean);
+        formData.instructions = [...document.querySelectorAll('#instructions-list .list-input')].map(i => i.value.trim()).filter(Boolean);
+        const slugToCheck = formData.slug;
+        if (slugToCheck && isSlugDuplicate(slugToCheck, currentIndex !== null ? currentIndex : -1)) {
+          if (!confirm(`A recipe with slug "${slugToCheck}" already exists. Save anyway?`)) return;
+        }
         // Handle source as object
         if (formData.sourceText || formData.sourceHref) {
           formData.source = {
@@ -1209,6 +1327,7 @@
       const successMsg = document.getElementById('successMessage');
       successMsg.classList.add('show');
       setTimeout(() => successMsg.classList.remove('show'), 5000);
+      modalDirty = false;
       closeModal();
     }
 
@@ -1559,10 +1678,21 @@
           updated_at: new Date().toISOString()
         };
 
-        // Add to data
-        data['recipes'].push(recipe);
+        // Check for duplicate slug
+        const existingMdIdx = data['recipes'].findIndex(r => r.slug === recipe.slug);
+        if (existingMdIdx !== -1) {
+          if (!confirm(`A recipe with slug "${recipe.slug}" already exists ("${data['recipes'][existingMdIdx].title}"). Overwrite it?`)) {
+            statusDiv.textContent = 'Import cancelled.';
+            setTimeout(() => progressDiv.classList.remove('show'), 3000);
+            return;
+          }
+          data['recipes'].splice(existingMdIdx, 1, recipe);
+        } else {
+          data['recipes'].push(recipe);
+        }
         renderList('recipes');
         document.getElementById('recipes-count').textContent = data['recipes'].length;
+        openModal('recipes', existingMdIdx !== -1 ? existingMdIdx : data['recipes'].length - 1);
 
         statusDiv.textContent = `Successfully imported "${title}"!`;
 
@@ -1578,6 +1708,149 @@
       } catch (error) {
         statusDiv.textContent = `Error: ${error.message}`;
         console.error('Markdown import error:', error);
+      }
+    }
+
+    // Recipe HTML Import (JSON-LD / Paprika)
+    function loadHTMLFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('recipe-html-input').value = e.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    function importHTMLRecipe() {
+      const input = document.getElementById('recipe-html-input').value.trim();
+      const progressDiv = document.getElementById('recipe-html-import-progress');
+      const statusDiv = document.getElementById('recipe-html-import-status');
+
+      if (!input) {
+        alert('Please paste HTML content or upload an .html file');
+        return;
+      }
+
+      progressDiv.classList.add('show');
+      statusDiv.textContent = 'Parsing HTML...';
+
+      try {
+        // Extract JSON-LD script tag content
+        const jsonLdMatch = input.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
+        if (!jsonLdMatch) {
+          throw new Error('No JSON-LD recipe data found in this HTML file. Expected a <script type="application/ld+json"> tag.');
+        }
+
+        const schemaData = JSON.parse(jsonLdMatch[1].trim());
+
+        // Support @graph wrapper (some exporters nest under @graph array)
+        let ld = schemaData;
+        if (schemaData['@graph']) {
+          ld = schemaData['@graph'].find(n => n['@type'] === 'Recipe') || schemaData['@graph'][0];
+        }
+
+        const title = ld.name || '';
+        if (!title) throw new Error('No recipe name found in JSON-LD data.');
+
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+        // Ingredients: array of strings
+        const ingredients = Array.isArray(ld.recipeIngredient) ? ld.recipeIngredient : [];
+
+        // Instructions: may be array of strings or array of HowToStep objects
+        let instructions = [];
+        if (Array.isArray(ld.recipeInstructions)) {
+          instructions = ld.recipeInstructions.map(step => {
+            if (typeof step === 'string') return step;
+            return step.text || step.name || '';
+          }).filter(Boolean);
+        }
+
+        // Times — convert ISO 8601 to human-readable if needed
+        const prepTime = formatISODuration(ld.prepTime || '');
+        const cookTime = formatISODuration(ld.cookTime || '');
+        const totalTime = formatISODuration(ld.totalTime || '');
+        const totalTimeInMinutes = parseTimeToMinutes(ld.totalTime || '');
+
+        const servings = ld.recipeYield || '';
+        const description = ld.description || '';
+
+        // Notes: combine ld.notes and nutrition info (skip if empty)
+        let noteParts = [];
+        if (ld.notes && ld.notes.trim()) noteParts.push(ld.notes.trim());
+        if (ld.nutrition && ld.nutrition.trim()) noteParts.push('**Nutrition**\n' + ld.nutrition.trim());
+        const notes = noteParts.join('\n\n');
+
+        // Source
+        const sourceHref = ld._source || ld.url || '';
+        let sourceName = '';
+        if (sourceHref) {
+          try {
+            sourceName = new URL(sourceHref).hostname.replace(/^www\./, '');
+          } catch (e) {
+            sourceName = sourceHref;
+          }
+        }
+
+        // Skip base64 images — only use http(s) URLs
+        let image = '';
+        if (ld.image && typeof ld.image === 'string' && ld.image.startsWith('http')) {
+          image = ld.image;
+        } else if (Array.isArray(ld.image)) {
+          image = ld.image.find(i => typeof i === 'string' && i.startsWith('http')) || '';
+        }
+
+        const recipe = {
+          title,
+          slug,
+          description,
+          image,
+          servings: Array.isArray(servings) ? servings.join(', ') : String(servings),
+          prepTime,
+          cookTime,
+          totalTime,
+          totalTimeInMinutes,
+          source: sourceName ? { text: sourceName, href: sourceHref } : (sourceHref || ''),
+          category: 'chomp chomp',
+          ingredients,
+          instructions,
+          notes,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        // Check for duplicate slug
+        const existingHtmlIdx = data['recipes'].findIndex(r => r.slug === recipe.slug);
+        if (existingHtmlIdx !== -1) {
+          if (!confirm(`A recipe with slug "${recipe.slug}" already exists ("${data['recipes'][existingHtmlIdx].title}"). Overwrite it?`)) {
+            statusDiv.textContent = 'Import cancelled.';
+            setTimeout(() => progressDiv.classList.remove('show'), 3000);
+            return;
+          }
+          data['recipes'].splice(existingHtmlIdx, 1, recipe);
+        } else {
+          data['recipes'].push(recipe);
+        }
+        renderList('recipes');
+        document.getElementById('recipes-count').textContent = data['recipes'].length;
+        openModal('recipes', existingHtmlIdx !== -1 ? existingHtmlIdx : data['recipes'].length - 1);
+
+        statusDiv.textContent = `Successfully imported "${title}"!`;
+
+        const successMsg = document.getElementById('successMessage');
+        successMsg.textContent = `Imported recipe "${title}" from HTML! Download the updated JSON file.`;
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 5000);
+
+        // Clear inputs
+        document.getElementById('recipe-html-input').value = '';
+        document.getElementById('recipe-html-file').value = '';
+        setTimeout(() => progressDiv.classList.remove('show'), 3000);
+
+      } catch (error) {
+        statusDiv.textContent = `Error: ${error.message}`;
+        console.error('HTML import error:', error);
       }
     }
 
@@ -1700,6 +1973,10 @@
         alert('Failed to copy URL');
       });
     }
+
+    window.addEventListener('beforeunload', (e) => {
+      if (modalDirty) { e.preventDefault(); e.returnValue = ''; }
+    });
   </script>
 </body>
 </html>
