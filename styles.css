@@ -365,11 +365,17 @@ img {
   background: none;
   border: none;
   font-size: 1.4em;
-  color: var(--color-text);
+  color: #ff3131;
   cursor: pointer;
   padding: 4px 0;
   line-height: 1;
   transition: opacity 0.2s;
+}
+
+@media (min-width: 769px) {
+  .menu-toggle {
+    font-size: 1.75em;
+  }
 }
 
 .menu-toggle:hover {
