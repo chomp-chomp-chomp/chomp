@@ -87,7 +87,6 @@ img {
 /* ---------------------------------------------------- */
 .site-header {
   background-color: #ffffff;
-  border-bottom: 1px solid var(--color-border);
   padding: var(--spacing-md) var(--spacing-xl);
 }
 
@@ -170,36 +169,44 @@ img {
 
 .site-logo-icon {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   display: inline-block;
 }
 
 .site-logo-icon img {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   object-fit: cover;
   position: absolute;
   top: 0;
   left: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.35s ease;
 }
 
 .logo-default {
   opacity: 1;
+  transform: scale(1);
 }
 
 .logo-hover {
   opacity: 0;
+  transform: scale(0.55);
 }
 
-.site-logo:hover .logo-default {
+.site-logo:hover .logo-default,
+.site-logo:active .logo-default,
+.site-logo:focus-visible .logo-default {
   opacity: 0;
+  transform: scale(1.45);
 }
 
-.site-logo:hover .logo-hover {
+.site-logo:hover .logo-hover,
+.site-logo:active .logo-hover,
+.site-logo:focus-visible .logo-hover {
   opacity: 1;
+  transform: scale(1);
 }
 
 /* Tools Dropdown Navigation */
@@ -227,14 +234,13 @@ img {
 .tools-dropdown-menu {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   right: 0;
   background-color: var(--color-sidebar-bg);
   border: 1px solid var(--color-border);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   list-style: none;
-  margin-top: 8px;
   min-width: 200px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
@@ -1107,20 +1113,8 @@ p {
     box-shadow: 0 4px 12px rgba(255, 107, 122, 0.2);
   }
 
-  /* Keep header white in dark mode */
   .site-header {
-    background-color: #ffffff;
-  }
-
-  .site-nav,
-  .header-left,
-  .header-center,
-  .header-right {
-    color: #353535;
-  }
-
-  .tools-dropdown-btn {
-    color: #353535;
+    background-color: #231f1f;
   }
 
   /* Mobile submenu dark mode - improved contrast */
@@ -1143,12 +1137,6 @@ p {
     .tools-dropdown-menu .menu-item-has-submenu.expanded > a {
       background-color: rgba(255, 107, 122, 0.12);
     }
-  }
-
-  /* Gray banner in dark mode */
-  .header-banner {
-    filter: grayscale(0.5);
-    opacity: 0.85;
   }
 
   /* Intro section dark mode colors */
