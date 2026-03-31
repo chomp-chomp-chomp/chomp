@@ -21,6 +21,11 @@
       "url": "/about.html",
       "type": "link"
     },
+{
+      "label": ".ps",
+      "url": "https://ps.chom.ps",
+      "type": "link"
+    },
     {
       "label": "Store",
       "url": "/store.html",
