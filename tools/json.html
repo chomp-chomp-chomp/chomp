@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+    <style>
+        .json-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--color-border, #e0e0e0);
+            padding-bottom: 0;
+        }
+        .json-tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--color-text-muted, #666);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .json-tab-btn:hover {
+            color: var(--color-text, #353535);
+        }
+        .json-tab-btn.active {
+            color: var(--color-accent, #e73b42);
+            border-bottom-color: var(--color-accent, #e73b42);
+        }
+        .json-tab-panel {
+            display: none;
+        }
+        .json-tab-panel.active {
+            display: block;
+        }
+        .json-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            min-height: 30px;
+        }
+        .json-status-ok {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .json-status-error {
+            background: #fdecea;
+            color: #c62828;
+        }
+        @media (prefers-color-scheme: dark) {
+            .json-status-ok {
+                background: #1b3a1f;
+                color: #81c784;
+            }
+            .json-status-error {
+                background: #3b1a1a;
+                color: #ef9a9a;
+            }
+        }
+        .count-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .count-row label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted, #666);
+            white-space: nowrap;
+        }
+        .count-row input[type="number"] {
+            width: 70px;
+            padding: 6px 10px;
+            border: 1px solid var(--color-border, #e0e0e0);
+            border-radius: 4px;
+            background: var(--color-bg, #fdfdfd);
+            color: var(--color-text, #353535);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .type-reference {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--color-text-muted, #666);
+            line-height: 1.8;
+        }
+        .type-reference code {
+            background: var(--color-border, #e0e0e0);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: var(--color-text, #353535);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <div class="header-left">
+                <a href="https://chompchomp.cc" class="site-logo">
+                    <div class="site-logo-icon">
+                        <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535183/IMG_3432_w3bid3.png" alt="Chomp Chomp" class="logo-default">
+                        <img src="https://res.cloudinary.com/dlqfyv1qj/image/upload/v1766535197/IMG_3433_rqvbzu.jpg" alt="Chomp Chomp" class="logo-hover">
+                    </div>
+                </a>
+            </div>
+            <div class="header-right">
+                <div class="nav-tools-dropdown">
+                    <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+                    <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+                    <ul class="tools-dropdown-menu" id="toolsDropdown">
+                        <!-- Navigation menu loaded dynamically by navigation.js -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <p class="tool-subtitle">Validate, format, and generate JSON</p>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Two tools in one.</strong> Use the <strong>Validate &amp; Format</strong> tab to check, pretty-print, or minify existing JSON. Use <strong>Generate from Template</strong> to produce realistic sample data from a typed template — useful for mocking APIs, seeding databases, or testing forms.</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="json-tabs">
+                <button class="json-tab-btn active" id="tab-btn-validate" onclick="switchTab('validate')">Validate &amp; Format</button>
+                <button class="json-tab-btn" id="tab-btn-generate" onclick="switchTab('generate')">Generate from Template</button>
+            </div>
+
+            <!-- Tab: Validate & Format -->
+            <div class="json-tab-panel active" id="tab-validate">
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label">JSON Input</label>
+                        <textarea id="validate-input" class="control-input" placeholder='Paste your JSON here, e.g. {"name":"Alice","age":30}' style="min-height: 180px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-button" onclick="formatJSON()">Pretty Print</button>
+                        <button class="tool-button tool-button-secondary" onclick="minifyJSON()">Minify</button>
+                        <button class="tool-button tool-button-secondary" onclick="validateOnly()">Validate Only</button>
+                        <button class="tool-button tool-button-secondary" onclick="clearValidate()">Clear</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <span class="json-status" id="validate-status"></span>
+                    </div>
+                </div>
+
+                <div class="tool-results">
+                    <div class="control-group">
+                        <label class="control-label">Output</label>
+                        <textarea id="validate-output" class="control-input" readonly placeholder="Formatted output will appear here..." style="min-height: 180px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-button tool-button-secondary" id="copy-validate-btn" onclick="copyValidateOutput()">Copy Output</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Generate from Template -->
+            <div class="json-tab-panel" id="tab-generate">
+                <div class="tool-controls">
+                    <div class="control-group">
+                        <label class="control-label">Template</label>
+                        <textarea id="template-input" class="control-input" placeholder='Write a JSON object using type strings as values, e.g. {"id":"uuid","name":"name","age":"number:18-65"}' style="min-height: 180px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                        <div class="type-reference">
+                            <strong>Type annotations:</strong>
+                            <code>string</code> &nbsp;
+                            <code>string:3</code> (3 words) &nbsp;
+                            <code>number</code> &nbsp;
+                            <code>number:1-100</code> &nbsp;
+                            <code>float</code> &nbsp;
+                            <code>float:0-5</code> &nbsp;
+                            <code>boolean</code> &nbsp;
+                            <code>email</code> &nbsp;
+                            <code>name</code> &nbsp;
+                            <code>uuid</code> &nbsp;
+                            <code>date</code> &nbsp;
+                            <code>datetime</code> &nbsp;
+                            <code>timestamp</code> &nbsp;
+                            <code>url</code> &nbsp;
+                            <code>null</code><br>
+                            Arrays: <code>["string"]</code> generates 3 strings &nbsp;|&nbsp; <code>["email", 5]</code> generates 5 emails
+                        </div>
+                    </div>
+                    <div class="tool-actions" style="flex-wrap: wrap; gap: 10px;">
+                        <div class="count-row">
+                            <button class="tool-button" onclick="generateFromTemplate()">Generate</button>
+                            <label>Count:</label>
+                            <input type="number" id="generate-count" value="1" min="1" max="50">
+                            <button class="tool-button tool-button-secondary" onclick="loadExample()">Load Example</button>
+                            <button class="tool-button tool-button-secondary" onclick="clearTemplate()">Clear</button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <span class="json-status" id="template-status"></span>
+                    </div>
+                </div>
+
+                <div class="tool-results">
+                    <div class="control-group">
+                        <label class="control-label">Generated JSON</label>
+                        <textarea id="template-output" class="control-input" readonly placeholder="Generated output will appear here..." style="min-height: 180px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-button tool-button-secondary" id="copy-template-btn" onclick="copyTemplateOutput()">Copy Output</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hey@chompchomp.cc">hey@chompchomp.cc</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://chompchomp.cc">chomp chomp: recipes &amp; rituals</a>
+            </div>
+            <p style="margin-top: 15px;">© 2025 Chomp Chomp</p>
+        </div>
+    </footer>
+
+    <script src="/navigation.js"></script>
+    <script src="js/json.js"></script>
+</body>
+</html>

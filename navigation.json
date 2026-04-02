@@ -54,6 +54,7 @@
           "type": "dropdown",
           "items": [
             { "label": "Encode", "url": "/tools/encode.html", "type": "link" },
+            { "label": "JSON", "url": "/tools/json.html", "type": "link" },
             { "label": "Whois", "url": "/tools/ip.html", "type": "link" },
             { "label": "Subnet", "url": "/tools/subnet.html", "type": "link" }
           ]
