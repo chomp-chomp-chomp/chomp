@@ -2047,7 +2047,7 @@
   {
     "title": "Icebox Fruitcake",
     "slug": "icebox-fruitcake",
-    "description": "Source: Grandma\nServings: 18  \nPrep: 30min  \nTotal: 30min  ",
+    "description": "This is not a baked good. Technically. You mix things together and put them in the refrigerator and wait. Six hours minimum, overnight if you can stand it. What comes out is dense and sweet and a little sticky and completely wonderful, and if someone asks you what's in it you get to say \"maraschino cherries and mini marshmallows\" and watch their face.",
     "ingredients": [
       "1 (14.4-ounce) box graham crackers",
       "1 cup chopped pecans",
@@ -2064,17 +2064,14 @@
     "notes": "",
     "category": "chomp chomp",
     "created_at": "2026-04-06T23:14:27.805Z",
-    "updated_at": "2026-04-06T23:15:21.384Z",
+    "updated_at": "2026-04-06T23:19:06.311Z",
     "image": "https://ik.imagekit.io/chompchomp/Colorful_icebox_fruitcake_slices_stacked_neatly__1__nD8ZjJYhU.png",
     "dishType": "Dessert/Pastry",
-    "servings": "",
-    "prepTime": "",
-    "cookTime": "",
-    "totalTime": "30",
-    "totalTimeInMinutes": 28,
-    "source": {
-      "text": "Grandma",
-      "href": ""
-    }
+    "servings": "16",
+    "prepTime": "30 min",
+    "cookTime": "30 min",
+    "totalTime": "30 min",
+    "totalTimeInMinutes": 30,
+    "source": ""
   }
 ]
