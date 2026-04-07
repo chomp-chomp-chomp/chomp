@@ -2073,5 +2073,43 @@
     "totalTime": "30 min",
     "totalTimeInMinutes": 30,
     "source": ""
+  },
+  {
+    "title": "Banana Bread",
+    "slug": "banana-bread",
+    "description": "",
+    "ingredients": [
+      "3 very ripe bananas",
+      "1/3 cup melted butter",
+      "1 teaspoon baking soda",
+      "Pinch of salt",
+      "1/2 cup sugar",
+      "1/4 cup applesauce",
+      "1 teaspoon maple syrup",
+      "1 1/2 cups of flour",
+      "1 1/2 tablespoon unsweetened cocoa powder (and/or cinnamon and/or ginger and/or chai spice)"
+    ],
+    "instructions": [
+      "Preheat the oven to 350°F (175°C), and butter a 4x8-inch loaf pan.",
+      "In a mixing bowl, mash the ripe bananas with a fork until completely smooth. Stir the melted butter into the mashed bananas.",
+      "Mix in the baking soda and salt. Stir in the sugar, applesauce, and syrup. Mix in the flour and cocoa powder.",
+      "Pour the batter into your prepared loaf pan. Bake for 60 minutes at 350°F (175°C), or until a tester inserted into the center comes out clean.",
+      "Remove from oven and let cool in the pan for a few minutes. Then remove the banana bread from the pan and let cool completely before serving. Slice and serve. (A bread knife helps to make slices that aren't crumbly.)"
+    ],
+    "notes": "",
+    "category": "Baking Experience",
+    "created_at": "2026-04-07T19:55:56.510Z",
+    "updated_at": "2026-04-07T19:57:45.091Z",
+    "image": "",
+    "dishType": "Dessert/Pastry",
+    "servings": "One loaf",
+    "prepTime": "10 min",
+    "cookTime": "60 min",
+    "totalTime": "70 min",
+    "totalTimeInMinutes": 17,
+    "source": {
+      "text": "Kimmie B.",
+      "href": ""
+    }
   }
 ]
