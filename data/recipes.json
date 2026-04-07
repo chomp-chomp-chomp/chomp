@@ -2111,5 +2111,60 @@
       "text": "Kimmie B.",
       "href": "https://www.skadden.com"
     }
+  },
+  {
+    "title": "Raspberry Almond Bakewell Tart",
+    "slug": "raspberry-almond-bakewell-tart",
+    "description": "",
+    "ingredients": [
+      "***Sweet Pastry***",
+      "125g butter",
+      "125g caster sugar",
+      "1 medium egg",
+      "250g plain flour",
+      "Dash vanilla",
+      "***Filling***",
+      "110g butter, soft",
+      "110g caster sugar",
+      "2 medium eggs",
+      "2 drops almond essence",
+      "1 tbsp plain flour",
+      "110g ground almonds",
+      "2 tbsp flaked almonds",
+      "80g raspberry jam"
+    ],
+    "instructions": [
+      "For the pastry, cream the butter and sugar until soft.",
+      "Add the eggs and vanilla and mix.",
+      "To this, add the flour and combine to form a dough.",
+      "Wrap and chill for 30 minutes.",
+      "Butter and flour a 9” loose-bottom tart ring.",
+      "Roll out the pastry to a thickness of 1/2 cm and line the tin, trimming the overhanging pastry.",
+      "Chill for 10 minutes.",
+      "Preheat your oven to 180C/160C fan.",
+      "For the frangipane, beat the butter and sugar until combined.",
+      "To this add the eggs, almond essence and mix.",
+      "Finally, add the ground almonds and plain flour. Mix.",
+      "To assemble, spoon the raspberry jam all over the base of the lined tart.",
+      "Spread over the frangipane.",
+      "Sprinkle over the flaked almonds and bake in the preheated oven for 35-40 minutes or until the pastry is golden brown and the frangipane is set.",
+      "Remove and allow to cool in the tin before removing.",
+      "Serve with homemade custard or whipped cream"
+    ],
+    "notes": "",
+    "category": "The Baking Experience",
+    "created_at": "2026-04-07T20:26:50.277Z",
+    "updated_at": "2026-04-07T20:33:16.326Z",
+    "image": "https://ik.imagekit.io/chompchomp/bakewell_tart_sDJ9zhX8M.png",
+    "dishType": "Dessert/Pastry",
+    "servings": "8",
+    "prepTime": "30 min",
+    "cookTime": "35-40 mins",
+    "totalTime": "1h 10min",
+    "totalTimeInMinutes": 70,
+    "source": {
+      "text": "Chef Shane Smith",
+      "href": "https://www.instagram.com/reel/DVMHqxNDNXL/?igsh=ZjN3enZkdWNtamZ1"
+    }
   }
 ]
