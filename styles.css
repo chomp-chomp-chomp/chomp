@@ -985,6 +985,10 @@ p {
   font-weight: 300;
 }
 
+.ingredient-item p {
+  margin: 0;
+}
+
 .instructions-list {
   list-style: none;
   counter-reset: step-counter;
