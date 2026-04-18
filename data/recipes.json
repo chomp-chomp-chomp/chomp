@@ -2166,5 +2166,54 @@
       "text": "Chef Shane Smith",
       "href": "https://www.instagram.com/reel/DVMHqxNDNXL/?igsh=ZjN3enZkdWNtamZ1"
     }
+  },
+  {
+    "title": "King Cake",
+    "slug": "king-cake",
+    "description": "The King cake is one of those cakes that feels bigger than itself, tied to Epiphany and carried through Mardi Gras season with all its color and noise. The purple, green, and gold sugars mean justice, faith, and power, but mostly they just make it feel like a celebration you can hold in your hands. Somewhere inside is the tiny baby, and whoever finds it gets a little luck and the quiet understanding that they’re bringing the cake next time.",
+    "ingredients": [
+      "### For the cake:",
+      "1 cup lukewarm milk, about 110°F",
+      "1/2 cup granulated sugar",
+      "2 tablespoons dry yeast",
+      "3 3/4 cups all-purpose flour",
+      "1 cup melted butter",
+      "5 egg yolks, beaten",
+      "1 teaspoon vanilla extract",
+      "1 teaspoon grated fresh lemon zest",
+      "3 teaspoons cinnamon",
+      "Several gratings of fresh nutmeg",
+      "### For the icing:",
+      "2 cups powdered sugar",
+      "1/4 cup condensed milk",
+      "1 teaspoon fresh lemon juice",
+      "Purple, green, and gold decorative sugars",
+      "1 fève (fava bean) or plastic baby to hide in the cake after baking"
+    ],
+    "instructions": [
+      "For the cake, pour the warm milk into a large bowl. Whisk in the granulated sugar, yeast, and a heaping tablespoon of the flour, mixing until both the sugar and the yeast have dissolved.",
+      "Once bubbles have developed on the surface of the milk and it begins to foam, whisk in the butter, eggs, vanilla, and lemon zest. Add the remaining flour, cinnamon, and nutmeg and fold the dry ingredients into the wet ingredients with a large rubber spatula.",
+      "After the dough comes together, pulling away from the sides of the bowl, shape it into a large ball. Knead the dough on a floured surface until it is smooth and elastic, about 15 minutes.",
+      "Put the dough back into the bowl, cover with plastic wrap, and set aside in a draft-free place to let it proof, or rise, for 1 1/2 hours or until the dough has doubled in volume.",
+      "Preheat the oven to 375°F. Once the dough has risen, punch it down and divide the dough into 3 equal pieces. Roll each piece of dough between your palms into a long strip, making 3 ropes of equal length. Braid the 3 ropes around one another and then form the braided loaf into a circle, pinching ends together to seal. Gently lay the braided dough on a nonstick cookie sheet and let it rise until it doubles in size, about 30 minutes.",
+      "Once it's doubled in size, place the cookie sheet in the oven and bake until the braid is golden brown, about 30 minutes. Remove the cake from the oven, place on a wire rack, and allow to cool for 30 minutes.",
+      "For the icing, while the cake is cooling, whisk together the powdered sugar, condensed milk, and lemon juice in a bowl until the icing is smooth and very spreadable. If the icing is too thick, add a bit more condensed milk; if it's a touch too loose, add a little more powdered sugar.",
+      "Once the cake has cooled, spread the icing over the top of the cake and sprinkle with purple, green, and gold decorative sugars while the icing is still wet. Tuck the fève or plastic baby into the underside of the cake and, using a spatula, slide the cake onto a platter."
+    ],
+    "notes": "",
+    "category": "chomp chomp",
+    "created_at": "2026-04-18T06:43:11.765Z",
+    "updated_at": "2026-04-18T06:52:20.544Z",
+    "image": "https://ik.imagekit.io/chompchomp/AFEEC700-D411-4075-9747-F795D63C7063-compressed_nzYyi84dH.jpeg",
+    "dishType": "Cake",
+    "servings": "10-12",
+    "prepTime": "",
+    "cookTime": "",
+    "totalTime": "3h 30 min",
+    "totalTimeInMinutes": 210,
+    "source": {
+      "text": "Epicurious",
+      "href": "https://www.epicurious.com/recipes/food/views/King-Cake-356833"
+    }
   }
 ]
