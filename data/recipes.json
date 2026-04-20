@@ -2215,5 +2215,46 @@
       "text": "Epicurious",
       "href": "https://www.epicurious.com/recipes/food/views/King-Cake-356833"
     }
+  },
+  {
+    "title": "Chocolate-Tahini Brownies",
+    "slug": "chocolate-tahini-brownies",
+    "description": "And so, you know, this is the first thing we must ask ourselves when we confront this recipe — what is a brownie, precisely? It is not a cake, it is not a cookie, it is this obscene in-between object, and it is this that should make us suspicious. Because the brownie, insofar as it refuses categorization, functions exactly as ideology functions: it appears natural, self-evident, you just enjoy it, you don't ask questions. This is what Hegel called — and I am simplifying, of course, one must always simplify — the concrete universal, the particular object that secretly contains the whole. The brownie is America, in some sense.\n\nBut — and this is crucial, this is where it gets interesting — look at the tahini. Look at what the tahini does. You make your batter, everything is smooth, controlled, the eggs are beaten, the chocolate is melted, it is a perfectly administered surface — what Foucault, in his less interesting moments, would call a disciplinary space, and so on and so on. And then you dollop the tahini on top and drag a toothpick through it, and what you get is this intrusion, this stain that cannot be integrated. Lacan has a term for this — the objet petit a, the leftover, the remainder that the system produces in its very attempt to totalize itself. The tahini does not mix. It swirls, it persists, it remains foreign within the very body of the brownie. And here I am tempted to say — is this not precisely the structure of desire itself? You think you want the brownie. But what you really want is the tahini swirl. The thing just out of reach, the thing that will not dissolve. This is what we should be eating.",
+    "ingredients": [
+      "3 tablespoons cornstarch",
+      "2 tablespoons unsweetened cocoa powder",
+      "6 ounces bittersweet chocolate, coarsely chopped",
+      "3 tablespoons virgin coconut oil",
+      "4 tablespoons tahini (such as Soom), divided",
+      "2 large eggs",
+      "⅓ cup granulated sugar",
+      "¼ cup (packed) light brown sugar",
+      "1 teaspoon kosher salt",
+      "1 teaspoon vanilla extract",
+      "1 tablespoon light agave syrup (nectar)"
+    ],
+    "instructions": [
+      "Preheat oven to 350°. Line an 8x8\" baking dish with 2 overlapping pieces of parchment paper, leaving at least a 3\" overhang on 2 sides.",
+      "Whisk cornstarch and cocoa powder in a medium bowl until no lumps remain. Heat chocolate, oil, and 1 Tbsp. tahini in a small saucepan over low, stirring, until melted and smooth.",
+      "Using an electric mixer on medium-high speed, beat eggs, granulated sugar, and brown sugar in a large bowl until light, smooth, and doubled in volume, 3–4 minutes. Beat in salt and vanilla to combine, then beat in chocolate mixture, scraping down sides as needed, until incorporated. Beat in cornstarch mixture, then increase speed to medium-high and beat until mixture is thick and holds its shape, about 30 seconds.",
+      "Stir agave syrup and remaining 3 Tbsp. tahini in a small bowl. Scrape batter into prepared baking dish and smooth top. Dollop agave mixture over and swirl into top of batter with a skewer or toothpick.",
+      "Bake brownies until sides are puffed, top is browned, and a tester inserted into the center comes out with a few moist crumbs attached, 22–26 minutes. Let cool before removing from pan and cutting into 16 squares.",
+      "Do Ahead: Brownies can be made 3 days ahead. Wrap in plastic and store at room temperature."
+    ],
+    "notes": "",
+    "category": "chomp chomp",
+    "created_at": "2026-04-20T14:32:36.629Z",
+    "updated_at": "2026-04-20T14:44:50.027Z",
+    "image": "https://ik.imagekit.io/chompchomp/photo_2026-04-20_10-44-20_tlwcE3VuI.jpg",
+    "dishType": "Cookie/Bar",
+    "servings": "16",
+    "prepTime": "",
+    "cookTime": "",
+    "totalTime": "",
+    "totalTimeInMinutes": "",
+    "source": {
+      "text": "bonappetit.com",
+      "href": "https://www.bonappetit.com/recipe/gluten-free-chocolate-tahini-brownies"
+    }
   }
 ]
