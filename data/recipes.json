@@ -2256,5 +2256,42 @@
       "text": "bonappetit.com",
       "href": "https://www.bonappetit.com/recipe/gluten-free-chocolate-tahini-brownies"
     }
+  },
+  {
+    "title": "Matcha Amaretti (Aquafaba)",
+    "slug": "matcha-amaretti-aquafaba",
+    "description": "And so, we arrive at the Matcha Amaretti — and already, we must ask ourselves: what is this cookie, really? On the surface, it appears simple enough. Almond, aquafaba, sugar. The Italian amaretti, that most humble of confections. But then — and here is where it gets interesting — we introduce the matcha. The green tea powder, this intrusion from another culinary tradition entirely, folded into the dough not as constituent element but as haunting presence. It changes the color. It changes the flavor. And yet the cookie remains, structurally, an amaretti.\n\nThis is, of course, precisely the logic of ideology. The form persists. The content is transformed. And we — the baker, the eater — we tell ourselves nothing has really changed, it is still just a cookie. But this is the lie we must resist! The matcha does not merely flavor the amaretti. It haunts it. It is the stranger inside the familiar, the uncanny guest who has always already been there.\n\nAnd yet. There is a second substitution at work here, quieter but no less radical. Where the original recipe calls for egg whites — that most classical of baking ingredients, animal, ancient, assumed — we use aquafaba. The liquid from a can of chickpeas. What was waste is now structure. What was poured down the drain now holds the dough together, aerates it, gives it lift. The egg is absent and yet its function persists, carried by something that was never meant for this purpose and turns out to be perfect for it anyway. If the matcha is ideology, aquafaba is the proletariat: overlooked, discarded, and then — when finally given the chance — more than capable of doing the work.\n\nSo. You will whip your aquafaba to stiff peaks — and you will be patient, because aquafaba demands patience in a way egg whites do not. You will fold it into the dry ingredients with your hands — yes, your hands, because sometimes the body must be implicated directly in the act of creation. You will roll the dough in not one but two sugars, granulated and confectioners', a redundancy that is not redundant at all. And when the cookies emerge from the oven, cracked and slightly browned, you will understand: the crack is not a flaw. The crack is the truth showing through.",
+    "ingredients": [
+      "2⅓ cups (235 grams) almond flour",
+      "1 tablespoon (6 grams) matcha powder",
+      "¼ teaspoon kosher salt",
+      "1½ cups (300 grams) granulated sugar, divided",
+      "6 tablespoons (90ml) aquafaba, room temperature",
+      "½ teaspoon cream of tartar",
+      "1 teaspoon almond extract",
+      "2 teaspoons vanilla extract",
+      "1 cup (100 grams) confectioners' sugar"
+    ],
+    "instructions": [
+      "Preheat the oven to 325°F and set 2 racks at the upper-middle and lower-middle positions. Line 2 baking sheets with parchment paper or nonstick baking mats.",
+      "In a large bowl, combine the almond flour, matcha powder, salt, and 1 cup (200 grams) of the granulated sugar. Whisk until the matcha powder is evenly distributed throughout.",
+      "In the bowl of a stand mixer fitted with the whisk attachment, add the aquafaba. Make sure the bowl and whisk are completely clean and dry — any trace of fat will prevent the foam from forming. Mix on medium speed until frothy, 2 to 3 minutes. Once foam is forming but before soft peaks, add the cream of tartar. Increase the speed to high and whip until stiff peaks form, 5 to 10 minutes. Aquafaba takes significantly longer than egg whites — the peaks will look slightly less glossy and may droop just slightly at the tip; this is normal. Once stiff peaks are reached, add the almond and vanilla extracts and mix on low for a few seconds just until incorporated — vanilla first, then almond. Use immediately.",
+      "Transfer the whipped aquafaba to the bowl of dry ingredients and mix with a rubber spatula or with clean hands until a thick dough forms. The dough may be slightly stickier than the egg white version. If it is too wet to roll, refrigerate for 20 to 30 minutes before proceeding.",
+      "Place the remaining ½ cup (100 grams) granulated sugar in a shallow, wide bowl or a plate and the confectioners' sugar in a second shallow bowl or plate.",
+      "Using a medium 1¾-inch (#40) cookie scoop or 2 tablespoons, portion out the dough and roll into balls. Roll a dough ball in the granulated sugar, then in the confectioners' sugar, then roll in the palms of your hands above the bowl, shaking off any excess confectioners' sugar. Place the dough balls at least 3 inches apart on the prepared baking sheets (9 per sheet). Using the bottom of a measuring cup or drinking glass, gently press down the tops of the cookies to flatten them so they are ½ inch thick.",
+      "Bake both sheets at the same time, swapping the top sheet to the bottom rack and bottom sheet to the top midway through baking, until the cookies are cracked and just starting to brown on the bottoms, 23 to 26 minutes. The aquafaba version may need a few extra minutes — use the visual cue rather than the clock. Remove from the oven and let cool completely on the baking sheets before transferring, as the aquafaba version is more fragile when warm."
+    ],
+    "notes": "Make sure to use almond flour, not almond meal. Almond flour has a finer texture and is made with blanched almonds, allowing the bright green color of the matcha to shine. If you can't find it, you can easily make your own by grinding blanched almonds in a food processor until they are the texture of fine sand. If any large pieces remain, sift through a fine-mesh sieve to remove them.\nFor best results, use plain unseasoned chickpea brine — either from a can of unsalted or low-sodium chickpeas, or cooked from scratch. If the brine seems thin, reduce it gently on the stovetop over low heat until slightly thickened, then cool completely before whipping. Aquafaba can be frozen in ice cube trays and thawed as needed; it whips fine after freezing.\nThe finished cookies will be slightly chewier and less crisp on the exterior than the egg white version. This is expected.\nStorage: The cookies will keep in an airtight container in a single layer for up to 1 week.",
+    "category": "chomp chomp",
+    "created_at": "2026-04-20T15:43:39.124Z",
+    "updated_at": "2026-04-20T15:45:33.185Z",
+    "image": "https://ik.imagekit.io/chompchomp/recipe-matcha-amaretti_g_USKyF8A.jpg",
+    "dishType": "",
+    "servings": "18",
+    "prepTime": "",
+    "cookTime": "",
+    "totalTime": "",
+    "totalTimeInMinutes": "",
+    "source": ""
   }
 ]
