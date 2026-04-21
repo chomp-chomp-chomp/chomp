@@ -2391,5 +2391,50 @@
     "totalTime": "",
     "totalTimeInMinutes": 85,
     "source": ""
+  },
+  {
+    "title": "Strawberry Layer Tart",
+    "slug": "strawberry-layer-tart",
+    "description": "This is a tart made in three layers, which is to say it is made in three acts: the crust, the cream, the fruit. Each one is simple on its own. Together they are something else, something that cannot be explained by the sum of its parts.\n\nYou will crush the grahams and press them into the pan with your hands. First as tragedy, then as crust. You will make the curd and stir it slowly over low heat and wonder if it is ruined and it will not be ruined. What you are reaching for, underneath all of it, is the Real — not the idea of strawberries, not the memory of them, but the thing itself, bright and brief and already going. You will set it on the table and people will ask how you made it and you will say it was nothing. It was not nothing. It was the thing you made for the people you feed, and that is everything.",
+    "ingredients": [
+      "*Graham Cracker Crust**",
+      "1½ cups / 150g graham cracker crumbs (about 10 full crackers)",
+      "3 tbsp / 38g granulated sugar",
+      "6 tbsp / 85g unsalted butter, melted",
+      "Pinch of salt",
+      "*Cream Cheese Layer**",
+      "8 oz / 225g cream cheese, softened",
+      "¼ cup / 50g granulated sugar",
+      "1 tsp / 5ml vanilla extract",
+      "1 large egg",
+      "*Strawberry Curd**",
+      "1 lb / 450g fresh strawberries, hulled",
+      "½ cup / 100g granulated sugar",
+      "3 large egg yolks",
+      "3 tbsp / 43g unsalted butter, cut into pieces",
+      "1 tbsp / 15ml lemon juice",
+      "Pinch of salt",
+      "*To Finish**",
+      "Fresh strawberries, halved or sliced"
+    ],
+    "instructions": [
+      "Preheat oven to 325°F / 165°C.",
+      "For the crust, crush the graham crackers into fine crumbs — a food processor works, or seal them in a zip-lock bag and use a rolling pin. Mix with the sugar, melted butter, and salt until it resembles wet sand. Press firmly and evenly into the bottom and up the sides of a 9-inch tart pan with removable bottom. Use the bottom of a measuring cup to compact it. Bake 10 minutes until just set. Cool slightly.",
+      "For the cream cheese layer, beat the cream cheese, sugar, and vanilla until completely smooth. Add the egg and beat until just combined. Pour over the cooled crust and spread evenly. Bake 18–22 minutes until the edges are set and the center has just a slight wobble. Cool completely, then refrigerate at least 1 hour.",
+      "For the curd, puree the strawberries in a blender or food processor and press through a fine mesh strainer to remove seeds. You should have about 1 cup / 240ml of puree. Combine the puree, sugar, egg yolks, lemon juice, and salt in a small saucepan over medium-low heat. Cook, stirring constantly, until the mixture thickens enough to coat the back of a spoon, about 15–20 minutes. Do not let it boil. Remove from heat and stir in the butter piece by piece until melted and smooth. Cool to room temperature, then refrigerate until set, at least 1 hour.",
+      "Spread the cooled curd over the cream cheese layer. Top with fresh strawberries. Refrigerate until ready to serve. Remove the tart pan sides just before serving."
+    ],
+    "notes": "The curd and cream cheese layer can both be made a day ahead and assembled the day of serving. Add the fresh strawberries on top as close to serving time as possible.",
+    "category": "chomp chomp",
+    "created_at": "2026-04-21T20:26:03.648Z",
+    "updated_at": "2026-04-21T20:27:30.161Z",
+    "image": "https://ik.imagekit.io/chompchomp/18C33F54-EF7D-4D26-A7C0-C410E4C0AE30-compressed_2CKYFK7l3.jpeg",
+    "dishType": "Tart",
+    "servings": "Makes one 9-inch tart",
+    "prepTime": "",
+    "cookTime": "",
+    "totalTime": "",
+    "totalTimeInMinutes": "",
+    "source": ""
   }
 ]
