@@ -2293,5 +2293,57 @@
     "totalTime": "",
     "totalTimeInMinutes": "",
     "source": ""
+  },
+  {
+    "title": "Aunt Marian's Strawberry Cake",
+    "slug": "aunt-marian-s-strawberry-cake",
+    "description": "This is a cake that gets made when you are having people over for Sunday dinner. They will exclaim how fancy it is and ask for the recipe. You will be modest and say it was nothing, just something you whipped up. You will then distract the guests with more sweet tea. You won't share the recipe. It belongs to your summer memories, not theirs.",
+    "ingredients": [
+      "*Cake**",
+      "2½ cups / 300g all-purpose flour",
+      "2½ tsp / 10g baking powder",
+      "½ tsp / 3g baking soda",
+      "½ tsp / 3g salt",
+      "1¾ cups / 350g granulated sugar",
+      "½ cup / 15g freeze-dried strawberries, finely ground",
+      "½ cup / 110ml canola oil",
+      "1 cup / 240ml half and half",
+      "1 tsp / 5ml vanilla extract",
+      "1 tsp / 5ml strawberry extract",
+      "3 large eggs",
+      "Pink or red food coloring (optional)",
+      "*Strawberries**",
+      "1 lb / 450g fresh strawberries, sliced",
+      "3 tbsp / 38g granulated sugar",
+      "*Whipped Cream**",
+      "1½ cups / 360ml heavy whipping cream",
+      "3 tbsp / 23g powdered sugar",
+      "½ tsp / 2.5ml vanilla extract"
+    ],
+    "instructions": [
+      "Preheat oven to 350°F / 175°C. Grease and flour a 9x13 pan or two 9-inch / 23cm round pans.",
+      "Whisk together the flour, baking powder, baking soda, salt, sugar, and ground freeze-dried strawberries in a large bowl.",
+      "In a separate bowl, whisk together the oil, half and half, vanilla, strawberry extract, and eggs. Add food coloring here if using.",
+      "Pour wet into dry and stir until just combined. A few small lumps are fine — don't overmix.",
+      "Pour into prepared pan(s) and bake 30–35 minutes for a 9x13, or 25–28 minutes for round layers, until a toothpick comes out clean. Cool completely before topping.",
+      "Toss the sliced strawberries with sugar and let sit at least 30 minutes until syrupy.",
+      "For the whipped cream, beat the cold heavy cream with a chilled bowl and beaters until it starts to thicken, then add powdered sugar and vanilla. Beat to soft-to-medium peaks. *(To stabilize for longer keeping, add 1 tsp / 5ml cream of tartar along with the powdered sugar — this helps the cream hold its texture overnight.)*",
+      "Spread whipped cream over the cooled cake, top with the strawberries and their juice, and refrigerate until cold before serving."
+    ],
+    "notes": "This recipe is adapted from a box mix version: substitute 1 box strawberry cake mix (Pillsbury or Betty Crocker) for the flour, leavening, sugar, and freeze-dried strawberries, and follow the box directions using half and half in place of water and adding the vanilla. Skip the strawberry extract. For the topping, 1 small carton of Cool Whip can be used in place of the homemade whipped cream.",
+    "category": "chomp chomp",
+    "created_at": "2026-04-21T03:18:43.075Z",
+    "updated_at": "2026-04-21T03:21:45.488Z",
+    "image": "https://ik.imagekit.io/chompchomp/5CE04AC2-7A38-4C21-813B-2044DE639571-compressed__NaGnWGX_K.jpeg",
+    "dishType": "Cake",
+    "servings": "12",
+    "prepTime": "",
+    "cookTime": "",
+    "totalTime": "",
+    "totalTimeInMinutes": "",
+    "source": {
+      "text": "Aunt Marian",
+      "href": ""
+    }
   }
 ]
