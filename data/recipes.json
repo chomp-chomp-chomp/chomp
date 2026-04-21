@@ -2345,5 +2345,51 @@
       "text": "Aunt Marian",
       "href": "https://chom.ps"
     }
+  },
+  {
+    "title": "Un-Boxed Strawberry Swirl Loaves",
+    "slug": "un-boxed-strawberry-swirl-loaves",
+    "description": "Someone made this cake and brought it somewhere, and someone else asked for the recipe, and it was given or it wasn't, and either way it got made again somewhere else. It traveled the way recipes do — by word of mouth, by index card, by somebody's aunt who got it from somebody else's aunt, and now apparently by Facebook. The strawberries get sugared and the cream cheese gets beaten smooth and the batter gets swirled and it goes in the oven and comes out smelling like something worth passing on. By the time it reaches your kitchen you have already forgotten where you heard about it, which is fine. It belongs to everyone now, and to no one, which is the best thing a recipe can be.",
+    "ingredients": [
+      "*Cake**",
+      "2½ cups / 300g all-purpose flour",
+      "2½ tsp / 10g baking powder",
+      "½ tsp / 3g baking soda",
+      "½ tsp / 3g salt",
+      "1½ cups / 300g granulated sugar",
+      "¾ cup / 170g unsalted butter, softened",
+      "1 cup / 240ml half and half",
+      "1 tsp / 5ml vanilla extract",
+      "3 large eggs",
+      "*Cream Cheese Swirl**",
+      "8 oz / 225g cream cheese, softened",
+      "¼ cup / 50g granulated sugar",
+      "1 tsp / 5ml vanilla extract",
+      "1 large egg",
+      "*Strawberry Compote**",
+      "1 lb / 450g fresh strawberries, hulled and roughly chopped",
+      "3 tbsp / 38g granulated sugar",
+      "1 tbsp / 15ml lemon juice"
+    ],
+    "instructions": [
+      "Preheat oven to 350°F / 175°C. Grease and flour two 9x5 inch / 23x13cm loaf pans.",
+      "For the compote, combine the strawberries, sugar, and lemon juice in a small saucepan over medium heat. Cook, stirring occasionally, until the berries break down and the mixture thickens to a loose jam consistency, about 15 minutes. Set aside to cool.",
+      "For the cream cheese swirl, beat the cream cheese, sugar, vanilla, and egg together until completely smooth. Set aside.",
+      "For the cake, beat the butter and sugar together until light and fluffy, about 3 minutes. Add the eggs one at a time, beating after each. Mix in the vanilla. Add the flour, baking powder, baking soda, and salt alternately with the half and half, beginning and ending with the flour. Mix until just combined.",
+      "Divide the cake batter evenly between the two prepared pans. Drop spoonfuls of the cream cheese mixture over the batter, then do the same with the compote. Drag a butter knife back and forth through each pan to swirl everything together.",
+      "Bake 55–65 minutes until a toothpick inserted in the center comes out clean. Cool in the pans for 15 minutes before turning out onto a rack."
+    ],
+    "notes": "This recipe is adapted from a box mix version: substitute 1 box white cake mix (prepared according to package directions) for the scratch cake batter, and ½ cup strawberry preserves for the compote. The cream cheese swirl stays the same. This recipe can also be made in a greased and floured 9x13 pan; reduce baking time to 35–40 minutes.",
+    "category": "chomp chomp",
+    "created_at": "2026-04-21T20:23:12.374Z",
+    "updated_at": "2026-04-21T20:24:47.952Z",
+    "image": "https://ik.imagekit.io/chompchomp/IMG_6807-compressed_m2pgapS__D.jpeg",
+    "dishType": "Cake",
+    "servings": "Makes 2 loaves",
+    "prepTime": "",
+    "cookTime": "",
+    "totalTime": "",
+    "totalTimeInMinutes": 85,
+    "source": ""
   }
 ]
