@@ -531,6 +531,7 @@
                 <button onclick="downloadAsText()">📝 Download as Text</button>
                 <button onclick="copyAllText()">📋 Copy All Text</button>
                 <button onclick="exportToMela()">🍊 Export to Mela</button>
+                <button onclick="exportToPaprika()">🌶️ Export to Paprika</button>
               </div>
             </div>
 
@@ -1123,6 +1124,73 @@
       showToast('✓ Recipe exported for Mela!');
     }
 
+    // Export recipe in Paprika format (.paprikarecipe = gzipped JSON)
+    async function exportToPaprika() {
+      const recipe = window.currentRecipe;
+      if (!recipe) return;
+
+      const ingredients = Array.isArray(recipe.ingredients)
+        ? recipe.ingredients.map(i => {
+            if (/^#{1,3}\s/.test(i)) return '\n' + i.replace(/^#+\s*/, '') + ':';
+            return i;
+          }).join('\n').trim()
+        : '';
+
+      const directions = Array.isArray(recipe.instructions)
+        ? recipe.instructions.map(i => {
+            if (/^#{1,3}\s/.test(i)) return '\n' + i.replace(/^#+\s*/, '');
+            return i;
+          }).join('\n').trim()
+        : '';
+
+      let sourceUrl = '';
+      if (recipe.source) {
+        if (typeof recipe.source === 'object' && recipe.source.href) sourceUrl = recipe.source.href;
+        else if (typeof recipe.source === 'string') sourceUrl = recipe.source;
+      }
+
+      const paprikaRecipe = {
+        uid: generateUUID(),
+        name: recipe.title || '',
+        description: normalizeRichTextField(recipe.description),
+        ingredients: ingredients,
+        directions: directions,
+        notes: normalizeRichTextField(recipe.notes),
+        servings: recipe.servings || '',
+        difficulty: '',
+        prep_time: recipe.prepTime || '',
+        cook_time: recipe.cookTime || '',
+        total_time: recipe.totalTime || '',
+        source: 'Chomp Chomp',
+        source_url: sourceUrl || window.location.href,
+        image_url: recipe.image ? getImagePath(recipe.image) : '',
+        photo_data: null,
+        photo: null,
+        categories: recipe.category ? [recipe.category] : [],
+        rating: 0,
+        created: new Date().toISOString().replace('T', ' ').split('.')[0],
+        hash: generateUUID(),
+        nutritional_info: ''
+      };
+
+      const encoded = new TextEncoder().encode(JSON.stringify(paprikaRecipe));
+      const cs = new CompressionStream('gzip');
+      const writer = cs.writable.getWriter();
+      writer.write(encoded);
+      writer.close();
+      const compressed = await new Response(cs.readable).arrayBuffer();
+
+      const blob = new Blob([compressed], { type: 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${recipe.slug || 'recipe'}.paprikarecipe`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toggleShareDropdown();
+      showToast('✓ Recipe exported for Paprika!');
+    }
+
     // Copy full recipe text to clipboard
     function copyAllText() {
       const text = buildRecipeText();
@@ -1196,6 +1264,7 @@
     window.downloadAsText = downloadAsText;
     window.copyAllText = copyAllText;
     window.exportToMela = exportToMela;
+    window.exportToPaprika = exportToPaprika;
     window.toggleCookMode = toggleCookMode;
     window.toggleShareDropdown = toggleShareDropdown;
 
