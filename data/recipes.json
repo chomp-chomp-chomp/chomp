@@ -904,7 +904,7 @@
     "id": "matcha-amaretti",
     "totalTime": "40 min",
     "image": "https://ik.imagekit.io/chompchomp/recipe-matcha-amaretti_g_USKyF8A.jpg",
-    "notes": "Make sure to use almond flour, not almond meal.\nAlmond flour has a finer texture and is made with blanched almonds, allowing the bright green color of the matcha to shine. If you can’t find it, you can easily make your own by grinding blanched almonds in a food processor until they are the texture of fine sand. If there are any large pieces of almond still remaining, sift the flour through a fine-mesh sieve to remove them.\nStorage\nThe cookies will keep in an airtight container in a single layer for up to 1 week.",
+    "notes": "### Substitutions\n\nUbe powder: 1–2 tbsp (optional: add a touch of coconut extract replacing some of the almond extract)\n\nCocoa: 2–3 tbsp (optional: dial back the almond extract a bit to let the chocolate speak)\n\nBlack sesame: swap 1/4 cup of the almond flour, deeply nutty and striking\n\nEspresso powder: 2 tsp, intensifies the almond beautifully\n\nFreeze-dried fruit powder like raspberry or strawberry: 2–3 tbsp, tart and vivid\n\n### Storage\n\nThe cookies will keep in an airtight container in a single layer for up to 1 week.",
     "instructions": [
       "Preheat the oven to 325°F and set 2 racks at the upper-middle and lower-middle positions. Line 2 baking sheets with parchment paper or nonstick baking mats.",
       "In a large bowl, combine the almond flour, matcha powder, salt, and 1 cup (200 grams) of the granulated sugar. Whisk until the matcha powder is evenly distributed throughout.",
@@ -937,7 +937,7 @@
     "servings": "Makes 18 cookies",
     "dishType": "Cookies",
     "totalTimeInMinutes": 40,
-    "updated_at": "2026-05-26T17:08:47.535Z"
+    "updated_at": "2026-05-26T17:13:06.341Z"
   },
   {
     "id": "mawmaw-walkers-banana-pudding",
