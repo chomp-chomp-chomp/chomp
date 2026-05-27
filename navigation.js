@@ -7,15 +7,17 @@
 (function() {
   'use strict';
 
-  // Get current page for active highlighting
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  // Get current page for active highlighting (full path, normalised)
+  const currentPath = window.location.pathname.replace(/\/$/, '') || '/index.html';
 
   /**
    * Recursively build menu items (supports unlimited nesting)
    */
   function buildMenuItem(item) {
     if (item.type === 'link') {
-      const isActive = currentPage === item.url.split('/').pop();
+      const itemPath = item.url.replace(/\/$/, '');
+      const isActive = currentPath === itemPath ||
+        (currentPath === '' && itemPath === '/index.html');
       return `<li><a href="${item.url}"${isActive ? ' class="active"' : ''}>${item.label}</a></li>`;
     } else if (item.type === 'dropdown') {
       // Recursively build submenu items
