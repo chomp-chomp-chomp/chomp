@@ -160,6 +160,53 @@
     .home-intro a:hover {
       text-decoration: underline;
     }
+
+    /* Recent writing strip */
+    .recent-writing {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 20px 14px;
+      font-size: 0.85em;
+      color: var(--color-text-muted);
+    }
+
+    .recent-writing-label {
+      font-weight: 500;
+      white-space: nowrap;
+      color: var(--color-text-muted);
+    }
+
+    .recent-writing-label a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .recent-writing-label a:hover {
+      color: var(--color-accent);
+    }
+
+    .recent-writing-posts {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .recent-writing-posts a {
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .recent-writing-posts a:hover {
+      color: var(--color-accent);
+    }
+
+    .recent-writing-posts .dot {
+      color: var(--color-border);
+    }
   </style>
 </head>
 <body>
@@ -206,11 +253,18 @@
 
     <!-- Quick Links Bar -->
     <nav class="quick-links-bar" aria-label="Quick links">
+      <a href="https://ps.chom.ps" class="quick-link" target="_blank" rel="noopener">.ps ↗</a>
       <a href="lexicon.html" class="quick-link">Lexicon</a>
       <a href="reading-list.html" class="quick-link">Reading List</a>
       <a href="playlists.html" class="quick-link">Playlists</a>
       <a href="about.html" class="quick-link">About</a>
     </nav>
+
+    <!-- Recent Writing from ps.chom.ps (populated by RSS fetch) -->
+    <div class="recent-writing" id="recentWriting" style="display: none;">
+      <span class="recent-writing-label"><a href="https://ps.chom.ps" target="_blank" rel="noopener">Recent writing</a> →</span>
+      <span class="recent-writing-posts" id="recentWritingPosts"></span>
+    </div>
 
     <!-- Search & Filter Controls -->
     <section class="content-wrapper">
@@ -502,8 +556,50 @@
       loadMoreBtn?.addEventListener('click', () => window.loadMoreRecipes?.());
     });
 
+    // Fetch recent posts from ps.chom.ps RSS feed
+    async function loadRecentWriting() {
+      const FEED_URL = 'https://ps.chom.ps/feed.xml';
+      const MAX_POSTS = 3;
+
+      try {
+        const response = await fetch(FEED_URL);
+        if (!response.ok) return; // fail silently
+
+        const text = await response.text();
+        const xml  = new DOMParser().parseFromString(text, 'application/xml');
+
+        // Support RSS 2.0 (<item>) and Atom (<entry>)
+        const items = [...xml.querySelectorAll('item, entry')].slice(0, MAX_POSTS);
+        if (!items.length) return;
+
+        const posts = items.map(item => {
+          const title = item.querySelector('title')?.textContent?.trim() || 'Untitled';
+
+          // RSS 2.0: <link> is a text node; Atom: <link href="…">
+          const linkEl = item.querySelector('link');
+          const url    = linkEl?.getAttribute('href') || linkEl?.textContent?.trim() || '#';
+
+          return { title, url };
+        });
+
+        const postsEl  = document.getElementById('recentWritingPosts');
+        const stripEl  = document.getElementById('recentWriting');
+        if (!postsEl || !stripEl) return;
+
+        postsEl.innerHTML = posts.map((p, i) =>
+          `<a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>${i < posts.length - 1 ? '<span class="dot"> · </span>' : ''}`
+        ).join('');
+
+        stripEl.style.display = 'flex';
+
+      } catch {
+        // Network or CORS error — strip stays hidden, no console noise
+      }
+    }
+
     // Initialize
     loadRecipes();
+    loadRecentWriting();
 
   </script>
 
