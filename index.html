@@ -213,6 +213,13 @@
       font-size: 0.875em;
       color: var(--color-text-muted);
       line-height: 1.55;
+      margin: 0 0 5px;
+    }
+
+    .recent-post-date {
+      font-size: 0.775em;
+      color: var(--color-text-muted);
+      opacity: 0.7;
       margin: 0;
     }
   </style>
@@ -271,7 +278,7 @@
     <!-- Recent Writing from ps.chom.ps (populated by RSS fetch) -->
     <div class="recent-writing-section" id="recentWriting" style="display: none;">
       <div class="recent-writing-header">
-        <a href="https://ps.chom.ps" target="_blank" rel="noopener">Recent Writing ↗</a>
+        <a href="https://ps.chom.ps" target="_blank" rel="noopener">Recent Postscripts</a>
       </div>
       <div id="recentWritingPosts"></div>
     </div>
@@ -609,7 +616,21 @@
             ? excerpt.slice(0, EXCERPT_LEN).replace(/\s+\S*$/, '') + '…'
             : excerpt;
 
-          return { title, url, excerpt: short };
+          // Date: <pubDate> (RSS 2.0) or <published>/<updated> (Atom)
+          const rawDate =
+            item.querySelector('pubDate')?.textContent ||
+            item.querySelector('published')?.textContent ||
+            item.querySelector('updated')?.textContent ||
+            '';
+          let dateStr = '';
+          if (rawDate) {
+            const d = new Date(rawDate);
+            if (!isNaN(d)) {
+              dateStr = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+          }
+
+          return { title, url, excerpt: short, date: dateStr };
         });
 
         const postsEl = document.getElementById('recentWritingPosts');
@@ -620,6 +641,7 @@
           <div class="recent-post">
             <a class="recent-post-title" href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
             ${p.excerpt ? `<p class="recent-post-excerpt">${p.excerpt}</p>` : ''}
+            ${p.date ? `<p class="recent-post-date">${p.date}</p>` : ''}
           </div>
         `).join('');
 
