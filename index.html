@@ -161,51 +161,59 @@
       text-decoration: underline;
     }
 
-    /* Recent writing strip */
-    .recent-writing {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: center;
-      gap: 6px;
-      padding: 10px 20px 14px;
-      font-size: 0.85em;
-      color: var(--color-text-muted);
+    /* Recent writing section */
+    .recent-writing-section {
+      max-width: 680px;
+      margin: 0 auto 36px;
+      padding: 0 20px;
     }
 
-    .recent-writing-label {
-      font-weight: 500;
-      white-space: nowrap;
+    .recent-writing-header {
+      font-size: 0.75em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
       color: var(--color-text-muted);
+      margin-bottom: 14px;
     }
 
-    .recent-writing-label a {
+    .recent-writing-header a {
       color: inherit;
       text-decoration: none;
     }
 
-    .recent-writing-label a:hover {
+    .recent-writing-header a:hover {
       color: var(--color-accent);
     }
 
-    .recent-writing-posts {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 4px;
+    .recent-post {
+      padding: 14px 0;
+      border-top: 1px solid var(--color-border);
     }
 
-    .recent-writing-posts a {
+    .recent-post:last-child {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .recent-post-title {
+      display: block;
+      font-size: 1em;
+      font-weight: 500;
       color: var(--color-text);
       text-decoration: none;
+      margin-bottom: 5px;
+      line-height: 1.4;
     }
 
-    .recent-writing-posts a:hover {
+    .recent-post-title:hover {
       color: var(--color-accent);
     }
 
-    .recent-writing-posts .dot {
-      color: var(--color-border);
+    .recent-post-excerpt {
+      font-size: 0.875em;
+      color: var(--color-text-muted);
+      line-height: 1.55;
+      margin: 0;
     }
   </style>
 </head>
@@ -253,7 +261,7 @@
 
     <!-- Quick Links Bar -->
     <nav class="quick-links-bar" aria-label="Quick links">
-      <a href="https://ps.chom.ps" class="quick-link" target="_blank" rel="noopener">.ps ↗</a>
+      <a href="https://ps.chom.ps" class="quick-link" target="_blank" rel="noopener">.ps</a>
       <a href="lexicon.html" class="quick-link">Lexicon</a>
       <a href="reading-list.html" class="quick-link">Reading List</a>
       <a href="playlists.html" class="quick-link">Playlists</a>
@@ -261,9 +269,11 @@
     </nav>
 
     <!-- Recent Writing from ps.chom.ps (populated by RSS fetch) -->
-    <div class="recent-writing" id="recentWriting" style="display: none;">
-      <span class="recent-writing-label"><a href="https://ps.chom.ps" target="_blank" rel="noopener">Recent writing</a> →</span>
-      <span class="recent-writing-posts" id="recentWritingPosts"></span>
+    <div class="recent-writing-section" id="recentWriting" style="display: none;">
+      <div class="recent-writing-header">
+        <a href="https://ps.chom.ps" target="_blank" rel="noopener">Recent Writing ↗</a>
+      </div>
+      <div id="recentWritingPosts"></div>
     </div>
 
     <!-- Search & Filter Controls -->
@@ -560,6 +570,7 @@
     async function loadRecentWriting() {
       const FEED_URL = 'https://ps.chom.ps/feed.xml';
       const MAX_POSTS = 3;
+      const EXCERPT_LEN = 160;
 
       try {
         const response = await fetch(FEED_URL);
@@ -572,28 +583,50 @@
         const items = [...xml.querySelectorAll('item, entry')].slice(0, MAX_POSTS);
         if (!items.length) return;
 
+        // Strip HTML tags and normalise whitespace
+        function stripHtml(str) {
+          return (str || '')
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+
         const posts = items.map(item => {
-          const title = item.querySelector('title')?.textContent?.trim() || 'Untitled';
+          const title = stripHtml(item.querySelector('title')?.textContent) || 'Untitled';
 
           // RSS 2.0: <link> is a text node; Atom: <link href="…">
           const linkEl = item.querySelector('link');
           const url    = linkEl?.getAttribute('href') || linkEl?.textContent?.trim() || '#';
 
-          return { title, url };
+          // Excerpt: prefer <summary> (Atom) then <description> (RSS 2.0)
+          const rawExcerpt =
+            item.querySelector('summary')?.textContent ||
+            item.querySelector('description')?.textContent ||
+            '';
+          const excerpt = stripHtml(rawExcerpt);
+          const short   = excerpt.length > EXCERPT_LEN
+            ? excerpt.slice(0, EXCERPT_LEN).replace(/\s+\S*$/, '') + '…'
+            : excerpt;
+
+          return { title, url, excerpt: short };
         });
 
-        const postsEl  = document.getElementById('recentWritingPosts');
-        const stripEl  = document.getElementById('recentWriting');
-        if (!postsEl || !stripEl) return;
+        const postsEl = document.getElementById('recentWritingPosts');
+        const sectionEl = document.getElementById('recentWriting');
+        if (!postsEl || !sectionEl) return;
 
-        postsEl.innerHTML = posts.map((p, i) =>
-          `<a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>${i < posts.length - 1 ? '<span class="dot"> · </span>' : ''}`
-        ).join('');
+        postsEl.innerHTML = posts.map(p => `
+          <div class="recent-post">
+            <a class="recent-post-title" href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
+            ${p.excerpt ? `<p class="recent-post-excerpt">${p.excerpt}</p>` : ''}
+          </div>
+        `).join('');
 
-        stripEl.style.display = 'flex';
+        sectionEl.style.display = 'block';
 
       } catch {
-        // Network or CORS error — strip stays hidden, no console noise
+        // Network or CORS error — section stays hidden, no console noise
       }
     }
 
