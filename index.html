@@ -202,8 +202,18 @@
       border-top: 1px solid var(--color-border);
     }
 
-    .recent-post:last-child {
+    .recent-post-ps {
       border-bottom: 1px solid var(--color-border);
+    }
+
+    .recent-post-ps a {
+      font-size: 0.875em;
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .recent-post-ps a:hover {
+      text-decoration: underline;
     }
 
     .recent-post-title {
@@ -279,19 +289,21 @@
 
     <!-- Quick Links Bar -->
     <nav class="quick-links-bar" aria-label="Quick links">
-      <a href="https://ps.chom.ps" class="quick-link" target="_blank" rel="noopener">.ps</a>
       <a href="lexicon.html" class="quick-link">Lexicon</a>
       <a href="reading-list.html" class="quick-link">Reading List</a>
       <a href="playlists.html" class="quick-link">Playlists</a>
       <a href="about.html" class="quick-link">About</a>
     </nav>
 
-    <!-- Recent Writing from ps.chom.ps (populated by RSS fetch) -->
-    <div class="recent-writing-section" id="recentWriting" style="display: none;">
+    <!-- Recent Postscripts from ps.chom.ps -->
+    <div class="recent-writing-section" id="recentWriting">
       <div class="recent-writing-header">
         <a href="https://ps.chom.ps" target="_blank" rel="noopener">Recent Postscripts</a>
       </div>
       <div id="recentWritingPosts"></div>
+      <div class="recent-post recent-post-ps">
+        <a href="https://ps.chom.ps" target="_blank" rel="noopener">.ps</a>
+      </div>
     </div>
 
     <!-- Search & Filter Controls -->
@@ -646,8 +658,7 @@
         });
 
         const postsEl = document.getElementById('recentWritingPosts');
-        const sectionEl = document.getElementById('recentWriting');
-        if (!postsEl || !sectionEl) return;
+        if (!postsEl) return;
 
         postsEl.innerHTML = posts.map(p => `
           <div class="recent-post">
@@ -656,8 +667,6 @@
             ${p.date ? `<p class="recent-post-date">${p.date}</p>` : ''}
           </div>
         `).join('');
-
-        sectionEl.style.display = 'block';
 
       } catch {
         // Network or CORS error — section stays hidden, no console noise
