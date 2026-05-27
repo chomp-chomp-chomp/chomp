@@ -9,7 +9,6 @@
       "label": "Content",
       "type": "dropdown",
       "items": [
-        { "label": "Stories", "url": "/stories.html", "type": "link" },
         { "label": "Recipes", "url": "/recipes.html", "type": "link" },
         { "label": "Lexicon", "url": "/lexicon.html", "type": "link" },
         { "label": "Reading List", "url": "/reading-list.html", "type": "link" },

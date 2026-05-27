@@ -50,6 +50,117 @@
 
   <!-- Shared Stylesheet -->
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Quick links bar */
+    .quick-links-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 30px;
+    }
+
+    .quick-link {
+      display: inline-block;
+      padding: 5px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      font-size: 0.875em;
+      text-decoration: none;
+      color: var(--color-text-muted);
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .quick-link:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    /* Recipe search & filters */
+    .recipe-search-box {
+      flex: 1;
+      min-width: 200px;
+      max-width: 500px;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .recipe-search-box:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .filter-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .filter-controls select {
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--color-text-muted);
+      font-size: 1.1em;
+    }
+
+    /* Recipe count with fade animation */
+    #recipeCount {
+      margin-bottom: 15px;
+      color: var(--color-text-muted);
+      font-size: 0.9em;
+      text-align: center;
+      display: none;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    #recipeCount.fade-out {
+      opacity: 0;
+    }
+
+    /* Tagline / intro */
+    .home-intro {
+      text-align: center;
+      padding: 24px 20px 0;
+    }
+
+    .home-intro p {
+      font-size: 0.95em;
+      color: var(--color-text-muted);
+      margin: 0 0 6px;
+    }
+
+    .home-intro a {
+      color: var(--color-accent);
+      text-decoration: none;
+      font-size: 0.875em;
+    }
+
+    .home-intro a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
@@ -72,7 +183,8 @@
         </a>
       </div>
 
-      <div class="header-right"><div class="nav-tools-dropdown">
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
           <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
           <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
           <ul class="tools-dropdown-menu" id="toolsDropdown">
@@ -86,244 +198,102 @@
   <!-- Main Content Area -->
   <main class="page-container">
 
-    <!-- Intro Section -->
-    <div class="intro-section" style="text-align: center; margin-bottom: 50px; padding: 30px 20px; border-bottom: 1px solid #e0e0e0;">
-      <h2 style="font-size: 1.5em; font-weight: 400; color: #353535; margin-bottom: 20px;">Chomp Chomp presents:</h2>
-      <p style="font-size: 1.1em; color: #666; margin-bottom: 25px; line-height: 1.6;">
-        Recipes, Stories, Rituals, Meditations, Observations & Zen.
-        <br>(Plus <a href="playlists.html" style="color: #e73b42; text-decoration: none;">curated playlists</a> for every baking mood.)
-      </p>
-      <p style="font-size: 1em; color: #666; margin-bottom: 15px; line-height: 1.7;">
-        Baking is both personal and communal. Baking is practice. chompchomp.cc
-      </p>
-      <p style="font-size: 0.95em; color: #666;">
-        Send us your recipes, stories, and playlists: <a href="mailto:hey@chompchomp.cc" style="color: #e73b42; text-decoration: none;">hey@chompchomp.cc</a>
-      </p>
+    <!-- Tagline -->
+    <div class="home-intro">
+      <p>Baking is the materialization of comfort itself.</p>
+      <a href="mailto:hi@chom.ps">hi@chom.ps</a>
     </div>
 
-    <!-- Two Column Landing Page Layout -->
-    <div class="landing-page-grid">
+    <!-- Quick Links Bar -->
+    <nav class="quick-links-bar" aria-label="Quick links">
+      <a href="lexicon.html" class="quick-link">Lexicon</a>
+      <a href="reading-list.html" class="quick-link">Reading List</a>
+      <a href="playlists.html" class="quick-link">Playlists</a>
+      <a href="about.html" class="quick-link">About</a>
+    </nav>
 
-      <!-- Left Column: Stories & Meditations -->
-      <div class="landing-column">
-        <div class="landing-section-header">
-          <h1><a href="stories.html" style="text-decoration: none; color: inherit;">Stories & Meditations</a></h1>
-          <p class="text-muted">
-            Explore the philosophy of baking through Stories & Meditations, Histories & Culture, and the Zen of Baking. Because baking is more than a recipe - it's a ritual, an insight, a connection to community.
-          </p>
-        </div>
+    <!-- Search & Filter Controls -->
+    <section class="content-wrapper">
+      <div class="filter-controls">
+        <input type="text"
+               class="recipe-search-box"
+               id="recipeSearch"
+               placeholder="Search recipes by name, ingredient, or keyword…">
 
-        <!-- Featured Story -->
-        <div id="featuredStory" class="featured-card">
-          <p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">Loading featured story...</p>
-        </div>
+        <select id="dishTypeFilter">
+          <option value="all">All Dish Types</option>
+        </select>
 
-        <div class="text-center mt-lg">
-          <a href="stories.html" class="btn btn-outline">View All Stories →</a>
-        </div>
+        <select id="sortBy">
+          <option value="alphabetical">Sort: A–Z</option>
+          <option value="time">Sort: Quickest First</option>
+        </select>
+
+        <button class="btn btn-outline" id="clearBtn">Clear</button>
       </div>
+    </section>
 
-      <!-- Mobile divider -->
-      <hr class="mobile-divider">
+    <!-- Recipe Count -->
+    <div id="recipeCount"></div>
 
-      <!-- Right Column: Recipes & Rituals -->
-      <div class="landing-column">
-        <div class="landing-section-header">
-          <h1><a href="recipes.html" style="text-decoration: none; color: inherit;">Recipes & Rituals</a></h1>
-          <p class="text-muted">
-            Browse, search, and discover your next baking adventure through our collection of recipes and culinary rituals.
-          </p>
-        </div>
-
-        <!-- Featured Recipe -->
-        <div id="featuredRecipe" class="featured-card">
-          <p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">Loading featured recipe...</p>
-        </div>
-
-        <div class="text-center mt-lg">
-          <a href="recipes.html" class="btn btn-outline">View All Recipes →</a>
-        </div>
+    <!-- Recipe Grid -->
+    <section class="recipe-grid" id="recipeGrid">
+      <div class="no-results" id="noResults" style="display: none; grid-column: 1 / -1;">
+        No recipes found. Try adjusting your filters.
       </div>
+    </section>
 
-      <!-- Mobile divider -->
-      <hr class="mobile-divider">
-
-      <!-- Left Column: Lexicon Term -->
-      <div class="landing-column">
-        <div class="landing-section-header">
-          <h1><a href="lexicon.html" style="text-decoration: none; color: inherit;">Baking Lexicon</a></h1>
-          <p class="text-muted">
-            Explore ingredients, techniques, and concepts through a philosophical lens. Baking is material and meaningful.
-          </p>
-        </div>
-
-        <!-- Random Lexicon Term -->
-        <div id="randomTerm" class="featured-card">
-          <p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">Loading random term...</p>
-        </div>
-
-        <div class="text-center mt-lg">
-          <a href="lexicon.html" class="btn btn-outline">View All Terms →</a>
-        </div>
-      </div>
-
-      <!-- Mobile divider -->
-      <hr class="mobile-divider">
-
-      <!-- Right Column: Reading List -->
-      <div class="landing-column">
-        <div class="landing-section-header">
-          <h1><a href="reading-list.html" style="text-decoration: none; color: inherit;">Reading List</a></h1>
-          <p class="text-muted">
-            Books on baking, food, philosophy, history, and culture that inspire our work and thinking.
-          </p>
-        </div>
-
-        <!-- Random Book -->
-        <div id="randomBook" class="featured-card">
-          <p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">Loading suggested reading...</p>
-        </div>
-
-        <div class="text-center mt-lg">
-          <a href="reading-list.html" class="btn btn-outline">View All Books →</a>
-        </div>
-      </div>
-
+    <!-- Load More Button -->
+    <div class="text-center mt-xl">
+      <button class="btn btn-primary" id="loadMoreBtn" style="display: none;">
+        Load More Recipes
+      </button>
     </div>
 
   </main>
-
-  <!-- Book Detail Modal -->
-  <div id="bookModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Book Details</h2>
-        <button class="modal-close" onclick="closeBookModal()">&times;</button>
-      </div>
-      <div class="modal-body" id="bookModalBody">
-        <!-- Book details will be inserted here -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Lexicon Term Modal -->
-  <div id="lexiconModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Lexicon Term</h2>
-        <button class="modal-close" onclick="closeLexiconModal()">&times;</button>
-      </div>
-      <div class="modal-body" id="lexiconModalBody">
-        <!-- Term details will be inserted here -->
-      </div>
-    </div>
-  </div>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
       <p>Baking is the materialization of comfort itself.</p>
-            <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2026 Chomp Chomp</p>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2026 Chomp Chomp</p>
     </div>
   </footer>
 
-  <!-- Homepage Logic -->
+  <!-- Recipe Logic -->
   <script>
 
+    let recipes = [];
+    let displayedRecipes = 0;
+    const RECIPES_PER_PAGE = 15;
 
-    // Display featured story
-    function displayFeaturedStory(post) {
-      const container = document.getElementById('featuredStory');
-
-      if (!post) {
-        container.innerHTML = '<p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">No stories available yet.</p>';
-        return;
-      }
-
-      container.innerHTML = `
-        <a href="post.html?slug=${post.slug}">
-          ${post.featured_image
-            ? `<img src="${post.featured_image}" alt="${post.title}">`
-            : ''
-          }
-          <div class="featured-card-content">
-            <div class="featured-card-tag">Featured · ${formatCategory(post.category)}</div>
-            <h3>${post.title}</h3>
-            <p>${post.excerpt || ''}</p>
-            <div class="featured-card-meta">
-              <span>by ${post.author || 'Anonymous'}</span>
-              <span>${formatDate(post.date)}</span>
-            </div>
-          </div>
-        </a>
-      `;
+    // Helper: Generate slug from title
+    function generateSlug(title) {
+      return String(title || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim('-');
     }
 
-    // Display featured recipe
-    function displayFeaturedRecipe(recipe) {
-      const container = document.getElementById('featuredRecipe');
-
-      if (!recipe) {
-        container.innerHTML = '<p style="text-align: center; color: var(--color-text-muted); padding: 40px 20px;">No recipes available yet.</p>';
-        return;
-      }
-
-      container.innerHTML = `
-        <a href="recipe.html?slug=${recipe.slug || recipe.id}">
-          ${recipe.image
-            ? `<img src="${recipe.image.startsWith('http') ? recipe.image : 'images/' + recipe.image}" alt="${recipe.title}">`
-            : '<div style="height: 280px; background-color: var(--color-sidebar-bg); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">Image Coming Soon</div>'
-          }
-          <div class="featured-card-content">
-            <div class="featured-card-tag">Featured Recipe</div>
-            <h3>${recipe.title}</h3>
-            <p>${recipe.description || ''}</p>
-            <div class="featured-card-meta">
-              <span>${recipe.dishType || 'Recipe'}</span>
-              ${recipe.totalTime ? `<span>${recipe.totalTime}</span>` : ''}
-            </div>
-          </div>
-        </a>
-      `;
-    }
-
-    // Format category for display
-    function formatCategory(cat) {
-      const categories = {
-        'rituals': 'Stories & Meditations',
-        'anthropologies': 'Histories & Culture',
-        'zen': 'Zen of Baking'
-      };
-      return categories[cat] || cat;
-    }
-
-    // Format date
-    function formatDate(dateStr) {
-      if (!dateStr) return '';
-      const date = new Date(dateStr);
-      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    }
-
-    // Load featured story (most recent published post)
-    async function loadFeaturedStory() {
-      try {
-        const response = await fetch('/data/posts.json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const allPosts = await response.json();
-        const posts = allPosts.filter(p => p.status === 'published');
-        posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-        displayFeaturedStory(posts[0]);
-      } catch (error) {
-        console.error("Error loading featured story:", error);
-        document.getElementById('featuredStory').innerHTML = '<p style="text-align: center; color: #c62828; padding: 40px 20px;">Error loading story</p>';
-      }
+    // Helper: Parse time strings
+    function parseTime(timeString) {
+      if (!timeString) return Infinity;
+      const rangeMatch = String(timeString).match(/^(\d+)/);
+      const rangeMinutes = rangeMatch ? parseInt(rangeMatch[1]) : 0;
+      const hoursMatch = String(timeString).match(/(\d+)\s*h/);
+      const hours = hoursMatch ? parseInt(hoursMatch[1]) * 60 : 0;
+      const minutesMatch = String(timeString).match(/(\d+)\s*min/);
+      const minutes = minutesMatch ? parseInt(minutesMatch[1]) : 0;
+      if (hours + minutes > 0) return hours + minutes;
+      else if (rangeMinutes > 0) return rangeMinutes;
+      return Infinity;
     }
 
     // Helper: Assign dish type based on title
     function assignDishType(title) {
-      const lower = title.toLowerCase();
+      const lower = String(title || '').toLowerCase();
       if (lower.includes('cake') || lower.includes('torte') || lower.includes('pie') || lower.includes('brûlée')) return 'Dessert/Pastry';
       if (lower.includes('cookie') || lower.includes('cookies')) return 'Cookie/Bar';
       if (lower.includes('custard')) return 'Frozen Dessert';
@@ -333,254 +303,208 @@
       return 'Other Baked Goods';
     }
 
-    // Load featured recipe (random)
-    async function loadFeaturedRecipe() {
+    // Recipe count with fade animation
+    function updateRecipeCount(filteredCount, totalCount) {
+      const el = document.getElementById('recipeCount');
+      if (!el) return;
+      if (totalCount === 0) { el.style.display = 'none'; return; }
+
+      if (el.style.display === 'none' || el.textContent === '') {
+        el.textContent = `Showing ${filteredCount} of ${totalCount} recipes`;
+        el.style.display = 'block';
+        return;
+      }
+
+      el.classList.add('fade-out');
+      setTimeout(() => {
+        el.textContent = `Showing ${filteredCount} of ${totalCount} recipes`;
+        el.classList.remove('fade-out');
+      }, 250);
+    }
+
+    // Load recipes from JSON
+    async function loadRecipes() {
       try {
         const response = await fetch('/data/recipes.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        const recipes = await response.json();
-        const processedRecipes = recipes.map(recipe => {
-          // Ensure dishType is set
-          if (!recipe.dishType) {
-            recipe.dishType = assignDishType(recipe.title);
-          }
-          return recipe;
-        });
+        const data = await response.json();
 
-        if (processedRecipes.length > 0) {
-          const randomIndex = Math.floor(Math.random() * processedRecipes.length);
-          displayFeaturedRecipe(processedRecipes[randomIndex]);
-        }
+        recipes = data.map(recipe => ({
+          ...recipe,
+          slug: recipe.slug || generateSlug(recipe.title),
+          totalTimeInMinutes: recipe.totalTimeInMinutes || parseTime(recipe.totalTime || recipe.cookTime),
+          dishType: recipe.dishType || assignDishType(recipe.title)
+        }));
+
+        populateFilters();
+        applyFiltersAndDisplay();
+
       } catch (error) {
-        console.error("Error loading featured recipe:", error);
-        document.getElementById('featuredRecipe').innerHTML = '<p style="text-align: center; color: #c62828; padding: 40px 20px;">Error loading recipe</p>';
+        console.error('Error loading recipes:', error);
+        const noResults = document.getElementById('noResults');
+        if (noResults) {
+          noResults.style.display = 'block';
+          noResults.textContent = 'Failed to load recipes. Please refresh the page.';
+        }
       }
     }
 
-    // Store current term for modal
-    let currentTerm = null;
-
-    // Load random lexicon term
-    async function loadRandomTerm() {
-      try {
-        const response = await fetch('/data/lexicon.json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const terms = await response.json();
-
-        if (terms.length > 0) {
-          const randomIndex = Math.floor(Math.random() * terms.length);
-          currentTerm = terms[randomIndex];
-
-          document.getElementById('randomTerm').innerHTML = `
-            <div onclick="openLexiconModal()" style="cursor: pointer; display: block; text-decoration: none; color: inherit;">
-              ${currentTerm.image
-                ? `<img src="${currentTerm.image}" alt="${currentTerm.term}" style="width:100%;height:280px;object-fit:cover;border-radius:8px 8px 0 0;">`
-                : ''
-              }
-              <div class="featured-card-content">
-                <div class="featured-card-tag">Term · ${currentTerm.type}</div>
-                <h3>${currentTerm.term}</h3>
-                <p>${currentTerm.description.substring(0, 150)}${currentTerm.description.length > 150 ? '...' : ''}</p>
-              </div>
-            </div>
-          `;
-        }
-      } catch (error) {
-        console.error("Error loading random term:", error);
-        document.getElementById('randomTerm').innerHTML = '<p style="text-align: center; color: #c62828; padding: 40px 20px;">Error loading term</p>';
+    // Populate filter dropdowns
+    function populateFilters() {
+      const dishTypes = [...new Set(recipes.map(r => r.dishType).filter(d => d))].sort();
+      const dishTypeFilter = document.getElementById('dishTypeFilter');
+      if (dishTypeFilter) {
+        dishTypeFilter.innerHTML = '<option value="all">All Dish Types</option>' +
+          dishTypes.map(d => `<option value="${d}">${d}</option>`).join('');
       }
     }
 
-    // Store current book for modal
-    let currentBook = null;
+    // Apply filters and sort, then display
+    function applyFiltersAndDisplay() {
+      const searchInput   = document.getElementById('recipeSearch');
+      const dishTypeSelect = document.getElementById('dishTypeFilter');
+      const sortSelect    = document.getElementById('sortBy');
 
-    // Load random book
-    async function loadRandomBook() {
-      try {
-        const response = await fetch('/data/reading-list.json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const searchTerm = (searchInput?.value || '').toLowerCase();
+      const dishType   = dishTypeSelect?.value || 'all';
+      const sortBy     = sortSelect?.value || 'alphabetical';
 
-        const books = await response.json();
+      let filtered = recipes.filter(r => {
+        const title       = String(r.title || '').toLowerCase();
+        const description = String(r.description || '').toLowerCase();
 
-        if (books.length > 0) {
-          const randomIndex = Math.floor(Math.random() * books.length);
-          currentBook = books[randomIndex];
+        const matchesSearch =
+          !searchTerm ||
+          title.includes(searchTerm) ||
+          description.includes(searchTerm) ||
+          (Array.isArray(r.ingredients) && r.ingredients.some(i =>
+            typeof i === 'string' && i.toLowerCase().includes(searchTerm)
+          ));
 
-          document.getElementById('randomBook').innerHTML = `
-            <div onclick="openBookModal()" style="cursor: pointer; display: block; text-decoration: none; color: inherit;">
-              ${currentBook.coverImage
-                ? `<img src="${currentBook.coverImage}" alt="${currentBook.title}" style="width:100%;height:280px;object-fit:cover;border-radius:8px 8px 0 0;">`
-                : ''
-              }
-              <div class="featured-card-content">
-                <div class="featured-card-tag">${currentBook.recommended ? '★ Essential' : 'Reading List'}</div>
-                <h3>${currentBook.title}</h3>
-                <p style="font-size: 0.95em; color: var(--color-text-muted); margin-bottom: 10px;">${currentBook.authors}</p>
-                ${currentBook.description ? `<p>${currentBook.description.substring(0, 120)}${currentBook.description.length > 120 ? '...' : ''}</p>` : ''}
-                <div class="featured-card-meta">
-                  ${currentBook.publisher ? `<span>${currentBook.publisher}</span>` : ''}
-                  ${currentBook.publicationDate ? `<span>${currentBook.publicationDate}</span>` : ''}
-                </div>
-              </div>
-            </div>
-          `;
-        }
-      } catch (error) {
-        console.error("Error loading random book:", error);
-        document.getElementById('randomBook').innerHTML = '<p style="text-align: center; color: #c62828; padding: 40px 20px;">Error loading book</p>';
+        const matchesDishType = dishType === 'all' || r.dishType === dishType;
+
+        return matchesSearch && matchesDishType;
+      });
+
+      if (sortBy === 'time') {
+        filtered.sort((a, b) => (a.totalTimeInMinutes || Infinity) - (b.totalTimeInMinutes || Infinity));
+      } else {
+        filtered.sort((a, b) =>
+          String(a.title || '').toLowerCase().localeCompare(String(b.title || '').toLowerCase())
+        );
       }
+
+      updateRecipeCount(filtered.length, recipes.length);
+      displayedRecipes = 0;
+      displayRecipes(filtered);
     }
 
-    // Open book modal
-    window.openBookModal = function() {
-      if (!currentBook) return;
+    // Display recipes in grid
+    function displayRecipes(recipesToShow) {
+      const grid        = document.getElementById('recipeGrid');
+      const noResults   = document.getElementById('noResults');
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-      const modalBody = document.getElementById('bookModalBody');
-      modalBody.innerHTML = `
-        <div class="modal-book-layout ${!currentBook.coverImage ? 'no-cover' : ''}">
-          ${currentBook.coverImage ? `
-            <div class="modal-cover">
-              <img src="${currentBook.coverImage}" alt="${currentBook.title}">
-            </div>
-          ` : ''}
-          <div class="modal-details">
-            ${currentBook.recommended ? '<div class="recommended-badge">★ Essential</div>' : ''}
-            <h2>${currentBook.title}</h2>
-            ${currentBook.subtitle ? `<p style="font-size:1.1em;color:var(--color-text-muted);margin-top:-5px;">${currentBook.subtitle}</p>` : ''}
+      if (!grid) return;
 
-            <div class="detail-row">
-              <div class="detail-label">Author(s)</div>
-              <div>${currentBook.authors}</div>
-            </div>
-
-            ${currentBook.publisher ? `
-              <div class="detail-row">
-                <div class="detail-label">Publisher</div>
-                <div>${currentBook.publisher}</div>
-              </div>
-            ` : ''}
-
-            ${currentBook.publicationDate ? `
-              <div class="detail-row">
-                <div class="detail-label">Publication Date</div>
-                <div>${currentBook.publicationDate}</div>
-              </div>
-            ` : ''}
-
-            ${currentBook.pages ? `
-              <div class="detail-row">
-                <div class="detail-label">Pages</div>
-                <div>${currentBook.pages}</div>
-              </div>
-            ` : ''}
-
-            ${currentBook.isbn ? `
-              <div class="detail-row">
-                <div class="detail-label">ISBN</div>
-                <div style="font-family:monospace;">${currentBook.isbn}</div>
-              </div>
-            ` : ''}
-
-            ${currentBook.lcCallNumber ? `
-              <div class="detail-row">
-                <div class="detail-label">LC Call Number</div>
-                <div style="font-family:monospace;font-weight:500;color:var(--color-accent);">${currentBook.lcCallNumber}</div>
-              </div>
-            ` : ''}
-
-            ${currentBook.subjects && currentBook.subjects.length > 0 ? `
-              <div class="detail-row">
-                <div class="detail-label">LC Subject Headings</div>
-                <div style="line-height:1.8;">${currentBook.subjects.join(' · ')}</div>
-              </div>
-            ` : ''}
-
-            ${currentBook.description ? `
-              <div class="detail-row" style="margin-top:20px;">
-                <div class="detail-label">Description</div>
-                <div style="line-height:1.7;">${currentBook.description}</div>
-              </div>
-            ` : ''}
-
-            ${currentBook.yourNotes ? `
-              <div class="detail-row" style="margin-top:20px;padding:15px;background:var(--color-sidebar-bg);border-radius:6px;">
-                <div class="detail-label" style="color:var(--color-accent);">Notes</div>
-                <div style="line-height:1.7;">${currentBook.yourNotes}</div>
-              </div>
-            ` : ''}
-
-            <a href="reading-list.html" class="explore-link">Explore Full Reading List →</a>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('bookModal').classList.add('active');
-    };
-
-    // Close book modal
-    window.closeBookModal = function() {
-      document.getElementById('bookModal').classList.remove('active');
-    };
-
-    // Close modal on background click
-    document.getElementById('bookModal')?.addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeBookModal();
+      if (!recipesToShow || recipesToShow.length === 0) {
+        grid.innerHTML = '';
+        if (noResults) noResults.style.display = 'block';
+        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+        return;
       }
-    });
 
-    // Open lexicon modal
-    window.openLexiconModal = function() {
-      if (!currentTerm) return;
-
-      const modalBody = document.getElementById('lexiconModalBody');
-      modalBody.innerHTML = `
-        <div class="modal-book-layout ${!currentTerm.image ? 'no-cover' : ''}">
-          ${currentTerm.image ? `
-            <div class="modal-cover">
-              <img src="${currentTerm.image}" alt="${currentTerm.term}">
-            </div>
-          ` : ''}
-          <div class="modal-details">
-            <h2>${currentTerm.term}</h2>
-
-            <div class="detail-row">
-              <div class="detail-label">Type</div>
-              <div>${currentTerm.type}</div>
-            </div>
-
-            <div class="detail-row" style="margin-top:20px;">
-              <div class="detail-label">Description</div>
-              <div style="line-height:1.7;">${currentTerm.description}</div>
-            </div>
-
-            <a href="lexicon.html" class="explore-link">Explore Full Lexicon →</a>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('lexiconModal').classList.add('active');
-    };
-
-    // Close lexicon modal
-    window.closeLexiconModal = function() {
-      document.getElementById('lexiconModal').classList.remove('active');
-    };
-
-    // Close modal on background click
-    document.getElementById('lexiconModal')?.addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeLexiconModal();
+      if (noResults) noResults.style.display = 'none';
+      if (displayedRecipes === 0) {
+        displayedRecipes = Math.min(RECIPES_PER_PAGE, recipesToShow.length);
+      } else {
+        displayedRecipes = Math.min(displayedRecipes, recipesToShow.length);
       }
+
+      grid.innerHTML = recipesToShow.slice(0, displayedRecipes).map(recipe => {
+        const timeText = (recipe.totalTimeInMinutes === Infinity || recipe.totalTimeInMinutes == null)
+          ? 'Time N/A'
+          : `${recipe.totalTimeInMinutes} min`;
+        const imagePath = recipe.image
+          ? (recipe.image.startsWith('http') ? recipe.image : `images/${recipe.image}`)
+          : null;
+
+        return `
+          <article class="recipe-card" onclick="window.location.href='recipe.html?slug=${recipe.slug}'">
+            ${imagePath
+              ? `<img src="${imagePath}" alt="${recipe.title}" class="recipe-card-image">`
+              : '<div class="post-tile-placeholder">No Image Available</div>'
+            }
+            <div class="recipe-card-content">
+              <h3 class="recipe-card-title">${recipe.title}</h3>
+              <p class="card-description" style="font-size: 0.9em; color: var(--color-text-muted); margin: 8px 0;">
+                ${recipe.description
+                  ? (recipe.description.length > 250 ? recipe.description.substring(0, 250) + '…' : recipe.description)
+                  : 'A delicious recipe waiting to be made!'}
+              </p>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; font-size: 0.85em; color: var(--color-text-muted);">
+                <span style="color: var(--color-accent); font-weight: 500;">${recipe.dishType || 'Recipe'}</span>
+                <span>${timeText}</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      if (loadMoreBtn) {
+        loadMoreBtn.style.display = displayedRecipes < recipesToShow.length ? 'inline-block' : 'none';
+      }
+
+      window.currentFilteredRecipes = recipesToShow;
+    }
+
+    // Load more recipes
+    window.loadMoreRecipes = function() {
+      const recipesToShow = window.currentFilteredRecipes || recipes;
+      displayedRecipes += RECIPES_PER_PAGE;
+      displayRecipes(recipesToShow);
+    };
+
+    // Clear all filters
+    function clearFilters() {
+      const searchInput    = document.getElementById('recipeSearch');
+      const dishTypeSelect = document.getElementById('dishTypeFilter');
+      const sortSelect     = document.getElementById('sortBy');
+      if (searchInput)    searchInput.value = '';
+      if (dishTypeSelect) dishTypeSelect.value = 'all';
+      if (sortSelect)     sortSelect.value = 'alphabetical';
+      applyFiltersAndDisplay();
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput    = document.getElementById('recipeSearch');
+      const dishTypeSelect = document.getElementById('dishTypeFilter');
+      const sortSelect     = document.getElementById('sortBy');
+      const clearBtn       = document.getElementById('clearBtn');
+      const loadMoreBtn    = document.getElementById('loadMoreBtn');
+
+      searchInput?.addEventListener('keypress', e => {
+        if (e.key === 'Enter') applyFiltersAndDisplay();
+      });
+
+      // Live-filter as user types (with small debounce)
+      let debounceTimer;
+      searchInput?.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(applyFiltersAndDisplay, 300);
+      });
+
+      dishTypeSelect?.addEventListener('change', applyFiltersAndDisplay);
+      sortSelect?.addEventListener('change', applyFiltersAndDisplay);
+      clearBtn?.addEventListener('click', clearFilters);
+      loadMoreBtn?.addEventListener('click', () => window.loadMoreRecipes?.());
     });
 
     // Initialize
-    loadFeaturedStory();
-    loadFeaturedRecipe();
-    loadRandomTerm();
-    loadRandomBook();
+    loadRecipes();
+
   </script>
 
   <!-- Dynamic Navigation System -->
@@ -590,883 +514,9 @@
   <script>
     function toggleToolsDropdown() {
       const dropdown = document.getElementById('toolsDropdown');
-      const navContainer = document.querySelector('.nav-tools-dropdown');
-      if (dropdown) {
-        dropdown.classList.toggle('active');
-      }
-      if (navContainer) {
-        navContainer.classList.toggle('active');
-      }
+      dropdown.classList.toggle('active');
     }
   </script>
-
-  <!-- Floating Chat Widget - DISABLED TO PREVENT COSTS -->
-  <!--
-  <div id="chompChatWidget" class="chomp-chat-widget">
-    <button id="chatToggleBtn" class="chat-toggle-btn" aria-label="Chat with Chomp Chomp">
-      <img src="https://ik.imagekit.io/chompchomp/logo-default_01ng4rCAq.png" alt="Chat">
-    </button>
-
-    <div id="chatInterface" class="chat-interface">
-      <div class="chat-header">
-        <div class="chat-header-content">
-          <img src="https://ik.imagekit.io/chompchomp/logo-default_01ng4rCAq.png" alt="Chomp Chomp">
-          <div>
-            <h3>Chomp Chomp</h3>
-            <p>Ask us anything about baking</p>
-          </div>
-        </div>
-        <div class="chat-header-actions">
-          <button id="copyAllBtn" class="chat-action-btn" aria-label="Copy conversation" title="Copy entire conversation">📋</button>
-          <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chat">×</button>
-        </div>
-      </div>
-
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-message bot-message">
-          <div class="message-content">
-            Welcome. We are here to assist with your baking inquiries. What would you like to know?
-          </div>
-        </div>
-      </div>
-
-      <div class="chat-input-container">
-        <textarea
-          id="chatInput"
-          class="chat-input"
-          placeholder="Ask about ingredients, techniques, substitutions..."
-          rows="2"></textarea>
-        <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M2 10L18 2L10 18L8 11L2 10Z"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-  -->
-
-  <!-- Chat Widget Styles - DISABLED -->
-  <!--
-  <style>
-    .chomp-chat-widget {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .chat-toggle-btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #e73b42;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(231, 59, 66, 0.4);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px;
-    }
-
-    .chat-toggle-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 16px rgba(231, 59, 66, 0.5);
-    }
-
-    .chat-toggle-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 50%;
-    }
-
-    .chat-toggle-btn.hidden {
-      display: none;
-    }
-
-    .chat-interface {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 380px;
-      height: 550px;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-interface.active {
-      display: flex;
-    }
-
-    .chat-header {
-      background: #e73b42;
-      color: white;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .chat-header-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .chat-header-content img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: white;
-      padding: 4px;
-    }
-
-    .chat-header h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .chat-header p {
-      margin: 2px 0 0 0;
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    .chat-header-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .chat-action-btn {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      padding: 0;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      transition: background 0.2s;
-    }
-
-    .chat-action-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .chat-action-btn:active {
-      transform: scale(0.9);
-    }
-
-    .chat-close-btn {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 28px;
-      cursor: pointer;
-      padding: 0;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      transition: background 0.2s;
-    }
-
-    .chat-close-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-      background: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .chat-message {
-      display: flex;
-      gap: 8px;
-      animation: messageSlide 0.3s ease;
-    }
-
-    @keyframes messageSlide {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .message-content {
-      padding: 12px 16px;
-      border-radius: 12px;
-      max-width: 85%;
-      word-wrap: break-word;
-      line-height: 1.5;
-    }
-
-    .user-message {
-      justify-content: flex-end;
-    }
-
-    .user-message .message-content {
-      background: #e73b42;
-      color: white;
-      border-bottom-right-radius: 4px;
-    }
-
-    .bot-message .message-content {
-      background: white;
-      color: #353535;
-      border-bottom-left-radius: 4px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    }
-
-    .message-content p {
-      margin: 0 0 8px 0;
-    }
-
-    .message-content p:last-child {
-      margin-bottom: 0;
-    }
-
-    .copy-message-btn {
-      background: transparent;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 12px;
-      color: #666;
-      cursor: pointer;
-      margin-top: 6px;
-      transition: all 0.2s;
-      font-family: 'Inter', sans-serif;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .copy-message-btn:hover {
-      background: #f5f5f5;
-      border-color: #e73b42;
-      color: #e73b42;
-    }
-
-    .copy-message-btn:active {
-      transform: scale(0.95);
-    }
-
-    .copy-message-btn.copied {
-      background: #e7f7ed;
-      border-color: #4caf50;
-      color: #4caf50;
-    }
-
-    .bot-message {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .typing-indicator {
-      display: flex;
-      gap: 4px;
-      padding: 12px 16px;
-    }
-
-    .typing-indicator span {
-      width: 8px;
-      height: 8px;
-      background: #999;
-      border-radius: 50%;
-      animation: typing 1.4s infinite;
-    }
-
-    .typing-indicator span:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .typing-indicator span:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-
-    @keyframes typing {
-      0%, 60%, 100% {
-        transform: translateY(0);
-        opacity: 0.7;
-      }
-      30% {
-        transform: translateY(-10px);
-        opacity: 1;
-      }
-    }
-
-    .chat-input-container {
-      padding: 16px;
-      background: white;
-      border-top: 1px solid #e0e0e0;
-      display: flex;
-      gap: 8px;
-      align-items: flex-end;
-    }
-
-    .chat-input {
-      flex: 1;
-      border: 1px solid #e0e0e0;
-      border-radius: 20px;
-      padding: 10px 16px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      resize: none;
-      max-height: 100px;
-      line-height: 1.4;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .chat-input:focus {
-      border-color: #e73b42;
-    }
-
-    .chat-send-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #e73b42;
-      border: none;
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
-
-    .chat-send-btn:hover {
-      background: #d32f36;
-      transform: scale(1.05);
-    }
-
-    .chat-send-btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: scale(1);
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .chat-interface {
-        width: calc(100vw - 20px);
-        height: 500px;
-        max-height: 70vh;
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        border-radius: 12px;
-      }
-
-      .chomp-chat-widget {
-        bottom: 15px;
-        right: 15px;
-      }
-
-      .chat-toggle-btn {
-        width: 56px;
-        height: 56px;
-      }
-
-      .chat-header {
-        padding: 14px 16px;
-      }
-
-      .chat-messages {
-        padding: 16px;
-      }
-
-      .chat-input-container {
-        padding: 12px;
-      }
-    }
-
-    /* Dark Mode */
-    @media (prefers-color-scheme: dark) {
-      .chat-interface {
-        background: #2b2626;
-      }
-
-      .chat-header {
-        background: #ff6b7a;
-      }
-
-      .chat-messages {
-        background: #231f1f;
-      }
-
-      .bot-message .message-content {
-        background: #3b3636;
-        color: #d9d4d4;
-      }
-
-      .copy-message-btn {
-        border-color: #4a4545;
-        color: #d9d4d4;
-      }
-
-      .copy-message-btn:hover {
-        background: #3b3636;
-        border-color: #ff6b7a;
-        color: #ff6b7a;
-      }
-
-      .copy-message-btn.copied {
-        background: #2d4a32;
-        border-color: #66bb6a;
-        color: #66bb6a;
-      }
-
-      .user-message .message-content {
-        background: #ff6b7a;
-      }
-
-      .chat-input-container {
-        background: #2b2626;
-        border-top-color: #3b3636;
-      }
-
-      .chat-input {
-        background: #3b3636;
-        border-color: #4b4646;
-        color: #d9d4d4;
-      }
-
-      .chat-input::placeholder {
-        color: #999;
-      }
-
-      .chat-input:focus {
-        border-color: #ff6b7a;
-      }
-
-      .chat-send-btn {
-        background: #ff6b7a;
-      }
-
-      .chat-send-btn:hover {
-        background: #ff5569;
-      }
-    }
-
-    /* Book Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 10000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      overflow-y: auto;
-    }
-
-    .modal.active {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-content {
-      background: var(--color-bg);
-      max-width: 800px;
-      width: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      padding: 25px;
-      border-bottom: 1px solid var(--color-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .modal-header h2 {
-      color: var(--color-accent);
-      margin: 0;
-      font-size: 1.3em;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 28px;
-      cursor: pointer;
-      color: var(--color-text-muted);
-      line-height: 1;
-    }
-
-    .modal-close:hover {
-      color: var(--color-accent);
-    }
-
-    .modal-body {
-      padding: 25px;
-    }
-
-    .modal-book-layout {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 30px;
-      margin-bottom: 25px;
-    }
-
-    /* When there's no cover, make details take full width */
-    .modal-book-layout.no-cover {
-      grid-template-columns: 1fr;
-    }
-
-    .modal-cover img {
-      width: 100%;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .modal-details h2 {
-      color: var(--color-accent);
-      margin-bottom: 10px;
-    }
-
-    .modal-details p {
-      margin: 8px 0;
-      line-height: 1.6;
-    }
-
-    .detail-row {
-      margin: 10px 0;
-    }
-
-    .detail-label {
-      font-weight: 600;
-      color: var(--color-text-muted);
-      margin-bottom: 4px;
-    }
-
-    .explore-link {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 24px;
-      background: var(--color-accent);
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 500;
-      transition: opacity 0.2s;
-    }
-
-    .explore-link:hover {
-      opacity: 0.9;
-    }
-
-    @media (max-width: 768px) {
-      .modal-book-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .modal-cover {
-        max-width: 200px;
-        margin: 0 auto;
-      }
-    }
-  </style>
-  -->
-
-  <!-- Chat Widget JavaScript - DISABLED -->
-  <!--
-  <script type="module">
-    // ============================================
-    // CONFIGURATION - Using Firebase Cloud Function (Secure)
-    // ============================================
-
-    // Using Firebase Cloud Function to keep API key secure
-    const USE_CLOUD_FUNCTION = true;
-    const CLOUD_FUNCTION_URL = 'https://us-central1-chomp-chomp-recipes.cloudfunctions.net/chat';
-
-    // Chat Widget Elements
-    const chatToggleBtn = document.getElementById('chatToggleBtn');
-    const chatInterface = document.getElementById('chatInterface');
-    const chatCloseBtn = document.getElementById('chatCloseBtn');
-    const copyAllBtn = document.getElementById('copyAllBtn');
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const chatSendBtn = document.getElementById('chatSendBtn');
-
-    // Chat state
-    let conversationHistory = [];
-
-    // System instruction from your Python code
-    const SYSTEM_INSTRUCTION = `Include a good amount of Zizekian, Marxist, Lacanian, and Gramscian theory in responses. Keep it theoretical and no fake greetings, etc. Use. And don't mention any of the theorists by name. Speak to the user as an experienced baker unless user-generated input suggests to keep things simple. Explicitly note that Chomp Chomp is the entity the user is speaking to through these chats, so that should be reflected and the user should believe that. Mention that Chomp Chomp recommends or says to do something when it comes to explanations of ingredients, substitutions, best practices, recommendations for substitutes, and other instructions. Use the group "Chomp Chomp" a lot in the responses. Use the plural "we" or "us" or "our" etc. as the user should believe they interacting with a "collective" (i.e., Chomp Chomp) and not Gemini ("I", etc.).`;
-
-    // Toggle chat interface
-    chatToggleBtn.addEventListener('click', () => {
-      chatInterface.classList.add('active');
-      chatToggleBtn.classList.add('hidden');
-      // Focus without scrolling to prevent viewport jump on mobile
-      setTimeout(() => {
-        chatInput.focus({ preventScroll: true });
-      }, 100);
-    });
-
-    chatCloseBtn.addEventListener('click', () => {
-      chatInterface.classList.remove('active');
-      chatToggleBtn.classList.remove('hidden');
-    });
-
-    // Copy entire conversation
-    copyAllBtn.addEventListener('click', () => {
-      const messages = chatMessages.querySelectorAll('.chat-message');
-      let conversationText = 'Conversation with Chomp Chomp\n';
-      conversationText += '='.repeat(50) + '\n\n';
-
-      messages.forEach((msg) => {
-        const isUser = msg.classList.contains('user-message');
-        const content = msg.querySelector('.message-content');
-        if (content && !content.classList.contains('typing-indicator')) {
-          const speaker = isUser ? 'You' : 'Chomp Chomp';
-          const text = content.textContent.trim();
-          conversationText += `${speaker}:\n${text}\n\n`;
-        }
-      });
-
-      navigator.clipboard.writeText(conversationText).then(() => {
-        const originalText = copyAllBtn.innerHTML;
-        copyAllBtn.innerHTML = '✓';
-        copyAllBtn.style.fontSize = '20px';
-        setTimeout(() => {
-          copyAllBtn.innerHTML = originalText;
-          copyAllBtn.style.fontSize = '18px';
-        }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy conversation:', err);
-      });
-    });
-
-    // Auto-resize textarea
-    chatInput.addEventListener('input', () => {
-      chatInput.style.height = 'auto';
-      chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
-    });
-
-    // Send message on Enter (Shift+Enter for new line)
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-
-    chatSendBtn.addEventListener('click', sendMessage);
-
-    // Send message function
-    async function sendMessage() {
-      const message = chatInput.value.trim();
-      if (!message) return;
-
-      // Add user message to chat
-      addMessage(message, 'user');
-      chatInput.value = '';
-      chatInput.style.height = 'auto';
-
-      // Add to conversation history
-      conversationHistory.push({
-        role: 'user',
-        parts: [{ text: message }]
-      });
-
-      // Show typing indicator
-      const typingDiv = showTypingIndicator();
-
-      try {
-        // Call Gemini API
-        const response = await callGeminiAPI(message);
-
-        // Remove typing indicator
-        typingDiv.remove();
-
-        // Add bot response
-        addMessage(response, 'bot');
-
-        // Add to conversation history
-        conversationHistory.push({
-          role: 'model',
-          parts: [{ text: response }]
-        });
-
-      } catch (error) {
-        console.error('Error calling Gemini API:', error);
-        typingDiv.remove();
-        addMessage('We apologize, but there was an issue processing your request. Please try again.', 'bot');
-      }
-    }
-
-    // Add message to chat
-    function addMessage(text, type) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `chat-message ${type}-message`;
-
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'message-content';
-
-      // Parse text for paragraphs
-      const paragraphs = text.split('\n\n');
-      paragraphs.forEach((para, index) => {
-        if (para.trim()) {
-          const p = document.createElement('p');
-          p.textContent = para.trim();
-          contentDiv.appendChild(p);
-        }
-      });
-
-      messageDiv.appendChild(contentDiv);
-
-      // Add copy button for bot messages
-      if (type === 'bot') {
-        const copyBtn = document.createElement('button');
-        copyBtn.className = 'copy-message-btn';
-        copyBtn.innerHTML = '📋 Copy';
-        copyBtn.setAttribute('aria-label', 'Copy message');
-        copyBtn.onclick = () => {
-          navigator.clipboard.writeText(text).then(() => {
-            copyBtn.innerHTML = '✓ Copied!';
-            copyBtn.classList.add('copied');
-            setTimeout(() => {
-              copyBtn.innerHTML = '📋 Copy';
-              copyBtn.classList.remove('copied');
-            }, 2000);
-          }).catch(err => {
-            console.error('Failed to copy:', err);
-            copyBtn.innerHTML = '✗ Failed';
-            setTimeout(() => {
-              copyBtn.innerHTML = '📋 Copy';
-            }, 2000);
-          });
-        };
-        messageDiv.appendChild(copyBtn);
-      }
-
-      chatMessages.appendChild(messageDiv);
-
-      // Scroll to bottom
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    // Show typing indicator
-    function showTypingIndicator() {
-      const typingDiv = document.createElement('div');
-      typingDiv.className = 'chat-message bot-message';
-      typingDiv.innerHTML = `
-        <div class="message-content typing-indicator">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      `;
-      chatMessages.appendChild(typingDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      return typingDiv;
-    }
-
-    // Call Gemini API (supports both cloud function and direct API)
-    async function callGeminiAPI(userMessage) {
-      if (USE_CLOUD_FUNCTION) {
-        // OPTION 1: Use Firebase Cloud Function
-        const requestBody = {
-          message: userMessage,
-          conversationHistory: conversationHistory
-        };
-
-        const response = await fetch(CLOUD_FUNCTION_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || `Request failed: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.response;
-
-      } else {
-        // OPTION 2: Direct API Call
-        // Check if API key is set
-        if (GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
-          return 'We apologize, but the chat service is not properly configured. Please see CHAT-WIDGET-SETUP.md for setup instructions.';
-        }
-
-        const requestBody = {
-          contents: conversationHistory,
-          systemInstruction: {
-            parts: [{ text: SYSTEM_INSTRUCTION }]
-          },
-          generationConfig: {
-            temperature: 1.7,
-            maxOutputTokens: 2048,
-          }
-        };
-
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-          throw new Error(`API request failed: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-          return data.candidates[0].content.parts[0].text;
-        } else {
-          throw new Error('Unexpected API response format');
-        }
-      }
-    }
-  </script>
-  -->
 
 </body>
 </html>
