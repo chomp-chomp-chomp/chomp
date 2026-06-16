@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archive — Chomp Chomp</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+
+  <style>
+    .archive-header {
+      max-width: 720px;
+      margin: 40px auto 32px;
+      padding: 0 20px;
+    }
+
+    .archive-header h1 {
+      font-size: 1.6em;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .archive-header p {
+      color: var(--color-text-muted);
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .archive-controls {
+      max-width: 720px;
+      margin: 0 auto 24px;
+      padding: 0 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .archive-search {
+      flex: 1;
+      min-width: 180px;
+      padding: 9px 14px;
+      font-size: 14px;
+      font-family: var(--font-primary);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .archive-search:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .tag-filter {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag-btn {
+      padding: 5px 12px;
+      font-size: 0.8em;
+      font-family: var(--font-primary);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .tag-btn:hover,
+    .tag-btn.active {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: transparent;
+    }
+
+    .archive-list {
+      max-width: 720px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+
+    .archive-entry {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .archive-entry:last-child {
+      border-bottom: none;
+    }
+
+    .entry-type-badge {
+      flex-shrink: 0;
+      margin-top: 3px;
+      padding: 3px 7px;
+      font-size: 0.7em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 4px;
+      background: var(--color-border);
+      color: var(--color-text-muted);
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .entry-type-badge.pdf  { background: #fff0f0; color: #c0392b; }
+    .entry-type-badge.html { background: #f0f4ff; color: #2c5fad; }
+    .entry-type-badge.txt  { background: #f5f5f5; color: #555;    }
+
+    @media (prefers-color-scheme: dark) {
+      .entry-type-badge.pdf  { background: #3a1a1a; color: #ff8080; }
+      .entry-type-badge.html { background: #1a2a40; color: #7aadff; }
+      .entry-type-badge.txt  { background: #2a2a2a; color: #aaa;    }
+    }
+
+    .entry-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .entry-title {
+      font-size: 1em;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .entry-title a {
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .entry-title a:hover {
+      color: var(--color-accent);
+    }
+
+    .entry-meta {
+      font-size: 0.8em;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .entry-desc {
+      font-size: 0.88em;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .entry-tags {
+      margin-top: 6px;
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .entry-tag {
+      padding: 2px 8px;
+      font-size: 0.72em;
+      border-radius: 10px;
+      background: var(--color-border);
+      color: var(--color-text-muted);
+    }
+
+    .archive-empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--color-text-muted);
+      font-size: 0.95em;
+    }
+
+    .archive-count {
+      font-size: 0.8em;
+      color: var(--color-text-muted);
+      max-width: 720px;
+      margin: 0 auto 16px;
+      padding: 0 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left">
+        <a href="https://ps.chom.ps" title="Store" class="site-logo">
+          <div class="site-logo-icon">
+            <img src="https://ik.imagekit.io/chompchomp/logo-default_01ng4rCAq.png" alt="Chomp Chomp" class="logo-default">
+            <img src="https://ik.imagekit.io/chompchomp/logo-hover_Xkgt_S3PG.jpg" alt="Chomp Chomp" class="logo-hover">
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <a href="/recipes.html" title="Recipes">
+          <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logo%20light" alt="Chomp Chomp" class="header-banner banner-light">
+          <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logo%20dark"  alt="Chomp Chomp" class="header-banner banner-dark">
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
+          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <!-- Loaded by navigation.js -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-container">
+
+    <div class="archive-header">
+      <h1>Archive</h1>
+      <p>Documents, references, and collected files. Direct URLs also work — e.g. <code>/archive/filename.pdf</code> or <code>/archive/wiki/page.html</code>.</p>
+    </div>
+
+    <div class="archive-controls">
+      <input type="search" class="archive-search" id="archiveSearch" placeholder="Search archive…" autocomplete="off">
+      <div class="tag-filter" id="tagFilter"></div>
+    </div>
+
+    <div class="archive-count" id="archiveCount"></div>
+
+    <div class="archive-list" id="archiveList">
+      <div class="archive-empty">Loading…</div>
+    </div>
+
+  </main>
+
+  <script src="/navigation.js"></script>
+  <script>
+    let allEntries = [];
+    let activeTag = null;
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function render(entries) {
+      const list = document.getElementById('archiveList');
+      const count = document.getElementById('archiveCount');
+
+      if (!entries.length) {
+        list.innerHTML = '<div class="archive-empty">No entries found.</div>';
+        count.textContent = '';
+        return;
+      }
+
+      count.textContent = entries.length === 1 ? '1 entry' : `${entries.length} entries`;
+
+      list.innerHTML = entries.map(e => {
+        const ext = (e.type || e.file.split('.').pop() || 'file').toLowerCase();
+        const tags = (e.tags || []).map(t => `<span class="entry-tag">${t}</span>`).join('');
+        const desc = e.description ? `<div class="entry-desc">${e.description}</div>` : '';
+        const date = e.date ? `<span>${formatDate(e.date)}</span>` : '';
+        const path = `/archive/${e.file}`;
+
+        return `
+          <div class="archive-entry" data-title="${(e.title || '').toLowerCase()}" data-desc="${(e.description || '').toLowerCase()}" data-tags="${(e.tags || []).join(' ').toLowerCase()}">
+            <span class="entry-type-badge ${ext}">${ext}</span>
+            <div class="entry-body">
+              <div class="entry-title"><a href="${path}" target="_blank" rel="noopener">${e.title || e.file}</a></div>
+              <div class="entry-meta">${date}<span>${e.file}</span></div>
+              ${desc}
+              ${tags ? `<div class="entry-tags">${tags}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filter() {
+      const q = document.getElementById('archiveSearch').value.toLowerCase().trim();
+      let results = allEntries;
+
+      if (activeTag) {
+        results = results.filter(e => (e.tags || []).map(t => t.toLowerCase()).includes(activeTag));
+      }
+
+      if (q) {
+        results = results.filter(e =>
+          (e.title || '').toLowerCase().includes(q) ||
+          (e.description || '').toLowerCase().includes(q) ||
+          (e.file || '').toLowerCase().includes(q) ||
+          (e.tags || []).join(' ').toLowerCase().includes(q)
+        );
+      }
+
+      render(results);
+    }
+
+    function buildTagFilter(entries) {
+      const tagSet = new Set();
+      entries.forEach(e => (e.tags || []).forEach(t => tagSet.add(t)));
+      const tags = Array.from(tagSet).sort();
+
+      const container = document.getElementById('tagFilter');
+      if (!tags.length) return;
+
+      container.innerHTML = ['all', ...tags].map(t => `
+        <button class="tag-btn${t === 'all' ? ' active' : ''}" data-tag="${t}">${t}</button>
+      `).join('');
+
+      container.querySelectorAll('.tag-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          container.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          activeTag = this.dataset.tag === 'all' ? null : this.dataset.tag;
+          filter();
+        });
+      });
+    }
+
+    async function init() {
+      try {
+        const res = await fetch('/archive/manifest.json');
+        if (!res.ok) throw new Error('manifest not found');
+        const data = await res.json();
+        allEntries = (data.entries || []).sort((a, b) => {
+          if (a.date && b.date) return b.date.localeCompare(a.date);
+          return 0;
+        });
+        buildTagFilter(allEntries);
+        render(allEntries);
+      } catch (err) {
+        document.getElementById('archiveList').innerHTML =
+          '<div class="archive-empty">Could not load archive manifest.</div>';
+      }
+    }
+
+    document.getElementById('archiveSearch').addEventListener('input', filter);
+
+    init();
+  </script>
+</body>
+</html>
