@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "title": "Example: Thompson — Rapid Internal Heating",
+      "file": "thompson_rapid_internal_heating.pdf",
+      "type": "pdf",
+      "description": "A sample entry. Replace with your own files and descriptions.",
+      "date": "2026-01-01",
+      "tags": ["example"]
+    },
+    {
+      "title": "Example: Rilde (wiki)",
+      "file": "wiki/rilde.html",
+      "type": "html",
+      "description": "A sample nested wiki entry.",
+      "date": "2026-01-01",
+      "tags": ["wiki", "example"]
+    }
+  ]
+}

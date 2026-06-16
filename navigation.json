@@ -8,6 +8,7 @@
     { "label": ".ps",          "url": "https://ps.chom.ps",   "type": "link" },
     { "label": "Store",        "url": "/store.html",          "type": "link" },
     { "label": "Lab",          "url": "/tools/index.html",    "type": "link" },
-    { "label": "Ipsum",        "url": "/tools/ipsum.html",    "type": "link" }
+    { "label": "Ipsum",        "url": "/tools/ipsum.html",    "type": "link" },
+    { "label": "Archive",      "url": "/archive/",            "type": "link" }
   ]
 }
