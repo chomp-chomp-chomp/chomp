@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapid Internal Leavening by Dielectric Excitation - Wikipedia</title>
+<style>
+/* ── Reset & Base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #202122;
+  background: #fff;
+}
+
+a { color: #3366cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+#mw-page-base { background: #fff; }
+
+#mw-head-base {
+  background: #fff;
+  border-bottom: 1px solid #a7d7f9;
+  height: 0;
+}
+
+#mw-navigation {
+  width: 160px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  background: #f8f9fa;
+  border-right: 1px solid #a2a9b1;
+  padding: 0;
+  z-index: 100;
+}
+
+#content {
+  margin-left: 160px;
+  padding: 0 24px 40px 24px;
+  max-width: 960px;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────── */
+.mw-logo {
+  display: block;
+  padding: 12px 10px 8px;
+  border-bottom: 1px solid #a2a9b1;
+  text-align: center;
+}
+
+.mw-logo svg { width: 50px; height: 50px; }
+
+.mw-logo-wordmark {
+  display: block;
+  font-family: 'Linux Libertine', serif;
+  font-size: 13px;
+  color: #54595d;
+  margin-top: 3px;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-section {
+  padding: 8px 0;
+  border-bottom: 1px solid #a2a9b1;
+}
+
+.sidebar-section h3 {
+  font-size: 11px;
+  font-family: sans-serif;
+  color: #54595d;
+  text-transform: uppercase;
+  padding: 4px 10px 2px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+}
+
+.sidebar-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-section ul li a {
+  display: block;
+  padding: 2px 10px 2px 14px;
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #3366cc;
+}
+
+.sidebar-section ul li a:hover {
+  background: #eaf3fb;
+  text-decoration: none;
+}
+
+.sidebar-section ul li a.active {
+  font-weight: bold;
+  color: #202122;
+}
+
+/* ── Page Header ─────────────────────────────────────────────────────── */
+#mw-head {
+  background: #fff;
+  border-bottom: 1px solid #a2a9b1;
+  padding: 0 16px;
+  display: flex;
+  align-items: stretch;
+  height: 40px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin-left: -24px;
+  margin-right: -24px;
+  padding-left: 24px;
+}
+
+.mw-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  flex: 1;
+}
+
+.mw-tab {
+  font-size: 12.5px;
+  font-family: sans-serif;
+  padding: 6px 14px;
+  border: 1px solid #a2a9b1;
+  border-bottom: none;
+  margin-right: 2px;
+  border-radius: 2px 2px 0 0;
+  cursor: pointer;
+  color: #3366cc;
+  background: #f8f9fa;
+  position: relative;
+  top: 1px;
+}
+
+.mw-tab.selected {
+  background: #fff;
+  color: #202122;
+  font-weight: normal;
+  border-bottom: 1px solid #fff;
+  z-index: 2;
+}
+
+.mw-search {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.mw-search input {
+  font-size: 12px;
+  font-family: sans-serif;
+  border: 1px solid #a2a9b1;
+  padding: 3px 8px;
+  width: 200px;
+  border-radius: 2px;
+}
+
+.mw-search button {
+  font-size: 12px;
+  font-family: sans-serif;
+  padding: 3px 10px;
+  margin-left: 4px;
+  background: #f8f9fa;
+  border: 1px solid #a2a9b1;
+  border-radius: 2px;
+  cursor: pointer;
+  color: #202122;
+}
+
+/* ── Article ─────────────────────────────────────────────────────────── */
+.mw-article {
+  padding-top: 16px;
+}
+
+#firstHeading {
+  font-family: 'Linux Libertine', 'Georgia', serif;
+  font-size: 28px;
+  font-weight: normal;
+  border-bottom: 1px solid #a2a9b1;
+  padding-bottom: 3px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+  color: #000;
+}
+
+.mw-content-ltr p {
+  margin-bottom: 10px;
+}
+
+/* ── Infobox ─────────────────────────────────────────────────────────── */
+.infobox {
+  float: right;
+  clear: right;
+  margin: 0 0 16px 24px;
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  font-size: 12.5px;
+  line-height: 1.5;
+  width: 240px;
+  font-family: sans-serif;
+}
+
+.infobox-title {
+  background: #cee0f2;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #a2a9b1;
+  line-height: 1.4;
+}
+
+.infobox table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.infobox td {
+  padding: 3px 6px;
+  vertical-align: top;
+  border-top: 1px solid #eaecf0;
+}
+
+.infobox td:first-child {
+  font-weight: bold;
+  white-space: nowrap;
+  text-align: right;
+  width: 45%;
+  color: #202122;
+}
+
+.infobox td:last-child {
+  color: #202122;
+}
+
+/* ── TOC ─────────────────────────────────────────────────────────────── */
+.toc {
+  background: #f8f9fa;
+  border: 1px solid #a2a9b1;
+  padding: 12px 16px;
+  display: inline-block;
+  min-width: 200px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-family: sans-serif;
+}
+
+.toc-title {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.toc ol li {
+  margin: 2px 0;
+  line-height: 1.4;
+}
+
+.toc ol li ol {
+  padding-left: 18px;
+}
+
+.toc a { color: #3366cc; }
+
+/* ── Section Headings ────────────────────────────────────────────────── */
+.mw-headline-anchor { color: inherit; }
+
+h2.section-heading {
+  font-family: 'Linux Libertine', 'Georgia', serif;
+  font-size: 22px;
+  font-weight: normal;
+  border-bottom: 1px solid #a2a9b1;
+  margin: 24px 0 8px;
+  padding-bottom: 4px;
+  line-height: 1.3;
+}
+
+h3.section-heading {
+  font-family: 'Linux Libertine', 'Georgia', serif;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 16px 0 6px;
+  line-height: 1.3;
+}
+
+.mw-editsection {
+  font-family: sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  color: #54595d;
+  margin-left: 8px;
+}
+
+.mw-editsection a { color: #3366cc; font-size: 11px; }
+
+/* ── Hatnote ─────────────────────────────────────────────────────────── */
+.hatnote {
+  font-style: italic;
+  font-size: 13px;
+  color: #54595d;
+  margin-bottom: 10px;
+  padding-left: 1.6em;
+}
+
+/* ── Timeline Image ──────────────────────────────────────────────────── */
+.thumb {
+  clear: right;
+  margin: 0 0 12px 24px;
+  float: right;
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  padding: 4px;
+  font-size: 12px;
+  font-family: sans-serif;
+  max-width: 280px;
+}
+
+.thumb.tleft {
+  float: left;
+  margin: 0 24px 12px 0;
+}
+
+.thumbinner { width: 100%; }
+
+.thumbcaption {
+  font-size: 11.5px;
+  line-height: 1.4;
+  padding: 4px 2px 2px;
+  color: #54595d;
+  font-family: sans-serif;
+}
+
+.magnify { float: right; }
+
+/* ── Formulations list ───────────────────────────────────────────────── */
+.formulation-item {
+  margin: 8px 0 4px 0;
+}
+
+.formulation-term {
+  font-weight: bold;
+}
+
+.formulation-desc {
+  margin-left: 24px;
+  margin-bottom: 8px;
+  color: #202122;
+}
+
+/* ── See Also / References ───────────────────────────────────────────── */
+.mw-references-wrap ol {
+  font-size: 13px;
+  padding-left: 22px;
+  font-family: sans-serif;
+  line-height: 1.5;
+}
+
+.mw-references-wrap ol li {
+  margin-bottom: 4px;
+  color: #202122;
+}
+
+.see-also-list {
+  columns: 2;
+  column-gap: 24px;
+  list-style: disc;
+  padding-left: 22px;
+  font-size: 13.5px;
+  margin-bottom: 12px;
+}
+
+.see-also-list li { margin-bottom: 3px; break-inside: avoid; }
+
+/* ── Categories ──────────────────────────────────────────────────────── */
+#catlinks {
+  clear: both;
+  border-top: 1px solid #a2a9b1;
+  padding: 8px 0 4px;
+  margin-top: 20px;
+  font-size: 12.5px;
+  font-family: sans-serif;
+  color: #54595d;
+}
+
+#catlinks a { color: #3366cc; }
+
+.catlinks-list { display: inline; }
+.catlinks-list span { margin-right: 6px; }
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+#footer {
+  margin-left: 160px;
+  border-top: 1px solid #a2a9b1;
+  padding: 12px 24px;
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #54595d;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+#footer a { color: #3366cc; }
+
+/* ── Sup citation ────────────────────────────────────────────────────── */
+sup.reference {
+  font-size: 10px;
+  line-height: 0;
+  position: relative;
+  vertical-align: super;
+}
+
+sup.reference a { color: #3366cc; }
+
+/* ── Print Styles ────────────────────────────────────────────────────── */
+@media print {
+  #mw-navigation, #mw-head, #footer { display: none !important; }
+  #content { margin-left: 0; padding: 0 16px; max-width: 100%; }
+  body { font-size: 11pt; color: #000; }
+  a { color: #000; }
+  #firstHeading { font-size: 20pt; }
+  h2.section-heading { font-size: 15pt; }
+  h3.section-heading { font-size: 13pt; }
+  .infobox { font-size: 9pt; width: 200px; }
+  .thumb { max-width: 220px; }
+  .mw-editsection { display: none; }
+  #catlinks { font-size: 9pt; }
+  .toc { font-size: 10pt; }
+  .mw-references-wrap ol { font-size: 10pt; }
+
+  /* Wikipedia-style print header */
+  body::before {
+    content: "Wikipedia — The Free Encyclopedia";
+    display: block;
+    font-family: sans-serif;
+    font-size: 9pt;
+    color: #54595d;
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+  }
+  body::after {
+    content: "Retrieved from https://en.wikipedia.org/wiki/Rapid_Internal_Leavening_by_Dielectric_Excitation — Text available under Creative Commons Attribution-ShareAlike License 4.0";
+    display: block;
+    font-family: sans-serif;
+    font-size: 8pt;
+    color: #54595d;
+    border-top: 1px solid #a2a9b1;
+    padding-top: 4px;
+    margin-top: 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ──────────────────────────────────────────────────────────── -->
+<div id="mw-navigation">
+  <a class="mw-logo" href="#">
+    <!-- Wikipedia globe SVG (simplified) -->
+    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="23" fill="none" stroke="#a2a9b1" stroke-width="1.5"/>
+      <ellipse cx="25" cy="25" rx="10" ry="23" fill="none" stroke="#a2a9b1" stroke-width="1"/>
+      <line x1="2" y1="25" x2="48" y2="25" stroke="#a2a9b1" stroke-width="1"/>
+      <path d="M6 15 Q25 12 44 15" fill="none" stroke="#a2a9b1" stroke-width="0.8"/>
+      <path d="M6 35 Q25 38 44 35" fill="none" stroke="#a2a9b1" stroke-width="0.8"/>
+      <!-- Puzzle piece hint -->
+      <circle cx="25" cy="25" r="4" fill="#54595d" opacity="0.3"/>
+    </svg>
+    <span class="mw-logo-wordmark">Wikipedia<br><small style="font-size:10px;color:#72777d">The Free Encyclopedia</small></span>
+  </a>
+
+  <div class="sidebar-section">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="#" class="active">Main page</a></li>
+      <li><a href="#">Contents</a></li>
+      <li><a href="#">Featured content</a></li>
+      <li><a href="#">Current events</a></li>
+      <li><a href="#">Random article</a></li>
+      <li><a href="#">Donate to Wikipedia</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>Interaction</h3>
+    <ul>
+      <li><a href="#">Help</a></li>
+      <li><a href="#">About Wikipedia</a></li>
+      <li><a href="#">Community portal</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Contact page</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="#">What links here</a></li>
+      <li><a href="#">Related changes</a></li>
+      <li><a href="#">Upload file</a></li>
+      <li><a href="#">Special pages</a></li>
+      <li><a href="#">Permanent link</a></li>
+      <li><a href="#">Cite this page</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>Print/export</h3>
+    <ul>
+      <li><a href="#" onclick="window.print();return false;">Create a book</a></li>
+      <li><a href="#" onclick="window.print();return false;">Download as PDF</a></li>
+      <li><a href="#" onclick="window.print();return false;">Printable version</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>Languages</h3>
+    <ul>
+      <li><a href="#">Deutsch</a></li>
+      <li><a href="#">Español</a></li>
+      <li><a href="#">Français</a></li>
+      <li><a href="#">日本語</a></li>
+      <li><a href="#">中文</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── CONTENT ───────────────────────────────────────────────────────────── -->
+<div id="content">
+
+  <!-- Tab bar -->
+  <div id="mw-head">
+    <div class="mw-tabs">
+      <div class="mw-tab selected">Article</div>
+      <div class="mw-tab">Talk</div>
+      <div class="mw-tab">Read</div>
+      <div class="mw-tab">Edit</div>
+      <div class="mw-tab">View history</div>
+    </div>
+    <div class="mw-search">
+      <input type="text" placeholder="Search Wikipedia">
+      <button>Search</button>
+    </div>
+  </div>
+
+  <div class="mw-article mw-content-ltr">
+
+    <h1 id="firstHeading">Rapid Internal Leavening by Dielectric Excitation</h1>
+
+    <!-- Infobox -->
+    <div class="infobox">
+      <div class="infobox-title">Rapid Internal Leavening<br>by Dielectric Excitation<br><span style="font-weight:normal;font-size:12px">(RILDE)</span></div>
+      <table>
+        <tr><td>Type:</td><td>Thermal confection process</td></tr>
+        <tr><td>Frequency:</td><td>2.45 GHz (microwave)</td></tr>
+        <tr><td>Vessel:</td><td>Ceramic (critical variable)</td></tr>
+        <tr><td>Duration:</td><td>70 ± 10 seconds</td></tr>
+        <tr><td>Discovered:</td><td>October 1950</td></tr>
+        <tr><td>Discoverer:</td><td><a href="#">Sandra A. Thompson</a></td></tr>
+        <tr><td>Institution:</td><td><a href="#">Rohm &amp; Haas</a> / <a href="#">Raytheon</a> CRD</td></tr>
+        <tr><td>Location:</td><td><a href="#">Huntsville, Alabama</a></td></tr>
+        <tr><td>Published:</td><td>1952 (internal);<br>1954 (<a href="#"><i>JFS</i></a>)</td></tr>
+        <tr><td>Formulations:</td><td>5 stable (Series 47-B)</td></tr>
+      </table>
+    </div>
+
+    <!-- Lede -->
+    <p><b>Rapid Internal Leavening by Dielectric Excitation</b> (<b>RILDE</b>) is a method of confection synthesis in which semi-leavened carbohydrate batter is thermally set through the application of <a href="#">microwave radiation</a> at 2.45 GHz within a <a href="#">ceramic vessel</a>.<sup class="reference"><a href="#ref1">[1]</a></sup> The process was first documented by chemist <b><a href="#">Sandra A. Thompson</a></b> of <a href="#">Rohm &amp; Haas</a> in 1950, during a joint research program with the <a href="#">Raytheon Manufacturing Company</a> at facilities associated with <a href="#">Redstone Arsenal</a>, <a href="#">Huntsville, Alabama</a>.<sup class="reference"><a href="#ref2">[2]</a></sup> RILDE is distinguished from conventional baking by its reliance on volumetric <a href="#">dielectric heating</a> rather than conductive or convective thermal transfer, resulting in dramatically reduced preparation times and the elimination of conventional oven equipment.</p>
+
+    <p>The process produces a discrete, single-serving confection — colloquially termed a <b><a href="#">mug cake</a></b> — within a preparation window of 70 to 90 seconds.<sup class="reference"><a href="#ref3">[3]</a></sup> Thompson identified five stable formulations across 23 controlled trials (Trial Series 47-B, November 1950 – March 1951), which became known among Huntsville research personnel as the <i>single-stage cake vehicles</i>.<sup class="reference"><a href="#ref2">[2]</a></sup></p>
+
+    <!-- TOC -->
+    <div class="toc">
+      <div class="toc-title">Contents <span style="font-weight:normal;font-size:12px">[<a href="#">hide</a>]</span></div>
+      <ol>
+        <li><a href="#background">Background and Discovery</a>
+          <ol>
+            <li><a href="#spencer">Percy Spencer and the Radarange</a></li>
+            <li><a href="#thompson">Thompson's RILDE Trials</a></li>
+          </ol>
+        </li>
+        <li><a href="#mechanism">Mechanism</a></li>
+        <li><a href="#formulations">The Five Stable Formulations</a></li>
+        <li><a href="#legacy">Dissemination and Legacy</a></li>
+        <li><a href="#see-also">See also</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </div>
+
+    <!-- ── SECTION 1 ──────────────────────────────────────────────────── -->
+    <h2 class="section-heading" id="background">Background and Discovery <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <h3 class="section-heading" id="spencer">Percy Spencer and the Radarange <span class="mw-editsection">[<a href="#">edit</a>]</span></h3>
+
+    <p>The electromagnetic preconditions for RILDE were established in 1945 when <a href="#">Percy Spencer</a>, a <a href="#">Raytheon</a> engineer working with active <a href="#">radar magnetron</a> equipment in <a href="#">Waltham, Massachusetts</a>, observed the incidental melting of a chocolate confection in his shirt pocket.<sup class="reference"><a href="#ref4">[4]</a></sup> Spencer pursued the observation systematically — testing popcorn kernels and subsequently a whole egg, which ruptured under thermal pressure — and Raytheon filed a patent on the dielectric heating process before the end of the year.<sup class="reference"><a href="#ref4">[4]</a></sup></p>
+
+    <p>The <a href="#">Radarange</a>, Raytheon's first commercial microwave unit, was introduced in 1947.<sup class="reference"><a href="#ref5">[5]</a></sup> Operating at 2.45 gigahertz with a power output of 3 to 5 kilowatts, the unit stood approximately six feet tall, weighed 750 pounds, and was priced at approximately $5,000 USD.<sup class="reference"><a href="#ref5">[5]</a></sup> It was marketed exclusively to institutional and industrial buyers; the domestic microwave oven did not emerge until the late 1960s. The Radarange heated food through a mechanism fundamentally different from conventional cooking: rather than warming food from the outside in through conduction or convection, it excited polar water molecules directly within the food, generating heat volumetrically from the center outward.</p>
+
+    <!-- Timeline thumb -->
+    <div class="thumb" style="max-width:300px;float:right;margin:0 0 16px 20px;">
+      <div class="thumbinner">
+        <img src="https://ik.imagekit.io/chompchomp/E82A0AFE-20CA-4DAA-886C-E55505F4030B-compressed.jpeg"
+             style="width:100%;display:block;" alt="Radarange prototype unit at Redstone Arsenal">
+        <div class="thumbcaption">
+          <a href="#" class="magnify" title="Enlarge">🔍</a>
+          The Raytheon Radarange prototype unit (Model R-1), Redstone Arsenal, Huntsville, Alabama, c. October 1950. Sandra Thompson is pictured removing a ceramic vessel from the test chamber following Trial Series 47-B, Test 17.
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-heading" id="thompson">Thompson's RILDE Trials <span class="mw-editsection">[<a href="#">edit</a>]</span></h3>
+
+    <p>Sandra A. Thompson joined the <a href="#">Rohm &amp; Haas</a> research program at facilities associated with <a href="#">Redstone Arsenal</a>, Huntsville, Alabama, in 1949.<sup class="reference"><a href="#ref2">[2]</a></sup> Her initial work focused on the thermal behavior of complex chemical mixtures under non-standard heating conditions — a line of inquiry that was foundational and methodologically rigorous but, as Thompson later noted, <i>"not obviously pointed toward anything edible."</i><sup class="reference"><a href="#ref2">[2]</a></sup></p>
+
+    <p>Following a joint defense contract between Rohm &amp; Haas and Raytheon, Thompson's team gained access to prototype Radarange equipment and redirected its focus toward rapid heating and moisture retention in military field rations.<sup class="reference"><a href="#ref2">[2]</a></sup> In October 1950, a quantity of fortified carbohydrate-protein batter — the newest test formulation in what Thompson designated the <i>Theobroma Cacao Alkaloid Matrix</i> series — was introduced into the Radarange's test chamber within a standard ceramic coffee vessel. The circumstances of the introduction remain disputed: some accounts attribute the event to a deliberate experiment by Thompson; others suggest the involvement of a junior staff member.<sup class="reference"><a href="#ref2">[2]</a></sup> The anticipated outcomes — thermal degradation, structural collapse, or simple inedibility — did not obtain. The substrate rose, firmed, and presented as a discrete confection of recognizable cake character within approximately 75 seconds.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <p>The assembled research personnel consumed the test sample immediately and without apparent hesitation. Two members of the team requested additional vessels; one formally requested expedited completion of the written report.<sup class="reference"><a href="#ref1">[1]</a></sup> The <i>confectionery implications</i>, Thompson later observed, "had not occurred to me before the experiment. They occurred to my colleagues approximately ninety seconds after it concluded."<sup class="reference"><a href="#ref2">[2]</a></sup></p>
+
+    <!-- ── SECTION 2 ──────────────────────────────────────────────────── -->
+    <h2 class="section-heading" id="mechanism">Mechanism <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <div class="thumb tleft" style="max-width:280px;float:left;margin:0 20px 16px 0;">
+      <div class="thumbinner">
+        <img src="https://ik.imagekit.io/chompchomp/97701B4E-6A6C-4930-8A3A-A2BB4527AB30-compressed.jpeg"
+             style="width:100%;display:block;" alt="Thompson and colleagues examine mug cake">
+        <div class="thumbcaption">
+          <a href="#" class="magnify">🔍</a>
+          Thompson and colleagues examine the result of Test 47-B. The RILDE Trials Notebook and Radarange Test Logs are visible at lower left. A Rohm &amp; Haas laboratory mug is present at right. Redstone Arsenal, May 1950.
+        </div>
+      </div>
+    </div>
+
+    <p>RILDE operates through the excitation of <a href="#">polar</a> water molecules within the batter matrix by a rapidly oscillating electromagnetic field at 2.45 GHz.<sup class="reference"><a href="#ref3">[3]</a></sup> As the field alternates, polar molecules attempt to align with it; the rapid reversal prevents complete alignment, creating molecular friction that generates heat uniformly throughout the volume of the batter. This mechanism — <b>volumetric dielectric heating</b> — is fundamentally distinct from conventional baking, in which heat is conducted from the external surface inward over a substantially longer timeframe.</p>
+
+    <p>The frequency of 2.45 GHz was selected in part because water exhibits a natural <a href="#">dielectric loss</a> peak in this range, making it particularly susceptible to energy transfer from the oscillating field.<sup class="reference"><a href="#ref3">[3]</a></sup> The ceramic vessel plays a critical functional role: ceramic materials exhibit low dielectric loss at 2.45 GHz, transmitting microwave energy to the batter without significant self-heating. The thermal mass and low conductivity of the ceramic wall additionally retain moisture within the batter during heating, contributing to the characteristically dense, moist texture of the finished confection. Thompson's 1952 report explicitly identifies vessel material and geometry as primary variables in RILDE outcome quality.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <p>Structural set in RILDE products is achieved when internal batter temperature reaches approximately 95°C, at which point <a href="#">starch gelatinization</a> and <a href="#">protein coagulation</a> establish the confection's matrix.<sup class="reference"><a href="#ref3">[3]</a></sup> A characteristic feature of RILDE is <b>carryover cooking</b>: thermal energy continues to propagate within the product for approximately 30 seconds after microwave exposure ceases, meaning the product will appear slightly underdone at the moment of removal from the vessel — a condition Thompson noted was frequently misinterpreted by evaluating personnel as a process failure.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <!-- ── SECTION 3 ──────────────────────────────────────────────────── -->
+    <h2 class="section-heading" id="formulations">The Five Stable Formulations <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <p>Over the course of 23 controlled trials (Trial Series 47-B), Thompson identified five stable RILDE formulations.<sup class="reference"><a href="#ref1">[1]</a></sup> Each was reproduced a minimum of four times across varying Radarange output levels and vessel geometries prior to designation as stable. Formulations are catalogued in the 1952 internal report by working chemical nomenclature. Palatability was assessed by a panel of six evaluators on a five-point ordinal scale; Formulation IV achieved the highest mean rating in the series (M=4.8, SD=0.3).<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <div class="formulation-item">
+      <p class="formulation-term">Theobroma Cacao Alkaloid Matrix (Formulation I)</p>
+      <p class="formulation-desc">The foundational RILDE formulation and designated reference standard. A methylxanthine-bearing cocoa substrate with a liquid lipid carrier and whole egg binder. Achieves thermal set at 75–90 seconds. Internal structure characterized as fudgy and cohesive, with pronounced theobromine expression. Optional inclusion of sucrose-cocoa chip units at the vessel center introduced a localized melt phenomenon rated favorably by all evaluating personnel.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+    </div>
+
+    <div class="formulation-item">
+      <p class="formulation-term">HO-C<sub>6</sub>H<sub>3</sub>(OCH<sub>3</sub>)-CHO Induction (Formulation II)</p>
+      <p class="formulation-desc">A pale, butter-enriched substrate in which vanillin aldehyde compounds provide primary flavor expression. Egg yolk is substituted for whole egg, yielding a notably tender crumb structure. Flavor profile described by one evaluator as <i>"uncomplicated in the best possible sense."</i> Recommended finishing application: flaked sodium chloride, applied immediately post-heating.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+    </div>
+
+    <div class="formulation-item">
+      <p class="formulation-term">Citrus Terpene Leavened Substrate (Formulation III)</p>
+      <p class="formulation-desc">A low-pH formulation in which expressed limonene and citric acid compounds interact with the leavening agent to produce a bright, volatile flavor profile distinguishable from all other RILDE outputs. The zest-derived terpene fraction was identified as the dominant sensory variable; juice alone was found insufficient. One evaluator described the result as <i>"more adult than expected from something made in a coffee mug."</i><sup class="reference"><a href="#ref1">[1]</a></sup></p>
+    </div>
+
+    <div class="formulation-item">
+      <p class="formulation-term">Tripalmitin-Oleic Hazelnut Colloid (Formulation IV)</p>
+      <p class="formulation-desc">The most structurally economical formulation in the series, requiring only three components to achieve full thermal set: a high-viscosity hazelnut-cocoa lipid paste, a whole egg binder, and a minimal flour fraction. The lipid paste functions simultaneously as fat carrier, sweetener, and flavor substrate. Pre-heating of the paste to reduce viscosity prior to incorporation is noted in Thompson's trial logs as strongly advisable. Two test subjects requested additional vessels. One formally requested expedited completion of the written report.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+    </div>
+
+    <div class="formulation-item">
+      <p class="formulation-term">Epigallocatechin Gallate Suspension (Formulation V)</p>
+      <p class="formulation-desc">A chlorophyll-bearing substrate incorporating finely milled <i>Camellia sinensis</i> leaf powder as primary flavor and pigment agent. The catechin-rich matcha fraction produced a distinctly vegetal, subtly bitter flavor profile with delayed sweetness — a sensory sequence described as unfamiliar to most evaluating personnel but rated positively upon second tasting. Whole milk outperformed plant-derived milk substitutes in fat-mediated flavor transmission. Designated a novelty formulation in the original report without prejudice.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+    </div>
+
+    <p>The five formulations became known among Huntsville research personnel as the <i>single-stage cake vehicles</i> — a designation reflecting both the aerospace culture of the Redstone Arsenal environment and the confections' tendency to rise dramatically during RILDE processing before settling upon cooling.<sup class="reference"><a href="#ref2">[2]</a></sup></p>
+
+    <!-- ── SECTION 4 ──────────────────────────────────────────────────── -->
+    <h2 class="section-heading" id="legacy">Dissemination and Legacy <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <div class="thumb" style="max-width:300px;float:right;margin:0 0 16px 20px;">
+      <div class="thumbinner">
+        <img src="https://ik.imagekit.io/chompchomp/6A214A15-4AD0-4227-A856-F1FD76E97337-compressed.jpeg"
+             style="width:100%;display:block;" alt="RILDE historical timeline illustration">
+        <div class="thumbcaption">
+          <a href="#" class="magnify">🔍</a>
+          Illustrative timeline of RILDE development, 1940s–1960s, showing the progression from wartime magnetron development through Spencer's 1945 discovery, the 1947 Radarange launch, Thompson's 1950 trials, and the eventual spread of the formulations through the Huntsville community into the broader consumer microwave era.
+        </div>
+      </div>
+    </div>
+
+    <p>Thompson's findings were first documented in a restricted internal technical report circulated among Rohm &amp; Haas and Raytheon personnel in 1952.<sup class="reference"><a href="#ref1">[1]</a></sup> A revised version was subsequently published in the <i><a href="#">Journal of Food Science</a></i> in 1954, introducing the RILDE framework to the broader food science community.<sup class="reference"><a href="#ref6">[6]</a></sup> The paper proposed that the ceramic vessel was not incidental to the RILDE outcome but essential to it — a finding Thompson described in the conclusion as "a finding with implications extending well beyond the immediate application."</p>
+
+    <p>Knowledge of the five formulations spread through informal professional and community networks in northern Alabama during the early 1960s, disseminated through laboratories, engineering offices, and — notably — church suppers and covered dish gatherings in the Huntsville area.<sup class="reference"><a href="#ref2">[2]</a></sup> By the time consumer microwave ovens entered American households in the late 1960s, awareness of RILDE-adjacent techniques was already present in diffuse popular form, though the theoretical framework remained largely unknown outside the food science community.</p>
+
+    <p>The contemporary <i>mug cake</i> — a semi-leavened single-serving confection prepared in a ceramic vessel using a microwave oven — represents a direct descendant of Thompson's original RILDE formulations, though the connection is rarely acknowledged in popular treatments of the form. The internal technical report and its companion <i>Journal of Food Science</i> publication are archived at <a href="https://ps.chom.ps/rapid-internal-heating/">ps.chom.ps/rapid-internal-heating/</a>.</p>
+
+    <!-- ── SEE ALSO ────────────────────────────────────────────────────── -->
+    <h2 class="section-heading" id="see-also">See also <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+    <ul class="see-also-list">
+      <li><a href="#">Microwave oven</a> — History and mechanism</li>
+      <li><a href="#">Percy Spencer</a> — Biography</li>
+      <li><a href="#">Radarange</a> — Raytheon commercial microwave unit</li>
+      <li><a href="#">Dielectric heating</a> — Physical mechanism</li>
+      <li><a href="#">Mug cake</a> — Contemporary preparation</li>
+      <li><a href="#">Redstone Arsenal</a> — Huntsville, Alabama research facilities</li>
+      <li><a href="#">Rohm &amp; Haas</a> — Chemical company history</li>
+      <li><a href="#">Starch gelatinization</a></li>
+      <li><a href="#">Protein coagulation</a></li>
+      <li><a href="#">Field ration</a></li>
+    </ul>
+
+    <!-- ── REFERENCES ─────────────────────────────────────────────────── -->
+    <h2 class="section-heading" id="references">References <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+    <div class="mw-references-wrap">
+      <ol>
+        <li id="ref1">Thompson, S.A. (1952). <i>Rapid Internal Heating of Semi-Leavened Carbohydrate Systems in Ceramic Vessels.</i> Internal Technical Report, Rohm &amp; Haas / Raytheon Collaborative Research Division, Redstone Arsenal, Huntsville, Alabama. Archived at <a href="https://ps.chom.ps/rapid-internal-heating/">ps.chom.ps/rapid-internal-heating/</a>.</li>
+        <li id="ref2">Thompson, S.A., personal correspondence and laboratory notebooks, May 1950 – December 1952. Rohm &amp; Haas archives.</li>
+        <li id="ref3">Von Hippel, A.R. (1954). <i>Dielectrics and Waves.</i> MIT Press, Cambridge, Massachusetts.</li>
+        <li id="ref4">Spencer, P.L. (1945). U.S. Patent No. 2,495,429: Method of Treating Foodstuffs. Raytheon Manufacturing Company, Waltham, Massachusetts.</li>
+        <li id="ref5">Raytheon Manufacturing Company (1947). <i>Radarange Commercial Microwave Unit: Operating Specifications and Institutional Applications.</i> Internal product documentation.</li>
+        <li id="ref6">Thompson, S.A. (1954). Rapid internal leavening by dielectric excitation: A theoretical framework for microwave-induced confection synthesis. <i>Journal of Food Science,</i> 19(2), 114–121.</li>
+      </ol>
+    </div>
+
+    <!-- ── CATEGORIES ─────────────────────────────────────────────────── -->
+    <div id="catlinks">
+      <span style="font-weight:bold">Categories:</span>
+      <span class="catlinks-list">
+        <span><a href="#">Food science</a></span> ·
+        <span><a href="#">Dielectric heating</a></span> ·
+        <span><a href="#">Confectionery</a></span> ·
+        <span><a href="#">Microwave cooking</a></span> ·
+        <span><a href="#">Redstone Arsenal</a></span> ·
+        <span><a href="#">1950s American inventions</a></span> ·
+        <span><a href="#">Rohm and Haas</a></span> ·
+        <span><a href="#">Raytheon</a></span> ·
+        <span><a href="#">History of food and drink</a></span>
+      </span>
+    </div>
+
+    <p style="font-size:12px;color:#54595d;font-family:sans-serif;margin-top:12px;">
+      This page was last edited on 16 June 2026, at 14:32 (UTC).
+      Text is available under the <a href="#">Creative Commons Attribution-ShareAlike License 4.0</a>;
+      additional terms may apply. By using this site, you agree to the
+      <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+      Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc.,
+      a non-profit organization.
+    </p>
+
+  </div><!-- .mw-article -->
+</div><!-- #content -->
+
+<!-- ── FOOTER ────────────────────────────────────────────────────────────── -->
+<div id="footer">
+  <span><a href="#">Privacy policy</a></span>
+  <span><a href="#">About Wikipedia</a></span>
+  <span><a href="#">Disclaimers</a></span>
+  <span><a href="#">Contact Wikipedia</a></span>
+  <span><a href="#">Mobile view</a></span>
+  <span><a href="#">Developers</a></span>
+  <span><a href="#">Statistics</a></span>
+  <span><a href="#">Cookie statement</a></span>
+</div>
+
+</body>
+</html>
