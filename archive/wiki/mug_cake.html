@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mug cake - Wikipedia</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #202122;
+  background: #fff;
+}
+
+a { color: #3366cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+#mw-navigation {
+  width: 160px;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  background: #f8f9fa;
+  border-right: 1px solid #a2a9b1;
+  z-index: 100;
+}
+
+#content {
+  margin-left: 160px;
+  padding: 0 24px 40px 24px;
+  max-width: 960px;
+}
+
+.mw-logo {
+  display: block;
+  padding: 12px 10px 8px;
+  border-bottom: 1px solid #a2a9b1;
+  text-align: center;
+}
+
+.mw-logo svg { width: 50px; height: 50px; }
+.mw-logo-wordmark {
+  display: block;
+  font-family: sans-serif;
+  font-size: 13px;
+  color: #54595d;
+  margin-top: 3px;
+}
+
+.sidebar-section {
+  padding: 8px 0;
+  border-bottom: 1px solid #a2a9b1;
+}
+
+.sidebar-section h3 {
+  font-size: 11px;
+  font-family: sans-serif;
+  color: #54595d;
+  text-transform: uppercase;
+  padding: 4px 10px 2px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+}
+
+.sidebar-section ul { list-style: none; padding: 0; }
+.sidebar-section ul li a {
+  display: block;
+  padding: 2px 10px 2px 14px;
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #3366cc;
+}
+.sidebar-section ul li a:hover { background: #eaf3fb; text-decoration: none; }
+
+#mw-head {
+  background: #fff;
+  border-bottom: 1px solid #a2a9b1;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  height: 40px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin-left: -24px;
+  margin-right: -24px;
+  padding-left: 24px;
+}
+
+.mw-tabs { display: flex; align-items: flex-end; gap: 0; flex: 1; }
+.mw-tab {
+  font-size: 12.5px;
+  font-family: sans-serif;
+  padding: 6px 14px;
+  border: 1px solid #a2a9b1;
+  border-bottom: none;
+  margin-right: 2px;
+  border-radius: 2px 2px 0 0;
+  cursor: pointer;
+  color: #3366cc;
+  background: #f8f9fa;
+  position: relative;
+  top: 1px;
+}
+.mw-tab.selected {
+  background: #fff;
+  color: #202122;
+  border-bottom: 1px solid #fff;
+  z-index: 2;
+}
+
+.mw-search { display: flex; align-items: center; padding: 6px 0; }
+.mw-search input {
+  font-size: 12px; font-family: sans-serif;
+  border: 1px solid #a2a9b1; padding: 3px 8px;
+  width: 200px; border-radius: 2px;
+}
+.mw-search button {
+  font-size: 12px; font-family: sans-serif;
+  padding: 3px 10px; margin-left: 4px;
+  background: #f8f9fa; border: 1px solid #a2a9b1;
+  border-radius: 2px; cursor: pointer; color: #202122;
+}
+
+.mw-article { padding-top: 16px; }
+
+#firstHeading {
+  font-family: 'Linux Libertine', 'Georgia', serif;
+  font-size: 28px;
+  font-weight: normal;
+  border-bottom: 1px solid #a2a9b1;
+  padding-bottom: 3px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+  color: #000;
+}
+
+.mw-content-ltr p { margin-bottom: 10px; }
+
+/* Infobox */
+.infobox {
+  float: right;
+  clear: right;
+  margin: 0 0 16px 24px;
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  font-size: 12.5px;
+  line-height: 1.5;
+  width: 240px;
+  font-family: sans-serif;
+}
+.infobox-title {
+  background: #ffebcd;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #a2a9b1;
+  line-height: 1.4;
+}
+.infobox-image {
+  text-align: center;
+  padding: 8px;
+  border-bottom: 1px solid #eaecf0;
+}
+.infobox-image img { max-width: 100%; }
+.infobox-image-caption {
+  font-size: 11px;
+  color: #54595d;
+  margin-top: 4px;
+  font-style: italic;
+  line-height: 1.4;
+}
+.infobox table { width: 100%; border-collapse: collapse; }
+.infobox td {
+  padding: 3px 6px;
+  vertical-align: top;
+  border-top: 1px solid #eaecf0;
+}
+.infobox td:first-child {
+  font-weight: bold;
+  white-space: nowrap;
+  text-align: right;
+  width: 45%;
+  color: #202122;
+}
+
+/* TOC */
+.toc {
+  background: #f8f9fa;
+  border: 1px solid #a2a9b1;
+  padding: 12px 16px;
+  display: inline-block;
+  min-width: 200px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-family: sans-serif;
+}
+.toc-title { font-weight: bold; text-align: center; margin-bottom: 6px; font-size: 13px; }
+.toc ol { margin: 0; padding-left: 20px; }
+.toc ol li { margin: 2px 0; line-height: 1.4; }
+.toc ol li ol { padding-left: 18px; }
+.toc a { color: #3366cc; }
+
+/* Headings */
+h2.section-heading {
+  font-family: 'Linux Libertine', 'Georgia', serif;
+  font-size: 22px;
+  font-weight: normal;
+  border-bottom: 1px solid #a2a9b1;
+  margin: 24px 0 8px;
+  padding-bottom: 4px;
+  line-height: 1.3;
+}
+h3.section-heading {
+  font-family: 'Linux Libertine', 'Georgia', serif;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 16px 0 6px;
+  line-height: 1.3;
+}
+.mw-editsection {
+  font-family: sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  color: #54595d;
+  margin-left: 8px;
+}
+.mw-editsection a { color: #3366cc; font-size: 11px; }
+
+/* Thumb */
+.thumb {
+  clear: right;
+  margin: 0 0 12px 24px;
+  float: right;
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  padding: 4px;
+  font-size: 12px;
+  font-family: sans-serif;
+  max-width: 280px;
+}
+.thumb.tleft { float: left; margin: 0 24px 12px 0; }
+.thumbinner { width: 100%; }
+.thumbcaption {
+  font-size: 11.5px;
+  line-height: 1.4;
+  padding: 4px 2px 2px;
+  color: #54595d;
+  font-family: sans-serif;
+}
+
+/* Hatnote */
+.hatnote {
+  font-style: italic;
+  font-size: 13px;
+  color: #54595d;
+  margin-bottom: 10px;
+  padding-left: 1.6em;
+  border-left: 3px solid #eaecf0;
+}
+
+/* Varieties table */
+.wikitable {
+  border-collapse: collapse;
+  font-size: 13px;
+  font-family: sans-serif;
+  margin: 12px 0;
+  width: 100%;
+}
+.wikitable th {
+  background: #eaecf0;
+  border: 1px solid #a2a9b1;
+  padding: 5px 8px;
+  text-align: left;
+  font-weight: bold;
+}
+.wikitable td {
+  border: 1px solid #a2a9b1;
+  padding: 4px 8px;
+  vertical-align: top;
+}
+.wikitable tr:nth-child(even) td { background: #f8f9fa; }
+
+/* See also */
+.see-also-list {
+  columns: 2;
+  column-gap: 24px;
+  list-style: disc;
+  padding-left: 22px;
+  font-size: 13.5px;
+  margin-bottom: 12px;
+}
+.see-also-list li { margin-bottom: 3px; break-inside: avoid; }
+
+/* References */
+.mw-references-wrap ol {
+  font-size: 13px;
+  padding-left: 22px;
+  font-family: sans-serif;
+  line-height: 1.5;
+}
+.mw-references-wrap ol li { margin-bottom: 4px; }
+
+/* Categories */
+#catlinks {
+  clear: both;
+  border-top: 1px solid #a2a9b1;
+  padding: 8px 0 4px;
+  margin-top: 20px;
+  font-size: 12.5px;
+  font-family: sans-serif;
+  color: #54595d;
+}
+#catlinks a { color: #3366cc; }
+.catlinks-list span { margin-right: 6px; }
+
+#footer {
+  margin-left: 160px;
+  border-top: 1px solid #a2a9b1;
+  padding: 12px 24px;
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #54595d;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+#footer a { color: #3366cc; }
+
+sup.reference { font-size: 10px; line-height: 0; position: relative; vertical-align: super; }
+sup.reference a { color: #3366cc; }
+
+/* Cleanup tag */
+.ambox {
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  padding: 8px 12px;
+  font-family: sans-serif;
+  font-size: 12.5px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.ambox-icon { font-size: 20px; flex-shrink: 0; }
+.ambox-text { color: #54595d; line-height: 1.5; }
+
+@media print {
+  #mw-navigation, #mw-head, #footer { display: none !important; }
+  #content { margin-left: 0; padding: 0 16px; max-width: 100%; }
+  body { font-size: 11pt; color: #000; }
+  a { color: #000; }
+  #firstHeading { font-size: 20pt; }
+  h2.section-heading { font-size: 15pt; }
+  h3.section-heading { font-size: 13pt; }
+  .infobox { font-size: 9pt; width: 200px; }
+  .thumb { max-width: 200px; }
+  .mw-editsection { display: none; }
+  #catlinks { font-size: 9pt; }
+  .toc { font-size: 10pt; }
+  .wikitable { font-size: 9pt; }
+  .ambox { display: none; }
+  body::before {
+    content: "Wikipedia — The Free Encyclopedia";
+    display: block;
+    font-family: sans-serif;
+    font-size: 9pt;
+    color: #54595d;
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+  }
+  body::after {
+    content: "Retrieved from https://en.wikipedia.org/wiki/Mug_cake — Text available under Creative Commons Attribution-ShareAlike License 4.0";
+    display: block;
+    font-family: sans-serif;
+    font-size: 8pt;
+    color: #54595d;
+    border-top: 1px solid #a2a9b1;
+    padding-top: 4px;
+    margin-top: 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div id="mw-navigation">
+  <a class="mw-logo" href="#">
+    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="23" fill="none" stroke="#a2a9b1" stroke-width="1.5"/>
+      <ellipse cx="25" cy="25" rx="10" ry="23" fill="none" stroke="#a2a9b1" stroke-width="1"/>
+      <line x1="2" y1="25" x2="48" y2="25" stroke="#a2a9b1" stroke-width="1"/>
+      <path d="M6 15 Q25 12 44 15" fill="none" stroke="#a2a9b1" stroke-width="0.8"/>
+      <path d="M6 35 Q25 38 44 35" fill="none" stroke="#a2a9b1" stroke-width="0.8"/>
+      <circle cx="25" cy="25" r="4" fill="#54595d" opacity="0.3"/>
+    </svg>
+    <span class="mw-logo-wordmark">Wikipedia<br><small style="font-size:10px;color:#72777d">The Free Encyclopedia</small></span>
+  </a>
+  <div class="sidebar-section">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="#">Main page</a></li>
+      <li><a href="#">Contents</a></li>
+      <li><a href="#">Featured content</a></li>
+      <li><a href="#">Current events</a></li>
+      <li><a href="#">Random article</a></li>
+      <li><a href="#">Donate to Wikipedia</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-section">
+    <h3>Interaction</h3>
+    <ul>
+      <li><a href="#">Help</a></li>
+      <li><a href="#">About Wikipedia</a></li>
+      <li><a href="#">Community portal</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Contact page</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-section">
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="#">What links here</a></li>
+      <li><a href="#">Related changes</a></li>
+      <li><a href="#">Special pages</a></li>
+      <li><a href="#">Permanent link</a></li>
+      <li><a href="#">Cite this page</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-section">
+    <h3>Print/export</h3>
+    <ul>
+      <li><a href="#" onclick="window.print();return false;">Create a book</a></li>
+      <li><a href="#" onclick="window.print();return false;">Download as PDF</a></li>
+      <li><a href="#" onclick="window.print();return false;">Printable version</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-section">
+    <h3>Languages</h3>
+    <ul>
+      <li><a href="#">Deutsch</a></li>
+      <li><a href="#">Español</a></li>
+      <li><a href="#">Français</a></li>
+      <li><a href="#">日本語</a></li>
+      <li><a href="#">中文</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+
+  <div id="mw-head">
+    <div class="mw-tabs">
+      <div class="mw-tab selected">Article</div>
+      <div class="mw-tab">Talk</div>
+      <div class="mw-tab">Read</div>
+      <div class="mw-tab">Edit</div>
+      <div class="mw-tab">View history</div>
+    </div>
+    <div class="mw-search">
+      <input type="text" placeholder="Search Wikipedia">
+      <button>Search</button>
+    </div>
+  </div>
+
+  <div class="mw-article mw-content-ltr">
+
+    <h1 id="firstHeading">Mug cake</h1>
+
+    <!-- Infobox -->
+    <div class="infobox">
+      <div class="infobox-title">Mug cake</div>
+      <div class="infobox-image">
+        <img src="https://ik.imagekit.io/chompchomp/97701B4E-6A6C-4930-8A3A-A2BB4527AB30-compressed.jpeg"
+             alt="Five mug cakes in laboratory setting, Redstone Arsenal, 1950">
+        <div class="infobox-image-caption">Sandra Thompson's five stable formulations,<br>Redstone Arsenal, May 1950.</div>
+      </div>
+      <table>
+        <tr><td>Type:</td><td>Confection; single-serving cake</td></tr>
+        <tr><td>Course:</td><td>Dessert</td></tr>
+        <tr><td>Origin:</td><td><a href="#">Huntsville, Alabama</a>, U.S. (attributed)</td></tr>
+        <tr><td>Created by:</td><td><a href="#">Sandra A. Thompson</a> (attributed, 1950)</td></tr>
+        <tr><td>Vessel:</td><td>Ceramic mug (critical)</td></tr>
+        <tr><td>Cooking method:</td><td><a href="#">Microwave oven</a>; <a href="#">RILDE</a></td></tr>
+        <tr><td>Serving temp:</td><td>Hot (immediate)</td></tr>
+        <tr><td>Prep time:</td><td>Under 5 minutes</td></tr>
+        <tr><td>Cooking time:</td><td>60–90 seconds</td></tr>
+      </table>
+    </div>
+
+    <!-- Lede -->
+    <p>A <b>mug cake</b> is a single-serving confection prepared by combining batter ingredients directly in a <a href="#">ceramic mug</a> and cooking the mixture in a <a href="#">microwave oven</a>, typically for 60 to 90 seconds. The technique relies on <a href="#">dielectric heating</a> — the excitation of polar water molecules by microwave radiation at 2.45 GHz — to thermally set the batter from the inside outward, a process formally described as <a href="#">Rapid Internal Leavening by Dielectric Excitation</a> (<b>RILDE</b>).<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <p>The mug cake requires no oven, no mixer, and no specialized technique. Preparation time from ingredient assembly to consumption does not exceed five minutes. The ceramic vessel functions not merely as a convenient container but as a critical variable in the RILDE process, contributing to moisture retention and uniform thermal distribution in ways that distinguish the product categorically from conventionally baked analogs.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <p>The modern mug cake is generally attributed — in its theoretical form — to the work of chemist <a href="#">Sandra A. Thompson</a> at <a href="#">Redstone Arsenal</a>, Huntsville, Alabama, in 1950, though the connection between Thompson's documented research and the form's popular emergence in the mid-2000s is a matter of ongoing scholarly discussion.<sup class="reference"><a href="#ref2">[2]</a></sup> The mug cake gained widespread popular attention through internet cooking forums and a widely circulated YouTube video in 2009.<sup class="reference"><a href="#ref3">[3]</a></sup></p>
+
+    <!-- TOC -->
+    <div class="toc">
+      <div class="toc-title">Contents <span style="font-weight:normal;font-size:12px">[<a href="#">hide</a>]</span></div>
+      <ol>
+        <li><a href="#description">Description</a></li>
+        <li><a href="#history">History</a>
+          <ol>
+            <li><a href="#precursors">Precursors: cup cakes and individual baking</a></li>
+            <li><a href="#thompson">Thompson's RILDE formulations (1950)</a></li>
+            <li><a href="#dormancy">Dormancy and informal dissemination (1950s–1990s)</a></li>
+            <li><a href="#internet">Internet-era emergence (2000s)</a></li>
+          </ol>
+        </li>
+        <li><a href="#mechanism">Mechanism</a></li>
+        <li><a href="#varieties">Common varieties</a></li>
+        <li><a href="#preparation">Preparation notes</a></li>
+        <li><a href="#cultural">Cultural reception</a></li>
+        <li><a href="#see-also">See also</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </div>
+
+    <!-- ── SECTION 1 ── -->
+    <h2 class="section-heading" id="description">Description <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <p>A mug cake consists of a small quantity of batter — typically containing flour, sugar, a leavening agent, egg or egg substitute, a fat component (oil, butter, or a fat-bearing ingredient such as hazelnut paste), and a liquid — combined directly in a ceramic mug and subjected to microwave radiation for 60 to 90 seconds. The result is a discrete, self-contained single-serving confection that is consumed directly from the vessel in which it was prepared.</p>
+
+    <p>The mug cake is distinguished from the <a href="#">cupcake</a> by its cooking method and vessel: cupcakes are baked in conventional ovens using metal or paper liners and typically require preparation times of 20 to 35 minutes, not including cooling. The mug cake requires no oven, produces no baking vessels requiring cleaning beyond the mug itself, and is consumed immediately upon preparation. It does not cool. It does not wait.</p>
+
+    <p>The texture of a mug cake differs from that of a conventionally baked cake. Because dielectric heating generates heat volumetrically rather than conductively, the mug cake lacks a baked crust and exhibits a uniformly dense, moist interior. This characteristic texture — sometimes described as <i>fudgy</i> in cocoa-based variants — is a function of the RILDE process rather than a defect.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <!-- ── SECTION 2 ── -->
+    <h2 class="section-heading" id="history">History <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <h3 class="section-heading" id="precursors">Precursors: cup cakes and individual baking <span class="mw-editsection">[<a href="#">edit</a>]</span></h3>
+
+    <p>The practice of baking small cakes in individual ceramic or earthenware containers predates the microwave oven by several centuries. Food historians have noted that the earliest cup-sized cakes were baked in clay or earthenware mugs, making the ceramic vessel a part of the confection's history long before the development of dielectric heating technology.<sup class="reference"><a href="#ref4">[4]</a></sup> The first documented recipe for what would come to be called a cupcake dates to 1796 and calls specifically for small individual cups as the baking vessel.<sup class="reference"><a href="#ref5">[5]</a></sup></p>
+
+    <p>The critical distinction between these historical precursors and the modern mug cake is the cooking method. Conventional oven-baked individual cakes require sustained external heat for 20 minutes or more; the mug cake as currently understood is inseparable from the technology of microwave dielectric heating, which was not available until the postwar period.</p>
+
+    <div class="thumb" style="max-width:290px;">
+      <div class="thumbinner">
+        <img src="https://ik.imagekit.io/chompchomp/E82A0AFE-20CA-4DAA-886C-E55505F4030B-compressed.jpeg"
+             style="width:100%;display:block;" alt="Radarange at Redstone Arsenal 1950">
+        <div class="thumbcaption">
+          The Raytheon Radarange prototype (Model R-1) at Redstone Arsenal, October 1950. The unit's operation at 2.45 GHz — a frequency particularly effective at exciting polar water molecules — made RILDE possible. Sandra Thompson is pictured removing a ceramic vessel following Trial 17.
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-heading" id="thompson">Thompson's RILDE formulations (1950) <span class="mw-editsection">[<a href="#">edit</a>]</span></h3>
+
+    <p>The earliest documented production of a mug cake under controlled conditions occurred in October 1950 at research facilities associated with <a href="#">Redstone Arsenal</a>, Huntsville, Alabama. Chemist Sandra A. Thompson of <a href="#">Rohm &amp; Haas</a>, working under a joint defense contract with <a href="#">Raytheon Manufacturing Company</a>, introduced a quantity of fortified carbohydrate batter into a Raytheon Radarange prototype unit within a standard ceramic coffee mug. The result — a discrete, self-contained confection achieved within approximately 75 seconds — was consumed immediately by the assembled research personnel.<sup class="reference"><a href="#ref6">[6]</a></sup></p>
+
+    <p>Thompson subsequently conducted 23 controlled trials between November 1950 and March 1951, identifying five stable formulations which she designated by chemical nomenclature. These formulations became known informally among Huntsville researchers as the <i>single-stage cake vehicles</i>. Thompson's findings were published first as a restricted internal technical report in 1952 and subsequently in the <i>Journal of Food Science</i> in 1954, where she formally introduced the theoretical framework of <a href="#">Rapid Internal Leavening by Dielectric Excitation</a> (RILDE).<sup class="reference"><a href="#ref6">[6]</a></sup></p>
+
+    <p>The circumstances of the original discovery remain a subject of mild dispute in the food science history literature. Thompson's own account, preserved in laboratory correspondence, is notably circumspect on the question of whether the initial introduction of batter into the Radarange chamber was deliberate or accidental. A note in the trial logs attributes the event ambiguously to "test formulation handling protocols." Independent accounts suggest the involvement of a junior staff member.<sup class="reference"><a href="#ref6">[6]</a></sup></p>
+
+    <h3 class="section-heading" id="dormancy">Dormancy and informal dissemination (1950s–1990s) <span class="mw-editsection">[<a href="#">edit</a>]</span></h3>
+
+    <p>Following the publication of Thompson's 1954 paper, awareness of RILDE-based confection preparation spread through informal networks in northern Alabama — laboratories, engineering offices, and community gatherings including church suppers and covered dish events — without achieving broader popular visibility.<sup class="reference"><a href="#ref6">[6]</a></sup> The domestic microwave oven, which would make the technique universally accessible, did not enter American households in significant numbers until the late 1960s and early 1970s.</p>
+
+    <p>The Radarange, Raytheon's commercial unit, remained an industrial appliance through the 1950s: standing six feet tall, weighing 750 pounds, and priced at approximately $5,000, it was not a domestic instrument.<sup class="reference"><a href="#ref7">[7]</a></sup> Amana, a Raytheon subsidiary, introduced the first practical countertop microwave oven in 1967; by the 1980s the appliance was standard in American kitchens. During this period, informal mug cake preparation almost certainly occurred widely but was not documented in the food literature as a distinct category.</p>
+
+    <h3 class="section-heading" id="internet">Internet-era emergence (2000s) <span class="mw-editsection">[<a href="#">edit</a>]</span></h3>
+
+    <div class="hatnote">The exact origin of the contemporary mug cake as a popularized form is disputed. Multiple accounts attribute independent parallel development in the mid-2000s.</div>
+
+    <p>The mug cake as a recognized and named culinary form emerged on internet cooking forums and email lists in the mid-2000s.<sup class="reference"><a href="#ref3">[3]</a></sup> The specific point of origin is unclear; the recipe format circulated widely as a forwarded email and forum post before any single publication or creator claimed primacy. The form achieved broad popular attention following a YouTube video in 2009, after which the term "mug cake" entered widespread use and the technique was adopted by food bloggers, lifestyle publications, and mainstream cookbook authors.<sup class="reference"><a href="#ref3">[3]</a></sup></p>
+
+    <p>Whether the internet-era popularization of mug cakes represents an independent rediscovery of the RILDE principle or a diffuse inheritance from the informal Huntsville-area dissemination of Thompson's formulations in the 1950s and 1960s remains an open question in the food history literature. Thompson herself, in a 1971 interview, noted with characteristic dryness that she was "not surprised the idea had occurred to others" and declined to claim priority over the general concept of putting batter in a mug.<sup class="reference"><a href="#ref2">[2]</a></sup></p>
+
+    <!-- ── SECTION 3 ── -->
+    <h2 class="section-heading" id="mechanism">Mechanism <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <p>The mug cake's rapid cooking time is a function of the microwave oven's operating principle: dielectric heating at 2.45 GHz excites polar water molecules within the batter, causing them to rotate rapidly and generate heat through molecular friction throughout the volume of the mixture simultaneously. This is in contrast to conventional baking, in which heat is conducted from an external source inward through the food over a much longer period.</p>
+
+    <p>The ceramic vessel plays a functionally essential role. Ceramic materials exhibit low dielectric loss at 2.45 GHz — meaning they transmit microwave energy to the batter without significant self-heating — and their thermal mass and low conductivity retain moisture within the batter during heating. Thompson's 1952 report identified vessel material and geometry as primary determinants of RILDE outcome quality, a finding that distinguishes the mug cake from other microwave confections prepared in plastic or glass containers.<sup class="reference"><a href="#ref6">[6]</a></sup></p>
+
+    <p>A characteristic feature of the mug cake is <b>carryover cooking</b>: the batter continues to cook for approximately 30 seconds after microwave exposure ceases, as residual thermal energy propagates through the mixture. The mug cake will therefore appear slightly underdone at the moment of removal from the microwave — a condition that is correct and expected, not a process failure. Overcooking produces a dense, rubbery result with significantly reduced palatability; the margin between underdone and overdone is approximately 15 seconds in a standard household microwave.<sup class="reference"><a href="#ref1">[1]</a></sup></p>
+
+    <!-- ── SECTION 4 ── -->
+    <h2 class="section-heading" id="varieties">Common varieties <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <p>The following table lists the five formulations identified in Thompson's Trial Series 47-B (1950–1951), along with their working chemical nomenclature and common designations. These remain the foundational reference formulations in the RILDE literature.</p>
+
+    <table class="wikitable">
+      <tr>
+        <th>Thompson designation (1952)</th>
+        <th>Common name</th>
+        <th>Primary flavor agent</th>
+        <th>Palatability (M, 1–5)</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Theobroma Cacao Alkaloid Matrix</td>
+        <td>Chocolate</td>
+        <td>Cocoa powder (methylxanthines)</td>
+        <td>4.2</td>
+        <td>Reference standard. Optional sucrose-cocoa chip inclusion produces localized melt center.</td>
+      </tr>
+      <tr>
+        <td>HO-C<sub>6</sub>H<sub>3</sub>(OCH<sub>3</sub>)-CHO Induction</td>
+        <td>Vanilla / Yellow</td>
+        <td>Vanillin aldehyde</td>
+        <td>3.7</td>
+        <td>Egg yolk preferred over whole egg. Flaked sodium chloride finishing recommended.</td>
+      </tr>
+      <tr>
+        <td>Citrus Terpene Leavened Substrate</td>
+        <td>Lemon</td>
+        <td>Limonene; citric acid</td>
+        <td>3.9</td>
+        <td>Zest fraction dominant over juice. Low-pH interaction with leavening agent produces volatile flavor profile.</td>
+      </tr>
+      <tr>
+        <td>Tripalmitin-Oleic Hazelnut Colloid</td>
+        <td>Nutella / Hazelnut</td>
+        <td>Hazelnut-cocoa lipid paste</td>
+        <td>4.8</td>
+        <td>Three-component formulation. Highest palatability in series. Pre-heating of lipid paste strongly advised. Two evaluators requested additional vessels.</td>
+      </tr>
+      <tr>
+        <td>Epigallocatechin Gallate Suspension</td>
+        <td>Matcha</td>
+        <td><i>Camellia sinensis</i> leaf powder</td>
+        <td>3.5</td>
+        <td>Novelty formulation. Vegetal, subtly bitter; delayed sweetness. Whole milk preferred over plant-based alternatives for fat-mediated flavor transmission.</td>
+      </tr>
+    </table>
+
+    <p>Beyond Thompson's original five formulations, the mug cake has been adapted across a wide range of flavor profiles by popular food publications and home cooks. Variants include red velvet, peanut butter, cinnamon roll, carrot cake, and seasonal preparations. The core RILDE mechanism — batter in a ceramic vessel, microwave, 60 to 90 seconds — remains constant across all variations.</p>
+
+    <!-- ── SECTION 5 ── -->
+    <h2 class="section-heading" id="preparation">Preparation notes <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <div class="thumb tleft" style="max-width:270px;">
+      <div class="thumbinner">
+        <img src="https://ik.imagekit.io/chompchomp/6A214A15-4AD0-4227-A856-F1FD76E97337-compressed.jpeg"
+             style="width:100%;display:block;" alt="RILDE timeline illustration">
+        <div class="thumbcaption">
+          Illustrative timeline of RILDE development showing the progression from wartime radar research (1940s) through Thompson's 1950 trials, the covered-dish supper era of the 1960s, and the contemporary household mug cake.
+        </div>
+      </div>
+    </div>
+
+    <p><b>Vessel.</b> A ceramic mug of at least 12 oz. (355 mL) capacity is required. Batter rises during cooking and requires headroom. Thin-walled mugs heat unevenly; thick ceramic is preferred. Metal vessels must not be used in microwave ovens.</p>
+
+    <p><b>Ingredient order.</b> Wet ingredients should be added to the mug first and stirred before the incorporation of dry ingredients. In the confined space of a mug, dry ingredients — particularly flour — tend to clump in the corners and base when added first. The wet-first method produces a more uniformly incorporated batter.</p>
+
+    <p><b>Timing.</b> Microwave wattage varies significantly across household units; 60 seconds is the appropriate starting point regardless of the recipe's stated time. Additional time should be added in 10- to 15-second increments, checking after each interval. The finished mug cake should appear just-set at the center; overdone product is characterized by a rubbery, dense texture that cannot be corrected after the fact.</p>
+
+    <p><b>The Nutella problem.</b> The hazelnut-cocoa lipid paste used in the Tripalmitin-Oleic Hazelnut Colloid formulation becomes significantly more fluid and workable when the jar is briefly heated (lid removed, 20–30 seconds in the microwave) before measuring. This step is noted in Thompson's original trial logs and remains the standard recommendation in contemporary treatments of the formulation.<sup class="reference"><a href="#ref6">[6]</a></sup></p>
+
+    <p><b>Gluten-free preparation.</b> Almond flour and oat flour may be substituted for all-purpose flour at equal volume. Both alternatives produce slightly faster cooking times; checking should begin at 60 seconds. Certified gluten-free oats should be used where celiac disease is a concern. One-to-one gluten-free flour blends (including commercial products by Bob's Red Mill and King Arthur Flour) perform reliably at equal substitution volumes, though may produce a marginally denser texture.</p>
+
+    <p><b>Vegan preparation.</b> Eggs may be substituted with 3 tablespoons of <a href="#">aquafaba</a> (the liquid from canned chickpeas) or a flax egg (1 tablespoon ground flax meal combined with 3 tablespoons water, rested 5 minutes). Butter may be replaced with an equal volume of neutral oil or melted coconut oil. Plant-based milk alternatives may be substituted at equal volume; oat milk is the most neutral in flavor.</p>
+
+    <!-- ── SECTION 6 ── -->
+    <h2 class="section-heading" id="cultural">Cultural reception <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+
+    <p>The mug cake occupies an unusual position in food culture, situated at the intersection of convenience, informality, and a certain defiant domesticity. It is, by design, a cake that does not require an audience, an occasion, or advance planning. Its constituency is the person who wants cake now, alone, in a mug, at 11 p.m. on a Tuesday. Food writers have noted that this demographic is both larger and less apologetic than the confection's humble presentation might suggest.<sup class="reference"><a href="#ref8">[8]</a></sup></p>
+
+    <p>The mug cake has been the subject of mild condescension in professional baking circles — it lacks crust, crumb structure, layers, and decoration, and requires skills that are difficult to distinguish from the ability to read — and of corresponding enthusiasm in home cooking communities, where its accessibility is precisely the point. The British food writer <a href="#">Nigella Lawson</a> has described a version of the chocolate mug cake favorably; the <i>Great British Bake Off</i> has not featured it competitively.</p>
+
+    <p>The mug cake's relationship to the broader culture of convenience cooking, microwave anxiety, and the social valuation of baking effort is a recurring theme in food writing. That a confection requiring 90 seconds of preparation can produce genuine satisfaction has been offered as evidence variously for the democratization of dessert, the tyranny of effort-signaling in domestic food culture, and the enduring correctness of Sandra Thompson's observation that <i>"the system works. The cake is real. It arrives in under two minutes, in the vessel in which it was made, and it requires nothing further of the person eating it."</i><sup class="reference"><a href="#ref6">[6]</a></sup></p>
+
+    <!-- ── SEE ALSO ── -->
+    <h2 class="section-heading" id="see-also">See also <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+    <ul class="see-also-list">
+      <li><a href="#">Rapid Internal Leavening by Dielectric Excitation (RILDE)</a></li>
+      <li><a href="#">Microwave oven</a></li>
+      <li><a href="#">Percy Spencer</a></li>
+      <li><a href="#">Cupcake</a></li>
+      <li><a href="#">Aquafaba</a></li>
+      <li><a href="#">Dielectric heating</a></li>
+      <li><a href="#">Sandra A. Thompson</a></li>
+      <li><a href="#">Redstone Arsenal</a></li>
+      <li><a href="#">Raytheon Radarange</a></li>
+      <li><a href="#">Single-stage cake vehicle</a></li>
+      <li><a href="#">Rohm &amp; Haas</a></li>
+      <li><a href="#">Convenience food</a></li>
+    </ul>
+
+    <!-- ── REFERENCES ── -->
+    <h2 class="section-heading" id="references">References <span class="mw-editsection">[<a href="#">edit</a>]</span></h2>
+    <div class="mw-references-wrap">
+      <ol>
+        <li id="ref1">Thompson, S.A. (1952). <i>Rapid Internal Heating of Semi-Leavened Carbohydrate Systems in Ceramic Vessels.</i> Internal Technical Report, Rohm &amp; Haas / Raytheon Collaborative Research Division, Redstone Arsenal, Huntsville, Alabama. Archived at <a href="https://chom.ps/archive/thompson_rapid_internal_heating.pdf">chom.ps/archive/thompson_rapid_internal_heating</a>.</li>
+        <li id="ref2">Thompson, S.A., personal correspondence and interview transcripts, 1952–1971. Rohm &amp; Haas archives.</li>
+        <li id="ref3">Various (2005–2009). Internet cooking forums and mailing lists; YouTube (2009). "Mug Cake." Video documentation. Archived links available via the Wayback Machine.</li>
+        <li id="ref4">Davidson, A. (1999). <i>The Oxford Companion to Food.</i> Oxford University Press. See entry: "Cupcake."</li>
+        <li id="ref5">Simmons, A. (1796). <i>American Cookery.</i> Hudson &amp; Goodwin, Hartford, Connecticut.</li>
+        <li id="ref6">Thompson, S.A. (1954). Rapid internal leavening by dielectric excitation: A theoretical framework for microwave-induced confection synthesis. <i>Journal of Food Science,</i> 19(2), 114–121.</li>
+        <li id="ref7">Raytheon Manufacturing Company (1947). <i>Radarange Commercial Microwave Unit: Operating Specifications and Institutional Applications.</i> Internal product documentation.</li>
+        <li id="ref8">Boman, D. (2026). "A Magnetron Operating at 2.45 Gigahertz Was Always Going to End Here." <i>Postscript (Cookies, etc. ... and so on).</i> <a href="https://ps.chom.ps/a-magnetron-operating-at-2-45-gigahertz/">ps.chom.ps</a>.</li>
+      </ol>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div id="catlinks">
+      <span style="font-weight:bold">Categories:</span>
+      <span class="catlinks-list">
+        <span><a href="#">Cakes</a></span> ·
+        <span><a href="#">Microwave cooking</a></span> ·
+        <span><a href="#">Convenience food</a></span> ·
+        <span><a href="#">American desserts</a></span> ·
+        <span><a href="#">Food science</a></span> ·
+        <span><a href="#">Dielectric heating</a></span> ·
+        <span><a href="#">Redstone Arsenal</a></span> ·
+        <span><a href="#">1950s American inventions</a></span> ·
+        <span><a href="#">Single-serving foods</a></span>
+      </span>
+    </div>
+
+    <p style="font-size:12px;color:#54595d;font-family:sans-serif;margin-top:12px;">
+      This page was last edited on 17 June 2026, at 09:14 (UTC).
+      Text is available under the <a href="#">Creative Commons Attribution-ShareAlike License 4.0</a>;
+      additional terms may apply. By using this site, you agree to the
+      <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+      Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+    </p>
+
+  </div>
+</div>
+
+<div id="footer">
+  <span><a href="#">Privacy policy</a></span>
+  <span><a href="#">About Wikipedia</a></span>
+  <span><a href="#">Disclaimers</a></span>
+  <span><a href="#">Contact Wikipedia</a></span>
+  <span><a href="#">Mobile view</a></span>
+  <span><a href="#">Developers</a></span>
+  <span><a href="#">Cookie statement</a></span>
+</div>
+
+</body>
+</html>
