@@ -1,20 +1,11 @@
 {
-  "entries": [
-    {
-      "title": "Example: Thompson — Rapid Internal Heating",
-      "file": "thompson_rapid_internal_heating.pdf",
-      "type": "pdf",
-      "description": "A sample entry. Replace with your own files and descriptions.",
-      "date": "2026-01-01",
-      "tags": ["example"]
+  "overrides": {
+    "example_filename.pdf": {
+      "title": "A Better Title Than The Filename",
+      "description": "Optional description shown beneath the title."
     },
-    {
-      "title": "Example: Rilde (wiki)",
-      "file": "wiki/rilde.html",
-      "type": "html",
-      "description": "A sample nested wiki entry.",
-      "date": "2026-01-01",
-      "tags": ["wiki", "example"]
+    "wiki/some_page.html": {
+      "title": "Custom Title For a Nested File"
     }
-  ]
+  }
 }

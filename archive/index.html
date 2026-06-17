@@ -63,13 +63,13 @@
       border-color: var(--color-accent);
     }
 
-    .tag-filter {
+    .type-filter {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
     }
 
-    .tag-btn {
+    .type-btn {
       padding: 5px 12px;
       font-size: 0.8em;
       font-family: var(--font-primary);
@@ -81,8 +81,8 @@
       transition: color 0.15s, border-color 0.15s, background 0.15s;
     }
 
-    .tag-btn:hover,
-    .tag-btn.active {
+    .type-btn:hover,
+    .type-btn.active {
       border-color: var(--color-accent);
       color: var(--color-accent);
       background: transparent;
@@ -166,19 +166,39 @@
       line-height: 1.5;
     }
 
-    .entry-tags {
-      margin-top: 6px;
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
+    .entry-folder {
+      font-size: 0.78em;
+      color: var(--color-text-light);
+      font-family: monospace;
     }
 
-    .entry-tag {
-      padding: 2px 8px;
-      font-size: 0.72em;
-      border-radius: 10px;
-      background: var(--color-border);
+    .archive-breadcrumb {
+      max-width: 720px;
+      margin: 0 auto 8px;
+      padding: 0 20px;
+      font-size: 0.85em;
       color: var(--color-text-muted);
+    }
+
+    .archive-breadcrumb a {
+      color: var(--color-text-muted);
+    }
+
+    .archive-breadcrumb a:hover {
+      color: var(--color-accent);
+    }
+
+    .dir-entry {
+      cursor: pointer;
+    }
+
+    .dir-entry .entry-title a {
+      color: var(--color-accent);
+    }
+
+    .entry-size {
+      font-size: 0.78em;
+      color: var(--color-text-light);
     }
 
     .archive-empty {
@@ -238,9 +258,10 @@
 
     <div class="archive-controls">
       <input type="search" class="archive-search" id="archiveSearch" placeholder="Search archive…" autocomplete="off">
-      <div class="tag-filter" id="tagFilter"></div>
+      <div class="type-filter" id="typeFilter"></div>
     </div>
 
+    <div class="archive-breadcrumb" id="breadcrumb"></div>
     <div class="archive-count" id="archiveCount"></div>
 
     <div class="archive-list" id="archiveList">
@@ -251,13 +272,27 @@
 
   <script src="/navigation.js"></script>
   <script>
-    let allEntries = [];
-    let activeTag = null;
+    const REPO = 'chomp-chomp-chomp/chomp';
+    const BASE_DIR = 'archive';
+    const IGNORE = new Set(['index.html', '.gitkeep', 'manifest.json']);
+    const CACHE_TTL = 5 * 60 * 1000;
 
-    function formatDate(dateStr) {
-      if (!dateStr) return '';
-      const d = new Date(dateStr + 'T00:00:00');
-      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    let allEntries = [];
+    let overrides = {};
+    let activeType = null;
+    let currentPath = '';
+
+    function filenameToTitle(name) {
+      const base = name.replace(/\.[^.]+$/, '');
+      return base
+        .replace(/[_-]+/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
     }
 
     function render(entries) {
@@ -265,90 +300,202 @@
       const count = document.getElementById('archiveCount');
 
       if (!entries.length) {
-        list.innerHTML = '<div class="archive-empty">No entries found.</div>';
+        list.innerHTML = '<div class="archive-empty">No files found.</div>';
         count.textContent = '';
         return;
       }
 
-      count.textContent = entries.length === 1 ? '1 entry' : `${entries.length} entries`;
+      const dirs = entries.filter(e => e.type === 'dir');
+      const files = entries.filter(e => e.type !== 'dir');
+      const total = files.length + dirs.length;
+      const parts = [];
+      if (dirs.length) parts.push(dirs.length === 1 ? '1 folder' : `${dirs.length} folders`);
+      if (files.length) parts.push(files.length === 1 ? '1 file' : `${files.length} files`);
+      count.textContent = parts.join(', ');
 
-      list.innerHTML = entries.map(e => {
-        const ext = (e.type || e.file.split('.').pop() || 'file').toLowerCase();
-        const tags = (e.tags || []).map(t => `<span class="entry-tag">${t}</span>`).join('');
-        const desc = e.description ? `<div class="entry-desc">${e.description}</div>` : '';
-        const date = e.date ? `<span>${formatDate(e.date)}</span>` : '';
-        const path = `/archive/${e.file}`;
+      const dirHTML = dirs.map(e => `
+        <div class="archive-entry dir-entry">
+          <span class="entry-type-badge">dir</span>
+          <div class="entry-body">
+            <div class="entry-title"><a href="?path=${encodeURIComponent(e.path)}">${e.name}/</a></div>
+          </div>
+        </div>
+      `).join('');
+
+      const fileHTML = files.map(e => {
+        const ext = (e.name.split('.').pop() || 'file').toLowerCase();
+        const archivePath = e.path.replace(/^archive\//, '');
+        const meta = overrides[archivePath] || overrides[e.name] || {};
+        const title = meta.title || filenameToTitle(e.name);
+        const desc = meta.description || '';
+        const url = '/archive/' + archivePath;
+        const size = e.size != null ? `<span class="entry-size">${formatSize(e.size)}</span>` : '';
 
         return `
-          <div class="archive-entry" data-title="${(e.title || '').toLowerCase()}" data-desc="${(e.description || '').toLowerCase()}" data-tags="${(e.tags || []).join(' ').toLowerCase()}">
+          <div class="archive-entry">
             <span class="entry-type-badge ${ext}">${ext}</span>
             <div class="entry-body">
-              <div class="entry-title"><a href="${path}" target="_blank" rel="noopener">${e.title || e.file}</a></div>
-              <div class="entry-meta">${date}<span>${e.file}</span></div>
-              ${desc}
-              ${tags ? `<div class="entry-tags">${tags}</div>` : ''}
+              <div class="entry-title"><a href="${url}" target="_blank" rel="noopener">${title}</a></div>
+              <div class="entry-meta">
+                <span class="entry-folder">${e.name}</span>
+                ${size}
+              </div>
+              ${desc ? `<div class="entry-desc">${desc}</div>` : ''}
             </div>
           </div>
         `;
       }).join('');
+
+      list.innerHTML = dirHTML + fileHTML;
     }
 
     function filter() {
       const q = document.getElementById('archiveSearch').value.toLowerCase().trim();
       let results = allEntries;
 
-      if (activeTag) {
-        results = results.filter(e => (e.tags || []).map(t => t.toLowerCase()).includes(activeTag));
+      if (activeType) {
+        results = results.filter(e => {
+          if (e.type === 'dir') return false;
+          return (e.name.split('.').pop() || '').toLowerCase() === activeType;
+        });
       }
 
       if (q) {
-        results = results.filter(e =>
-          (e.title || '').toLowerCase().includes(q) ||
-          (e.description || '').toLowerCase().includes(q) ||
-          (e.file || '').toLowerCase().includes(q) ||
-          (e.tags || []).join(' ').toLowerCase().includes(q)
-        );
+        results = results.filter(e => {
+          const archivePath = e.path.replace(/^archive\//, '');
+          const meta = overrides[archivePath] || overrides[e.name] || {};
+          const title = meta.title || filenameToTitle(e.name);
+          const desc = meta.description || '';
+          return e.name.toLowerCase().includes(q) ||
+            title.toLowerCase().includes(q) ||
+            desc.toLowerCase().includes(q);
+        });
       }
 
       render(results);
     }
 
-    function buildTagFilter(entries) {
-      const tagSet = new Set();
-      entries.forEach(e => (e.tags || []).forEach(t => tagSet.add(t)));
-      const tags = Array.from(tagSet).sort();
+    function buildTypeFilter(entries) {
+      const extSet = new Set();
+      entries.forEach(e => {
+        if (e.type === 'dir') return;
+        const ext = (e.name.split('.').pop() || '').toLowerCase();
+        if (ext) extSet.add(ext);
+      });
+      const types = Array.from(extSet).sort();
+      const container = document.getElementById('typeFilter');
+      if (types.length < 2) return;
 
-      const container = document.getElementById('tagFilter');
-      if (!tags.length) return;
-
-      container.innerHTML = ['all', ...tags].map(t => `
-        <button class="tag-btn${t === 'all' ? ' active' : ''}" data-tag="${t}">${t}</button>
+      container.innerHTML = ['all', ...types].map(t => `
+        <button class="type-btn${t === 'all' ? ' active' : ''}" data-type="${t}">${t}</button>
       `).join('');
 
-      container.querySelectorAll('.tag-btn').forEach(btn => {
+      container.querySelectorAll('.type-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-          container.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+          container.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
           this.classList.add('active');
-          activeTag = this.dataset.tag === 'all' ? null : this.dataset.tag;
+          activeType = this.dataset.type === 'all' ? null : this.dataset.type;
           filter();
         });
       });
     }
 
-    async function init() {
+    function buildBreadcrumb(subPath) {
+      const bc = document.getElementById('breadcrumb');
+      if (!subPath) { bc.innerHTML = ''; return; }
+
+      const parts = subPath.split('/');
+      let html = '<a href="?">archive</a>';
+      let accumulated = '';
+      parts.forEach((part, i) => {
+        accumulated += (accumulated ? '/' : '') + part;
+        if (i < parts.length - 1) {
+          html += ` / <a href="?path=archive/${encodeURIComponent(accumulated)}">${part}</a>`;
+        } else {
+          html += ` / ${part}`;
+        }
+      });
+      bc.innerHTML = html;
+    }
+
+    function getCacheKey(dirPath) {
+      return 'archive_cache_' + dirPath;
+    }
+
+    function getCache(dirPath) {
+      try {
+        const raw = sessionStorage.getItem(getCacheKey(dirPath));
+        if (!raw) return null;
+        const cached = JSON.parse(raw);
+        if (Date.now() - cached.ts > CACHE_TTL) {
+          sessionStorage.removeItem(getCacheKey(dirPath));
+          return null;
+        }
+        return cached.data;
+      } catch { return null; }
+    }
+
+    function setCache(dirPath, data) {
+      try {
+        sessionStorage.setItem(getCacheKey(dirPath), JSON.stringify({ ts: Date.now(), data }));
+      } catch {}
+    }
+
+    async function fetchDir(dirPath) {
+      const cached = getCache(dirPath);
+      if (cached) return cached;
+
+      const url = `https://api.github.com/repos/${REPO}/contents/${dirPath}?ref=main`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      const data = await res.json();
+
+      if (!Array.isArray(data)) throw new Error('Not a directory');
+
+      const entries = data
+        .filter(item => !IGNORE.has(item.name))
+        .map(item => ({
+          name: item.name,
+          path: item.path,
+          type: item.type === 'dir' ? 'dir' : 'file',
+          size: item.size || 0
+        }))
+        .sort((a, b) => {
+          if (a.type === 'dir' && b.type !== 'dir') return -1;
+          if (a.type !== 'dir' && b.type === 'dir') return 1;
+          return a.name.localeCompare(b.name);
+        });
+
+      setCache(dirPath, entries);
+      return entries;
+    }
+
+    async function loadOverrides() {
       try {
         const res = await fetch('/archive/manifest.json');
-        if (!res.ok) throw new Error('manifest not found');
-        const data = await res.json();
-        allEntries = (data.entries || []).sort((a, b) => {
-          if (a.date && b.date) return b.date.localeCompare(a.date);
-          return 0;
-        });
-        buildTagFilter(allEntries);
+        if (res.ok) {
+          const data = await res.json();
+          overrides = data.overrides || {};
+        }
+      } catch {}
+    }
+
+    async function init() {
+      const params = new URLSearchParams(window.location.search);
+      const pathParam = params.get('path') || BASE_DIR;
+      currentPath = pathParam.startsWith(BASE_DIR) ? pathParam : BASE_DIR + '/' + pathParam;
+
+      const subPath = currentPath.replace(/^archive\/?/, '');
+      buildBreadcrumb(subPath);
+
+      try {
+        await loadOverrides();
+        allEntries = await fetchDir(currentPath);
+        buildTypeFilter(allEntries);
         render(allEntries);
       } catch (err) {
         document.getElementById('archiveList').innerHTML =
-          '<div class="archive-empty">Could not load archive manifest.</div>';
+          '<div class="archive-empty">Could not load archive contents.</div>';
       }
     }
 
