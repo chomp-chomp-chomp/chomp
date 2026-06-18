@@ -6,6 +6,10 @@
     },
     "wiki/some_page.html": {
       "title": "Custom Title For a Nested File"
+    },
+    "rilde jfs 1954.pdf": {
+      "title": "Rapid Internal Leavening by Dielectric Excitation: A Theoretical Framework for Microwave-Induced Confection Synthesis",
+      "description": "Thompson, S.A. and Calloway, R.E. (1954). Rapid internal leavening by dielectric excitation: A theoretical framework for microwave-induced confection synthesis. Journal of Food Science & Applied Thermodynamics, 19(2), 114–121."
     }
   }
 }
