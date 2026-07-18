@@ -253,7 +253,7 @@
 
     <div class="archive-header">
       <h1>Archive</h1>
-      <p>Documents, references, and collected files. Direct URLs also work — e.g. <code>/archive/filename.pdf</code> or <code>/archive/wiki/page.html</code>.</p>
+      <p>Documents, references, and collected files.</p>
     </div>
 
     <div class="archive-controls">
@@ -272,10 +272,15 @@
 
   <script src="/navigation.js"></script>
   <script>
-    const REPO = 'chomp-chomp-chomp/chomp';
-    const BASE_DIR = 'archive';
-    const IGNORE = new Set(['index.html', '.gitkeep', 'manifest.json']);
+    // TODO: replace with your deployed archive-r2 worker URL, e.g.
+    // https://archive-r2.your-subdomain.workers.dev
+    const WORKER_BASE = 'https://archive-r2.YOUR-SUBDOMAIN.workers.dev';
+    const IGNORE = new Set(['manifest.json']);
     const CACHE_TTL = 5 * 60 * 1000;
+
+    function encodePath(path) {
+      return path.split('/').map(encodeURIComponent).join('/');
+    }
 
     let allEntries = [];
     let overrides = {};
@@ -324,11 +329,10 @@
 
       const fileHTML = files.map(e => {
         const ext = (e.name.split('.').pop() || 'file').toLowerCase();
-        const archivePath = e.path.replace(/^archive\//, '');
-        const meta = overrides[archivePath] || overrides[e.name] || {};
+        const meta = overrides[e.path] || overrides[e.name] || {};
         const title = meta.title || filenameToTitle(e.name);
         const desc = meta.description || '';
-        const url = '/archive/' + archivePath;
+        const url = WORKER_BASE + '/file/' + encodePath(e.path);
         const size = e.size != null ? `<span class="entry-size">${formatSize(e.size)}</span>` : '';
 
         return `
@@ -362,8 +366,7 @@
 
       if (q) {
         results = results.filter(e => {
-          const archivePath = e.path.replace(/^archive\//, '');
-          const meta = overrides[archivePath] || overrides[e.name] || {};
+          const meta = overrides[e.path] || overrides[e.name] || {};
           const title = meta.title || filenameToTitle(e.name);
           const desc = meta.description || '';
           return e.name.toLowerCase().includes(q) ||
@@ -410,7 +413,7 @@
       parts.forEach((part, i) => {
         accumulated += (accumulated ? '/' : '') + part;
         if (i < parts.length - 1) {
-          html += ` / <a href="?path=archive/${encodeURIComponent(accumulated)}">${part}</a>`;
+          html += ` / <a href="?path=${encodeURIComponent(accumulated)}">${part}</a>`;
         } else {
           html += ` / ${part}`;
         }
@@ -445,21 +448,13 @@
       const cached = getCache(dirPath);
       if (cached) return cached;
 
-      const url = `https://api.github.com/repos/${REPO}/contents/${dirPath}?ref=main`;
+      const url = `${WORKER_BASE}/list?path=${encodeURIComponent(dirPath)}`;
       const res = await fetch(url);
-      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      if (!res.ok) throw new Error(`Archive worker ${res.status}`);
       const data = await res.json();
 
-      if (!Array.isArray(data)) throw new Error('Not a directory');
-
-      const entries = data
+      const entries = (data.entries || [])
         .filter(item => !IGNORE.has(item.name))
-        .map(item => ({
-          name: item.name,
-          path: item.path,
-          type: item.type === 'dir' ? 'dir' : 'file',
-          size: item.size || 0
-        }))
         .sort((a, b) => {
           if (a.type === 'dir' && b.type !== 'dir') return -1;
           if (a.type !== 'dir' && b.type === 'dir') return 1;
@@ -472,7 +467,7 @@
 
     async function loadOverrides() {
       try {
-        const res = await fetch('/archive/manifest.json');
+        const res = await fetch(`${WORKER_BASE}/file/manifest.json`);
         if (res.ok) {
           const data = await res.json();
           overrides = data.overrides || {};
@@ -482,11 +477,9 @@
 
     async function init() {
       const params = new URLSearchParams(window.location.search);
-      const pathParam = params.get('path') || BASE_DIR;
-      currentPath = pathParam.startsWith(BASE_DIR) ? pathParam : BASE_DIR + '/' + pathParam;
+      currentPath = params.get('path') || '';
 
-      const subPath = currentPath.replace(/^archive\/?/, '');
-      buildBreadcrumb(subPath);
+      buildBreadcrumb(currentPath);
 
       try {
         await loadOverrides();
