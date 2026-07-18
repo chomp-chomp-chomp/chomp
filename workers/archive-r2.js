@@ -11,12 +11,12 @@
  * 4. Worker Settings > Variables > Secret:
  *      ARCHIVE_ADMIN_TOKEN  -> any long random string (this is your admin password)
  * 5. Note the deployed URL (https://archive-r2.YOUR-SUBDOMAIN.workers.dev)
- *    and put it into archive/index.html and admin/archive-admin.html.
+ *    and put it into archive-site/index.html and archive-site/admin.html.
  *
- * Serving the browse/admin pages themselves from this worker (e.g. behind a
- * Custom Domain like archive.example.com):
- *   - Upload archive/index.html to the bucket as key "_site/index.html"
- *   - Upload admin/archive-admin.html to the bucket as key "_site/admin.html"
+ * Serving the browse/admin pages themselves from this worker, behind a
+ * Custom Domain (e.g. archive.chom.ps):
+ *   - Upload archive-site/index.html to the bucket as key "_site/index.html"
+ *   - Upload archive-site/admin.html to the bucket as key "_site/admin.html"
  *   - GET / and GET /admin below serve those objects as text/html.
  *   - "_site/" keys are hidden from /list so they don't show up as archive entries.
  */

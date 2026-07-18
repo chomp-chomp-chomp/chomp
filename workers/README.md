@@ -129,15 +129,18 @@ Serves the `/archive` file listing and downloads from a Cloudflare R2 bucket ins
    - Worker → Settings → Variables → Add variable → toggle "Encrypt"
    - Name: `ARCHIVE_ADMIN_TOKEN`, value: any long random string — this is the password the admin panel uses for uploads/edits/deletes. Generate one with `openssl rand -hex 32` or similar.
 
-5. **Copy the deployed URL** (`https://archive-r2.YOUR-SUBDOMAIN.workers.dev`) into:
-   - `archive/index.html` — the `WORKER_BASE` constant near the top of the `<script>` block
-   - `admin/archive-admin.html` — same `WORKER_BASE` constant
+5. **Migrate the existing files**: upload `archive/rilde jfs 1954.pdf`, `archive/thompson_rapid_internal_heating.pdf`, `archive/manifest.json`, and anything in `archive/wiki/` into the bucket (R2 dashboard "Upload" button, or `wrangler r2 object put`). Once they're confirmed live at `<worker-url>/file/<name>`, `git rm` them from `archive/` — going forward, uploads go through the admin panel straight to R2, not through git.
 
-6. **Migrate the existing files**: upload `archive/rilde jfs 1954.pdf`, `archive/thompson_rapid_internal_heating.pdf`, `archive/manifest.json`, and anything in `archive/wiki/` into the bucket (R2 dashboard "Upload" button, or `wrangler r2 object put`). Once they're confirmed live at `<worker-url>/file/<name>`, `git rm` them from `archive/` — going forward, uploads go through `admin/archive-admin.html` straight to R2, not through git.
+6. **Upload the browse/admin pages themselves**: upload `archive-site/index.html` to the bucket as key `_site/index.html`, and `archive-site/admin.html` as key `_site/admin.html`. The worker serves these at `GET /` and `GET /admin`. Re-upload whenever you edit either source file — there's no auto-sync, it's a manual copy like any other file.
+
+7. **Point a Custom Domain at the Worker** so it's reachable at your archive subdomain (e.g. `archive.chom.ps`) instead of the `workers.dev` URL:
+   - Worker → Settings → Domains & Routes → Custom Domains → Add → enter the subdomain
+   - This is different from a plain DNS CNAME — Cloudflare needs the domain attached as a Worker trigger for routing to work, and it provisions the DNS record + TLS cert for you automatically (only works if the domain's zone is on this Cloudflare account)
+   - Both `archive-site/index.html` and `archive-site/admin.html` use a relative (same-origin) `WORKER_BASE`, so they only work correctly when loaded from a domain that's actually routed to this worker
 
 ### Note on old links
 
-Existing direct links to `chompchomp.cc/archive/filename.pdf` (served by Firebase Hosting from the committed files) will break once those files are removed from the repo — new links live at the worker URL instead. Only the two current PDFs are affected; not expected to matter at this scale, but flagging it.
+`chom.ps/archive/` and `chom.ps/admin/archive-admin.html` (the pages' old locations, served directly from the repo) now redirect to the new subdomain via the root `_redirects` file. The raw file links (`chom.ps/archive/*.pdf`, still served straight from the repo until step 5 above is done) are untouched by that redirect.
 
 ### Using the same Cloudflare account for another site
 
