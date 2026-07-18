@@ -365,14 +365,13 @@
 
     <!-- Auth -->
     <div class="auth-section" id="authSection">
-      <label for="tokenInput">GitHub Personal Access Token</label>
+      <label for="tokenInput">Archive Admin Token</label>
       <div class="auth-row">
-        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx">
+        <input type="password" id="tokenInput" placeholder="paste the ARCHIVE_ADMIN_TOKEN secret">
         <button class="btn btn-primary" onclick="saveToken()">Connect</button>
       </div>
       <p class="token-help">
-        Needs <strong>repo</strong> scope.
-        Create one at GitHub &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens.<br>
+        Matches the <code>ARCHIVE_ADMIN_TOKEN</code> secret set on the archive-r2 Cloudflare Worker.<br>
         Stored in your browser only — never committed.
       </p>
     </div>
@@ -441,9 +440,8 @@
     <div class="modal">
       <h3>Delete File</h3>
       <p id="deleteMessage" style="margin: 0 0 8px; color: var(--color-text-muted); font-size: 0.9em;"></p>
-      <p style="margin: 0; font-size: 0.85em; color: var(--color-text-light);">This removes the file from the repository. It cannot be undone (without git).</p>
+      <p style="margin: 0; font-size: 0.85em; color: var(--color-text-light);">This removes the file from the archive bucket. It cannot be undone.</p>
       <input type="hidden" id="deletePath">
-      <input type="hidden" id="deleteSha">
       <div class="modal-actions">
         <button class="btn" onclick="closeDeleteModal()">Cancel</button>
         <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
@@ -452,16 +450,17 @@
   </div>
 
   <script>
-    const REPO = 'chomp-chomp-chomp/chomp';
-    const BRANCH = 'main';
-    const ARCHIVE_DIR = 'archive';
-    const MANIFEST_PATH = 'archive/manifest.json';
-    const IGNORE = new Set(['index.html', '.gitkeep', 'manifest.json']);
-    const API = 'https://api.github.com';
+    // TODO: replace with your deployed archive-r2 worker URL, e.g.
+    // https://archive-r2.your-subdomain.workers.dev
+    const WORKER_BASE = 'https://archive-r2.YOUR-SUBDOMAIN.workers.dev';
+    const IGNORE = new Set(['manifest.json']);
 
     let token = '';
     let manifest = { overrides: {} };
-    let manifestSha = null;
+
+    function encodePath(path) {
+      return path.split('/').map(encodeURIComponent).join('/');
+    }
 
     // --- Auth ---
 
@@ -477,20 +476,19 @@
       initAdmin();
     }
 
-    // --- GitHub API helpers ---
+    // --- Worker API helpers ---
 
-    async function ghFetch(path, opts = {}) {
-      const res = await fetch(`${API}${path}`, {
+    async function workerFetch(path, opts = {}) {
+      const res = await fetch(`${WORKER_BASE}${path}`, {
         ...opts,
         headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json',
+          'Authorization': `Bearer ${token}`,
           ...(opts.headers || {})
         }
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.message || `GitHub API error ${res.status}`);
+        throw new Error(body.error || `Worker error ${res.status}`);
       }
       return res.json();
     }
@@ -499,39 +497,29 @@
 
     async function loadManifest() {
       try {
-        const data = await ghFetch(`/repos/${REPO}/contents/${MANIFEST_PATH}?ref=${BRANCH}`);
-        manifestSha = data.sha;
-        const content = atob(data.content.replace(/\n/g, ''));
-        manifest = JSON.parse(content);
+        const res = await fetch(`${WORKER_BASE}/file/manifest.json`);
+        if (!res.ok) throw new Error('not found');
+        manifest = await res.json();
         if (!manifest.overrides) manifest.overrides = {};
       } catch (err) {
         manifest = { overrides: {} };
-        manifestSha = null;
       }
     }
 
     async function saveManifest() {
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify(manifest, null, 2) + '\n')));
-      const body = {
-        message: 'Update archive manifest',
-        content,
-        branch: BRANCH
-      };
-      if (manifestSha) body.sha = manifestSha;
-
-      const res = await ghFetch(`/repos/${REPO}/contents/${MANIFEST_PATH}`, {
+      await workerFetch('/file/manifest.json', {
         method: 'PUT',
-        body: JSON.stringify(body)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(manifest, null, 2) + '\n'
       });
-      manifestSha = res.content.sha;
     }
 
     // --- File listing ---
 
-    async function fetchArchiveFiles(dir = ARCHIVE_DIR) {
-      const data = await ghFetch(`/repos/${REPO}/contents/${dir}?ref=${BRANCH}`);
+    async function fetchArchiveFiles(dir = '') {
+      const data = await (await fetch(`${WORKER_BASE}/list?path=${encodeURIComponent(dir)}`)).json();
       let files = [];
-      for (const item of data) {
+      for (const item of (data.entries || [])) {
         if (IGNORE.has(item.name)) continue;
         if (item.type === 'dir') {
           const subFiles = await fetchArchiveFiles(item.path);
@@ -540,8 +528,7 @@
           files.push({
             name: item.name,
             path: item.path,
-            size: item.size,
-            sha: item.sha
+            size: item.size
           });
         }
       }
@@ -572,7 +559,7 @@
       count.textContent = `${files.length} file${files.length !== 1 ? 's' : ''}`;
 
       list.innerHTML = files.map(f => {
-        const relPath = f.path.replace(/^archive\//, '');
+        const relPath = f.path;
         const ext = (f.name.split('.').pop() || '').toLowerCase();
         const meta = manifest.overrides[relPath] || {};
         const title = meta.title || filenameToTitle(f.name);
@@ -588,7 +575,7 @@
             </div>
             <div class="file-actions">
               <button class="btn btn-sm" onclick="openEdit('${relPath}')">Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="openDelete('${relPath}', '${f.sha}')">Delete</button>
+              <button class="btn btn-sm btn-danger" onclick="openDelete('${relPath}')">Delete</button>
             </div>
           </div>
         `;
@@ -643,31 +630,10 @@
       btn.textContent = 'Uploading…';
 
       try {
-        const reader = new FileReader();
-        const base64 = await new Promise((resolve, reject) => {
-          reader.onload = () => resolve(reader.result.split(',')[1]);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-
-        const fullPath = `${ARCHIVE_DIR}/${path}`;
-
-        let existingSha = null;
-        try {
-          const existing = await ghFetch(`/repos/${REPO}/contents/${fullPath}?ref=${BRANCH}`);
-          existingSha = existing.sha;
-        } catch {}
-
-        const body = {
-          message: `Add ${path} to archive`,
-          content: base64,
-          branch: BRANCH
-        };
-        if (existingSha) body.sha = existingSha;
-
-        await ghFetch(`/repos/${REPO}/contents/${fullPath}`, {
+        await workerFetch(`/file/${encodePath(path)}`, {
           method: 'PUT',
-          body: JSON.stringify(body)
+          headers: { 'Content-Type': file.type || 'application/octet-stream' },
+          body: file
         });
 
         if (title || desc) {
@@ -737,9 +703,8 @@
 
     // --- Delete ---
 
-    function openDelete(relPath, sha) {
+    function openDelete(relPath) {
       document.getElementById('deletePath').value = relPath;
-      document.getElementById('deleteSha').value = sha;
       document.getElementById('deleteMessage').textContent = `Delete "${relPath}" from the archive?`;
       document.getElementById('deleteModal').classList.add('active');
     }
@@ -750,21 +715,12 @@
 
     async function confirmDelete() {
       const relPath = document.getElementById('deletePath').value;
-      const sha = document.getElementById('deleteSha').value;
-      const fullPath = `${ARCHIVE_DIR}/${relPath}`;
 
       closeDeleteModal();
       showStatus('Deleting…', 'success');
 
       try {
-        await ghFetch(`/repos/${REPO}/contents/${fullPath}`, {
-          method: 'DELETE',
-          body: JSON.stringify({
-            message: `Remove ${relPath} from archive`,
-            sha: sha,
-            branch: BRANCH
-          })
-        });
+        await workerFetch(`/file/${encodePath(relPath)}`, { method: 'DELETE' });
 
         if (manifest.overrides[relPath]) {
           delete manifest.overrides[relPath];
@@ -798,9 +754,9 @@
 
     async function initAdmin() {
       try {
-        await ghFetch(`/repos/${REPO}`);
+        await workerFetch('/whoami');
       } catch (err) {
-        showStatus('Invalid token or cannot access repo.', 'error');
+        showStatus('Invalid token or cannot reach the archive worker.', 'error');
         return;
       }
 

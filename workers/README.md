@@ -1,11 +1,12 @@
-# Cloudflare Workers for ImageKit Integration
+# Cloudflare Workers
 
-These Cloudflare Workers provide serverless endpoints for ImageKit authentication and file listing, enabling secure image uploads without a backend server.
+Serverless endpoints backing parts of the site that need more than static hosting.
 
 ## Workers
 
 1. **imagekit-auth.js** - Generates secure authentication parameters for ImageKit uploads
 2. **imagekit-list-files.js** - Lists images from your ImageKit account
+3. **archive-r2.js** - Lists/serves/uploads/deletes files in the `/archive` R2 bucket (replaces the old GitHub Contents API + PAT setup)
 
 ## Setup Instructions
 
@@ -103,6 +104,44 @@ curl https://imagekit-list-files.YOUR-SUBDOMAIN.workers.dev
 
 # Should return array of image files
 ```
+
+---
+
+## Archive R2 Worker (archive-r2.js)
+
+Serves the `/archive` file listing and downloads from a Cloudflare R2 bucket instead of committing PDFs/HTML into git and reading them back out through the (rate-limited, PAT-gated) GitHub Contents API.
+
+### Setup
+
+1. **Create the R2 bucket**
+   - Cloudflare dashboard → R2 → Create bucket → name it e.g. `chomp-archive`
+   - R2's free tier: 10GB storage, 1M Class A ops/month, zero egress fees
+
+2. **Create the Worker**
+   - Workers & Pages → Create Worker → name it `archive-r2`
+   - Paste in the contents of `archive-r2.js` → Save and Deploy
+
+3. **Bind the bucket**
+   - Worker → Settings → Bindings → Add binding → R2 Bucket
+   - Variable name: `ARCHIVE_BUCKET`, bucket: `chomp-archive`
+
+4. **Set the admin secret**
+   - Worker → Settings → Variables → Add variable → toggle "Encrypt"
+   - Name: `ARCHIVE_ADMIN_TOKEN`, value: any long random string — this is the password the admin panel uses for uploads/edits/deletes. Generate one with `openssl rand -hex 32` or similar.
+
+5. **Copy the deployed URL** (`https://archive-r2.YOUR-SUBDOMAIN.workers.dev`) into:
+   - `archive/index.html` — the `WORKER_BASE` constant near the top of the `<script>` block
+   - `admin/archive-admin.html` — same `WORKER_BASE` constant
+
+6. **Migrate the existing files**: upload `archive/rilde jfs 1954.pdf`, `archive/thompson_rapid_internal_heating.pdf`, `archive/manifest.json`, and anything in `archive/wiki/` into the bucket (R2 dashboard "Upload" button, or `wrangler r2 object put`). Once they're confirmed live at `<worker-url>/file/<name>`, `git rm` them from `archive/` — going forward, uploads go through `admin/archive-admin.html` straight to R2, not through git.
+
+### Note on old links
+
+Existing direct links to `chompchomp.cc/archive/filename.pdf` (served by Firebase Hosting from the committed files) will break once those files are removed from the repo — new links live at the worker URL instead. Only the two current PDFs are affected; not expected to matter at this scale, but flagging it.
+
+### Using the same Cloudflare account for another site
+
+R2's free tier is pooled per-account, not per-bucket, so a second site can get its own bucket (e.g. `othersite-archive`) and its own worker (copy `archive-r2.js`, rebind `ARCHIVE_BUCKET` to the new bucket, set a separate `ARCHIVE_ADMIN_TOKEN`) at no extra cost, fully isolated from this one.
 
 ## Security Notes
 
