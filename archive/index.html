@@ -272,7 +272,9 @@
 
   <script src="/navigation.js"></script>
   <script>
-    const WORKER_BASE = 'https://archive-r2.logjam.workers.dev';
+    // Served by the archive-r2 worker itself at archive.chom.ps, so API calls
+    // are same-origin — no absolute URL needed.
+    const WORKER_BASE = '';
     const IGNORE = new Set(['manifest.json']);
     const CACHE_TTL = 5 * 60 * 1000;
 
