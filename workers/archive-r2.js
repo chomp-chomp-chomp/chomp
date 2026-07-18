@@ -11,7 +11,14 @@
  * 4. Worker Settings > Variables > Secret:
  *      ARCHIVE_ADMIN_TOKEN  -> any long random string (this is your admin password)
  * 5. Note the deployed URL (https://archive-r2.YOUR-SUBDOMAIN.workers.dev)
- *    and put it into archive/index.html and admin/archive-admin.html.
+ *    and put it into archive-site/index.html and archive-site/admin.html.
+ *
+ * Serving the browse/admin pages themselves from this worker, behind a
+ * Custom Domain (e.g. archive.chom.ps):
+ *   - Upload archive-site/index.html to the bucket as key "_site/index.html"
+ *   - Upload archive-site/admin.html to the bucket as key "_site/admin.html"
+ *   - GET / and GET /admin below serve those objects as text/html.
+ *   - "_site/" keys are hidden from /list so they don't show up as archive entries.
  */
 
 const CORS_HEADERS = {
@@ -33,20 +40,24 @@ function isAuthorized(request, env) {
   return Boolean(token) && Boolean(env.ARCHIVE_ADMIN_TOKEN) && token === env.ARCHIVE_ADMIN_TOKEN;
 }
 
+const SITE_PREFIX = '_site/';
+
 async function handleList(url, env) {
   const rawPrefix = url.searchParams.get('path') || '';
   const prefix = rawPrefix ? rawPrefix.replace(/\/?$/, '/') : '';
 
   const listed = await env.ARCHIVE_BUCKET.list({ prefix, delimiter: '/' });
 
-  const dirs = (listed.delimitedPrefixes || []).map((p) => ({
-    name: p.slice(prefix.length).replace(/\/$/, ''),
-    path: p.replace(/\/$/, ''),
-    type: 'dir',
-  }));
+  const dirs = (listed.delimitedPrefixes || [])
+    .filter((p) => p !== SITE_PREFIX)
+    .map((p) => ({
+      name: p.slice(prefix.length).replace(/\/$/, ''),
+      path: p.replace(/\/$/, ''),
+      type: 'dir',
+    }));
 
   const files = listed.objects
-    .filter((o) => o.key !== prefix)
+    .filter((o) => o.key !== prefix && !o.key.startsWith(SITE_PREFIX))
     .map((o) => ({
       name: o.key.slice(prefix.length),
       path: o.key,
@@ -55,6 +66,15 @@ async function handleList(url, env) {
     }));
 
   return json({ entries: [...dirs, ...files] });
+}
+
+async function handlePage(key, env) {
+  const obj = await env.ARCHIVE_BUCKET.get(SITE_PREFIX + key);
+  if (!obj) return new Response('Not found', { status: 404, headers: CORS_HEADERS });
+
+  return new Response(obj.body, {
+    headers: { 'Content-Type': 'text/html; charset=utf-8', ...CORS_HEADERS },
+  });
 }
 
 async function handleGetFile(key, env) {
@@ -93,6 +113,14 @@ export default {
     const url = new URL(request.url);
 
     try {
+      if (request.method === 'GET' && url.pathname === '/') {
+        return handlePage('index.html', env);
+      }
+
+      if (request.method === 'GET' && url.pathname === '/admin') {
+        return handlePage('admin.html', env);
+      }
+
       if (url.pathname === '/list' && request.method === 'GET') {
         return handleList(url, env);
       }

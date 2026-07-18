@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Archive — Chomp Chomp</title>
 
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" href="https://chom.ps/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://chom.ps/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://chom.ps/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="https://chom.ps/apple-touch-icon.png">
 
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://chom.ps/styles.css">
 
   <style>
     .archive-header {
@@ -215,38 +215,39 @@
       margin: 0 auto 16px;
       padding: 0 20px;
     }
+
+    .minimal-header {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .minimal-logo img {
+      height: 28px;
+      display: block;
+    }
+
+    .minimal-back {
+      font-size: 0.85em;
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+
+    .minimal-back:hover {
+      color: var(--color-accent);
+    }
   </style>
 </head>
 <body>
 
-  <header class="site-header">
-    <nav class="site-nav">
-      <div class="header-left">
-        <a href="https://ps.chom.ps" title="Store" class="site-logo">
-          <div class="site-logo-icon">
-            <img src="https://ik.imagekit.io/chompchomp/logo-default_01ng4rCAq.png" alt="Chomp Chomp" class="logo-default">
-            <img src="https://ik.imagekit.io/chompchomp/logo-hover_Xkgt_S3PG.jpg" alt="Chomp Chomp" class="logo-hover">
-          </div>
-        </a>
-      </div>
-
-      <div class="header-center">
-        <a href="/recipes.html" title="Recipes">
-          <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logo%20light" alt="Chomp Chomp" class="header-banner banner-light">
-          <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logo%20dark"  alt="Chomp Chomp" class="header-banner banner-dark">
-        </a>
-      </div>
-
-      <div class="header-right">
-        <div class="nav-tools-dropdown">
-          <button class="menu-toggle" onclick="toggleToolsDropdown()">☰</button>
-          <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Menu ▼</button>
-          <ul class="tools-dropdown-menu" id="toolsDropdown">
-            <!-- Loaded by navigation.js -->
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <header class="minimal-header">
+    <a href="https://chom.ps" class="minimal-logo">
+      <img src="https://ik.imagekit.io/chompchomp/logo-default_01ng4rCAq.png" alt="Chomp Chomp">
+    </a>
+    <a href="https://chom.ps" class="minimal-back">&larr; chom.ps</a>
   </header>
 
   <main class="page-container">
@@ -270,9 +271,10 @@
 
   </main>
 
-  <script src="/navigation.js"></script>
   <script>
-    const WORKER_BASE = 'https://archive-r2.logjam.workers.dev';
+    // Served by the archive-r2 worker itself at archive.chom.ps, so API calls
+    // are same-origin — no absolute URL needed.
+    const WORKER_BASE = '';
     const IGNORE = new Set(['manifest.json']);
     const CACHE_TTL = 5 * 60 * 1000;
 
