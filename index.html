@@ -251,7 +251,7 @@
   <header class="site-header">
     <nav class="site-nav">
       <div class="header-left">
-        <a href="https://ps.chom.ps" title="Store" class="site-logo">
+        <a href="https://chom.ps" title="Store" class="site-logo">
           <div class="site-logo-icon">
             <img src="https://ik.imagekit.io/chompchomp/logo-default_01ng4rCAq.png" alt="Chomp Chomp" class="logo-default">
             <img src="https://ik.imagekit.io/chompchomp/logo-hover_Xkgt_S3PG.jpg" alt="Chomp Chomp" class="logo-hover">
@@ -295,14 +295,14 @@
       <a href="about.html" class="quick-link">About</a>
     </nav>
 
-    <!-- Recent Postscripts from ps.chom.ps -->
+    <!-- Recent Postscripts from chom.ps -->
     <div class="recent-writing-section" id="recentWriting">
       <div class="recent-writing-header">
-        <a href="https://ps.chom.ps" target="_blank" rel="noopener">Recent Postscripts</a>
+        <a href="https://chom.ps" target="_blank" rel="noopener">Recent Postscripts</a>
       </div>
       <div id="recentWritingPosts"></div>
       <div class="recent-post recent-post-ps">
-        <a href="https://ps.chom.ps" target="_blank" rel="noopener">.ps</a>
+        <a href="https://chom.ps" target="_blank" rel="noopener">.ps</a>
       </div>
     </div>
 
@@ -597,9 +597,9 @@
       loadMoreBtn?.addEventListener('click', () => window.loadMoreRecipes?.());
     });
 
-    // Fetch recent posts from ps.chom.ps RSS feed
+    // Fetch recent posts from chom.ps RSS feed
     async function loadRecentWriting() {
-      const FEED_URL = 'https://ps.chom.ps/feed.xml';
+      const FEED_URL = 'https://chom.ps/feed.xml';
       const MAX_POSTS = 3;
       const EXCERPT_LEN = 160;
 
