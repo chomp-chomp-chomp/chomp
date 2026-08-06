@@ -5,7 +5,7 @@
     { "label": "Reading List", "url": "/reading-list.html",   "type": "link" },
     { "label": "Playlists",    "url": "/playlists.html",      "type": "link" },
     { "label": "About",        "url": "/about.html",          "type": "link" },
-    { "label": ".ps",          "url": "https://chom.ps",   "type": "link" },
+    { "label": ".ps",          "url": "https://ps.chom.ps",   "type": "link" },
     { "label": "Store",        "url": "/store.html",          "type": "link" },
     { "label": "Lab",          "url": "/tools/index.html",    "type": "link" },
     { "label": "Ipsum",        "url": "/tools/ipsum.html",    "type": "link" }
