@@ -3071,5 +3071,53 @@
     "created_at": "2026-07-21T02:10:22.861Z",
     "updated_at": "2026-07-21T02:11:25.677Z",
     "dishType": "Mug Cake"
+  },
+  {
+    "title": "Perfect Pavlova",
+    "slug": "perfect-pavlova",
+    "description": "The pavlova is organized around an impossible demand: the preservation of instability as form. Egg white is beaten until air acquires structure; sugar stabilizes what should collapse; heat dries the exterior while the interior remains soft, almost insufficiently transformed. The dessert succeeds precisely by refusing the ordinary distinction between cooked and uncooked, solid and yielding.\nIts characteristic crack is therefore not an accident imposed upon an otherwise perfect object. It is the point at which the contradiction sustaining the object becomes visible. Indeed, the recipe explicitly permits the crack.  Perfection here already contains its own failure as a necessary condition.\nWhipped cream and fruit do not repair this fracture. They complete it. The unstable shell is covered, decorated, and presented as a unified whole, while beneath the surface the structure remains fundamentally divided.\nThe pavlova does not conceal its failure to become perfect. It makes this failure delicious.",
+    "image": "https://ik.imagekit.io/chompchomp/23199F4F-C52A-4399-BC77-D430BB6F6E5E_VUHhE-uf5.png",
+    "servings": "8",
+    "prepTime": "35min",
+    "cookTime": "1h 15min",
+    "totalTime": "1h 50min",
+    "totalTimeInMinutes": 110,
+    "source": {
+      "text": "thekitchn.com",
+      "href": "https://www.thekitchn.com/how-to-make-light-airy-pavlova-174407"
+    },
+    "category": "chomp chomp",
+    "ingredients": [
+      "### For the meringue base",
+      "1 1/2 cups granulated sugar",
+      "2 teaspoons cornstarch",
+      "1/4 teaspoon kosher salt",
+      "6 large egg whites, at room temperature",
+      "1 teaspoon vanilla extract",
+      "1 teaspoon distilled white vinegar or lemon juice",
+      "### For topping",
+      "1 1/2 cups cold heavy cream",
+      "1 tablespoon granulated sugar",
+      "1 teaspoon vanilla extract",
+      "2 cups diced fresh fruit, such as strawberries, raspberries, and/or blueberries",
+      "Fresh mint leaves, for garnish (optional)"
+    ],
+    "instructions": [
+      "### Make the meringue base",
+      "Arrange a rack in the lower third of the oven and heat the oven to 250ºF. Trace a 9-inch circle onto a sheet of parchment paper using a cake pan or dinner plate as a guide. Flip the parchment over and use it to line a baking sheet.",
+      "Stir 1 1/2 cups granulated sugar, 2 teaspoons cornstarch, and 1/4 teaspoon kosher salt together in a medium bowl.",
+      "Beat 6 room temperature large egg whites with the whisk attachment in a stand mixer, starting at low and gradually increasing to high speed, until soft peaks form, about 3 minutes. With the mixer on low speed, gradually add the sugar mixture a spoonful at time. Slowly increase the speed to high and beat until stiff peaks form, 2 to 3 minutes more.",
+      "Beat in 1 teaspoon vanilla extract and 1 teaspoon distilled white vinegar on high speed until stiff, very glossy peaks form, 2 to 3 minutes. The mixture is ready when it no longer slides around the bowl and if the bowl is turned upside down, it does not move.",
+      "Scrape all the meringue onto the center of the parchment circle. Working from the center out, spread the meringue to fill the circle. Smooth the sides if desired or leave it in billowy lumps.",
+      "Bake until the pavlova is dry to the touch, 70 to 75 minutes. Meanwhile, wash and dry the stand mixer bowl and whisk attachment.",
+      "Turn off the oven. Let the pavlova cool completely in the oven (it’s okay if it’s cracked), about 3 hours.",
+      "### Make the whipped cream and assemble",
+      "Beat 1 1/2 cups cold heavy cream, 1 tablespoon granulated sugar, and 1 teaspoon vanilla extract together in a stand mixer with the whisk attachment on high speed until stiff peaks form, 2 to 4 minutes.",
+      "Transfer the pavlova to a serving dish if desired. Spread the whipped cream evenly over the top of the pavlova. Top with 2 cups diced fresh fruit. Garnish with fresh mint leaves if desired. Serve immediately."
+    ],
+    "notes": "Make ahead: The meringue base can be made several days ahead and kept tightly wrapped in plastic or in an airtight container until you're ready to assemble the pavlova.\n\n**Nutrition**\n**Serving size** Serves 8\n**Calories** 343 cal\n**Fat** 16.3 g\n**Saturated fat** 10.3 g\n**Unsaturated fat** 0.0 g\n**Cholesterol** 0 mg\n**Sodium** 114.2 mg\n**Carbohydrates** 47.0 g\n**Fiber** 1.2 g\n**Sugar** 44.3 g\n**Protein** 4.4 g",
+    "created_at": "2026-08-09T04:50:05.905Z",
+    "updated_at": "2026-08-09T04:59:29.863Z",
+    "dishType": "Dessert"
   }
 ]
