@@ -481,9 +481,9 @@
         // Check if this is a header (starts with <h1, <h2, or <h3)
         if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
           // Return header without li wrapper, with inline styling
-          return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
-                       .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
-                       .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+          return parsed.replace('<h3', '<h3 style="font-size: 1.05em; font-weight: 600; margin: 20px 0 8px 0; color: var(--color-text-muted); letter-spacing: 0.5px;"')
+                       .replace('<h2', '<h2 style="font-size: 1.15em; font-weight: 600; margin: 22px 0 10px 0; color: var(--color-text-muted); letter-spacing: 0.5px;"')
+                       .replace('<h1', '<h1 style="font-size: 1.25em; font-weight: 600; margin: 24px 0 12px 0; color: var(--color-text-muted); letter-spacing: 0.5px;"');
         }
         // Regular ingredient with red bar
         return `<li class="ingredient-item">${parsed}</li>`;
@@ -496,9 +496,9 @@
         // Check if this is a header (starts with <h1, <h2, or <h3)
         if (parsed.startsWith('<h1') || parsed.startsWith('<h2') || parsed.startsWith('<h3')) {
           // Return header without li wrapper, with inline styling
-          return parsed.replace('<h3', '<h3 style="font-size: 0.95em; font-weight: 600; margin: 15px 0 8px 0; color: #434343; letter-spacing: 0.5px;"')
-                       .replace('<h2', '<h2 style="font-size: 1.05em; font-weight: 600; margin: 18px 0 10px 0; color: #434343; letter-spacing: 0.5px;"')
-                       .replace('<h1', '<h1 style="font-size: 1.15em; font-weight: 600; margin: 20px 0 12px 0; color: #434343; letter-spacing: 0.5px;"');
+          return parsed.replace('<h3', '<h3 style="font-size: 1.05em; font-weight: 600; margin: 20px 0 8px 0; color: var(--color-text-muted); letter-spacing: 0.5px;"')
+                       .replace('<h2', '<h2 style="font-size: 1.15em; font-weight: 600; margin: 22px 0 10px 0; color: var(--color-text-muted); letter-spacing: 0.5px;"')
+                       .replace('<h1', '<h1 style="font-size: 1.25em; font-weight: 600; margin: 24px 0 12px 0; color: var(--color-text-muted); letter-spacing: 0.5px;"');
         }
         // Regular instruction with numbering
         return `<li class="instruction-item">${parsed}</li>`;
