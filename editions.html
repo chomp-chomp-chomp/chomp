@@ -244,8 +244,45 @@
     .aff-flag {
       font-size: 0.7em;
       color: var(--color-text-muted);
-      margin: 8px 0 0;
       white-space: nowrap;
+    }
+
+    /* Purchase buttons: label on top, optional price beneath, affiliate tag under the button */
+    .book-links {
+      align-items: flex-start;
+    }
+
+    .link-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .book-links .btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .btn-price {
+      font-size: 0.8em;
+      opacity: 0.9;
+    }
+
+    .pick-links {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pick-link {
+      white-space: nowrap;
+    }
+
+    .pick-price {
+      color: var(--color-text-muted);
     }
 
     /* Collapsible entries */
@@ -332,9 +369,9 @@
         <div class="nav-tools-dropdown">
           <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">☰</button>
           <ul class="tools-dropdown-menu" id="toolsDropdown">
-            <li><a href="https://chom.ps">chom.ps</a></li>
-            <li><a href="https://ps.chom.ps">ps.chom.ps</a></li>
-            <li><a href="https://chom.ps/about">chom.ps/about</a></li>
+            <li><a href="https://chom.ps">Home</a></li>
+            <li><a href="https://ps.chom.ps">.ps</a></li>
+            <li><a href="https://chom.ps/about">About</a></li>
           </ul>
         </div>
       </div>
@@ -395,16 +432,29 @@
     const paragraphs = (text) =>
       esc(text).split(/\n{2,}/).map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
 
-    const relFor = (item) => (item.affiliate ? 'sponsored noopener' : 'noopener');
+    // Affiliate status belongs to each link; older entries set it once on the item
+    const isAff = (item, l) => (l.affiliate !== undefined ? !!l.affiliate : !!item.affiliate);
+    const hasAff = (item) => (item.links || []).some((l) => isAff(item, l));
+    const relFor = (item, l) => (isAff(item, l) ? 'sponsored noopener' : 'noopener');
+
+    // One purchase button: format/store as the label, optional price beneath, visible affiliate tag
+    function buyButton(item, l) {
+      return `
+        <span class="link-wrap">
+          <a class="btn btn-primary" href="${safeUrl(l.url)}" target="_blank" rel="${relFor(item, l)}">
+            <span class="btn-label">${esc(l.label || 'Buy')}</span>
+            ${l.price ? `<span class="btn-price">${esc(l.price)}</span>` : ''}
+          </a>
+          ${isAff(item, l) ? '<span class="aff-flag">affiliate link</span>' : ''}
+        </span>`;
+    }
 
     let data = { items: [] };
     let activeTag = null;
     const expanded = new Set();   // indexes of collapsible items the visitor has opened
 
     function renderFull(b) {
-      const links = (b.links || []).map((l, i) =>
-        `<a class="btn ${i === 0 ? 'btn-primary' : 'btn-outline'}" href="${safeUrl(l.url)}" target="_blank" rel="${relFor(b)}">${esc(l.label || 'Buy')}</a>`
-      ).join('');
+      const links = (b.links || []).map((l) => buyButton(b, l)).join('');
       const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
       return `
         <article class="book">
@@ -417,14 +467,13 @@
             ${tags ? `<div class="tags">${tags}</div>` : ''}
             ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
             ${links ? `<div class="book-links">${links}</div>` : ''}
-            ${b.affiliate ? '<p class="aff-flag">affiliate link</p>' : ''}
           </div>
         </article>`;
     }
 
     function renderCompact(p) {
       const links = (p.links || []).map((l) =>
-        `<a href="${safeUrl(l.url)}" target="_blank" rel="${relFor(p)}">${esc(l.label || 'Link')}</a>`
+        `<span class="pick-link"><a href="${safeUrl(l.url)}" target="_blank" rel="${relFor(p, l)}">${esc(l.label || 'Link')}</a>${l.price ? ` <span class="pick-price">${esc(l.price)}</span>` : ''}${isAff(p, l) ? ' <span class="aff-flag">affiliate</span>' : ''}</span>`
       ).join('');
       return `
         <div class="pick">
@@ -433,7 +482,6 @@
             ${p.author ? `<p class="pick-by">${esc(p.author)}</p>` : ''}
           </div>
           ${links ? `<div class="pick-links">${links}</div>` : ''}
-          ${p.affiliate ? '<span class="aff-flag">affiliate</span>' : ''}
         </div>`;
     }
 
@@ -442,9 +490,7 @@
       const idx = data.items.indexOf(b);
       const open = expanded.has(idx);
       const hasMore = b.description || b.cover;
-      const links = (b.links || []).map((l, i) =>
-        `<a class="btn ${i === 0 ? 'btn-primary' : 'btn-outline'}" href="${safeUrl(l.url)}" target="_blank" rel="${relFor(b)}">${esc(l.label || 'Buy')}</a>`
-      ).join('');
+      const links = (b.links || []).map((l) => buyButton(b, l)).join('');
       const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
       const toggle = hasMore
         ? `<button type="button" class="expand-btn" data-idx="${idx}" aria-expanded="${open}" aria-controls="more-${idx}">
@@ -466,7 +512,6 @@
             <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
             ${tags ? `<div class="tags">${tags}</div>` : ''}
             ${(links || toggle) ? `<div class="book-links">${links}${toggle}</div>` : ''}
-            ${b.affiliate ? '<p class="aff-flag">affiliate link</p>' : ''}
             ${more}
           </div>
         </article>`;
@@ -507,7 +552,7 @@
       [['affNoteBooks', own], ['affNotePicks', picks]].forEach(([id, list]) => {
         const note = document.getElementById(id);
         note.textContent = data.affiliateNote || '';
-        note.hidden = !(data.affiliateNote && list.some((i) => i.affiliate));
+        note.hidden = !(data.affiliateNote && list.some(hasAff));
       });
 
       if (!own.length && !picks.length) {
