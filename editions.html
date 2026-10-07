@@ -334,20 +334,24 @@
     }
 
     @media (max-width: 768px) {
+      /* Phones: stack the cover above the text, everything left-aligned */
       .book {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
+        align-items: flex-start;
+        gap: 16px;
       }
 
-      .book-links,
-      .tags {
-        justify-content: center;
+      .book-body {
+        width: 100%;
       }
 
       .book-more {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+      }
+
+      .link-wrap {
+        align-items: flex-start;
       }
     }
   </style>
