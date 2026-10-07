@@ -25,12 +25,6 @@
           "price": "$36 + prime shipping"
         },
         {
-          "label": "Premium Color Hardcover • Lulu",
-          "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html",
-          "affiliate": false,
-          "price": "$40 + shipping"
-        },
-        {
           "label": "Standard Color Hardcover • Lulu",
           "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html",
           "affiliate": false,
@@ -47,12 +41,6 @@
           "url": "https://link.amazon/B0iMSX9pM",
           "affiliate": false,
           "price": "$16 + prime shipping"
-        },
-        {
-          "label": "Standard Color Softcover • Lulu",
-          "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/paperback/product-7k5d7rq.html",
-          "affiliate": false,
-          "price": "$16 + shipping"
         }
       ]
     },
