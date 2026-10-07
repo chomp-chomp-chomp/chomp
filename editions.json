@@ -1,5 +1,5 @@
 {
-  "intro": "Books from Chomp Chomp Editions, made independently, start to finish.",
+  "intro": "Books from Chomp Chomp Editions, made independently, start to finish. Also, things I like - you might, too.",
   "affiliateNote": "Links marked “affiliate link” are affiliate links: Chomp Chomp earns a small commission if you buy through them, at no cost to you. As an Amazon Associate I earn from qualifying purchases.",
   "items": [
     {
@@ -8,7 +8,7 @@
       "author": "Donnie Boman",
       "status": "Available",
       "details": "Hardcover",
-      "description": "Replace this with your own description of the book. A few sentences in your own voice works best.\n\nA second paragraph is fine too.",
+      "description": "No one can prove the Catalan Twelve exist. That has never stopped them from taking credit, or avoiding it, for centuries. The same dough technique, the same insistence on cold butter, keeps turning up in kitchens that have no business knowing each other. Twelve real, fully tested recipes, from Girona xuxos to the Moon Pie, come with recovered ledger fragments and a reading list that isn't lying to you about everything. Underneath the conspiracy is a quieter story: one baker from the Gulf Coast, insisting that the place mattered. Believe the rest if you like.\n\nIt is, at once, a cookbook, a fake archival investigation, a comedy about provenance, and a memoir about inheritance, loss, and the fragile ways practical knowledge moves from one person to another. It understands that names drift, traditions are often invented after the fact, and recipes outlive their authors by belonging to whoever makes them next.",
       "cover": "",
       "tags": [
         "Chomp Chomp Editions"
@@ -38,7 +38,7 @@
         "books"
       ],
       "section": "recommended",
-      "affiliate": true,
+      "affiliate": false,
       "display": "collapsible",
       "hidden": false,
       "links": [
@@ -61,7 +61,7 @@
         "books"
       ],
       "section": "recommended",
-      "affiliate": true,
+      "affiliate": false,
       "display": "collapsible",
       "hidden": false,
       "links": [
