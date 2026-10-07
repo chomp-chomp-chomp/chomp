@@ -13,6 +13,7 @@
       "tags": [
         "Chomp Chomp Editions"
       ],
+      "section": "editions",
       "affiliate": false,
       "compact": false,
       "hidden": false,
@@ -34,6 +35,7 @@
       "tags": [
         "fiction"
       ],
+      "section": "recommended",
       "affiliate": true,
       "compact": true,
       "hidden": false,

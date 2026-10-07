@@ -1,389 +1,155 @@
-# Chomp Recipes - Multi-Page Site Redesign
+# Chomp Chomp (chom.ps)
 
-This folder contains the foundation for your new multi-page recipe and blog site.
+Recipes, writing, a baking lexicon, tools, a store and a few books. A static HTML/CSS/vanilla-JS site: no framework and no build step. This README describes what the code does today. Many of the other `.md` files in the repo are historical notes from earlier migrations and are partly out of date (see [Old docs](#old-docs)).
 
----
-
-## 🎯 What's Been Created
-
-### Core Files
-
-1. **styles.css** - Shared stylesheet for entire site
-   - CSS variables for easy theming
-   - Dark mode support
-   - Responsive layouts
-   - Blog post styles
-   - Recipe card styles
-   - Navigation components
-
-2. **index.html** - Blog-style homepage
-   - Post grid layout
-   - Category filtering (Stories, Anthropology, Mindfulness)
-   - Connects to Firestore for posts
-   - Live example tiles included
-
-3. **about.html** - About page with manifesto
-   - Complete manifesto text
-   - Contact information
-   - Links to related projects
-   - Beautiful typography
-
-4. **recipes.html** - Recipe browsing page
-   - Grid view of all recipes
-   - Search functionality
-   - Category and dish type filters
-   - Sort options (A-Z, Newest, Quickest Time)
-   - Connects to existing Firestore recipes
-
-5. **FIRESTORE-SETUP-GUIDE.md** - Step-by-step guide
-   - How to create posts collection in Firestore
-   - Security rules setup
-   - Post editor interface code
-   - Image upload strategies
-   - Troubleshooting tips
+> Written by reading the repo. Anything about dashboards or DNS (marked **check**) can't be seen from the code and is worth confirming.
 
 ---
 
-## 🏗️ Architecture Overview
+## The short version
 
-### Site Structure
+- **Content lives in git**, as JSON files in `data/`. Pages load them with `fetch('/data/recipes.json')`. **No live page reads from Firebase anymore.**
+- **Editing content** is done at `/admin/` (a custom CMS). It logs in with a GitHub personal access token and commits JSON changes straight to `main`.
+- **Images** are on ImageKit (`ik.imagekit.io/chompchomp`). Older ones are still on Cloudinary.
+- **Firebase** still exists in the repo (a project, a deploy workflow, some Cloud Functions), but the site doesn't depend on it. See [Firebase, the refresher](#firebase-the-refresher).
+- **Hosting** looks like Cloudflare Pages (**check**). See [Hosting](#hosting).
+
+---
+
+## Site map
+
+| Page | What it is | Data source |
+|---|---|---|
+| `index.html` | Homepage: recipe grid with search, filters and sort, plus recent postscripts pulled from ps.chom.ps | `data/recipes.json` |
+| `recipes.html` / `recipe.html?slug=` | Recipe list and single recipe | `data/recipes.json` |
+| `stories.html` / `post.html?slug=` | Posts | `data/posts.json` |
+| `lexicon.html` | Baking dictionary | `data/lexicon.json` |
+| `reading-list.html` | Book recommendations | `data/reading-list.json` |
+| `playlists.html` / `playlist.html` | Spotify playlists for baking | `data/playlists.json` |
+| `editions.html` | Chomp Chomp Editions books and recommended links | `editions.json` (repo root) |
+| `about.html`, `store.html`, `store/order.html` | Static pages. Orders go by email. | none |
+| `tools/` | Utilities ("Lab"): convert, encode, subnet, whois/IP, weather, currency, color, JSON, text, time, random, plus the Ipsum generators | `tools/data/*.json`, `tools/js/*.js` |
+| `archive-site/` | Browse and admin pages for the file archive at `archive.chom.ps` | Cloudflare R2, via `workers/archive-r2.js` |
+| `admin/` | CMS and editors (see below) | writes to GitHub |
+
+Writing lives on a separate site, **ps.chom.ps** (the ".ps").
+
+`temp/`, `css/`, `grid.html`, `dark.html`, `recipes1.html`, `recipegpt.html`, `test1.html` and similar are old experiments, safe to ignore.
+
+### Navigation
+The menu on most pages is built by `navigation.js` from `navigation.json`. Edit that one file (or use the Navigation Editor in the admin) and every page updates. `editions.html` has its own small hard-coded menu on purpose.
+
+### Styling
+Everything shares `styles.css`. Theme colors are CSS variables at the top. Dark mode is automatic through `prefers-color-scheme` (espresso `#231f1f`; `editions.html` overrides to true black). Mobile breakpoint is 768px. Accent is `#e73b42` (light) and `#ff6b7a` (dark).
+
+---
+
+## Editing content
+
+### The CMS: `/admin/`
+1. Open `chom.ps/admin/`.
+2. Paste a **GitHub personal access token** (starts with `ghp_` or `github_pat_`) with Contents read/write on `chomp-chomp-chomp/chomp`. Only usernames in `ALLOWED_USERS` inside `admin/index.html` get in. The token is kept in `sessionStorage` (cleared when the tab closes).
+3. Tabs: **Recipes, Posts, Lexicon, Reading List, Playlists, Images, Page Editors**.
+4. Saving commits the JSON file to `main` through the GitHub API ("Update recipes via CMS" in the git log). The live site updates in about a minute, after the host rebuilds.
+
+The Page Editors tab links to the visual page editor, the WYSIWYG editor and the navigation editor.
+
+`admin/config.yml` is a leftover Decap CMS config pointing at an old repo (`chomp-chomp-pachewy/chomp`). The current admin does not use it.
+
+### Editions: `/admin/editions.html`
+Manages `editions.json`. Each item can be placed under **Books** or **Recommended**, marked as an **affiliate** link (independent of section), tagged, made compact, hidden, reordered or deleted. It needs a fine-grained GitHub token with Contents read/write and commits to the branch you choose (default `main`).
+
+### Editing by hand
+Every content file is plain JSON and any commit to `main` publishes it. Recipe fields: `id, slug, title, description, image, servings, prepTime, cookTime, totalTime, source, category, ingredients[], instructions[], notes`. Look at an existing entry in `data/*.json` for the shape of the others. `*.json.example` files show the minimum.
+
+### Images
+- **ImageKit** is the current image host. Uploads from the admin go through `/api/imagekit-auth` (a Cloudflare Pages Function in `functions/api/`) which signs the request using the secret `IMAGEKIT_PRIVATE_KEY`.
+- Some older images still point to **Cloudinary** (`res.cloudinary.com/dlqfyv1qj`). The `CLOUDINARY-*.md` files and `migrate-to-imagekit.html` document that migration.
+
+---
+
+## Firebase, the refresher
+
+**What it was:** originally the whole backend. Recipes, posts, the lexicon and the reading list lived in **Firestore** (path `artifacts/chomp-chomp-recipes/public/data/<collection>`), images in **Firebase Storage**, and admin logins in **Firebase Auth**. Pages loaded the Firebase SDK from `gstatic.com`.
+
+**What it is now:** the content moved into `data/*.json` in git. Searching the live pages, none of them import the Firebase SDK anymore. Only old test and migration pages do (`check-firebase-storage.html`, `export-firebase-data.html`, `grid.html`, `dark.html`, `recipes1.html`, `recipegpt.html`, `progress1.html`, `in_progress.html`, `test1.html`). `export-firebase-data.html` is the tool that pulled the data out of Firestore.
+
+What remains in the repo:
+
+| Piece | File | Status |
+|---|---|---|
+| Project | `.firebaserc` → project id `chomp-chomp-recipes` | Still exists in the Firebase console |
+| Hosting config | `firebase.json` (serves the repo root, rewrites `/api/chat` to the `chat` function) | Possibly still deploying (below) |
+| Cloud Functions | `functions/index.js`: `chat` (Gemini proxy), `imagekitAuth`, `imagekitListFiles` | Deployed on every push. Nothing in the current pages calls `chat`. |
+| Deploy workflow | `.github/workflows/firebase-deploy.yml` | Runs `firebase deploy --only functions,hosting` on every push to `main` |
+
+### Re-learning the tooling
+```bash
+npm install -g firebase-tools
+firebase login                      # opens a browser
+firebase projects:list              # confirm chomp-chomp-recipes appears
+cd functions && npm ci              # Node 20 required
+firebase emulators:start --only functions   # run functions locally
+firebase functions:log              # see what's running
+firebase deploy --only functions    # manual deploy
 ```
-┌─────────────────────────────────────────┐
-│         Navigation (All Pages)          │
-│   Home | Recipes | About                │
-└─────────────────────────────────────────┘
+Console: https://console.firebase.google.com → project **chomp-chomp-recipes**. Check Firestore, Storage, Authentication and Functions → Logs to see what is still in use.
 
-┌──────────────────┬──────────────────┬──────────────────┐
-│   index.html     │  recipes.html    │   about.html     │
-│                  │                  │                  │
-│ Blog Posts       │ Recipe Grid      │ Manifesto        │
-│ - Stories        │ - Search         │ Contact Info     │
-│ - Anthropology   │ - Filter         │ Philosophy       │
-│ - Mindfulness    │ - Sort           │                  │
-└──────────────────┴──────────────────┴──────────────────┘
+### Secrets the workflow expects (GitHub → Settings → Secrets → Actions)
+- `FIREBASE_SERVICE_ACCOUNT_CHOMP_CHOMP_RECIPES`: service account JSON
+- `GEMINI_API_KEY`: written to `functions/.env.yaml` during deploy
+
+### Do you still need Firebase?
+Probably not for the site itself. Reasonable options, in order of effort:
+1. **Leave it.** It costs nothing noticeable, and the deploy workflow just runs.
+2. **Pause the workflow** (delete or disable `.github/workflows/firebase-deploy.yml`) if you don't want every push to also deploy to Firebase.
+3. **Retire it.** Back up Firestore with `export-firebase-data.html` first, then delete the project, the workflow and `functions/index.js`.
+
+---
+
+## Hosting
+
+The repo carries traces of three setups:
+
+- `.github/workflows/firebase-deploy.yml` + `firebase.json`: **Firebase Hosting** (`chomp-chomp-recipes.web.app`)
+- `functions/api/*.js` (Pages Functions format), `_redirects`, the Cloudflare Insights beacon in `tools/*.html`, and `workers/` (Workers and an R2 bucket): **Cloudflare**
+- Older docs mention Netlify (for CMS OAuth) and GitHub Pages (`CNAME`)
+
+The admin's `/api/imagekit-*` calls and the `archive.chom.ps` R2 setup only make sense on Cloudflare, so **chom.ps is most likely served by Cloudflare Pages** from this repo's `main` branch. **Check:** the Cloudflare dashboard → Workers & Pages, or `dig chom.ps` to see where the domain points.
+
+### Serverless pieces
+| What | Where | Env var / binding |
+|---|---|---|
+| ImageKit upload signing and listing | `functions/api/imagekit-*.js` (Cloudflare Pages Functions) | `IMAGEKIT_PRIVATE_KEY` (secret) |
+| Archive file listing/upload | `workers/archive-r2.js` + R2 bucket | `ARCHIVE_BUCKET`, `ARCHIVE_ADMIN_TOKEN` |
+| Gemini chat proxy | `functions/index.js` → `chat` (Firebase) | `GEMINI_API_KEY` (unused by current pages) |
+
+`_redirects` sends `/archive/` and `/admin/archive-admin.html` to `archive.chom.ps`.
+
+---
+
+## Running locally
+No build needed, but pages use `fetch('/data/...')` so open them through a server, not `file://`:
+```bash
+python3 -m http.server 8000     # then visit http://localhost:8000
 ```
-
-### Data Flow
-
-**Posts** (New):
-```
-Firestore
-artifacts/chomp-chomp-recipes/public/data/posts
-  ↓
-index.html (homepage grid)
-  ↓
-post.html?slug=... (individual post view)
-```
-
-**Recipes** (Existing):
-```
-Firestore
-artifacts/chomp-chomp-recipes/public/data/recipes
-  ↓
-recipes.html (grid view)
-  ↓
-recipe.html?slug=... (individual recipe view)
-```
+The admin and editions admin call GitHub's API, so they work locally too with a valid token. Image upload needs the Cloudflare function and won't work locally unless you run `wrangler pages dev`.
 
 ---
 
-## 📊 Data Models
-
-### Blog Post Object
-```javascript
-{
-  title: "Sunday Morning Ritual",
-  slug: "sunday-morning-ritual",
-  excerpt: "Brief preview text...",
-  content: "Full markdown content...",
-  category: "stories", // or "anthropology" or "mindfulness"
-  status: "published", // or "draft"
-  date: "2025-11-27",
-  featured_image: "https://...", // optional
-  created_at: Timestamp,
-  updated_at: Timestamp
-}
-```
-
-### Recipe Object (Existing)
-```javascript
-{
-  title: "Chocolate Chip Cookies",
-  slug: "chocolate-chip-cookies",
-  description: "Classic cookies...",
-  ingredients: ["flour", "sugar", ...],
-  instructions: ["Mix dry...", "Cream butter...", ...],
-  category: "chomp chomp",
-  dishType: "Cookie/Bar",
-  totalTime: "45min",
-  image: "images/cookies.jpg"
-}
-```
+## Known issues and tidy-ups
+1. **Rotate the Gemini API keys.** Two keys are committed in plain text: one as a fallback in `functions/index.js` and in `FIREBASE_SETUP.md`, another in `PRODUCTION-DEPLOYMENT.md`. Treat them as exposed: revoke them in Google AI Studio or Cloud Console, create a new one, store it only as a secret, and remove the fallback and the doc lines. Removing them from the files does not remove them from git history, so rotating is the part that matters.
+2. **The Firebase deploy runs on every push** even though nothing uses it. See the options above.
+3. `functions/` is shared by two systems: Firebase Functions (`index.js`) and Cloudflare Pages Functions (`api/`). It works, but it's confusing. If Firebase is retired, move or delete `index.js`.
+4. `admin/config.yml` points at the wrong repo and is unused.
+5. The admin is protected by a username allow-list in client-side code plus the token itself. The real security boundary is the GitHub token, so keep tokens short-lived and scoped to this repo.
 
 ---
 
-## 🎨 Design System
-
-### Color Palette
-
-**Light Mode:**
-- Background: `#fdfdfd`
-- Text: `#353535`
-- Accent: `#e73b42` (signature red)
-- Sidebar: `#f5f5f5`
-
-**Dark Mode:**
-- Background: `#231f1f` (espresso)
-- Text: `#d9d4d4`
-- Accent: `#ff6b7a` (lighter red)
-- Sidebar: `#2b2626`
-
-### Typography
-- Primary Font: Inter (300, 400, 500, 600)
-- Fallback: Source Sans 3
-- Line Height: 1.7 (body), 1.3 (headings)
-
-### Spacing System
-- XS: 8px
-- SM: 12px
-- MD: 20px
-- LG: 30px
-- XL: 40px
+## Old docs
+Written during earlier phases and **not** reliable for today's setup: `FIREBASE*`, `FIRESTORE-*`, `WHY-NO-POSTS.md`, `MIGRATION-*`, `CLOUDINARY-*`, `RECOVERY-SUMMARY.md`, `UPDATES-SUMMARY.md`, `GITHUB-OAUTH-SETUP.md`, `SVELTIA-SETUP-GUIDE.md`, `PRODUCTION-DEPLOYMENT.md`, `ADMIN-EDITORS-PLAN.md`. Still useful: `CLAUDE.md` (project conventions, though its data-source section predates the JSON move), `NAVIGATION-SYSTEM-README.md`, `workers/README.md`, `admin/*-README.md`. Reading them for history is fine. Don't follow their setup steps without checking against this file.
 
 ---
 
-## 🚀 Next Steps
-
-### Immediate (To Get Running)
-
-1. **Review the Files**
-   - Open each HTML file in a browser
-   - Check that styles look correct
-   - Verify navigation works
-
-2. **Set Up Firestore Posts Collection**
-   - Follow `FIRESTORE-SETUP-GUIDE.md`
-   - Create the collection path
-   - Add security rules
-   - Create a test post manually
-
-3. **Create Post Editor**
-   - Copy the code from setup guide
-   - Save as `post-editor.html` (gitignore it!)
-   - Set up Firebase Auth
-   - Test creating a post
-
-4. **Add Missing Pages**
-   - Create `post.html` (individual post view)
-   - Create `recipe.html` (individual recipe view)
-   - Both should follow the same nav structure
-
-### Short Term (Polish)
-
-5. **Test Everything**
-   - Post creation and display
-   - Category filtering
-   - Recipe search and filtering
-   - Mobile responsiveness
-   - Dark mode appearance
-
-6. **Move to Production**
-   - Copy files from /temp to root
-   - Update any paths
-   - Test live deployment
-   - Update CNAME if needed
-
-### Medium Term (Enhancements)
-
-7. **Image Upload System**
-   - Add direct upload to Firebase Storage
-   - Multiple images per post
-   - Image optimization
-
-8. **Post Management**
-   - Edit existing posts
-   - Delete posts
-   - Post list/dashboard
-
-9. **Advanced Features**
-   - Comments system
-   - Newsletter signup
-   - RSS feed
-   - Social sharing buttons
-
----
-
-## 📁 File Organization
-
-```
-/temp/
-├── styles.css                    # Shared stylesheet
-├── index.html                    # Blog homepage
-├── about.html                    # About/manifesto page
-├── recipes.html                  # Recipe grid page
-├── FIRESTORE-SETUP-GUIDE.md     # Firestore setup instructions
-└── README.md                     # This file
-
-/temp/ (to be created):
-├── post.html                     # Individual post view
-├── recipe.html                   # Individual recipe view
-├── post-editor.html              # Admin post editor (gitignore)
-└── images/                       # Local images folder
-    └── posts/                    # Blog post images
-```
-
----
-
-## 🔒 Security Notes
-
-### What Should Be Gitignored
-
-```gitignore
-# Admin interfaces with Firebase credentials
-post-editor.html
-temp/post-editor.html
-recipe-admin*.html
-
-# Environment files
-.env
-.env.local
-```
-
-### Public vs Private Data
-
-**Public (anyone can read):**
-- Published posts (`status: "published"`)
-- All recipes
-- Site content
-
-**Private (auth required):**
-- Draft posts
-- Admin interfaces
-- Writing/editing capabilities
-
----
-
-## 💡 Personalization Ideas
-
-### Make It Yours
-
-1. **Voice & Tone**
-   - Update manifesto to match your philosophy
-   - Personalize about page with your story
-   - Add author bio to posts
-
-2. **Visual Identity**
-   - Update logo/header image
-   - Customize color scheme (edit CSS variables)
-   - Add personal photos
-
-3. **Content Strategy**
-   - Decide post frequency
-   - Choose categories that resonate
-   - Mix personal stories with technique guides
-
-4. **Community Features**
-   - Email newsletter signup
-   - Comments (Disqus, Firebase?)
-   - Recipe submissions form
-   - Guest contributors
-
----
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Styles not loading:**
-- Check that `styles.css` path is correct
-- Verify CSS file exists in same directory as HTML
-
-**Firebase not connecting:**
-- Check console for errors
-- Verify Firebase config is correct
-- Ensure internet connection
-
-**Posts not appearing:**
-- Check Firestore collection path
-- Verify `status: "published"`
-- Check security rules allow reading
-
-**Mobile layout broken:**
-- Test at exactly 768px width
-- Check media queries in styles.css
-- Verify viewport meta tag exists
-
----
-
-## 📚 Documentation
-
-### Additional Resources
-
-- [Firebase Firestore Docs](https://firebase.google.com/docs/firestore)
-- [Firebase Storage Docs](https://firebase.google.com/docs/storage)
-- [Markdown Guide](https://www.markdownguide.org/)
-- [CSS Variables Guide](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
-
-### Internal Docs
-
-- `CLAUDE.md` - Main developer guide (in root)
-- `FIRESTORE-SETUP-GUIDE.md` - This folder
-- `recipe-site-ideas.txt` - Future enhancement ideas (in root)
-
----
-
-## ✅ Launch Checklist
-
-Before going live:
-
-- [ ] All pages created and tested
-- [ ] Firestore collections set up
-- [ ] Security rules configured
-- [ ] First blog post published
-- [ ] Mobile responsive tested
-- [ ] Dark mode tested
-- [ ] All links working
-- [ ] Images loading correctly
-- [ ] Analytics set up (optional)
-- [ ] SEO meta tags added
-- [ ] CNAME configured
-- [ ] Backup of old site created
-
----
-
-## 🎯 Success Metrics
-
-### How to Know It's Working
-
-1. **Technical:**
-   - Pages load in < 2 seconds
-   - No console errors
-   - Works on mobile and desktop
-   - Dark mode switches correctly
-
-2. **Content:**
-   - Can create posts easily
-   - Posts appear immediately on homepage
-   - Recipes are searchable
-   - Navigation is intuitive
-
-3. **Personal:**
-   - You enjoy writing posts
-   - The site reflects your voice
-   - Feels personal and authentic
-   - Easy to maintain
-
----
-
-## 🙏 Questions?
-
-This is your site's foundation. Feel free to:
-- Modify any HTML/CSS
-- Change the color scheme
-- Reorganize navigation
-- Add new pages
-- Remove features you don't need
-
-The goal is to make it **yours** while maintaining the philosophical depth that makes it special.
-
-Happy baking and writing! 🍰✍️
+## Contact
+hey@chompchomp.cc · orders@chompchomp.cc
