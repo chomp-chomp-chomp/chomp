@@ -15,7 +15,7 @@
       ],
       "section": "editions",
       "affiliate": false,
-      "display": "collapsible",
+      "display": "full",
       "hidden": false,
       "links": [
         {
@@ -39,7 +39,7 @@
       ],
       "section": "recommended",
       "affiliate": true,
-      "display": "full",
+      "display": "collapsible",
       "hidden": false,
       "links": [
         {
@@ -62,7 +62,7 @@
       ],
       "section": "recommended",
       "affiliate": true,
-      "display": "full",
+      "display": "collapsible",
       "hidden": false,
       "links": [
         {
