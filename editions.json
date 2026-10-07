@@ -19,8 +19,10 @@
       "hidden": false,
       "links": [
         {
-          "label": "Buy on Lulu",
-          "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html"
+          "label": "Standard Hardcover • Lulu",
+          "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html",
+          "affiliate": false,
+          "price": "$28 + shipping"
         }
       ]
     },
