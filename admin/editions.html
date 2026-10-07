@@ -43,8 +43,12 @@
     .badge.aff { color: var(--accent); border-color: var(--accent); }
     .item-actions { display: flex; gap: 6px; }
     .item-actions button { padding: 4px 9px; }
-    .link-row { display: flex; gap: 8px; margin-bottom: 6px; }
-    .link-row input:first-child { flex: 0 0 35%; }
+    .link-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px;
+      padding-bottom: 12px; border-bottom: 1px dashed var(--border); }
+    .link-row .l-label { flex: 1 1 40%; }
+    .link-row .l-price { flex: 0 0 22%; min-width: 110px; }
+    .link-row .l-aff { margin: 0; white-space: nowrap; }
+    .link-row .l-url { flex: 1 1 100%; }
     #status { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px; background: var(--panel);
       border-top: 1px solid var(--border); font-size: 0.9em; }
     #status.err { color: var(--accent); }
@@ -98,10 +102,7 @@
         <option value="compact">Compact (title, author, links only)</option>
       </select>
 
-      <div class="row">
-        <label class="check"><input type="checkbox" id="f_affiliate"> Affiliate link (adds a label and the disclosure)</label>
-        <label class="check"><input type="checkbox" id="f_hidden"> Hidden</label>
-      </div>
+      <label class="check"><input type="checkbox" id="f_hidden"> Hidden</label>
 
       <div id="fullFields">
         <div class="row">
@@ -115,7 +116,8 @@
 
       <label>Tags (comma separated)</label><input type="text" id="f_tags" placeholder="fiction, Chomp Chomp Editions">
 
-      <label>Links</label>
+      <label>Buy links</label>
+      <p class="hint">One button per link. Use the format and store as the button text (e.g. "Hardcover · Lulu"). Price is optional and shows small inside the button; leave it off for Amazon unless it's current. Tick Affiliate only on links that earn you a commission.</p>
       <div id="linkRows"></div>
       <button class="plain" id="addLinkBtn" type="button">+ Add link</button>
 
@@ -250,12 +252,20 @@
   }
 
   // --- form ---
-  function linkRow(l = {}) {
+  // dflt: older items set affiliate once on the item; use that for links that don't say
+  function linkRow(l = {}, dflt = false) {
     const r = document.createElement('div');
     r.className = 'link-row';
-    r.innerHTML = '<input type="text" placeholder="Label (Buy on Lulu)"><input type="url" placeholder="https://…"><button class="plain" type="button">✕</button>';
-    r.children[0].value = l.label || ''; r.children[1].value = l.url || '';
-    r.children[2].onclick = () => r.remove();
+    r.innerHTML = '<input type="text" class="l-label" placeholder="Button text (Hardcover · Lulu)">' +
+      '<input type="text" class="l-price" placeholder="Price (optional)">' +
+      '<label class="check l-aff"><input type="checkbox" class="l-affc"> Affiliate</label>' +
+      '<button class="plain" type="button">✕</button>' +
+      '<input type="url" class="l-url" placeholder="https://…">';
+    r.querySelector('.l-label').value = l.label || '';
+    r.querySelector('.l-price').value = l.price || '';
+    r.querySelector('.l-url').value = l.url || '';
+    r.querySelector('.l-affc').checked = l.affiliate !== undefined ? !!l.affiliate : dflt;
+    r.querySelector('button').onclick = () => r.remove();
     $('linkRows').append(r);
   }
   function syncCompact() { $('fullFields').classList.toggle('hidden', $('f_display').value === 'compact'); }
@@ -268,9 +278,9 @@
     $('formTitle').textContent = i >= 0 ? 'Edit item' : 'New item';
     ['title', 'author', 'subtitle', 'status', 'details', 'cover', 'description'].forEach((k) => $('f_' + k).value = it[k] || '');
     $('f_tags').value = (it.tags || []).join(', ');
-    ['affiliate', 'hidden'].forEach((k) => $('f_' + k).checked = !!it[k]);
+    $('f_hidden').checked = !!it.hidden;
     $('linkRows').innerHTML = '';
-    (it.links && it.links.length ? it.links : [{}]).forEach(linkRow);
+    (it.links && it.links.length ? it.links : [{}]).forEach((l) => linkRow(l, !!it.affiliate));
     syncCompact();
     $('form').classList.remove('hidden');
     $('form').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -280,8 +290,16 @@
   function apply() {
     const title = $('f_title').value.trim();
     if (!title) { say('Title is required.', true); return; }
-    const links = [...$('linkRows').children].map((r) => ({ label: r.children[0].value.trim(), url: r.children[1].value.trim() }))
-      .filter((l) => l.url);
+    const links = [...$('linkRows').children].map((r) => {
+      const l = {
+        label: r.querySelector('.l-label').value.trim(),
+        url: r.querySelector('.l-url').value.trim(),
+        affiliate: r.querySelector('.l-affc').checked
+      };
+      const price = r.querySelector('.l-price').value.trim();
+      if (price) l.price = price;
+      return l;
+    }).filter((l) => l.url);
     if (links.some((l) => !/^https?:\/\//i.test(l.url))) { say('Links must start with http:// or https://', true); return; }
     const item = {
       title,
@@ -293,7 +311,7 @@
       cover: $('f_cover').value.trim(),
       tags: $('f_tags').value.split(',').map((t) => t.trim()).filter(Boolean),
       section: $('f_section').value,
-      affiliate: $('f_affiliate').checked,
+      affiliate: links.some((l) => l.affiliate),   // derived: true if any link earns a commission
       display: $('f_display').value,
       hidden: $('f_hidden').checked,
       links
@@ -307,7 +325,7 @@
   $('addBtn').onclick = () => edit(-1);
   $('applyBtn').onclick = apply;
   $('cancelBtn').onclick = closeForm;
-  $('addLinkBtn').onclick = () => linkRow();
+  $('addLinkBtn').onclick = () => linkRow({}, false);
   $('f_display').onchange = syncCompact;
   $('intro').oninput = $('affiliateNote').oninput = () => setDirty(true);
   window.onbeforeunload = (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } };
