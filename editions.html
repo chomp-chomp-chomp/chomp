@@ -248,6 +248,48 @@
       white-space: nowrap;
     }
 
+    /* Collapsible entries */
+    .expand-btn {
+      font-family: inherit;
+      font-size: 0.875em;
+      padding: 8px 4px;
+      background: none;
+      border: none;
+      color: var(--color-accent);
+      cursor: pointer;
+    }
+
+    .expand-btn:hover {
+      text-decoration: underline;
+    }
+
+    .expand-btn .chev {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+
+    .expand-btn[aria-expanded="true"] .chev {
+      transform: rotate(180deg);
+    }
+
+    .book-more {
+      display: flex;
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .book-more[hidden] {
+      display: none;
+    }
+
+    .book-more .book-cover {
+      flex: 0 0 120px;
+    }
+
+    .book-more .book-cover img {
+      width: 120px;
+    }
+
     .editions-empty {
       text-align: center;
       color: var(--color-text-muted);
@@ -264,6 +306,11 @@
       .book-links,
       .tags {
         justify-content: center;
+      }
+
+      .book-more {
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
@@ -303,16 +350,16 @@
     <div class="tag-bar" id="tagBar" hidden></div>
 
     <section class="editions-section" id="booksSection">
-      <div class="editions-header">Books</div>
+      <div class="editions-header">Chomp Chomp Editions</div>
+      <p class="affiliate-note" id="affNoteBooks" hidden></p>
       <div id="books"></div>
     </section>
 
     <section class="editions-section" id="picksSection" hidden>
       <div class="editions-header">Recommended</div>
+      <p class="affiliate-note" id="affNotePicks" hidden></p>
       <div id="picks"></div>
     </section>
-
-    <p class="affiliate-note" id="affiliateNote" hidden></p>
 
   </main>
 
@@ -352,6 +399,7 @@
 
     let data = { items: [] };
     let activeTag = null;
+    const expanded = new Set();   // indexes of collapsible items the visitor has opened
 
     function renderFull(b) {
       const links = (b.links || []).map((l, i) =>
@@ -389,7 +437,47 @@
         </div>`;
     }
 
-    const renderItem = (i) => (i.compact ? renderCompact(i) : renderFull(i));
+    // Collapsed by default: summary and buy buttons show, cover and description sit behind a toggle
+    function renderCollapsible(b) {
+      const idx = data.items.indexOf(b);
+      const open = expanded.has(idx);
+      const hasMore = b.description || b.cover;
+      const links = (b.links || []).map((l, i) =>
+        `<a class="btn ${i === 0 ? 'btn-primary' : 'btn-outline'}" href="${safeUrl(l.url)}" target="_blank" rel="${relFor(b)}">${esc(l.label || 'Buy')}</a>`
+      ).join('');
+      const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
+      const toggle = hasMore
+        ? `<button type="button" class="expand-btn" data-idx="${idx}" aria-expanded="${open}" aria-controls="more-${idx}">
+             <span class="expand-label">${open ? 'Less' : 'More'}</span> <span class="chev" aria-hidden="true">▾</span>
+           </button>`
+        : '';
+      const more = hasMore
+        ? `<div class="book-more" id="more-${idx}"${open ? '' : ' hidden'}>
+             ${b.cover ? `<div class="book-cover"><img src="${esc(b.cover)}" alt="${esc(b.title)} cover" loading="lazy"></div>` : ''}
+             ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
+           </div>`
+        : '';
+      return `
+        <article class="book">
+          <div class="book-body">
+            ${b.status ? `<p class="book-status">${esc(b.status)}</p>` : ''}
+            <h2 class="book-title">${esc(b.title)}</h2>
+            ${b.subtitle ? `<p class="book-subtitle">${esc(b.subtitle)}</p>` : ''}
+            <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
+            ${tags ? `<div class="tags">${tags}</div>` : ''}
+            ${(links || toggle) ? `<div class="book-links">${links}${toggle}</div>` : ''}
+            ${b.affiliate ? '<p class="aff-flag">affiliate link</p>' : ''}
+            ${more}
+          </div>
+        </article>`;
+    }
+
+    // "display" is full | compact | collapsible (older entries used a compact flag)
+    const modeOf = (i) => i.display || (i.compact ? 'compact' : 'full');
+    const renderItem = (i) => {
+      const m = modeOf(i);
+      return m === 'compact' ? renderCompact(i) : m === 'collapsible' ? renderCollapsible(i) : renderFull(i);
+    };
 
     function render() {
       const visible = (data.items || []).filter((i) => !i.hidden);
@@ -415,16 +503,31 @@
       document.getElementById('picksSection').hidden = picks.length === 0;
       document.getElementById('picks').innerHTML = picks.map(renderItem).join('');
 
-      // Disclosure appears only when an affiliate item is actually on screen
-      const note = document.getElementById('affiliateNote');
-      note.textContent = data.affiliateNote || '';
-      note.hidden = !(data.affiliateNote && shown.some((i) => i.affiliate));
+      // Visible disclosure sits directly above any section that contains an affiliate item
+      [['affNoteBooks', own], ['affNotePicks', picks]].forEach(([id, list]) => {
+        const note = document.getElementById(id);
+        note.textContent = data.affiliateNote || '';
+        note.hidden = !(data.affiliateNote && list.some((i) => i.affiliate));
+      });
 
       if (!own.length && !picks.length) {
         document.getElementById('booksSection').hidden = false;
         document.getElementById('books').innerHTML = '<p class="editions-empty">Nothing here yet.</p>';
       }
     }
+
+    // Expand / collapse (no re-render, so scroll position stays put)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.expand-btn');
+      if (!btn) return;
+      const idx = Number(btn.dataset.idx);
+      const panel = document.getElementById('more-' + idx);
+      const open = panel.hidden;          // currently closed -> opening
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open);
+      btn.querySelector('.expand-label').textContent = open ? 'Less' : 'More';
+      if (open) expanded.add(idx); else expanded.delete(idx);
+    });
 
     document.getElementById('tagBar').addEventListener('click', (e) => {
       const chip = e.target.closest('.tag-chip');

@@ -71,7 +71,7 @@
   <div id="editor" class="hidden">
     <section class="panel">
       <label>Page intro</label><input type="text" id="intro">
-      <label>Affiliate disclosure (shown above affiliate items)</label><input type="text" id="affiliateNote">
+      <label>Affiliate disclosure (shown directly above any section that has an affiliate item)</label><input type="text" id="affiliateNote">
     </section>
 
     <h2>Items</h2>
@@ -91,9 +91,15 @@
         <option value="recommended">Recommended</option>
       </select>
 
+      <label>Display</label>
+      <select id="f_display">
+        <option value="full">Full (everything visible)</option>
+        <option value="collapsible">Collapsible (summary and buttons; cover and description behind "More")</option>
+        <option value="compact">Compact (title, author, links only)</option>
+      </select>
+
       <div class="row">
         <label class="check"><input type="checkbox" id="f_affiliate"> Affiliate link (adds a label and the disclosure)</label>
-        <label class="check"><input type="checkbox" id="f_compact"> Compact (title, author, links only)</label>
         <label class="check"><input type="checkbox" id="f_hidden"> Hidden</label>
       </div>
 
@@ -220,7 +226,8 @@
       const badge = (txt, cls) => { const b = document.createElement('span'); b.className = 'badge ' + (cls || ''); b.textContent = txt; main.append(b); };
       if (it.section === 'recommended') badge('recommended');
       if (it.affiliate) badge('affiliate', 'aff');
-      if (it.compact) badge('compact');
+      const mode = it.display || (it.compact ? 'compact' : 'full');
+      if (mode !== 'full') badge(mode);
       if (it.hidden) badge('hidden');
       (it.tags || []).forEach((x) => badge(x));
       const acts = document.createElement('div');
@@ -251,16 +258,17 @@
     r.children[2].onclick = () => r.remove();
     $('linkRows').append(r);
   }
-  function syncCompact() { $('fullFields').classList.toggle('hidden', $('f_compact').checked); }
+  function syncCompact() { $('fullFields').classList.toggle('hidden', $('f_display').value === 'compact'); }
 
   function edit(i) {
     editing = i;
-    const it = i >= 0 ? data.items[i] : { section: 'editions', affiliate: false, compact: false, hidden: false, links: [{}] };
+    const it = i >= 0 ? data.items[i] : { section: 'editions', display: 'full', affiliate: false, hidden: false, links: [{}] };
     $('f_section').value = it.section === 'recommended' ? 'recommended' : 'editions';
+    $('f_display').value = it.display || (it.compact ? 'compact' : 'full');
     $('formTitle').textContent = i >= 0 ? 'Edit item' : 'New item';
     ['title', 'author', 'subtitle', 'status', 'details', 'cover', 'description'].forEach((k) => $('f_' + k).value = it[k] || '');
     $('f_tags').value = (it.tags || []).join(', ');
-    ['affiliate', 'compact', 'hidden'].forEach((k) => $('f_' + k).checked = !!it[k]);
+    ['affiliate', 'hidden'].forEach((k) => $('f_' + k).checked = !!it[k]);
     $('linkRows').innerHTML = '';
     (it.links && it.links.length ? it.links : [{}]).forEach(linkRow);
     syncCompact();
@@ -286,7 +294,7 @@
       tags: $('f_tags').value.split(',').map((t) => t.trim()).filter(Boolean),
       section: $('f_section').value,
       affiliate: $('f_affiliate').checked,
-      compact: $('f_compact').checked,
+      display: $('f_display').value,
       hidden: $('f_hidden').checked,
       links
     };
@@ -300,7 +308,7 @@
   $('applyBtn').onclick = apply;
   $('cancelBtn').onclick = closeForm;
   $('addLinkBtn').onclick = () => linkRow();
-  $('f_compact').onchange = syncCompact;
+  $('f_display').onchange = syncCompact;
   $('intro').oninput = $('affiliateNote').oninput = () => setDirty(true);
   window.onbeforeunload = (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } };
 </script>

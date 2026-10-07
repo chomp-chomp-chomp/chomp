@@ -1,6 +1,6 @@
 {
   "intro": "Books from Chomp Chomp Editions, made independently, start to finish.",
-  "affiliateNote": "Links marked as affiliate may earn Chomp Chomp a small commission at no cost to you.",
+  "affiliateNote": "Links marked “affiliate link” are affiliate links: Chomp Chomp earns a small commission if you buy through them, at no cost to you. As an Amazon Associate I earn from qualifying purchases.",
   "items": [
     {
       "title": "The Catalan Twelve",
@@ -13,7 +13,7 @@
       "tags": ["Chomp Chomp Editions"],
       "section": "editions",
       "affiliate": false,
-      "compact": false,
+      "display": "collapsible",
       "hidden": false,
       "links": [
         { "label": "Buy on Lulu", "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html" }
@@ -30,7 +30,7 @@
       "tags": ["fiction"],
       "section": "recommended",
       "affiliate": true,
-      "compact": true,
+      "display": "compact",
       "hidden": false,
       "links": [
         { "label": "Amazon", "url": "https://www.amazon.com/Ficciones-Jorge-Luis-Borges/dp/0802130305/" }
