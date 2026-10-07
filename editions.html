@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chomp Chomp Editions</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+
+  <meta name="description" content="Books from Chomp Chomp Editions, plus a few recommended reads.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chom.ps/editions">
+  <meta property="og:title" content="Chomp Chomp Editions">
+  <meta property="og:description" content="Books from Chomp Chomp Editions, plus a few recommended reads.">
+  <meta property="twitter:card" content="summary">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+
+  <style>
+    /* Dark mode on this page is true black to match the header art */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #000000;
+        --color-sidebar-bg: #000000;
+        --color-border: #2a2626;
+      }
+      body, .site-header, .site-footer { background-color: #000000; }
+    }
+
+    .editions-intro {
+      text-align: center;
+      padding: 24px 20px 0;
+    }
+
+    .editions-intro p {
+      font-size: 0.95em;
+      color: var(--color-text-muted);
+      margin: 0 0 6px;
+    }
+
+    .editions-section {
+      max-width: 680px;
+      margin: 0 auto 36px;
+      padding: 0 20px;
+    }
+
+    .editions-header {
+      font-size: 0.75em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--color-text-muted);
+      text-align: center;
+      margin: 30px 0 14px;
+    }
+
+    /* Tag filter */
+    .tag-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 20px auto 0;
+      max-width: 680px;
+      padding: 0 20px;
+    }
+
+    .tag-chip {
+      font-family: inherit;
+      font-size: 0.8em;
+      padding: 4px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .tag-chip:hover,
+    .tag-chip.active {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 12px;
+    }
+
+    .tag {
+      font-size: 0.72em;
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 1px 9px;
+    }
+
+    /* Full entries */
+    .book {
+      display: flex;
+      gap: 24px;
+      padding: 24px 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .book:last-child {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .book-cover {
+      flex: 0 0 150px;
+    }
+
+    .book-cover img {
+      width: 150px;
+      height: auto;
+      display: block;
+      border-radius: 3px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+    }
+
+    .book-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .book-status {
+      font-size: 0.7em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--color-accent);
+      margin: 0 0 6px;
+    }
+
+    .book-title {
+      font-size: 1.35em;
+      font-weight: 500;
+      line-height: 1.3;
+      margin: 0 0 2px;
+    }
+
+    .book-subtitle {
+      font-size: 0.95em;
+      color: var(--color-text-muted);
+      margin: 0 0 4px;
+    }
+
+    .book-meta {
+      font-size: 0.8em;
+      color: var(--color-text-muted);
+      margin: 0 0 14px;
+    }
+
+    .book-desc p {
+      font-size: 0.95em;
+      line-height: 1.65;
+      margin: 0 0 12px;
+    }
+
+    .book-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .book-links .btn {
+      text-decoration: none;
+      font-size: 0.875em;
+      padding: 8px 18px;
+    }
+
+    /* Compact entries */
+    .affiliate-note {
+      font-size: 0.8em;
+      color: var(--color-text-muted);
+      text-align: center;
+      margin: 0 0 8px;
+    }
+
+    .pick {
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .pick:last-child {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .pick-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pick-title {
+      display: block;
+      font-weight: 500;
+      color: var(--color-text);
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .pick-title:hover {
+      color: var(--color-accent);
+    }
+
+    .pick-by {
+      font-size: 0.85em;
+      color: var(--color-text-muted);
+      margin: 2px 0 0;
+      line-height: 1.5;
+    }
+
+    .pick-links {
+      display: flex;
+      gap: 12px;
+      white-space: nowrap;
+      font-size: 0.8em;
+    }
+
+    .pick-links a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .pick-links a:hover {
+      text-decoration: underline;
+    }
+
+    .editions-empty {
+      text-align: center;
+      color: var(--color-text-muted);
+      padding: 24px 0;
+    }
+
+    @media (max-width: 768px) {
+      .book {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .book-links,
+      .tags {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="header-left"></div>
+
+      <div class="header-center">
+        <a href="https://chom.ps" title="Chomp Chomp">
+          <img src="https://ik.imagekit.io/chompchomp/editions-light.jpg" alt="Chomp Chomp Editions" class="header-banner banner-light">
+          <img src="https://ik.imagekit.io/chompchomp/editions-dark.PNG" alt="Chomp Chomp Editions" class="header-banner banner-dark">
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tools-dropdown">
+          <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">☰</button>
+          <ul class="tools-dropdown-menu" id="toolsDropdown">
+            <li><a href="https://chom.ps">chom.ps</a></li>
+            <li><a href="https://ps.chom.ps">ps.chom.ps</a></li>
+            <li><a href="https://chom.ps/about">chom.ps/about</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-container">
+
+    <div class="editions-intro">
+      <p id="intro"></p>
+    </div>
+
+    <div class="tag-bar" id="tagBar" hidden></div>
+
+    <section class="editions-section" id="booksSection">
+      <div class="editions-header">Books</div>
+      <div id="books"></div>
+    </section>
+
+    <section class="editions-section" id="picksSection" hidden>
+      <div class="editions-header">Recommended</div>
+      <p class="affiliate-note" id="affiliateNote"></p>
+      <div id="picks"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>Baking is the materialization of comfort itself.</p>
+      <p style="margin-top: 20px; font-size: 0.85em;">&copy; 2026 Chomp Chomp</p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu toggle
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('toolsDropdown');
+    toggle.addEventListener('click', () => {
+      const open = menu.classList.toggle('active');
+      toggle.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.nav-tools-dropdown')) {
+        menu.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Content comes from editions.json; escape everything before inserting
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    // Only allow http(s) links
+    const safeUrl = (u) => /^https?:\/\//i.test(u || '') ? esc(u) : '#';
+
+    const paragraphs = (text) =>
+      esc(text).split(/\n{2,}/).map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+
+    const relFor = (item) => (item.affiliate ? 'sponsored noopener' : 'noopener');
+
+    let data = { items: [] };
+    let activeTag = null;
+
+    function renderFull(b) {
+      const links = (b.links || []).map((l, i) =>
+        `<a class="btn ${i === 0 ? 'btn-primary' : 'btn-outline'}" href="${safeUrl(l.url)}" target="_blank" rel="${relFor(b)}">${esc(l.label || 'Buy')}</a>`
+      ).join('');
+      const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
+      return `
+        <article class="book">
+          ${b.cover ? `<div class="book-cover"><img src="${esc(b.cover)}" alt="${esc(b.title)} cover" loading="lazy"></div>` : ''}
+          <div class="book-body">
+            ${b.status ? `<p class="book-status">${esc(b.status)}</p>` : ''}
+            <h2 class="book-title">${esc(b.title)}</h2>
+            ${b.subtitle ? `<p class="book-subtitle">${esc(b.subtitle)}</p>` : ''}
+            <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
+            ${tags ? `<div class="tags">${tags}</div>` : ''}
+            ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
+            ${links ? `<div class="book-links">${links}</div>` : ''}
+          </div>
+        </article>`;
+    }
+
+    function renderCompact(p) {
+      const links = (p.links || []).map((l) =>
+        `<a href="${safeUrl(l.url)}" target="_blank" rel="${relFor(p)}">${esc(l.label || 'Link')}</a>`
+      ).join('');
+      return `
+        <div class="pick">
+          <div class="pick-main">
+            <span class="pick-title">${esc(p.title)}</span>
+            ${p.author ? `<p class="pick-by">${esc(p.author)}</p>` : ''}
+          </div>
+          ${links ? `<div class="pick-links">${links}</div>` : ''}
+        </div>`;
+    }
+
+    const renderItem = (i) => (i.compact ? renderCompact(i) : renderFull(i));
+
+    function render() {
+      const visible = (data.items || []).filter((i) => !i.hidden);
+      const shown = activeTag
+        ? visible.filter((i) => (i.tags || []).includes(activeTag))
+        : visible;
+
+      // Tag filter bar: built from every visible item's tags
+      const allTags = [...new Set(visible.flatMap((i) => i.tags || []))].sort((a, b) => a.localeCompare(b));
+      const bar = document.getElementById('tagBar');
+      bar.hidden = allTags.length === 0;
+      bar.innerHTML = allTags.map((t) =>
+        `<button class="tag-chip${t === activeTag ? ' active' : ''}" data-tag="${esc(t)}">${esc(t)}</button>`
+      ).join('');
+
+      const own = shown.filter((i) => !i.affiliate);
+      const picks = shown.filter((i) => i.affiliate);
+
+      document.getElementById('booksSection').hidden = own.length === 0;
+      document.getElementById('books').innerHTML = own.map(renderItem).join('');
+
+      document.getElementById('picksSection').hidden = picks.length === 0;
+      document.getElementById('affiliateNote').textContent = data.affiliateNote || '';
+      document.getElementById('picks').innerHTML = picks.map(renderItem).join('');
+
+      if (!own.length && !picks.length) {
+        document.getElementById('booksSection').hidden = false;
+        document.getElementById('books').innerHTML = '<p class="editions-empty">Nothing here yet.</p>';
+      }
+    }
+
+    document.getElementById('tagBar').addEventListener('click', (e) => {
+      const chip = e.target.closest('.tag-chip');
+      if (!chip) return;
+      activeTag = activeTag === chip.dataset.tag ? null : chip.dataset.tag;
+      render();
+    });
+
+    async function load() {
+      try {
+        const res = await fetch('/editions.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error(res.status);
+        data = await res.json();
+        document.getElementById('intro').textContent = data.intro || '';
+        render();
+      } catch (err) {
+        console.error('Could not load editions.json', err);
+        document.getElementById('books').innerHTML =
+          '<p class="editions-empty">Could not load the list right now. Please try again later.</p>';
+      }
+    }
+
+    load();
+  </script>
+
+</body>
+</html>

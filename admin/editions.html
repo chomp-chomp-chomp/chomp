@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Editions Admin</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --text: #353535; --muted: #666; --accent: #e73b42;
+      --border: #e0e0e0; --panel: #f5f5f5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #231f1f; --text: #d9d4d4; --muted: #a0a0a0; --accent: #ff6b7a; --border: #3b3636; --panel: #2b2626; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 15px/1.5 Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 80px; }
+    h1 { font-size: 1.3em; font-weight: 600; margin: 0 0 4px; }
+    h2 { font-size: 1em; margin: 24px 0 8px; }
+    p.hint, .hint { color: var(--muted); font-size: 0.85em; margin: 4px 0; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin: 14px 0; }
+    label { display: block; font-size: 0.8em; font-weight: 600; margin: 10px 0 3px; }
+    input[type=text], input[type=password], input[type=url], textarea, select {
+      width: 100%; padding: 8px 10px; font: inherit; color: var(--text); background: var(--bg);
+      border: 1px solid var(--border); border-radius: 6px;
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .row > * { flex: 1; min-width: 160px; }
+    .check { display: flex; align-items: center; gap: 8px; font-weight: 400; font-size: 0.9em; margin: 8px 0; }
+    .check input { width: auto; }
+    button { font: inherit; font-size: 0.9em; padding: 7px 14px; border-radius: 6px; cursor: pointer;
+      border: 1px solid var(--accent); background: transparent; color: var(--accent); }
+    button.primary { background: var(--accent); color: #fff; }
+    button.plain { border-color: var(--border); color: var(--text); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .item { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--border); }
+    .item:first-child { border-top: 0; }
+    .item-main { flex: 1; min-width: 0; }
+    .item-title { font-weight: 500; }
+    .badge { font-size: 0.7em; border: 1px solid var(--border); border-radius: 20px; padding: 1px 8px; margin-left: 6px; color: var(--muted); }
+    .badge.aff { color: var(--accent); border-color: var(--accent); }
+    .item-actions { display: flex; gap: 6px; }
+    .item-actions button { padding: 4px 9px; }
+    .link-row { display: flex; gap: 8px; margin-bottom: 6px; }
+    .link-row input:first-child { flex: 0 0 35%; }
+    #status { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px; background: var(--panel);
+      border-top: 1px solid var(--border); font-size: 0.9em; }
+    #status.err { color: var(--accent); }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Editions Admin</h1>
+  <p class="hint">Edits <code>editions.json</code> and commits it to GitHub. The live page updates after the site redeploys.</p>
+
+  <section class="panel" id="connect">
+    <div class="row">
+      <div><label>Repository</label><input type="text" id="repo" value="chomp-chomp-chomp/chomp"></div>
+      <div><label>Branch</label><input type="text" id="branch" value="main"></div>
+    </div>
+    <label>GitHub personal access token</label>
+    <input type="password" id="token" autocomplete="off" placeholder="github_pat_…">
+    <p class="hint">Fine-grained token with <b>Contents: Read and write</b> on this repo only. It stays in this browser and is sent only to api.github.com.</p>
+    <label class="check"><input type="checkbox" id="remember"> Remember on this device</label>
+    <button class="primary" id="loadBtn">Load</button>
+  </section>
+
+  <div id="editor" class="hidden">
+    <section class="panel">
+      <label>Page intro</label><input type="text" id="intro">
+      <label>Affiliate disclosure (shown above affiliate items)</label><input type="text" id="affiliateNote">
+    </section>
+
+    <h2>Items</h2>
+    <div class="panel" id="list"></div>
+    <button id="addBtn">+ Add item</button>
+
+    <section class="panel hidden" id="form">
+      <h2 id="formTitle" style="margin-top:0">Item</h2>
+      <div class="row">
+        <div><label>Title *</label><input type="text" id="f_title"></div>
+        <div><label>Author</label><input type="text" id="f_author"></div>
+      </div>
+
+      <div class="row">
+        <label class="check"><input type="checkbox" id="f_affiliate"> Affiliate link</label>
+        <label class="check"><input type="checkbox" id="f_compact"> Compact (title, author, links only)</label>
+        <label class="check"><input type="checkbox" id="f_hidden"> Hidden</label>
+      </div>
+
+      <div id="fullFields">
+        <div class="row">
+          <div><label>Subtitle</label><input type="text" id="f_subtitle"></div>
+          <div><label>Status badge</label><input type="text" id="f_status" placeholder="Available, Coming soon…"></div>
+          <div><label>Details</label><input type="text" id="f_details" placeholder="Hardcover, 240 pp."></div>
+        </div>
+        <label>Cover image URL</label><input type="url" id="f_cover">
+        <label>Description (blank line = new paragraph)</label><textarea id="f_description"></textarea>
+      </div>
+
+      <label>Tags (comma separated)</label><input type="text" id="f_tags" placeholder="fiction, Chomp Chomp Editions">
+
+      <label>Links</label>
+      <div id="linkRows"></div>
+      <button class="plain" id="addLinkBtn" type="button">+ Add link</button>
+
+      <div style="margin-top:16px" class="row">
+        <button class="primary" id="applyBtn" type="button" style="flex:0 0 auto">Apply to list</button>
+        <button class="plain" id="cancelBtn" type="button" style="flex:0 0 auto">Cancel</button>
+      </div>
+    </section>
+
+    <div style="margin-top:20px">
+      <button class="primary" id="saveBtn" disabled>Save &amp; publish</button>
+      <span class="hint" id="dirty"></span>
+    </div>
+  </div>
+</main>
+<div id="status">Not connected.</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const LS = 'editionsAdmin';
+  let data = null, sha = null, editing = -1, dirty = false;
+
+  // --- storage helpers (may throw in private windows) ---
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch { return {}; } },
+    set(v) { try { localStorage.setItem(LS, JSON.stringify(v)); } catch {} },
+    clear() { try { localStorage.removeItem(LS); } catch {} }
+  };
+  const saved = store.get();
+  if (saved.token) { $('token').value = saved.token; $('remember').checked = true; }
+  if (saved.repo) $('repo').value = saved.repo;
+  if (saved.branch) $('branch').value = saved.branch;
+
+  function say(msg, err) { const s = $('status'); s.textContent = msg; s.className = err ? 'err' : ''; }
+  function setDirty(v) {
+    dirty = v; $('saveBtn').disabled = !v;
+    $('dirty').textContent = v ? ' Unsaved changes' : '';
+  }
+
+  // --- GitHub API ---
+  const api = (path, opts = {}) => fetch(`https://api.github.com/repos/${$('repo').value.trim()}/contents/${path}`, {
+    ...opts,
+    headers: {
+      Authorization: `Bearer ${$('token').value.trim()}`,
+      Accept: 'application/vnd.github+json',
+      ...(opts.headers || {})
+    }
+  });
+  const toB64 = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+  const fromB64 = (b) => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, '')), (c) => c.charCodeAt(0)));
+
+  async function load() {
+    say('Loading…');
+    try {
+      const res = await api(`editions.json?ref=${encodeURIComponent($('branch').value.trim())}`);
+      if (!res.ok) throw new Error(`GitHub said ${res.status}. Check token, repo and branch.`);
+      const j = await res.json();
+      sha = j.sha;
+      data = JSON.parse(fromB64(j.content));
+      data.items = data.items || [];
+      if ($('remember').checked) store.set({ token: $('token').value.trim(), repo: $('repo').value.trim(), branch: $('branch').value.trim() });
+      else store.clear();
+      $('intro').value = data.intro || '';
+      $('affiliateNote').value = data.affiliateNote || '';
+      $('editor').classList.remove('hidden');
+      setDirty(false); renderList(); say('Loaded.');
+    } catch (e) { say(e.message, true); }
+  }
+
+  async function save() {
+    data.intro = $('intro').value;
+    data.affiliateNote = $('affiliateNote').value;
+    say('Saving…');
+    try {
+      const res = await api('editions.json', {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: 'Update editions list',
+          content: toB64(JSON.stringify(data, null, 2) + '\n'),
+          sha,
+          branch: $('branch').value.trim()
+        })
+      });
+      if (!res.ok) {
+        const msg = res.status === 409 || res.status === 422
+          ? 'The file changed on GitHub since you loaded it. Reload and redo your edit.'
+          : `Save failed (${res.status}).`;
+        throw new Error(msg);
+      }
+      sha = (await res.json()).content.sha;
+      setDirty(false); say('Saved. The live page updates after the site redeploys.');
+    } catch (e) { say(e.message, true); }
+  }
+
+  // --- list ---
+  function renderList() {
+    const list = $('list');
+    list.innerHTML = '';
+    if (!data.items.length) list.innerHTML = '<p class="hint">No items yet.</p>';
+    data.items.forEach((it, i) => {
+      const row = document.createElement('div');
+      row.className = 'item';
+      const main = document.createElement('div');
+      main.className = 'item-main';
+      const t = document.createElement('span');
+      t.className = 'item-title'; t.textContent = it.title || '(untitled)';
+      main.append(t);
+      const badge = (txt, cls) => { const b = document.createElement('span'); b.className = 'badge ' + (cls || ''); b.textContent = txt; main.append(b); };
+      if (it.affiliate) badge('affiliate', 'aff');
+      if (it.compact) badge('compact');
+      if (it.hidden) badge('hidden');
+      (it.tags || []).forEach((x) => badge(x));
+      const acts = document.createElement('div');
+      acts.className = 'item-actions';
+      [['↑', () => move(i, -1)], ['↓', () => move(i, 1)], ['Edit', () => edit(i)], ['Delete', () => del(i)]].forEach(([label, fn]) => {
+        const b = document.createElement('button'); b.className = 'plain'; b.textContent = label; b.onclick = fn; acts.append(b);
+      });
+      row.append(main, acts);
+      list.append(row);
+    });
+  }
+  function move(i, d) {
+    const j = i + d; if (j < 0 || j >= data.items.length) return;
+    [data.items[i], data.items[j]] = [data.items[j], data.items[i]];
+    setDirty(true); renderList();
+  }
+  function del(i) {
+    if (!confirm(`Delete "${data.items[i].title}"?`)) return;
+    data.items.splice(i, 1); setDirty(true); renderList(); closeForm();
+  }
+
+  // --- form ---
+  function linkRow(l = {}) {
+    const r = document.createElement('div');
+    r.className = 'link-row';
+    r.innerHTML = '<input type="text" placeholder="Label (Buy on Lulu)"><input type="url" placeholder="https://…"><button class="plain" type="button">✕</button>';
+    r.children[0].value = l.label || ''; r.children[1].value = l.url || '';
+    r.children[2].onclick = () => r.remove();
+    $('linkRows').append(r);
+  }
+  function syncCompact() { $('fullFields').classList.toggle('hidden', $('f_compact').checked); }
+
+  function edit(i) {
+    editing = i;
+    const it = i >= 0 ? data.items[i] : { affiliate: false, compact: false, hidden: false, links: [{}] };
+    $('formTitle').textContent = i >= 0 ? 'Edit item' : 'New item';
+    ['title', 'author', 'subtitle', 'status', 'details', 'cover', 'description'].forEach((k) => $('f_' + k).value = it[k] || '');
+    $('f_tags').value = (it.tags || []).join(', ');
+    ['affiliate', 'compact', 'hidden'].forEach((k) => $('f_' + k).checked = !!it[k]);
+    $('linkRows').innerHTML = '';
+    (it.links && it.links.length ? it.links : [{}]).forEach(linkRow);
+    syncCompact();
+    $('form').classList.remove('hidden');
+    $('form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function closeForm() { $('form').classList.add('hidden'); editing = -1; }
+
+  function apply() {
+    const title = $('f_title').value.trim();
+    if (!title) { say('Title is required.', true); return; }
+    const links = [...$('linkRows').children].map((r) => ({ label: r.children[0].value.trim(), url: r.children[1].value.trim() }))
+      .filter((l) => l.url);
+    if (links.some((l) => !/^https?:\/\//i.test(l.url))) { say('Links must start with http:// or https://', true); return; }
+    const item = {
+      title,
+      subtitle: $('f_subtitle').value.trim(),
+      author: $('f_author').value.trim(),
+      status: $('f_status').value.trim(),
+      details: $('f_details').value.trim(),
+      description: $('f_description').value.trim(),
+      cover: $('f_cover').value.trim(),
+      tags: $('f_tags').value.split(',').map((t) => t.trim()).filter(Boolean),
+      affiliate: $('f_affiliate').checked,
+      compact: $('f_compact').checked,
+      hidden: $('f_hidden').checked,
+      links
+    };
+    if (editing >= 0) data.items[editing] = item; else data.items.push(item);
+    setDirty(true); renderList(); closeForm(); say('Applied. Click Save & publish to go live.');
+  }
+
+  $('loadBtn').onclick = load;
+  $('saveBtn').onclick = save;
+  $('addBtn').onclick = () => edit(-1);
+  $('applyBtn').onclick = apply;
+  $('cancelBtn').onclick = closeForm;
+  $('addLinkBtn').onclick = () => linkRow();
+  $('f_compact').onchange = syncCompact;
+  $('intro').oninput = $('affiliateNote').oninput = () => setDirty(true);
+  window.onbeforeunload = (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } };
+</script>
+</body>
+</html>
