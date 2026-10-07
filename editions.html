@@ -11,7 +11,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 
   <meta name="description" content="Books from Chomp Chomp Editions, plus a few recommended reads.">
   <meta property="og:type" content="website">
@@ -24,6 +24,16 @@
   <link rel="stylesheet" href="/styles.css">
 
   <style>
+    /* Dark mode on this page is true black to match the header art */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #000000;
+        --color-sidebar-bg: #000000;
+        --color-border: #2a2626;
+      }
+      body, .site-header, .site-footer { background-color: #000000; }
+    }
+
     .editions-intro {
       text-align: center;
       padding: 24px 20px 0;
@@ -51,7 +61,51 @@
       margin: 30px 0 14px;
     }
 
-    /* Own books */
+    /* Tag filter */
+    .tag-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 20px auto 0;
+      max-width: 680px;
+      padding: 0 20px;
+    }
+
+    .tag-chip {
+      font-family: inherit;
+      font-size: 0.8em;
+      padding: 4px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .tag-chip:hover,
+    .tag-chip.active {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 12px;
+    }
+
+    .tag {
+      font-size: 0.72em;
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 1px 9px;
+    }
+
+    /* Full entries */
     .book {
       display: flex;
       gap: 24px;
@@ -127,7 +181,7 @@
       padding: 8px 18px;
     }
 
-    /* Affiliate picks */
+    /* Compact entries */
     .affiliate-note {
       font-size: 0.8em;
       color: var(--color-text-muted);
@@ -147,13 +201,6 @@
       border-bottom: 1px solid var(--color-border);
     }
 
-    .pick-img {
-      width: 48px;
-      height: auto;
-      border-radius: 2px;
-      align-self: center;
-    }
-
     .pick-main {
       flex: 1;
       min-width: 0;
@@ -171,18 +218,27 @@
       color: var(--color-accent);
     }
 
-    .pick-by,
-    .pick-note {
+    .pick-by {
       font-size: 0.85em;
       color: var(--color-text-muted);
       margin: 2px 0 0;
       line-height: 1.5;
     }
 
-    .pick-source {
-      font-size: 0.75em;
-      color: var(--color-text-muted);
+    .pick-links {
+      display: flex;
+      gap: 12px;
       white-space: nowrap;
+      font-size: 0.8em;
+    }
+
+    .pick-links a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .pick-links a:hover {
+      text-decoration: underline;
     }
 
     .editions-empty {
@@ -198,7 +254,8 @@
         text-align: center;
       }
 
-      .book-links {
+      .book-links,
+      .tags {
         justify-content: center;
       }
     }
@@ -212,8 +269,8 @@
 
       <div class="header-center">
         <a href="https://chom.ps" title="Chomp Chomp">
-          <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logo%20light" alt="Chomp Chomp" class="header-banner banner-light">
-          <img src="https://ik.imagekit.io/chompchomp/Chomp%20Chomp%20logo%20dark"  alt="Chomp Chomp" class="header-banner banner-dark">
+          <img src="https://ik.imagekit.io/chompchomp/editions-light.jpg" alt="Chomp Chomp Editions" class="header-banner banner-light">
+          <img src="https://ik.imagekit.io/chompchomp/editions-dark.PNG" alt="Chomp Chomp Editions" class="header-banner banner-dark">
         </a>
       </div>
 
@@ -233,9 +290,10 @@
   <main class="page-container">
 
     <div class="editions-intro">
-      <h1 style="font-size:1.4em;font-weight:500;margin:0 0 8px;">Chomp Chomp Editions</h1>
       <p id="intro"></p>
     </div>
+
+    <div class="tag-bar" id="tagBar" hidden></div>
 
     <section class="editions-section" id="booksSection">
       <div class="editions-header">Books</div>
@@ -272,7 +330,7 @@
       }
     });
 
-    // Content (all text comes from editions.json; escape before inserting)
+    // Content comes from editions.json; escape everything before inserting
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
       ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -282,10 +340,16 @@
     const paragraphs = (text) =>
       esc(text).split(/\n{2,}/).map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
 
-    function renderBook(b) {
+    const relFor = (item) => (item.affiliate ? 'sponsored noopener' : 'noopener');
+
+    let data = { items: [] };
+    let activeTag = null;
+
+    function renderFull(b) {
       const links = (b.links || []).map((l, i) =>
-        `<a class="btn ${i === 0 ? 'btn-primary' : 'btn-outline'}" href="${safeUrl(l.url)}" target="_blank" rel="noopener">${esc(l.label || 'Buy')}</a>`
+        `<a class="btn ${i === 0 ? 'btn-primary' : 'btn-outline'}" href="${safeUrl(l.url)}" target="_blank" rel="${relFor(b)}">${esc(l.label || 'Buy')}</a>`
       ).join('');
+      const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
       return `
         <article class="book">
           ${b.cover ? `<div class="book-cover"><img src="${esc(b.cover)}" alt="${esc(b.title)} cover" loading="lazy"></div>` : ''}
@@ -294,45 +358,73 @@
             <h2 class="book-title">${esc(b.title)}</h2>
             ${b.subtitle ? `<p class="book-subtitle">${esc(b.subtitle)}</p>` : ''}
             <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
+            ${tags ? `<div class="tags">${tags}</div>` : ''}
             ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
             ${links ? `<div class="book-links">${links}</div>` : ''}
           </div>
         </article>`;
     }
 
-    function renderPick(p) {
-      const sponsored = /amazon\.|amzn\./i.test(p.url || '') ? 'sponsored ' : '';
+    function renderCompact(p) {
+      const links = (p.links || []).map((l) =>
+        `<a href="${safeUrl(l.url)}" target="_blank" rel="${relFor(p)}">${esc(l.label || 'Link')}</a>`
+      ).join('');
       return `
         <div class="pick">
-          ${p.image ? `<img class="pick-img" src="${esc(p.image)}" alt="" loading="lazy">` : ''}
           <div class="pick-main">
-            <a class="pick-title" href="${safeUrl(p.url)}" target="_blank" rel="${sponsored}noopener">${esc(p.title)}</a>
-            ${p.by ? `<p class="pick-by">${esc(p.by)}</p>` : ''}
-            ${p.note ? `<p class="pick-note">${esc(p.note)}</p>` : ''}
+            <span class="pick-title">${esc(p.title)}</span>
+            ${p.author ? `<p class="pick-by">${esc(p.author)}</p>` : ''}
           </div>
-          ${p.source ? `<span class="pick-source">${esc(p.source)}</span>` : ''}
+          ${links ? `<div class="pick-links">${links}</div>` : ''}
         </div>`;
     }
+
+    const renderItem = (i) => (i.compact ? renderCompact(i) : renderFull(i));
+
+    function render() {
+      const visible = (data.items || []).filter((i) => !i.hidden);
+      const shown = activeTag
+        ? visible.filter((i) => (i.tags || []).includes(activeTag))
+        : visible;
+
+      // Tag filter bar: built from every visible item's tags
+      const allTags = [...new Set(visible.flatMap((i) => i.tags || []))].sort((a, b) => a.localeCompare(b));
+      const bar = document.getElementById('tagBar');
+      bar.hidden = allTags.length === 0;
+      bar.innerHTML = allTags.map((t) =>
+        `<button class="tag-chip${t === activeTag ? ' active' : ''}" data-tag="${esc(t)}">${esc(t)}</button>`
+      ).join('');
+
+      const own = shown.filter((i) => !i.affiliate);
+      const picks = shown.filter((i) => i.affiliate);
+
+      document.getElementById('booksSection').hidden = own.length === 0;
+      document.getElementById('books').innerHTML = own.map(renderItem).join('');
+
+      document.getElementById('picksSection').hidden = picks.length === 0;
+      document.getElementById('affiliateNote').textContent = data.affiliateNote || '';
+      document.getElementById('picks').innerHTML = picks.map(renderItem).join('');
+
+      if (!own.length && !picks.length) {
+        document.getElementById('booksSection').hidden = false;
+        document.getElementById('books').innerHTML = '<p class="editions-empty">Nothing here yet.</p>';
+      }
+    }
+
+    document.getElementById('tagBar').addEventListener('click', (e) => {
+      const chip = e.target.closest('.tag-chip');
+      if (!chip) return;
+      activeTag = activeTag === chip.dataset.tag ? null : chip.dataset.tag;
+      render();
+    });
 
     async function load() {
       try {
         const res = await fetch('/editions.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error(res.status);
-        const data = await res.json();
-
+        data = await res.json();
         document.getElementById('intro').textContent = data.intro || '';
-
-        const books = (data.books || []).filter((b) => !b.hidden);
-        document.getElementById('books').innerHTML = books.length
-          ? books.map(renderBook).join('')
-          : '<p class="editions-empty">Nothing here yet.</p>';
-
-        const picks = (data.picks || []).filter((p) => !p.hidden);
-        if (picks.length) {
-          document.getElementById('affiliateNote').textContent = data.affiliateNote || '';
-          document.getElementById('picks').innerHTML = picks.map(renderPick).join('');
-          document.getElementById('picksSection').hidden = false;
-        }
+        render();
       } catch (err) {
         console.error('Could not load editions.json', err);
         document.getElementById('books').innerHTML =

@@ -1,33 +1,38 @@
 {
-  "_help": "Edit this file to update chom.ps/editions. Items show in the order listed. To remove something, delete its block (or set \"hidden\": true to hide it temporarily). Keep commas between blocks and double quotes around text. Use \\n\\n inside a description for a paragraph break.",
-
   "intro": "Books from Chomp Chomp Editions, made independently, start to finish.",
-
-  "books": [
+  "affiliateNote": "Links marked as affiliate may earn Chomp Chomp a small commission at no cost to you.",
+  "items": [
     {
       "title": "The Catalan Twelve",
       "subtitle": "",
       "author": "Donnie Boman",
       "status": "Available",
-      "cover": "",
-      "description": "Replace this with your own description of the book. A few sentences in your own voice works best.\n\nA second paragraph is fine too.",
       "details": "Hardcover",
+      "description": "Replace this with your own description of the book. A few sentences in your own voice works best.\n\nA second paragraph is fine too.",
+      "cover": "",
+      "tags": ["Chomp Chomp Editions"],
+      "affiliate": false,
+      "compact": false,
+      "hidden": false,
       "links": [
         { "label": "Buy on Lulu", "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html" }
       ]
-    }
-  ],
-
-  "affiliateNote": "Some links below are affiliate links. If you buy through them, Chomp Chomp may earn a small commission at no cost to you.",
-
-  "picks": [
+    },
     {
       "title": "Ficciones",
-      "by": "Jorge Luis Borges",
-      "note": "",
-      "url": "https://www.amazon.com/Ficciones-Jorge-Luis-Borges/dp/0802130305/",
-      "source": "Amazon",
-      "image": ""
+      "subtitle": "",
+      "author": "Jorge Luis Borges",
+      "status": "",
+      "details": "",
+      "description": "",
+      "cover": "",
+      "tags": ["fiction"],
+      "affiliate": true,
+      "compact": true,
+      "hidden": false,
+      "links": [
+        { "label": "Amazon", "url": "https://www.amazon.com/Ficciones-Jorge-Luis-Borges/dp/0802130305/" }
+      ]
     }
   ]
 }
