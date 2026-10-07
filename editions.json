@@ -10,13 +10,18 @@
       "details": "Hardcover",
       "description": "Replace this with your own description of the book. A few sentences in your own voice works best.\n\nA second paragraph is fine too.",
       "cover": "",
-      "tags": ["Chomp Chomp Editions"],
+      "tags": [
+        "Chomp Chomp Editions"
+      ],
       "section": "editions",
       "affiliate": false,
       "display": "collapsible",
       "hidden": false,
       "links": [
-        { "label": "Buy on Lulu", "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html" }
+        {
+          "label": "Buy on Lulu",
+          "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html"
+        }
       ]
     },
     {
@@ -27,13 +32,18 @@
       "details": "",
       "description": "",
       "cover": "",
-      "tags": ["fiction"],
+      "tags": [
+        "fiction"
+      ],
       "section": "recommended",
       "affiliate": true,
       "display": "compact",
       "hidden": false,
       "links": [
-        { "label": "Amazon", "url": "https://www.amazon.com/Ficciones-Jorge-Luis-Borges/dp/0802130305/" }
+        {
+          "label": "Buy on Amazon",
+          "url": "https://www.amazon.com/Ficciones-Jorge-Luis-Borges/dp/0802130305/"
+        }
       ]
     }
   ]
