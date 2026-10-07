@@ -54,8 +54,7 @@
       "cover": "https://m.media-amazon.com/images/I/71z8I9kFynL._SL1500_.jpg",
       "tags": [
         "C12 Bibliography",
-        "food",
-        "books"
+        "my bookshelf"
       ],
       "section": "recommended",
       "affiliate": false,
@@ -64,7 +63,8 @@
       "links": [
         {
           "label": "Get on Amazon",
-          "url": "https://link.amazon/B05gxbbUo"
+          "url": "https://link.amazon/B05gxbbUo",
+          "affiliate": false
         }
       ]
     },
@@ -77,8 +77,8 @@
       "description": "Southern food is integral to the American culinary tradition, yet the question of who \"owns\" it is one of the most provocative touch points in our ongoing struggles over race. In this unique memoir, culinary historian Michael W. Twitty takes readers to the white-hot center of this fight, tracing the roots of his own family and the charged politics surrounding the origins of soul food, barbecue, and all Southern cuisine.\n\nFrom the tobacco and rice farms of colonial times to plantation kitchens and backbreaking cotton fields, Twitty tells his family story through the foods that enabled his ancestors’ survival across three centuries. He sifts through stories, recipes, genetic tests, and historical documents, and travels from Civil War battlefields in Virginia to synagogues in Alabama to Black-owned organic farms in Georgia in his search for American culinary history.",
       "cover": "https://m.media-amazon.com/images/I/914gzoCGlRL._SL1500_.jpg",
       "tags": [
-        "food",
-        "books"
+        "C12 Bibliography",
+        "my bookshelf"
       ],
       "section": "recommended",
       "affiliate": false,
@@ -87,7 +87,8 @@
       "links": [
         {
           "label": "Get on Amazon",
-          "url": "https://link.amazon/B0aZzopLG"
+          "url": "https://link.amazon/B0aZzopLG",
+          "affiliate": false
         }
       ]
     }
