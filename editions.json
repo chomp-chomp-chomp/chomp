@@ -1,6 +1,6 @@
 {
   "intro": "Books from Chomp Chomp Editions, made independently, start to finish.",
-  "affiliateNote": "Links marked as affiliate may earn Chomp Chomp a small commission at no cost to you.",
+  "affiliateNote": "Links marked “affiliate link” are affiliate links: Chomp Chomp earns a small commission if you buy through them, at no cost to you. As an Amazon Associate I earn from qualifying purchases.",
   "items": [
     {
       "title": "The Catalan Twelve",
@@ -15,7 +15,7 @@
       ],
       "section": "editions",
       "affiliate": false,
-      "compact": false,
+      "display": "collapsible",
       "hidden": false,
       "links": [
         {
@@ -39,7 +39,7 @@
       ],
       "section": "recommended",
       "affiliate": true,
-      "compact": false,
+      "display": "full",
       "hidden": false,
       "links": [
         {
@@ -62,7 +62,7 @@
       ],
       "section": "recommended",
       "affiliate": true,
-      "compact": false,
+      "display": "full",
       "hidden": false,
       "links": [
         {
