@@ -25,24 +25,49 @@
       ]
     },
     {
-      "title": "Ficciones",
+      "title": "Consider the Fork: A History of How We Cook and Eat",
       "subtitle": "",
-      "author": "Jorge Luis Borges",
+      "author": "Bee Wilson",
       "status": "",
-      "details": "",
-      "description": "",
-      "cover": "",
+      "details": "Paperback, 352 pp",
+      "description": "Since prehistory, humans have braved sharp knives, fire, and grindstones to transform raw ingredients into something delicious―or at least edible. But these tools have also transformed how we consume, and how we think about, our food.\n\nIn Consider the Fork, award-winning food writer Bee Wilson takes readers on a wonderful and witty tour of the evolution of cooking around the world, revealing the hidden history of objects we often take for granted. Technology in the kitchen does not just mean the Pacojets and sous-vide machines of the modern kitchen, but also the humbler tools of everyday cooking and eating: a wooden spoon and a skillet, chopsticks and forks.",
+      "cover": "https://m.media-amazon.com/images/I/71z8I9kFynL._SL1500_.jpg",
       "tags": [
-        "fiction"
+        "C12 Bibliography",
+        "food",
+        "books"
       ],
       "section": "recommended",
       "affiliate": true,
-      "compact": true,
+      "compact": false,
       "hidden": false,
       "links": [
         {
-          "label": "Buy on Amazon",
-          "url": "https://www.amazon.com/Ficciones-Jorge-Luis-Borges/dp/0802130305/"
+          "label": "Get on Amazon",
+          "url": "https://link.amazon/B05gxbbUo"
+        }
+      ]
+    },
+    {
+      "title": "The Cooking Gene",
+      "subtitle": "A Journey Through African American Culinary History in the Old South",
+      "author": "Michael Twitty",
+      "status": "",
+      "details": "Paperback, 480 pp",
+      "description": "Southern food is integral to the American culinary tradition, yet the question of who \"owns\" it is one of the most provocative touch points in our ongoing struggles over race. In this unique memoir, culinary historian Michael W. Twitty takes readers to the white-hot center of this fight, tracing the roots of his own family and the charged politics surrounding the origins of soul food, barbecue, and all Southern cuisine.\n\nFrom the tobacco and rice farms of colonial times to plantation kitchens and backbreaking cotton fields, Twitty tells his family story through the foods that enabled his ancestors’ survival across three centuries. He sifts through stories, recipes, genetic tests, and historical documents, and travels from Civil War battlefields in Virginia to synagogues in Alabama to Black-owned organic farms in Georgia in his search for American culinary history.",
+      "cover": "https://m.media-amazon.com/images/I/914gzoCGlRL._SL1500_.jpg",
+      "tags": [
+        "food",
+        "books"
+      ],
+      "section": "recommended",
+      "affiliate": true,
+      "compact": false,
+      "hidden": false,
+      "links": [
+        {
+          "label": "Get on Amazon",
+          "url": "https://link.amazon/B0aZzopLG"
         }
       ]
     }
