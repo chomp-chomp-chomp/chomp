@@ -85,8 +85,14 @@
         <div><label>Author</label><input type="text" id="f_author"></div>
       </div>
 
+      <label>Show under</label>
+      <select id="f_section">
+        <option value="editions">Books (main section)</option>
+        <option value="recommended">Recommended</option>
+      </select>
+
       <div class="row">
-        <label class="check"><input type="checkbox" id="f_affiliate"> Affiliate link</label>
+        <label class="check"><input type="checkbox" id="f_affiliate"> Affiliate link (adds a label and the disclosure)</label>
         <label class="check"><input type="checkbox" id="f_compact"> Compact (title, author, links only)</label>
         <label class="check"><input type="checkbox" id="f_hidden"> Hidden</label>
       </div>
@@ -212,6 +218,7 @@
       t.className = 'item-title'; t.textContent = it.title || '(untitled)';
       main.append(t);
       const badge = (txt, cls) => { const b = document.createElement('span'); b.className = 'badge ' + (cls || ''); b.textContent = txt; main.append(b); };
+      if (it.section === 'recommended') badge('recommended');
       if (it.affiliate) badge('affiliate', 'aff');
       if (it.compact) badge('compact');
       if (it.hidden) badge('hidden');
@@ -248,7 +255,8 @@
 
   function edit(i) {
     editing = i;
-    const it = i >= 0 ? data.items[i] : { affiliate: false, compact: false, hidden: false, links: [{}] };
+    const it = i >= 0 ? data.items[i] : { section: 'editions', affiliate: false, compact: false, hidden: false, links: [{}] };
+    $('f_section').value = it.section === 'recommended' ? 'recommended' : 'editions';
     $('formTitle').textContent = i >= 0 ? 'Edit item' : 'New item';
     ['title', 'author', 'subtitle', 'status', 'details', 'cover', 'description'].forEach((k) => $('f_' + k).value = it[k] || '');
     $('f_tags').value = (it.tags || []).join(', ');
@@ -276,6 +284,7 @@
       description: $('f_description').value.trim(),
       cover: $('f_cover').value.trim(),
       tags: $('f_tags').value.split(',').map((t) => t.trim()).filter(Boolean),
+      section: $('f_section').value,
       affiliate: $('f_affiliate').checked,
       compact: $('f_compact').checked,
       hidden: $('f_hidden').checked,

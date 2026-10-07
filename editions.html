@@ -241,6 +241,13 @@
       text-decoration: underline;
     }
 
+    .aff-flag {
+      font-size: 0.7em;
+      color: var(--color-text-muted);
+      margin: 8px 0 0;
+      white-space: nowrap;
+    }
+
     .editions-empty {
       text-align: center;
       color: var(--color-text-muted);
@@ -302,9 +309,10 @@
 
     <section class="editions-section" id="picksSection" hidden>
       <div class="editions-header">Recommended</div>
-      <p class="affiliate-note" id="affiliateNote"></p>
       <div id="picks"></div>
     </section>
+
+    <p class="affiliate-note" id="affiliateNote" hidden></p>
 
   </main>
 
@@ -361,6 +369,7 @@
             ${tags ? `<div class="tags">${tags}</div>` : ''}
             ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
             ${links ? `<div class="book-links">${links}</div>` : ''}
+            ${b.affiliate ? '<p class="aff-flag">affiliate link</p>' : ''}
           </div>
         </article>`;
     }
@@ -376,6 +385,7 @@
             ${p.author ? `<p class="pick-by">${esc(p.author)}</p>` : ''}
           </div>
           ${links ? `<div class="pick-links">${links}</div>` : ''}
+          ${p.affiliate ? '<span class="aff-flag">affiliate</span>' : ''}
         </div>`;
     }
 
@@ -395,15 +405,20 @@
         `<button class="tag-chip${t === activeTag ? ' active' : ''}" data-tag="${esc(t)}">${esc(t)}</button>`
       ).join('');
 
-      const own = shown.filter((i) => !i.affiliate);
-      const picks = shown.filter((i) => i.affiliate);
+      // Section and affiliate status are independent settings on each item
+      const own = shown.filter((i) => i.section !== 'recommended');
+      const picks = shown.filter((i) => i.section === 'recommended');
 
       document.getElementById('booksSection').hidden = own.length === 0;
       document.getElementById('books').innerHTML = own.map(renderItem).join('');
 
       document.getElementById('picksSection').hidden = picks.length === 0;
-      document.getElementById('affiliateNote').textContent = data.affiliateNote || '';
       document.getElementById('picks').innerHTML = picks.map(renderItem).join('');
+
+      // Disclosure appears only when an affiliate item is actually on screen
+      const note = document.getElementById('affiliateNote');
+      note.textContent = data.affiliateNote || '';
+      note.hidden = !(data.affiliateNote && shown.some((i) => i.affiliate));
 
       if (!own.length && !picks.length) {
         document.getElementById('booksSection').hidden = false;
