@@ -52,13 +52,72 @@
     }
 
     .editions-header {
-      font-size: 0.75em;
+      font-size: 1.2em;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      color: var(--color-text);
       text-align: center;
-      margin: 30px 0 14px;
+      margin: 36px 0 16px;
+    }
+
+    /* Recommended groups (Books, Kitchen, Other) */
+    .rec-group {
+      margin-top: 32px;
+    }
+
+    .rec-group:first-child {
+      margin-top: 8px;
+    }
+
+    /* Each group is a <details>: open by default, click the heading to fold it */
+    .rec-summary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      list-style: none;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 6px;
+      user-select: none;
+    }
+
+    .rec-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .rec-summary:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    .rec-heading {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0;
+      padding-bottom: 6px;
+      margin-bottom: -7px;               /* sits on the rule below */
+      border-bottom: 2px solid var(--color-accent);
+    }
+
+    .rec-count {
+      font-size: 0.8em;
+      color: var(--color-text-muted);
+    }
+
+    .rec-chev {
+      margin-left: auto;
+      color: var(--color-accent);
+      transition: transform 0.2s;
+    }
+
+    .rec-group:not([open]) .rec-chev {
+      transform: rotate(-90deg);
+    }
+
+    .rec-summary:hover .rec-heading {
+      color: var(--color-accent);
     }
 
     /* Tag filter */
@@ -456,6 +515,7 @@
     let data = { items: [] };
     let activeTag = null;
     const expanded = new Set();   // indexes of collapsible items the visitor has opened
+    const foldedGroups = new Set(); // Recommended groups the visitor has folded shut (all start open)
 
     function renderFull(b) {
       const links = (b.links || []).map((l) => buyButton(b, l)).join('');
@@ -549,8 +609,29 @@
       document.getElementById('booksSection').hidden = own.length === 0;
       document.getElementById('books').innerHTML = own.map(renderItem).join('');
 
+      // Recommended items are grouped by category, in the order set in editions.json.
+      // An item with no (or an unknown) category goes under "Other".
+      const cats = (data.categories && data.categories.length) ? [...data.categories] : ['Books', 'Kitchen', 'Other'];
+      if (!cats.some((c) => c.toLowerCase() === 'other')) cats.push('Other');
+      const groups = new Map(cats.map((c) => [c.toLowerCase(), { name: c, items: [] }]));
+      picks.forEach((i) => {
+        const g = groups.get(String(i.category || '').toLowerCase()) || groups.get('other');
+        g.items.push(i);
+      });
+
       document.getElementById('picksSection').hidden = picks.length === 0;
-      document.getElementById('picks').innerHTML = picks.map(renderItem).join('');
+      document.getElementById('picks').innerHTML = [...groups.values()]
+        .filter((g) => g.items.length)
+        .map((g) => `
+          <details class="rec-group" data-group="${esc(g.name)}"${(activeTag || !foldedGroups.has(g.name)) ? ' open' : ''}>
+            <summary class="rec-summary">
+              <h3 class="rec-heading">${esc(g.name)}</h3>
+              <span class="rec-count">${g.items.length}</span>
+              <span class="rec-chev" aria-hidden="true">▾</span>
+            </summary>
+            ${g.items.map(renderItem).join('')}
+          </details>`)
+        .join('');
 
       // Visible disclosure sits directly above any section that contains an affiliate item
       [['affNoteBooks', own], ['affNotePicks', picks]].forEach(([id, list]) => {
@@ -564,6 +645,15 @@
         document.getElementById('books').innerHTML = '<p class="editions-empty">Nothing here yet.</p>';
       }
     }
+
+    // Remember folded groups so a tag filter re-render doesn't reopen them.
+    // "toggle" doesn't bubble, so listen in the capture phase. While a tag filter is on,
+    // groups are forced open and their state isn't recorded.
+    document.addEventListener('toggle', (e) => {
+      const d = e.target;
+      if (!d.classList || !d.classList.contains('rec-group') || activeTag) return;
+      if (d.open) foldedGroups.delete(d.dataset.group); else foldedGroups.add(d.dataset.group);
+    }, true);
 
     // Expand / collapse (no re-render, so scroll position stays put)
     document.addEventListener('click', (e) => {
