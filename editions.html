@@ -52,13 +52,32 @@
     }
 
     .editions-header {
-      font-size: 0.75em;
+      font-size: 1.2em;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      color: var(--color-text);
       text-align: center;
-      margin: 30px 0 14px;
+      margin: 36px 0 16px;
+    }
+
+    /* Recommended groups (Books, Kitchen, Other) */
+    .rec-group {
+      margin-top: 32px;
+    }
+
+    .rec-group:first-child {
+      margin-top: 8px;
+    }
+
+    .rec-heading {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 4px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--color-accent);
+      display: inline-block;
     }
 
     /* Tag filter */
@@ -549,8 +568,25 @@
       document.getElementById('booksSection').hidden = own.length === 0;
       document.getElementById('books').innerHTML = own.map(renderItem).join('');
 
+      // Recommended items are grouped by category, in the order set in editions.json.
+      // An item with no (or an unknown) category goes under "Other".
+      const cats = (data.categories && data.categories.length) ? [...data.categories] : ['Books', 'Kitchen', 'Other'];
+      if (!cats.some((c) => c.toLowerCase() === 'other')) cats.push('Other');
+      const groups = new Map(cats.map((c) => [c.toLowerCase(), { name: c, items: [] }]));
+      picks.forEach((i) => {
+        const g = groups.get(String(i.category || '').toLowerCase()) || groups.get('other');
+        g.items.push(i);
+      });
+
       document.getElementById('picksSection').hidden = picks.length === 0;
-      document.getElementById('picks').innerHTML = picks.map(renderItem).join('');
+      document.getElementById('picks').innerHTML = [...groups.values()]
+        .filter((g) => g.items.length)
+        .map((g) => `
+          <div class="rec-group">
+            <h3 class="rec-heading">${esc(g.name)}</h3>
+            ${g.items.map(renderItem).join('')}
+          </div>`)
+        .join('');
 
       // Visible disclosure sits directly above any section that contains an affiliate item
       [['affNoteBooks', own], ['affNotePicks', picks]].forEach(([id, list]) => {

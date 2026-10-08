@@ -76,6 +76,9 @@
     <section class="panel">
       <label>Page intro</label><input type="text" id="intro">
       <label>Affiliate disclosure (shown directly above any section that has an affiliate item)</label><input type="text" id="affiliateNote">
+      <label>Recommended categories (comma separated, in the order they appear)</label>
+      <input type="text" id="categories" placeholder="Books, Kitchen, Other">
+      <p class="hint">Items with no category land under "Other". Renaming a category here doesn't rename it on existing items; edit those too.</p>
     </section>
 
     <h2>Items</h2>
@@ -94,6 +97,11 @@
         <option value="editions">Books (main section)</option>
         <option value="recommended">Recommended</option>
       </select>
+
+      <div id="catField">
+        <label>Category (within Recommended)</label>
+        <select id="f_category"></select>
+      </div>
 
       <label>Display</label>
       <select id="f_display">
@@ -182,6 +190,7 @@
       else store.clear();
       $('intro').value = data.intro || '';
       $('affiliateNote').value = data.affiliateNote || '';
+      $('categories').value = (data.categories && data.categories.length ? data.categories : DEFAULT_CATS).join(', ');
       $('editor').classList.remove('hidden');
       setDirty(false); renderList(); say('Loaded.');
     } catch (e) { say(e.message, true); }
@@ -190,6 +199,7 @@
   async function save() {
     data.intro = $('intro').value;
     data.affiliateNote = $('affiliateNote').value;
+    data.categories = parseCats();
     say('Saving…');
     try {
       const res = await api('editions.json', {
@@ -226,7 +236,7 @@
       t.className = 'item-title'; t.textContent = it.title || '(untitled)';
       main.append(t);
       const badge = (txt, cls) => { const b = document.createElement('span'); b.className = 'badge ' + (cls || ''); b.textContent = txt; main.append(b); };
-      if (it.section === 'recommended') badge('recommended');
+      if (it.section === 'recommended') badge('recommended' + (it.category ? ' · ' + it.category : ''));
       if (it.affiliate) badge('affiliate', 'aff');
       const mode = it.display || (it.compact ? 'compact' : 'full');
       if (mode !== 'full') badge(mode);
@@ -268,6 +278,22 @@
     r.querySelector('button').onclick = () => r.remove();
     $('linkRows').append(r);
   }
+  const DEFAULT_CATS = ['Books', 'Kitchen', 'Other'];
+  function parseCats() {
+    const c = $('categories').value.split(',').map((t) => t.trim()).filter(Boolean);
+    return c.length ? c : [...DEFAULT_CATS];
+  }
+  // Fill the Category dropdown from the list above; keep an item's current value even if it was removed from the list
+  function fillCategory(selected) {
+    const cats = parseCats();
+    if (selected && !cats.some((c) => c.toLowerCase() === selected.toLowerCase())) cats.push(selected);
+    $('f_category').innerHTML = '';
+    cats.forEach((c) => { const o = document.createElement('option'); o.value = c; o.textContent = c; $('f_category').append(o); });
+    const match = cats.find((c) => c.toLowerCase() === (selected || '').toLowerCase());
+    $('f_category').value = match || cats.find((c) => c.toLowerCase() === 'other') || cats[0];
+  }
+  function syncCategory() { $('catField').classList.toggle('hidden', $('f_section').value !== 'recommended'); }
+
   function syncCompact() { $('fullFields').classList.toggle('hidden', $('f_display').value === 'compact'); }
 
   function edit(i) {
@@ -275,6 +301,8 @@
     const it = i >= 0 ? data.items[i] : { section: 'editions', display: 'full', affiliate: false, hidden: false, links: [{}] };
     $('f_section').value = it.section === 'recommended' ? 'recommended' : 'editions';
     $('f_display').value = it.display || (it.compact ? 'compact' : 'full');
+    fillCategory(it.category);
+    syncCategory();
     $('formTitle').textContent = i >= 0 ? 'Edit item' : 'New item';
     ['title', 'author', 'subtitle', 'status', 'details', 'cover', 'description'].forEach((k) => $('f_' + k).value = it[k] || '');
     $('f_tags').value = (it.tags || []).join(', ');
@@ -311,6 +339,7 @@
       cover: $('f_cover').value.trim(),
       tags: $('f_tags').value.split(',').map((t) => t.trim()).filter(Boolean),
       section: $('f_section').value,
+      ...($('f_section').value === 'recommended' ? { category: $('f_category').value } : {}),
       affiliate: links.some((l) => l.affiliate),   // derived: true if any link earns a commission
       display: $('f_display').value,
       hidden: $('f_hidden').checked,
@@ -327,6 +356,8 @@
   $('cancelBtn').onclick = closeForm;
   $('addLinkBtn').onclick = () => linkRow({}, false);
   $('f_display').onchange = syncCompact;
+  $('f_section').onchange = syncCategory;
+  $('categories').oninput = () => setDirty(true);
   $('intro').oninput = $('affiliateNote').oninput = () => setDirty(true);
   window.onbeforeunload = (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } };
 </script>
