@@ -98,6 +98,32 @@
         }
       ],
       "category": "Books"
+    },
+    {
+      "title": "BraveTart: Iconic American Desserts",
+      "subtitle": "",
+      "author": "",
+      "status": "Available",
+      "details": "",
+      "description": "From One-Bowl Devil’s Food Layer Cake to a flawless Cherry Pie that’s crisp even on the very bottom, BraveTart is a celebration of classic American desserts. Whether down-home delights like Blueberry Muffins and Glossy Fudge Brownies or supermarket mainstays such as Vanilla Wafers and Chocolate Chip Cookie Dough Ice Cream, your favorites are all here. These meticulously tested recipes bring an award-winning pastry chef’s expertise into your kitchen, along with advice on how to “mix it up” with over 200 customizable variations—in short, exactly what you’d expect from a cookbook penned by a senior editor at Serious Eats. Yet BraveTart is much more than a cookbook, as Stella Parks delves into the surprising stories of how our favorite desserts came to be, from chocolate chip cookies that predate the Tollhouse Inn to the prohibition-era origins of ice cream sodas and floats.",
+      "cover": "",
+      "tags": [
+        "Baking",
+        "my bookshelf",
+        "C12 Bibliography"
+      ],
+      "section": "recommended",
+      "category": "Books",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B03cPbXmg",
+          "affiliate": false
+        }
+      ]
     }
   ]
 }
