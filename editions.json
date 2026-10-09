@@ -4,8 +4,8 @@
   "affiliateNote": "Links marked “affiliate link” are affiliate links: Chomp Chomp earns a small commission if you buy through them, at no cost to you. As an Amazon Associate I earn from qualifying purchases.",
   "categories": [
     {
-      "name": "Books",
-      "description": "Books I've read, cooked from, or keep reaching for."
+      "name": "For Further Reading",
+      "description": "These books hold up on their own merits."
     },
     {
       "name": "Kitchen",
@@ -60,70 +60,45 @@
       ]
     },
     {
-      "title": "Consider the Fork: A History of How We Cook and Eat",
-      "subtitle": "",
-      "author": "Bee Wilson",
-      "status": "",
-      "details": "Paperback, 352 pp",
-      "description": "Since prehistory, humans have braved sharp knives, fire, and grindstones to transform raw ingredients into something delicious―or at least edible. But these tools have also transformed how we consume, and how we think about, our food.\n\nIn Consider the Fork, award-winning food writer Bee Wilson takes readers on a wonderful and witty tour of the evolution of cooking around the world, revealing the hidden history of objects we often take for granted. Technology in the kitchen does not just mean the Pacojets and sous-vide machines of the modern kitchen, but also the humbler tools of everyday cooking and eating: a wooden spoon and a skillet, chopsticks and forks.",
-      "cover": "https://m.media-amazon.com/images/I/71z8I9kFynL._SL1500_.jpg",
-      "tags": [
-        "C12 Bibliography",
-        "my bookshelf"
-      ],
-      "section": "recommended",
-      "affiliate": false,
-      "display": "collapsible",
-      "hidden": false,
-      "links": [
-        {
-          "label": "Get on Amazon",
-          "url": "https://link.amazon/B05gxbbUo",
-          "affiliate": false
-        }
-      ],
-      "category": "Books"
-    },
-    {
       "title": "The Cooking Gene",
       "subtitle": "A Journey Through African American Culinary History in the Old South",
       "author": "Michael Twitty",
       "status": "",
       "details": "Paperback, 480 pp",
-      "description": "Southern food is integral to the American culinary tradition, yet the question of who \"owns\" it is one of the most provocative touch points in our ongoing struggles over race. In this unique memoir, culinary historian Michael W. Twitty takes readers to the white-hot center of this fight, tracing the roots of his own family and the charged politics surrounding the origins of soul food, barbecue, and all Southern cuisine.\n\nFrom the tobacco and rice farms of colonial times to plantation kitchens and backbreaking cotton fields, Twitty tells his family story through the foods that enabled his ancestors’ survival across three centuries. He sifts through stories, recipes, genetic tests, and historical documents, and travels from Civil War battlefields in Virginia to synagogues in Alabama to Black-owned organic farms in Georgia in his search for American culinary history.",
+      "description": "For the parts of The Catalan Twelve that transcended even the Society, or whomever.\n\nSouthern food is integral to the American culinary tradition, yet the question of who \"owns\" it is one of the most provocative touch points in our ongoing struggles over race. In this unique memoir, culinary historian Michael W. Twitty takes readers to the white-hot center of this fight, tracing the roots of his own family and the charged politics surrounding the origins of soul food, barbecue, and all Southern cuisine.",
       "cover": "https://m.media-amazon.com/images/I/914gzoCGlRL._SL1500_.jpg",
       "tags": [
         "C12 Bibliography",
-        "my bookshelf"
+        "Bookshelf"
       ],
       "section": "recommended",
+      "category": "For Further Reading",
       "affiliate": false,
       "display": "collapsible",
       "hidden": false,
       "links": [
         {
-          "label": "Get on Amazon",
+          "label": "Buy on Amazon",
           "url": "https://link.amazon/B0aZzopLG",
           "affiliate": false
         }
-      ],
-      "category": "Books"
+      ]
     },
     {
-      "title": "BraveTart: Iconic American Desserts",
-      "subtitle": "",
-      "author": "",
+      "title": "BraveTart",
+      "subtitle": "Iconic American Desserts",
+      "author": "Stella Parks",
       "status": "Available",
       "details": "",
-      "description": "From One-Bowl Devil’s Food Layer Cake to a flawless Cherry Pie that’s crisp even on the very bottom, BraveTart is a celebration of classic American desserts. Whether down-home delights like Blueberry Muffins and Glossy Fudge Brownies or supermarket mainstays such as Vanilla Wafers and Chocolate Chip Cookie Dough Ice Cream, your favorites are all here. These meticulously tested recipes bring an award-winning pastry chef’s expertise into your kitchen, along with advice on how to “mix it up” with over 200 customizable variations—in short, exactly what you’d expect from a cookbook penned by a senior editor at Serious Eats. Yet BraveTart is much more than a cookbook, as Stella Parks delves into the surprising stories of how our favorite desserts came to be, from chocolate chip cookies that predate the Tollhouse Inn to the prohibition-era origins of ice cream sodas and floats.",
-      "cover": "",
+      "description": "A history of American desserts that takes apart their origin stories, usually in favor of something messier and better documented.\n\nFrom One-Bowl Devil’s Food Layer Cake to a flawless Cherry Pie that’s crisp even on the very bottom, BraveTart is a celebration of classic American desserts. Whether down-home delights like Blueberry Muffins and Glossy Fudge Brownies or supermarket mainstays such as Vanilla Wafers and Chocolate Chip Cookie Dough Ice Cream, your favorites are all here. These meticulously tested recipes bring an award-winning pastry chef’s expertise into your kitchen, along with advice on how to “mix it up” with over 200 customizable variations—in short, exactly what you’d expect from a cookbook penned by a senior editor at Serious Eats. Yet BraveTart is much more than a cookbook, as Stella Parks delves into the surprising stories of how our favorite desserts came to be, from chocolate chip cookies that predate the Tollhouse Inn to the prohibition-era origins of ice cream sodas and floats.",
+      "cover": "https://m.media-amazon.com/images/I/71GUS83W9FL._SL1476_.jpg",
       "tags": [
         "Baking",
-        "my bookshelf",
+        "Bookshelf",
         "C12 Bibliography"
       ],
       "section": "recommended",
-      "category": "Books",
+      "category": "For Further Reading",
       "affiliate": false,
       "display": "collapsible",
       "hidden": false,
@@ -131,6 +106,104 @@
         {
           "label": "Buy on Amazon",
           "url": "https://link.amazon/B03cPbXmg",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "title": "On Food and Cooking",
+      "subtitle": "The Science and Lore of the Kitchen",
+      "author": "Harold McGee",
+      "status": "",
+      "details": "Hardcover, 896 pp",
+      "description": "For anyone who wants the actual chemistry behind why cold fat laminates, why gelatin sets, and why browned butter smells the way it does, this is the reference The Catalan Twelve is quietly leaning on.\n\nOn Food and Cooking pioneered the translation of technical food science into cook-friendly kitchen science and helped birth the inventive culinary movement known as \"molecular gastronomy.\" Though other books have been written about kitchen science, On Food and Cooking remains unmatched in the accuracy, clarity, and thoroughness of its explanations, and the intriguing way in which it blends science with the historical evolution of foods and cooking techniques.",
+      "cover": "https://m.media-amazon.com/images/I/61w62xpkhWL._SL1000_.jpg",
+      "tags": [
+        "C12 Bibliography"
+      ],
+      "section": "recommended",
+      "category": "For Further Reading",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B0f1EvAjC",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "title": "Consider the Fork",
+      "subtitle": "A History of How We Cook and Eat",
+      "author": "Bee Wilson",
+      "status": "",
+      "details": "Paperback, 352 pp",
+      "description": "A history of kitchen technique itself, useful context for understanding how the same tools and methods really do travel and converge across unconnected places, without needing a Society to explain it.\n\nBlending history, science, and personal anecdotes, Wilson reveals how our culinary tools and tricks came to be and how their influence has shaped food culture today. The story of how we have tamed fire and ice and wielded whisks, spoons, and graters, all for the sake of putting food in our mouths,",
+      "cover": "https://m.media-amazon.com/images/I/71z8I9kFynL._SL1500_.jpg",
+      "tags": [
+        "C12 Bibliography",
+        "Bookshelf"
+      ],
+      "section": "recommended",
+      "category": "For Further Reading",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B05gxbbUo",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "title": "Biscuits, Spoonbread & Sweet Potato Pie",
+      "subtitle": "",
+      "author": "Bill Neal",
+      "status": "",
+      "details": "Hardcover, 334 pp",
+      "description": "For the Southern half of The Catalan Twelve: the biscuits, the sweet potato pie, and the long-standing argument that a recipe carries its place around with it.\n\nA study of the breads, sweets, and desserts of Southern United States cuisine features 150 recipes for treats ranging from butter pecan ice cream to Mississippi praline pound cake, accompanied by historical notes, cooking lore, and personal reminiscences",
+      "cover": "https://m.media-amazon.com/images/I/71i9cnkRZkL._SL1024_.jpg",
+      "tags": [
+        "C12 Bibliography",
+        "Bookshelf"
+      ],
+      "section": "recommended",
+      "category": "For Further Reading",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B0gHY9f5f",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "title": "The Invention of Tradition",
+      "subtitle": "",
+      "author": "Hobsbawm, E. and Ranger, T., eds.",
+      "status": "",
+      "details": "Paperback, 326 pp",
+      "description": "On how traditions that feel ancient were very often assembled recently and on purpose, a serious academic treatment of what The Catalan Twelve was doing for fun.\n\nMany of the traditions which we think of as very ancient in their origins were not in fact sanctioned by long usage over the centuries, but were invented comparatively recently. This book explores examples of this process of invention – the creation of Welsh and Scottish 'national culture'; the elaboration of British royal rituals in the nineteenth and twentieth centuries; the origins of imperial rituals in British India and Africa; and the attempts by radical movements to develop counter-traditions of their own. It addresses the complex interaction of past and present, bringing together historians and anthropologists in a fascinating study of ritual and symbolism which poses new questions for the understanding of our history.",
+      "cover": "https://m.media-amazon.com/images/I/51wtcRvLsLL._SL1500_.jpg",
+      "tags": [
+        "C12 Bibliography"
+      ],
+      "section": "recommended",
+      "category": "For Further Reading",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B0bx8e0j8",
           "affiliate": false
         }
       ]
