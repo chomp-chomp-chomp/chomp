@@ -76,9 +76,9 @@
     <section class="panel">
       <label>Page intro</label><input type="text" id="intro">
       <label>Affiliate disclosure (shown directly above any section that has an affiliate item)</label><input type="text" id="affiliateNote">
-      <label>Recommended categories (comma separated, in the order they appear)</label>
-      <input type="text" id="categories" placeholder="Books, Kitchen, Other">
-      <p class="hint">Items with no category land under "Other". Renaming a category here doesn't rename it on existing items; edit those too.</p>
+      <label>Recommended groups (one per line, in the order they appear)</label>
+      <textarea id="categories" rows="5" style="min-height:0" placeholder="Books | Books I've read, cooked from, or keep reaching for&#10;Kitchen | Tools and equipment I use and trust&#10;Other"></textarea>
+      <p class="hint">Format: <code>Name | one-line description</code>. The description shows under the group's name on the page; it's optional. Items with no group land under "Other". Renaming a group here doesn't rename it on existing items; edit those too.</p>
     </section>
 
     <h2>Items</h2>
@@ -190,7 +190,7 @@
       else store.clear();
       $('intro').value = data.intro || '';
       $('affiliateNote').value = data.affiliateNote || '';
-      $('categories').value = (data.categories && data.categories.length ? data.categories : DEFAULT_CATS).join(', ');
+      $('categories').value = catsToText(data.categories && data.categories.length ? data.categories : DEFAULT_CATS);
       $('editor').classList.remove('hidden');
       setDirty(false); renderList(); say('Loaded.');
     } catch (e) { say(e.message, true); }
@@ -278,14 +278,20 @@
     r.querySelector('button').onclick = () => r.remove();
     $('linkRows').append(r);
   }
-  const DEFAULT_CATS = ['Books', 'Kitchen', 'Other'];
+  const DEFAULT_CATS = [{ name: 'Books', description: '' }, { name: 'Kitchen', description: '' }, { name: 'Other', description: '' }];
+  // Older files stored plain names; newer ones store { name, description }
+  const normCats = (list) => (list || []).map((c) => (typeof c === 'string' ? { name: c, description: '' } : { name: c.name || '', description: c.description || '' })).filter((c) => c.name);
+  const catsToText = (list) => normCats(list).map((c) => (c.description ? `${c.name} | ${c.description}` : c.name)).join('\n');
   function parseCats() {
-    const c = $('categories').value.split(',').map((t) => t.trim()).filter(Boolean);
-    return c.length ? c : [...DEFAULT_CATS];
+    const c = $('categories').value.split('\n').map((line) => {
+      const i = line.indexOf('|');
+      return i < 0 ? { name: line.trim(), description: '' } : { name: line.slice(0, i).trim(), description: line.slice(i + 1).trim() };
+    }).filter((x) => x.name);
+    return c.length ? c : DEFAULT_CATS.map((x) => ({ ...x }));
   }
   // Fill the Category dropdown from the list above; keep an item's current value even if it was removed from the list
   function fillCategory(selected) {
-    const cats = parseCats();
+    const cats = parseCats().map((c) => c.name);
     if (selected && !cats.some((c) => c.toLowerCase() === selected.toLowerCase())) cats.push(selected);
     $('f_category').innerHTML = '';
     cats.forEach((c) => { const o = document.createElement('option'); o.value = c; o.textContent = c; $('f_category').append(o); });

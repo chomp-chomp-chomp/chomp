@@ -61,29 +61,37 @@
       margin: 36px 0 16px;
     }
 
-    /* Recommended groups (Books, Kitchen, Other) */
+    /* Recommended groups: each is a quiet accordion card. Closed by default; the header
+       carries a count, a Show/Hide label and a chevron so it reads as clickable. */
     .rec-group {
-      margin-top: 32px;
+      margin-top: 14px;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: var(--color-sidebar-bg);
     }
 
     .rec-group:first-child {
       margin-top: 8px;
     }
 
-    /* Each group is a <details>: open by default, click the heading to fold it */
     .rec-summary {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
+      padding: 14px 16px;
       cursor: pointer;
       list-style: none;
-      border-bottom: 1px solid var(--color-border);
-      padding-bottom: 6px;
+      border-radius: 10px;
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .rec-summary::-webkit-details-marker {
       display: none;
+    }
+
+    .rec-summary:hover {
+      background: rgba(231, 59, 66, 0.06);
     }
 
     .rec-summary:focus-visible {
@@ -91,33 +99,143 @@
       outline-offset: 2px;
     }
 
+    .rec-group[open] > .rec-summary {
+      border-bottom: 1px solid var(--color-border);
+      border-radius: 10px 10px 0 0;
+    }
+
+    .rec-text {
+      flex: 1;
+      min-width: 0;
+    }
+
     .rec-heading {
-      font-size: 1.1em;
+      font-size: 1.05em;
       font-weight: 600;
       color: var(--color-text);
       margin: 0;
-      padding-bottom: 6px;
-      margin-bottom: -7px;               /* sits on the rule below */
-      border-bottom: 2px solid var(--color-accent);
+      line-height: 1.3;
     }
 
-    .rec-count {
+    .rec-desc {
+      font-size: 0.85em;
+      color: var(--color-text-muted);
+      margin: 3px 0 0;
+      line-height: 1.45;
+    }
+
+    .rec-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
       font-size: 0.8em;
       color: var(--color-text-muted);
     }
 
+    .rec-count {
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 0 8px;
+      line-height: 1.6;
+    }
+
+    .rec-label {
+      color: var(--color-accent);
+      font-weight: 500;
+    }
+
+    .rec-group[open] .rec-label-show,
+    .rec-group:not([open]) .rec-label-hide {
+      display: none;
+    }
+
     .rec-chev {
-      margin-left: auto;
       color: var(--color-accent);
       transition: transform 0.2s;
     }
 
-    .rec-group:not([open]) .rec-chev {
-      transform: rotate(-90deg);
+    .rec-group[open] .rec-chev {
+      transform: rotate(180deg);
     }
 
-    .rec-summary:hover .rec-heading {
-      color: var(--color-accent);
+    .rec-items {
+      padding: 0 16px 6px;
+    }
+
+    .rec-items .book:first-child,
+    .rec-items .pick:first-child {
+      border-top: 0;
+    }
+
+    .rec-items .book:last-child,
+    .rec-items .pick:last-child {
+      border-bottom: 0;
+    }
+
+    /* Recommended entries are secondary to the Editions books, so they run a size smaller */
+    .rec-items .book {
+      padding: 16px 0;
+      gap: 16px;
+    }
+
+    .rec-items .book-cover {
+      flex: 0 0 84px;
+    }
+
+    .rec-items .book-cover img {
+      width: 84px;
+    }
+
+    .rec-items .book-more .book-cover {
+      flex: 0 0 72px;
+    }
+
+    .rec-items .book-more .book-cover img {
+      width: 72px;
+    }
+
+    .rec-items .book-title {
+      font-size: 1.05em;
+    }
+
+    .rec-items .book-subtitle {
+      font-size: 0.85em;
+    }
+
+    .rec-items .book-meta {
+      font-size: 0.75em;
+      margin-bottom: 8px;
+    }
+
+    .rec-items .tags {
+      margin-bottom: 8px;
+    }
+
+    .rec-items .tag {
+      font-size: 0.68em;
+    }
+
+    .rec-items .book-desc p {
+      font-size: 0.875em;
+      line-height: 1.55;
+    }
+
+    .rec-items .book-links {
+      margin-top: 10px;
+    }
+
+    .rec-items .book-links .btn {
+      font-size: 0.8em;
+      padding: 6px 14px;
+    }
+
+    .rec-items .expand-btn {
+      font-size: 0.8em;
+    }
+
+    .rec-items .pick-title {
+      font-size: 0.95em;
     }
 
     /* Tag filter */
@@ -515,7 +633,7 @@
     let data = { items: [] };
     let activeTag = null;
     const expanded = new Set();   // indexes of collapsible items the visitor has opened
-    const foldedGroups = new Set(); // Recommended groups the visitor has folded shut (all start open)
+    const openedGroups = new Set(); // Recommended groups the visitor has opened (all start closed)
 
     function renderFull(b) {
       const links = (b.links || []).map((l) => buyButton(b, l)).join('');
@@ -611,9 +729,13 @@
 
       // Recommended items are grouped by category, in the order set in editions.json.
       // An item with no (or an unknown) category goes under "Other".
-      const cats = (data.categories && data.categories.length) ? [...data.categories] : ['Books', 'Kitchen', 'Other'];
-      if (!cats.some((c) => c.toLowerCase() === 'other')) cats.push('Other');
-      const groups = new Map(cats.map((c) => [c.toLowerCase(), { name: c, items: [] }]));
+      // Categories may be plain names or { name, description } objects.
+      const rawCats = (data.categories && data.categories.length) ? data.categories : ['Books', 'Kitchen', 'Other'];
+      const cats = rawCats
+        .map((c) => (typeof c === 'string' ? { name: c, description: '' } : { name: c.name || '', description: c.description || '' }))
+        .filter((c) => c.name);
+      if (!cats.some((c) => c.name.toLowerCase() === 'other')) cats.push({ name: 'Other', description: '' });
+      const groups = new Map(cats.map((c) => [c.name.toLowerCase(), { ...c, items: [] }]));
       picks.forEach((i) => {
         const g = groups.get(String(i.category || '').toLowerCase()) || groups.get('other');
         g.items.push(i);
@@ -623,13 +745,20 @@
       document.getElementById('picks').innerHTML = [...groups.values()]
         .filter((g) => g.items.length)
         .map((g) => `
-          <details class="rec-group" data-group="${esc(g.name)}"${(activeTag || !foldedGroups.has(g.name)) ? ' open' : ''}>
+          <details class="rec-group" data-group="${esc(g.name)}"${(activeTag || openedGroups.has(g.name)) ? ' open' : ''}>
             <summary class="rec-summary">
-              <h3 class="rec-heading">${esc(g.name)}</h3>
-              <span class="rec-count">${g.items.length}</span>
-              <span class="rec-chev" aria-hidden="true">▾</span>
+              <div class="rec-text">
+                <h3 class="rec-heading">${esc(g.name)}</h3>
+                ${g.description ? `<p class="rec-desc">${esc(g.description)}</p>` : ''}
+              </div>
+              <div class="rec-meta">
+                <span class="rec-count" title="${g.items.length} item${g.items.length === 1 ? '' : 's'}">${g.items.length}</span>
+                <span class="rec-label rec-label-show">Show</span>
+                <span class="rec-label rec-label-hide">Hide</span>
+                <span class="rec-chev" aria-hidden="true">▾</span>
+              </div>
             </summary>
-            ${g.items.map(renderItem).join('')}
+            <div class="rec-items">${g.items.map(renderItem).join('')}</div>
           </details>`)
         .join('');
 
@@ -646,13 +775,13 @@
       }
     }
 
-    // Remember folded groups so a tag filter re-render doesn't reopen them.
+    // Remember opened groups so a tag filter re-render doesn't close them again.
     // "toggle" doesn't bubble, so listen in the capture phase. While a tag filter is on,
     // groups are forced open and their state isn't recorded.
     document.addEventListener('toggle', (e) => {
       const d = e.target;
       if (!d.classList || !d.classList.contains('rec-group') || activeTag) return;
-      if (d.open) foldedGroups.delete(d.dataset.group); else foldedGroups.add(d.dataset.group);
+      if (d.open) openedGroups.add(d.dataset.group); else openedGroups.delete(d.dataset.group);
     }, true);
 
     // Expand / collapse (no re-render, so scroll position stays put)
