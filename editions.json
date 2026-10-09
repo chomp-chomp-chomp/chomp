@@ -2,9 +2,18 @@
   "intro": "Chomp Chomp Editions, books made independently, start to finish. Also, things I like - you might like them, too.",
   "affiliateNote": "Links marked “affiliate link” are affiliate links: Chomp Chomp earns a small commission if you buy through them, at no cost to you. As an Amazon Associate I earn from qualifying purchases.",
   "categories": [
-    "Books",
-    "Kitchen",
-    "Other"
+    {
+      "name": "Books",
+      "description": "Books I've read, cooked from, or keep reaching for."
+    },
+    {
+      "name": "Kitchen",
+      "description": "Tools and equipment I use and trust."
+    },
+    {
+      "name": "Other",
+      "description": "Everything else worth passing along."
+    }
   ],
   "items": [
     {
