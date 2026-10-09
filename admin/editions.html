@@ -58,7 +58,7 @@
 <body>
 <main>
   <h1>Editions Admin</h1>
-  <p class="hint">Edits <code>editions.json</code> and commits it to GitHub. The live page updates after the site redeploys.</p>
+  <p class="hint">Edits <code>editions.json</code> and commits it to GitHub. The live page updates after the site redeploys. <span id="ver" style="white-space:nowrap">Admin version 2</span></p>
 
   <section class="panel" id="connect">
     <div class="row">
@@ -146,7 +146,10 @@
 <script>
   const $ = (id) => document.getElementById(id);
   const LS = 'editionsAdmin';
-  let data = null, sha = null, editing = -1, dirty = false;
+  // SCHEMA is the data format this page understands. If editions.json was last saved by a newer
+  // page (a higher number), this one is an out-of-date cached copy and must not save over it.
+  const SCHEMA = 2;
+  let data = null, sha = null, editing = -1, dirty = false, locked = false;
 
   // --- storage helpers (may throw in private windows) ---
   const store = {
@@ -161,7 +164,7 @@
 
   function say(msg, err) { const s = $('status'); s.textContent = msg; s.className = err ? 'err' : ''; }
   function setDirty(v) {
-    dirty = v; $('saveBtn').disabled = !v;
+    dirty = v; $('saveBtn').disabled = !v || locked;
     $('dirty').textContent = v ? ' Unsaved changes' : '';
   }
 
@@ -192,11 +195,16 @@
       $('affiliateNote').value = data.affiliateNote || '';
       $('categories').value = catsToText(data.categories && data.categories.length ? data.categories : DEFAULT_CATS);
       $('editor').classList.remove('hidden');
-      setDirty(false); renderList(); say('Loaded.');
+      locked = (data.schema || 1) > SCHEMA;
+      setDirty(false); renderList();
+      if (locked) say('This admin page is out of date (the data was saved by a newer version). Saving is turned off. Reload this page with ?v=' + Date.now() + ' on the end of the address, then Load again.', true);
+      else say('Loaded.');
     } catch (e) { say(e.message, true); }
   }
 
   async function save() {
+    if (locked) return;
+    data.schema = SCHEMA;
     data.intro = $('intro').value;
     data.affiliateNote = $('affiliateNote').value;
     data.categories = parseCats();
