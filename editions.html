@@ -532,18 +532,23 @@
       }
     }
 
-    /* Softer buttons and slightly firmer separator rules (this page only) */
+    /* Tinted buttons (pale fill, red text, thin red outline) and slightly firmer
+       separator rules. This page only. */
     :root {
       --rule: #cbcbcb;
-      --btn-bg: #ea5359;
-      --btn-bg-hover: #e73b42;
+      --btn-bg: rgba(231, 59, 66, 0.10);
+      --btn-bg-hover: rgba(231, 59, 66, 0.20);
+      --btn-border: rgba(231, 59, 66, 0.50);
+      --btn-text: #c0272e;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
         --rule: #3b3636;
-        --btn-bg: var(--color-accent);
-        --btn-bg-hover: var(--color-accent-hover);
+        --btn-bg: rgba(255, 107, 122, 0.14);
+        --btn-bg-hover: rgba(255, 107, 122, 0.26);
+        --btn-border: rgba(255, 107, 122, 0.55);
+        --btn-text: var(--color-accent);
       }
     }
 
@@ -555,12 +560,15 @@
 
     .book-links .btn-primary {
       background-color: var(--btn-bg);
-      border-color: var(--btn-bg);
+      border-color: var(--btn-border);
+      color: var(--btn-text);
     }
 
-    .book-links .btn-primary:hover {
+    .book-links .btn-primary:hover,
+    .book-links .btn-primary:focus-visible {
       background-color: var(--btn-bg-hover);
-      border-color: var(--btn-bg-hover);
+      border-color: var(--btn-text);
+      color: var(--btn-text);
     }
   </style>
 </head>
