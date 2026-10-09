@@ -1,0 +1,9 @@
+# Editions page: always revalidate so edits and new versions show up right away
+/editions
+  Cache-Control: no-cache
+/editions.html
+  Cache-Control: no-cache
+/editions.json
+  Cache-Control: no-cache
+/admin/editions.html
+  Cache-Control: no-cache
