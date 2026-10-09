@@ -60,31 +60,6 @@
       ]
     },
     {
-      "title": "Consider the Fork",
-      "subtitle": "A History of How We Cook and Eat",
-      "author": "Bee Wilson",
-      "status": "",
-      "details": "Paperback, 352 pp",
-      "description": "A history of kitchen technique itself, useful context for understanding how the same tools and methods really do travel and converge across unconnected places, without needing a Society to explain it.",
-      "cover": "https://m.media-amazon.com/images/I/71z8I9kFynL._SL1500_.jpg",
-      "tags": [
-        "C12 Bibliography",
-        "my bookshelf"
-      ],
-      "section": "recommended",
-      "category": "For Further Reading",
-      "affiliate": false,
-      "display": "collapsible",
-      "hidden": false,
-      "links": [
-        {
-          "label": "Buy on Amazon",
-          "url": "https://link.amazon/B05gxbbUo",
-          "affiliate": false
-        }
-      ]
-    },
-    {
       "title": "The Cooking Gene",
       "subtitle": "A Journey Through African American Culinary History in the Old South",
       "author": "Michael Twitty",
@@ -155,6 +130,80 @@
         {
           "label": "Buy on Amazon",
           "url": "https://link.amazon/B0f1EvAjC",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "title": "Consider the Fork",
+      "subtitle": "A History of How We Cook and Eat",
+      "author": "Bee Wilson",
+      "status": "",
+      "details": "Paperback, 352 pp",
+      "description": "A history of kitchen technique itself, useful context for understanding how the same tools and methods really do travel and converge across unconnected places, without needing a Society to explain it.",
+      "cover": "https://m.media-amazon.com/images/I/71z8I9kFynL._SL1500_.jpg",
+      "tags": [
+        "C12 Bibliography",
+        "Bookshelf"
+      ],
+      "section": "recommended",
+      "category": "For Further Reading",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B05gxbbUo",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "title": "Biscuits, Spoonbread & Sweet Potato Pie",
+      "subtitle": "",
+      "author": "Bill Neal",
+      "status": "",
+      "details": "Hardcover, 334 pp",
+      "description": "For the Southern half of The Catalan Twelve: the biscuits, the sweet potato pie, and the long-standing argument that a recipe carries its place around with it.\n\nA study of the breads, sweets, and desserts of Southern United States cuisine features 150 recipes for treats ranging from butter pecan ice cream to Mississippi praline pound cake, accompanied by historical notes, cooking lore, and personal reminiscences",
+      "cover": "https://m.media-amazon.com/images/I/71i9cnkRZkL._SL1024_.jpg",
+      "tags": [
+        "C12 Bibliography",
+        "Bookshelf"
+      ],
+      "section": "recommended",
+      "category": "For Further Reading",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B0gHY9f5f",
+          "affiliate": false
+        }
+      ]
+    },
+    {
+      "title": "The Invention of Tradition",
+      "subtitle": "",
+      "author": "Hobsbawm, E. and Ranger, T., eds.",
+      "status": "",
+      "details": "Paperback, 326 pp",
+      "description": "On how traditions that feel ancient were very often assembled recently and on purpose, a serious academic treatment of what The Catalan Twelve was doing for fun.",
+      "cover": "https://m.media-amazon.com/images/I/51wtcRvLsLL._SL1500_.jpg",
+      "tags": [
+        "C12 Bibliography"
+      ],
+      "section": "recommended",
+      "category": "For Further Reading",
+      "affiliate": false,
+      "display": "collapsible",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Buy on Amazon",
+          "url": "https://link.amazon/B0bx8e0j8",
           "affiliate": false
         }
       ]
