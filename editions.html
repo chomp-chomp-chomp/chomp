@@ -531,6 +531,37 @@
         align-items: flex-start;
       }
     }
+
+    /* Softer buttons and slightly firmer separator rules (this page only) */
+    :root {
+      --rule: #cbcbcb;
+      --btn-bg: #ea5359;
+      --btn-bg-hover: #e73b42;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --rule: #3b3636;
+        --btn-bg: var(--color-accent);
+        --btn-bg-hover: var(--color-accent-hover);
+      }
+    }
+
+    .book,
+    .pick {
+      border-top-color: var(--rule);
+      border-bottom-color: var(--rule);
+    }
+
+    .book-links .btn-primary {
+      background-color: var(--btn-bg);
+      border-color: var(--btn-bg);
+    }
+
+    .book-links .btn-primary:hover {
+      background-color: var(--btn-bg-hover);
+      border-color: var(--btn-bg-hover);
+    }
   </style>
 </head>
 <body>
