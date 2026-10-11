@@ -339,6 +339,17 @@
       margin: 0 0 14px;
     }
 
+    .book-desc a {
+      color: var(--btn-text, var(--color-accent));
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    .book-desc a:hover {
+      text-decoration-thickness: 2px;
+    }
+
     .book-desc p {
       font-size: 0.95em;
       line-height: 1.65;
@@ -649,12 +660,40 @@
     // Only allow http(s) links
     const safeUrl = (u) => /^https?:\/\//i.test(u || '') ? esc(u) : '#';
 
+    // Amazon links inside a description are treated as possible affiliate links
+    const AMAZON = /(^|\/\/|\.)(amazon\.[a-z.]+|amzn\.[a-z]+|link\.amazon)(\/|$)/i;
+
+    // Description text: plain text plus a small safe subset of formatting.
+    //   [label](https://...)   or   <a href="https://...">label</a>   ->  link
+    //   **bold**   *italic*
+    // Anything else, including other HTML, is shown as plain text. Only http(s) and mailto links are allowed.
+    function richText(raw) {
+      const links = [];
+      const stash = (label, url) => { links.push({ label, url }); return `\u0000${links.length - 1}\u0000`; };
+      const ok = (u) => /^(https?:\/\/|mailto:)/i.test(u);
+      let s = String(raw == null ? '' : raw)
+        .replace(/<a\s+[^>]*?href\s*=\s*["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi,
+          (m, url, label) => (ok(url) ? stash(label.replace(/<[^>]*>/g, ''), url) : label))
+        .replace(/\[([^\]\n]+)\]\(\s*([^\s)]+)\s*\)/g,
+          (m, label, url) => (ok(url) ? stash(label, url) : m));
+      s = esc(s)
+        .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,;:!?]|$)/g, '$1<em>$2</em>');
+      return s.replace(/\u0000(\d+)\u0000/g, (m, i) => {
+        const { label, url } = links[Number(i)];
+        const web = /^https?:/i.test(url);
+        const rel = AMAZON.test(url) ? 'sponsored noopener noreferrer' : 'noopener noreferrer';
+        return `<a href="${esc(url)}"${web ? ` target="_blank" rel="${rel}"` : ''}>${esc(label)}</a>`;
+      });
+    }
+
     const paragraphs = (text) =>
-      esc(text).split(/\n{2,}/).map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+      String(text || '').split(/\n{2,}/).map((p) => `<p>${richText(p).replace(/\n/g, '<br>')}</p>`).join('');
 
     // Affiliate status belongs to each link; older entries set it once on the item
     const isAff = (item, l) => (l.affiliate !== undefined ? !!l.affiliate : !!item.affiliate);
-    const hasAff = (item) => (item.links || []).some((l) => isAff(item, l));
+    const hasAff = (item) => (item.links || []).some((l) => isAff(item, l)) ||
+      /https?:\/\/[^\s)"']*(amazon\.|amzn\.|link\.amazon)/i.test(item.description || '');
     const relFor = (item, l) => (isAff(item, l) ? 'sponsored noopener' : 'noopener');
 
     // One purchase button: format/store as the label, optional price beneath, visible affiliate tag
