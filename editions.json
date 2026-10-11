@@ -207,6 +207,30 @@
           "affiliate": false
         }
       ]
+    },
+    {
+      "title": "Chomp Chomp’s Compendium of Forgotten Cookies - Thirty Four Confections of Desire, Discipline, and Semiotic Mischief",
+      "subtitle": "",
+      "author": "Chomp Chomp Editions, eds.",
+      "status": "Coming soon",
+      "details": "Hardcover, 240 pp",
+      "description": "While there are thirty-four recipes inside, this book is not merely a “cookbook.” It’s a mystery. A history. A Gothic tale. A farce. A philosophical tome. Every recipe is a tiny ideological ball of dough waiting to be kneaded, folded, and exposed.\n\nEvery culinary tradition carries within it a concealed metaphysics. The small baked sweet on a kitchen table appears innocent, yet it expresses a culture's most anxious negotiations with desire, form, and meaning. Americans say cookie. Britons say biscuit. This naming divide is not trivial. It is the site where two societies decided, without ever admitting it, what sweetness should symbolize. The pastries collected here belong to the centuries before this decision hardened into habit. \n\nThey emerge from a world where the rules of naming were porous, where a baked good could drift between identities like a traveler between inns. At the center of this drifting stands Hildevart Crumb, a figure who wanders through culinary history not as a stable presence but as a disruption, a trickster baker whose experiments unsettled every structure they encountered.",
+      "cover": "https://ik.imagekit.io/chompchomp/IMG_3866.jpeg",
+      "tags": [
+        "Chomp Chomp Editions",
+        "cookie-biscuit divide"
+      ],
+      "section": "editions",
+      "affiliate": false,
+      "display": "full",
+      "hidden": false,
+      "links": [
+        {
+          "label": "Intro & Colophon",
+          "url": "https://ps.chom.ps/chomp-chomp-s-compendium/",
+          "affiliate": false
+        }
+      ]
     }
   ]
 }
