@@ -543,6 +543,89 @@
       }
     }
 
+    /* Purchase options: one button that opens a list of formats/stores below it */
+    .buy-toggle {
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .buy-toggle .chev {
+      transition: transform 0.2s;
+    }
+
+    .buy-toggle[aria-expanded="true"] .chev {
+      transform: rotate(180deg);
+    }
+
+    .buy-menu {
+      margin-top: 10px;
+      max-width: 440px;
+      border: 1px solid var(--btn-border, var(--color-border));
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .buy-menu[hidden] {
+      display: none;
+    }
+
+    .buy-opt {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 14px;
+      text-decoration: none;
+      color: var(--color-text);
+      border-top: 1px solid var(--rule, var(--color-border));
+    }
+
+    .buy-opt:first-child {
+      border-top: 0;
+    }
+
+    .buy-opt:hover,
+    .buy-opt:focus-visible {
+      background: var(--btn-bg, rgba(231, 59, 66, 0.1));
+    }
+
+    .buy-opt-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .buy-opt-label {
+      font-size: 0.9em;
+      font-weight: 500;
+      color: var(--btn-text, var(--color-accent));
+    }
+
+    .buy-opt-price {
+      font-size: 0.8em;
+      color: var(--color-text-muted);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .buy-menu {
+        max-width: none;
+      }
+
+      /* Narrow screens: price sits under the name so long names don't wrap */
+      .buy-opt {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+
+      .buy-opt-price {
+        text-align: left;
+      }
+    }
+
     /* Tinted buttons (pale fill, red text, thin red outline) and slightly firmer
        separator rules. This page only. */
     :root {
@@ -708,13 +791,45 @@
         </span>`;
     }
 
+    // Several purchase links can fold into one "Purchase options" button that opens a list below it.
+    // item.buyLayout: "auto" (menu at 3+ links, the default) | "buttons" (always separate buttons) | "menu" (always a menu, 2+ links)
+    function useMenu(item) {
+      const n = (item.links || []).length;
+      const mode = item.buyLayout || 'auto';
+      return mode === 'menu' ? n >= 2 : mode === 'buttons' ? false : n >= 3;
+    }
+
+    function buyUI(item) {
+      const links = item.links || [];
+      if (!useMenu(item)) return { row: links.map((l) => buyButton(item, l)).join(''), panel: '' };
+      const idx = data.items.indexOf(item);
+      const open = openBuy.has(idx);
+      const opts = links.map((l) => `
+        <a class="buy-opt" href="${safeUrl(l.url)}" target="_blank" rel="${relFor(item, l)}">
+          <span class="buy-opt-main">
+            <span class="buy-opt-label">${esc(l.label || 'Buy')}</span>
+            ${isAff(item, l) ? '<span class="aff-flag">affiliate link</span>' : ''}
+          </span>
+          ${l.price ? `<span class="buy-opt-price">${esc(l.price)}</span>` : ''}
+        </a>`).join('');
+      return {
+        row: `<span class="link-wrap">
+                <button type="button" class="btn btn-primary buy-toggle" data-idx="${idx}" aria-expanded="${open}" aria-controls="buy-${idx}">
+                  <span class="btn-label">Purchase options <span class="chev" aria-hidden="true">▾</span></span>
+                </button>
+              </span>`,
+        panel: `<div class="buy-menu" id="buy-${idx}" role="group" aria-label="Purchase options for ${esc(item.title)}"${open ? '' : ' hidden'}>${opts}</div>`
+      };
+    }
+
     let data = { items: [] };
     let activeTag = null;
     const expanded = new Set();   // indexes of collapsible items the visitor has opened
+    const openBuy = new Set();    // indexes whose Purchase options list is open
     const openedGroups = new Set(); // Recommended groups the visitor has opened (all start closed)
 
     function renderFull(b) {
-      const links = (b.links || []).map((l) => buyButton(b, l)).join('');
+      const buy = buyUI(b);
       const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
       return `
         <article class="book">
@@ -726,7 +841,8 @@
             <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
             ${tags ? `<div class="tags">${tags}</div>` : ''}
             ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
-            ${links ? `<div class="book-links">${links}</div>` : ''}
+            ${buy.row ? `<div class="book-links">${buy.row}</div>` : ''}
+            ${buy.panel}
           </div>
         </article>`;
     }
@@ -750,7 +866,7 @@
       const idx = data.items.indexOf(b);
       const open = expanded.has(idx);
       const hasMore = b.description || b.cover;
-      const links = (b.links || []).map((l) => buyButton(b, l)).join('');
+      const buy = buyUI(b);
       const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
       const toggle = hasMore
         ? `<button type="button" class="expand-btn" data-idx="${idx}" aria-expanded="${open}" aria-controls="more-${idx}">
@@ -771,7 +887,8 @@
             ${b.subtitle ? `<p class="book-subtitle">${esc(b.subtitle)}</p>` : ''}
             <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
             ${tags ? `<div class="tags">${tags}</div>` : ''}
-            ${(links || toggle) ? `<div class="book-links">${links}${toggle}</div>` : ''}
+            ${(buy.row || toggle) ? `<div class="book-links">${buy.row}${toggle}</div>` : ''}
+            ${buy.panel}
             ${more}
           </div>
         </article>`;
@@ -861,6 +978,27 @@
       if (!d.classList || !d.classList.contains('rec-group') || activeTag) return;
       if (d.open) openedGroups.add(d.dataset.group); else openedGroups.delete(d.dataset.group);
     }, true);
+
+    // Purchase options list: open/close in place, Escape closes
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.buy-toggle');
+      if (!btn) return;
+      const idx = Number(btn.dataset.idx);
+      const panel = document.getElementById('buy-' + idx);
+      const open = panel.hidden;          // currently closed -> opening
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open);
+      if (open) openBuy.add(idx); else openBuy.delete(idx);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const btn = document.querySelector('.buy-toggle[aria-expanded="true"]');
+      if (!btn) return;
+      document.getElementById('buy-' + btn.dataset.idx).hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      openBuy.delete(Number(btn.dataset.idx));
+      btn.focus();
+    });
 
     // Expand / collapse (no re-render, so scroll position stays put)
     document.addEventListener('click', (e) => {
