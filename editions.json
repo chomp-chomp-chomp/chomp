@@ -223,6 +223,7 @@
       "section": "editions",
       "affiliate": false,
       "display": "full",
+      "descMode": "excerpt",
       "hidden": false,
       "links": [
         {

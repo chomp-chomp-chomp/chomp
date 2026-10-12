@@ -473,6 +473,24 @@
       color: var(--color-text-muted);
     }
 
+    /* Excerpt mode: the "More" link sits right under the excerpt; revealed text follows it */
+    .more-line {
+      margin: -4px 0 4px;
+    }
+
+    .more-line .expand-btn {
+      padding-left: 0;
+    }
+
+    .book-more-text {
+      display: block;
+      margin-top: 0;
+    }
+
+    .book-more-text[hidden] {
+      display: none;
+    }
+
     /* Collapsible entries */
     .expand-btn {
       font-family: inherit;
@@ -828,8 +846,38 @@
     const openBuy = new Set();    // indexes whose Purchase options list is open
     const openedGroups = new Set(); // Recommended groups the visitor has opened (all start closed)
 
+    // Excerpt mode (item.descMode === "excerpt"): show the start of the description, rest behind "More".
+    // The excerpt ends at a line containing only --more-- ; without one, it is the first paragraph.
+    function excerptParts(item) {
+      if (item.descMode !== 'excerpt' || !item.description) return null;
+      const d = String(item.description).replace(/\r\n/g, '\n');
+      const m = d.match(/\n[ \t]*(?:--more--|<!--\s*more\s*-->)[ \t]*(?:\n|$)/i) || d.match(/^[ \t]*(?:--more--|<!--\s*more\s*-->)[ \t]*\n/i);
+      let head, tail;
+      if (m) { head = d.slice(0, m.index); tail = d.slice(m.index + m[0].length); }
+      else { const ps = d.split(/\n{2,}/); head = ps[0]; tail = ps.slice(1).join('\n\n'); }
+      head = head.trim(); tail = tail.trim();
+      return head ? { head, tail } : null;
+    }
+
+    // The "More ▾" toggle shared by the excerpt and collapsible layouts
+    function moreToggle(idx, open) {
+      return `<button type="button" class="expand-btn" data-idx="${idx}" aria-expanded="${open}" aria-controls="more-${idx}">
+                <span class="expand-label">${open ? 'Less' : 'More'}</span> <span class="chev" aria-hidden="true">▾</span>
+              </button>`;
+    }
+
     function renderFull(b) {
       const buy = buyUI(b);
+      const ex = excerptParts(b);
+      const idx = data.items.indexOf(b);
+      const open = expanded.has(idx);
+      const descBlock = ex
+        ? `<div class="book-desc">${paragraphs(ex.head)}</div>` +
+          (ex.tail
+            ? `<div class="more-line">${moreToggle(idx, open)}</div>
+               <div class="book-more book-more-text" id="more-${idx}"${open ? '' : ' hidden'}><div class="book-desc">${paragraphs(ex.tail)}</div></div>`
+            : '')
+        : (b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : '');
       const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
       return `
         <article class="book">
@@ -840,7 +888,7 @@
             ${b.subtitle ? `<p class="book-subtitle">${esc(b.subtitle)}</p>` : ''}
             <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
             ${tags ? `<div class="tags">${tags}</div>` : ''}
-            ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
+            ${descBlock}
             ${buy.row ? `<div class="book-links">${buy.row}</div>` : ''}
             ${buy.panel}
           </div>
@@ -865,18 +913,15 @@
     function renderCollapsible(b) {
       const idx = data.items.indexOf(b);
       const open = expanded.has(idx);
-      const hasMore = b.description || b.cover;
+      const ex = excerptParts(b);
+      const hasMore = ex ? (ex.tail || b.cover) : (b.description || b.cover);
       const buy = buyUI(b);
       const tags = (b.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
-      const toggle = hasMore
-        ? `<button type="button" class="expand-btn" data-idx="${idx}" aria-expanded="${open}" aria-controls="more-${idx}">
-             <span class="expand-label">${open ? 'Less' : 'More'}</span> <span class="chev" aria-hidden="true">▾</span>
-           </button>`
-        : '';
+      const toggle = hasMore ? moreToggle(idx, open) : '';
       const more = hasMore
         ? `<div class="book-more" id="more-${idx}"${open ? '' : ' hidden'}>
              ${b.cover ? `<div class="book-cover"><img src="${esc(b.cover)}" alt="${esc(b.title)} cover" loading="lazy"></div>` : ''}
-             ${b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : ''}
+             ${ex ? (ex.tail ? `<div class="book-desc">${paragraphs(ex.tail)}</div>` : '') : (b.description ? `<div class="book-desc">${paragraphs(b.description)}</div>` : '')}
            </div>`
         : '';
       return `
@@ -887,6 +932,7 @@
             ${b.subtitle ? `<p class="book-subtitle">${esc(b.subtitle)}</p>` : ''}
             <p class="book-meta">${[b.author, b.details].filter(Boolean).map(esc).join(' · ')}</p>
             ${tags ? `<div class="tags">${tags}</div>` : ''}
+            ${ex ? `<div class="book-desc">${paragraphs(ex.head)}</div>` : ''}
             ${(buy.row || toggle) ? `<div class="book-links">${buy.row}${toggle}</div>` : ''}
             ${buy.panel}
             ${more}
