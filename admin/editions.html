@@ -130,6 +130,13 @@
       <div id="linkRows"></div>
       <button class="plain" id="addLinkBtn" type="button">+ Add link</button>
 
+      <label>How the buy links appear</label>
+      <select id="f_buylayout">
+        <option value="auto">Automatic (one "Purchase options" button when there are 3 or more links)</option>
+        <option value="buttons">Always separate buttons</option>
+        <option value="menu">Always one "Purchase options" button (2 or more links)</option>
+      </select>
+
       <div style="margin-top:16px" class="row">
         <button class="primary" id="applyBtn" type="button" style="flex:0 0 auto">Apply to list</button>
         <button class="plain" id="cancelBtn" type="button" style="flex:0 0 auto">Cancel</button>
@@ -318,6 +325,7 @@
     $('f_display').value = it.display || (it.compact ? 'compact' : 'full');
     fillCategory(it.category);
     syncCategory();
+    $('f_buylayout').value = it.buyLayout || 'auto';
     $('formTitle').textContent = i >= 0 ? 'Edit item' : 'New item';
     ['title', 'author', 'subtitle', 'status', 'details', 'cover', 'description'].forEach((k) => $('f_' + k).value = it[k] || '');
     $('f_tags').value = (it.tags || []).join(', ');
@@ -354,6 +362,7 @@
       cover: $('f_cover').value.trim(),
       tags: $('f_tags').value.split(',').map((t) => t.trim()).filter(Boolean),
       section: $('f_section').value,
+      ...($('f_buylayout').value !== 'auto' ? { buyLayout: $('f_buylayout').value } : {}),
       ...($('f_section').value === 'recommended' ? { category: $('f_category').value } : {}),
       affiliate: links.some((l) => l.affiliate),   // derived: true if any link earns a commission
       display: $('f_display').value,
