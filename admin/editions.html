@@ -120,6 +120,12 @@
         </div>
         <label>Cover image URL</label><input type="url" id="f_cover">
         <label>Description (blank line = new paragraph)</label><textarea id="f_description"></textarea>
+        <label>How much of the description shows</label>
+        <select id="f_descmode">
+          <option value="full">All of it</option>
+          <option value="excerpt">An excerpt, with the rest behind "More"</option>
+        </select>
+        <p class="hint">For an excerpt, the first paragraph is used. To end it somewhere else, put <code>--more--</code> on a line by itself; everything above it shows, everything below sits behind "More".</p>
         <p class="hint">Links: <code>[review](https://example.com)</code> or <code>&lt;a href="https://example.com"&gt;review&lt;/a&gt;</code>. Also <code>**bold**</code> and <code>*italic*</code>. Other HTML is shown as plain text. Keep the buy buttons below for purchase links; use links here for reviews and extra reading.</p>
       </div>
 
@@ -326,6 +332,7 @@
     fillCategory(it.category);
     syncCategory();
     $('f_buylayout').value = it.buyLayout || 'auto';
+    $('f_descmode').value = it.descMode || 'full';
     $('formTitle').textContent = i >= 0 ? 'Edit item' : 'New item';
     ['title', 'author', 'subtitle', 'status', 'details', 'cover', 'description'].forEach((k) => $('f_' + k).value = it[k] || '');
     $('f_tags').value = (it.tags || []).join(', ');
@@ -363,6 +370,7 @@
       tags: $('f_tags').value.split(',').map((t) => t.trim()).filter(Boolean),
       section: $('f_section').value,
       ...($('f_buylayout').value !== 'auto' ? { buyLayout: $('f_buylayout').value } : {}),
+      ...($('f_descmode').value === 'excerpt' ? { descMode: 'excerpt' } : {}),
       ...($('f_section').value === 'recommended' ? { category: $('f_category').value } : {}),
       affiliate: links.some((l) => l.affiliate),   // derived: true if any link earns a commission
       display: $('f_display').value,
