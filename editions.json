@@ -34,28 +34,28 @@
       "hidden": false,
       "links": [
         {
-          "label": "Premium Hardcover • Amazon",
+          "label": "Hardcover • Amazon",
           "url": "https://link.amazon/B06qjL2wr",
           "affiliate": false,
-          "price": "$36 + prime shipping"
+          "price": "$34 + prime shipping"
         },
         {
           "label": "Hardcover • Lulu",
-          "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/hardcover/product-yvqrpp4.html",
+          "url": "https://svc.lulu.com/?items=e7d6f1ca-505d-44a1-ad3a-14a9329a0efa",
           "affiliate": false,
-          "price": "$28 + shipping"
+          "price": "$34 + shipping"
         },
         {
-          "label": "Premium Softcover • Amazon",
+          "label": "Paperback • Amazon",
           "url": "https://link.amazon/B0iDDZP58",
           "affiliate": false,
-          "price": "$24 + prime shipping"
+          "price": "$24 + Prime eligible"
         },
         {
-          "label": "Softcover • Lulu",
-          "url": "https://www.lulu.com/shop/donnie-boman/the-catalan-twelve/paperback/product-7k5d7rq.html",
+          "label": "Paperback • Lulu",
+          "url": "https://svc.lulu.com/?items=e7d6f1ca-505d-44a1-ad3a-14a9329a0efa",
           "affiliate": false,
-          "price": "$16 + shipping"
+          "price": "$24 + shipping"
         }
       ]
     },
