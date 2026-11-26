@@ -53,6 +53,22 @@
     .msg { color:var(--muted); font-size:.85em; min-height:1.4em; margin-top:8px; }
     .msg.err { color:var(--accent); }
     .empty { color:var(--muted); text-align:center; padding:40px 0; }
+    .nav { display:flex; gap:6px; margin:0 0 16px; }
+    .nav a { text-decoration:none; color:var(--muted); font-size:.85em; letter-spacing:.06em; text-transform:uppercase;
+      padding:4px 12px; border:1px solid var(--border); border-radius:999px; }
+    .nav a.on { color:#fff; background:var(--accent); border-color:var(--accent); }
+    .me { font-size:.8em; color:var(--muted); letter-spacing:.05em; }
+    .who-name { letter-spacing:.04em; }
+    .twelve h2 { letter-spacing:.08em; font-size:1.15em; margin:4px 0 8px; }
+    .twelve .lead { color:var(--muted); margin:0 0 18px; white-space:pre-line; }
+    .seat { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin:0 0 10px; }
+    .seat.mine { border-color:var(--accent); }
+    .seat .st { font-weight:600; letter-spacing:.06em; font-size:.9em; }
+    .seat .st i { font-style:normal; color:var(--accent); font-weight:500; font-size:.8em; margin-left:8px; }
+    .seat .ledger { color:var(--muted); font-size:.78em; letter-spacing:.03em; margin:2px 0 6px; }
+    .seat p { margin:0; white-space:pre-line; }
+    .coda { color:var(--muted); margin:18px 0 0; white-space:pre-line; font-size:.92em; }
+    .editor { width:100%; min-height:60vh; font-family:ui-monospace, Menlo, Consolas, monospace; font-size:.85em; line-height:1.5; }
   </style>
 </head>
 <body>
@@ -60,10 +76,11 @@
   <div class="top">
     <h1><a href="#" style="color:inherit;text-decoration:none">Members</a></h1>
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-      <label class="who" style="margin:0">Posting as <input id="name" maxlength="40" placeholder="your name"></label>
+      <span class="me" id="me"></span>
       <form method="POST" action="/member/logout"><button type="submit">Log out</button></form>
     </div>
   </div>
+  <nav class="nav"><a id="nav-board" href="#">Board</a><a id="nav-twelve" href="#twelve">The Twelve</a></nav>
   <div id="view"></div>
 </main>
 <script>
@@ -79,12 +96,10 @@
   };
 
   const view = document.getElementById('view');
-  const nameEl = document.getElementById('name');
-  const store = { get(k) { try { return localStorage.getItem(k) || ''; } catch { return ''; } },
-                  set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
-  nameEl.value = store.get('member_name');
-  nameEl.addEventListener('input', () => store.set('member_name', nameEl.value.trim()));
-  const author = () => nameEl.value.trim();
+  const meEl = document.getElementById('me');
+  let me = { id: '', admin: false }, labels = {}, about = null;
+  const who = (id) => labels[id] || id;
+  const canTouch = (authorId) => me.admin || me.id === authorId;
 
   const state = { filter: 'all', q: '', entries: null };
 
@@ -122,13 +137,6 @@
     return { ok: res.ok, status: res.status, data };
   }
 
-  function needName(msgEl) {
-    if (author()) return true;
-    msgEl.textContent = 'Enter your name at the top first.'; msgEl.className = 'msg err';
-    nameEl.focus();
-    return false;
-  }
-
   // ---- list ----
   async function showList() {
     view.replaceChildren(h('p', { class: 'msg' }, 'Loading…'));
@@ -154,7 +162,7 @@
       cards.replaceChildren(...(list.length ? list.map(card) : [h('p', { class: 'empty' }, state.entries.length ? 'Nothing matches.' : 'No posts yet. Be the first.')]));
     }
     function card(e) {
-      const sub = [e.author, when(e.updated)];
+      const sub = [who(e.author), when(e.updated)];
       if (e.type === 'event' && e.date) sub.unshift(prettyDate(e.date));
       return h('button', { class: 'card', onclick: () => { location.hash = '#e/' + e.id; } },
         h('div', { class: 't' }, e.pinned ? h('span', { class: 'pin' }, '📌') : null, h('span', { class: 'badge' }, TYPES[e.type].label), e.title),
@@ -183,16 +191,15 @@
         : f.k === 'date' ? prettyDate(v) : v;
       return [h('b', {}, f.label), h('span', {}, val)];
     });
-    const edited = e.editedBy && e.updated !== e.created ? ' · edited by ' + e.editedBy : '';
+    const edited = e.editedBy && e.updated !== e.created ? ' · edited by ' + who(e.editedBy) : '';
 
     const replyBox = h('textarea', { maxlength: 2000, placeholder: 'Write a reply…', style: 'min-height:70px' });
     const replyMsg = h('p', { class: 'msg' });
     const replyBtn = h('button', { class: 'primary', onclick: async () => {
-      if (!needName(replyMsg)) return;
       const body = replyBox.value.trim();
       if (!body) return;
       replyBtn.disabled = true;
-      const r = await api('/entries/' + e.id + '/replies', { method: 'POST', body: { author: author(), body } });
+      const r = await api('/entries/' + e.id + '/replies', { method: 'POST', body: { body } });
       replyBtn.disabled = false;
       if (!r.ok) { replyMsg.textContent = r.data.error || 'Could not post.'; replyMsg.className = 'msg err'; return; }
       replies.push(r.data); drawEntry(e, replies);
@@ -201,32 +208,31 @@
     view.replaceChildren(
       back(),
       h('h2', {}, e.pinned ? h('span', { class: 'pin' }, '📌') : null, h('span', { class: 'badge' }, TYPES[e.type].label), e.title),
-      h('div', { class: 'meta' }, e.author + ' · ' + when(e.created) + edited),
+      h('div', { class: 'meta' }, h('span', { class: 'who-name' }, who(e.author)), ' · ' + when(e.created) + edited),
       fieldRows.length ? h('div', { class: 'fields' }, fieldRows) : null,
       e.body ? h('div', { class: 'body' }, linkify(e.body)) : null,
-      h('div', { class: 'actions' },
-        h('button', { onclick: () => { location.hash = '#edit/' + e.id; } }, 'Edit'),
-        h('button', { onclick: async () => {
-          if (!needName(msg)) return;
-          const r = await api('/entries/' + e.id, { method: 'PUT', body: { ...e, pinned: !e.pinned, author: author(), base: e.updated } });
+      canTouch(e.author) || me.admin ? h('div', { class: 'actions' },
+        canTouch(e.author) ? h('button', { onclick: () => { location.hash = '#edit/' + e.id; } }, 'Edit') : null,
+        me.admin ? h('button', { onclick: async () => {
+          const r = await api('/entries/' + e.id, { method: 'PUT', body: { ...e, pinned: !e.pinned, base: e.updated } });
           if (!r.ok) { msg.textContent = r.status === 409 ? 'Someone changed this. Reload.' : (r.data.error || 'Failed'); msg.className = 'msg err'; return; }
           state.entries = null; drawEntry(r.data, replies);
-        } }, e.pinned ? 'Unpin' : 'Pin'),
-        h('button', { class: 'danger', onclick: async () => {
+        } }, e.pinned ? 'Unpin' : 'Pin') : null,
+        canTouch(e.author) ? h('button', { class: 'danger', onclick: async () => {
           if (!confirm('Delete this post and its replies for everyone?')) return;
           const r = await api('/entries/' + e.id, { method: 'DELETE' });
           if (!r.ok) { msg.textContent = r.data.error || 'Failed'; msg.className = 'msg err'; return; }
           state.entries = null; location.hash = '';
-        } }, 'Delete')),
+        } }, 'Delete') : null) : null,
       msg,
       h('h3', {}, replies.length ? replies.length + (replies.length === 1 ? ' reply' : ' replies') : 'Replies'),
       ...replies.map((r) => h('div', { class: 'reply' },
-        h('button', { class: 'x', title: 'Delete reply', onclick: async () => {
+        !canTouch(r.author) ? null : h('button', { class: 'x', title: 'Delete reply', onclick: async () => {
           if (!confirm('Delete this reply?')) return;
           await api('/entries/' + e.id + '/replies?rid=' + encodeURIComponent(r.id), { method: 'DELETE' });
           drawEntry(e, replies.filter((x) => x.id !== r.id));
         } }, '×'),
-        h('div', { class: 'meta' }, r.author + ' · ' + when(r.created)),
+        h('div', { class: 'meta' }, h('span', { class: 'who-name' }, who(r.author)), ' · ' + when(r.created)),
         h('div', { class: 'body' }, linkify(r.body)))),
       replyBox, h('div', { class: 'actions' }, replyBtn), replyMsg);
   }
@@ -260,11 +266,10 @@
     const save = h('button', { class: 'primary', type: 'submit' }, e ? 'Save changes' : 'Post');
     const form = h('form', { onsubmit: async (ev) => {
       ev.preventDefault();
-      if (!needName(msg)) return;
       const fields = {};
       for (const f of TYPES[type].fields) fields[f.k] = inputs[f.k].value;
       save.disabled = true; msg.textContent = 'Saving…'; msg.className = 'msg';
-      const payload = { type, title: title.value, body: body.value, fields, author: author(), pinned: e ? e.pinned : false };
+      const payload = { type, title: title.value, body: body.value, fields, pinned: e ? e.pinned : false };
       const r = e ? await api('/entries/' + e.id, { method: 'PUT', body: { ...payload, base: e.updated } })
                   : await api('/entries', { method: 'POST', body: payload });
       save.disabled = false;
@@ -286,17 +291,63 @@
     title.focus();
   }
 
+  // ---- The Twelve ----
+  function showTwelve() {
+    const p = about.parsed;
+    const para = (lines) => lines.join('\n');
+    const seats = p.seats.slice().sort((a, b) => a.n - b.n).map((s) => {
+      const mine = String(s.n) === me.id;
+      return h('div', { class: 'seat' + (mine ? ' mine' : '') },
+        h('div', { class: 'st' }, 'SEAT ' + s.n + ' ≃ ' + s.title, mine ? h('i', {}, 'your seat') : null),
+        s.ledger || s.seal ? h('div', { class: 'ledger' }, 'Ledger: ' + s.ledger + ' ≃ Seal: ' + s.seal) : null,
+        s.lines.length ? h('p', {}, para(s.lines)) : null);
+    });
+    const [title, ...lead] = p.header;
+    view.replaceChildren(h('div', { class: 'twelve' },
+      title ? h('h2', {}, para(title)) : null,
+      ...lead.map((l) => h('p', { class: 'lead' }, para(l))),
+      ...seats,
+      ...p.footer.map((l) => h('p', { class: 'coda' }, para(l))),
+      me.admin ? h('div', { class: 'actions' }, h('button', { onclick: () => { location.hash = '#twelve/edit'; } }, 'Edit this page')) : null));
+  }
+
+  function showTwelveEdit() {
+    if (!me.admin) { location.hash = '#twelve'; return; }
+    const ta = h('textarea', { class: 'editor', spellcheck: 'false' }, about.text);
+    const msg = h('p', { class: 'msg' });
+    const save = h('button', { class: 'primary', onclick: async () => {
+      save.disabled = true; msg.textContent = 'Saving…'; msg.className = 'msg';
+      const r = await api('/about', { method: 'PUT', body: { text: ta.value } });
+      save.disabled = false;
+      if (!r.ok) { msg.textContent = r.data.error || 'Save failed'; msg.className = 'msg err'; return; }
+      about = r.data; labels = r.data.labels; location.hash = '#twelve';
+    } }, 'Save');
+    view.replaceChildren(
+      h('p', { class: 'meta' }, 'Blocks are separated by a blank line. Lines before the first SEAT are the opening (first line is the title); lines after the last SEAT are the closing. Each seat is: "SEAT 3 ≃ THE TITLE", then optionally "Ledger: … ≃ Seal: …", then its description. Seat titles are what members appear as on the board.'),
+      ta, h('div', { class: 'actions' }, save, h('button', { onclick: () => { location.hash = '#twelve'; } }, 'Cancel')), msg);
+  }
+
   // ---- routing ----
   function route() {
     const hash = location.hash.slice(1);
     let m;
-    if (hash === 'new') showForm();
+    document.getElementById('nav-twelve').classList.toggle('on', hash.startsWith('twelve'));
+    document.getElementById('nav-board').classList.toggle('on', !hash.startsWith('twelve'));
+    if (hash === 'twelve') showTwelve();
+    else if (hash === 'twelve/edit') showTwelveEdit();
+    else if (hash === 'new') showForm();
     else if ((m = hash.match(/^edit\/([a-z0-9-]+)$/))) showForm(m[1]);
     else if ((m = hash.match(/^e\/([a-z0-9-]+)$/))) showEntry(m[1]);
     else showList();
   }
   addEventListener('hashchange', route);
-  route();
+  (async () => {
+    const r = await api('/about');
+    if (!r.ok) { view.replaceChildren(h('p', { class: 'msg err' }, r.data.error || 'Could not load (' + r.status + ')')); return; }
+    about = r.data; me = r.data.me; labels = r.data.labels;
+    meEl.textContent = me.admin ? 'you are ' + labels.admin : 'your seat: ' + (labels[me.id] || me.id);
+    route();
+  })();
 })();
 </script>
 </body>

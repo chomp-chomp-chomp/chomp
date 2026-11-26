@@ -60,12 +60,15 @@ The Page Editors tab links to the visual page editor, the WYSIWYG editor and the
 Manages `editions.json`. Each item can be placed under **Books** or **Recommended**, marked as an **affiliate** link (independent of section), tagged, made compact, hidden, reordered or deleted. It needs a fine-grained GitHub token with Contents read/write and commits to the branch you choose (default `main`).
 
 ### Members board: `/member/`
-A password-protected shared bulletin board. Members post **notes**, **events** (date, time, location) and **links** (URL), pin posts, and reply in threads.
-- `functions/member/_middleware.js` (Cloudflare Pages Function) checks one shared password and sets a signed `HttpOnly` cookie before serving anything under `/member/`.
-- `functions/member/api/entries*` and `functions/member/_lib/board.js` are the API. Data is in Workers KV: `e:<id>` per post (summary in KV metadata so the list needs one call) and `r:<id>` per post for its replies.
-- `member/index.html` is the whole UI. To add a post type or field, edit `TYPES` in both `board.js` and `index.html`.
-- Setup (Cloudflare Pages project > Settings): secret `MEMBER_PASSWORD` and a KV binding named `MEMBER_KV`, then redeploy. Changing the password signs everyone out.
-- Names are self-declared (one shared password), so anyone logged in can edit or delete any post. It's an honor system for a trusted group.
+A password-protected board for "The Catalan Twelve". Twelve seats, each with its own password. Members post **notes**, **events** and **links**, and reply in threads. Real names never appear: posts are shown under the seat's title (e.g. THE COLD HAND).
+- `functions/member/_middleware.js` (Cloudflare Pages Function) matches the password to a seat, sets a signed `HttpOnly` cookie, and tells the API who is logged in.
+- `functions/member/api/` + `functions/member/_lib/board.js` are the API (Workers KV: `e:<id>` posts, `r:<id>` replies, `about` the Twelve page text). Authors are stored as seat ids, so renaming a seat renames it everywhere.
+- `member/index.html` is the whole UI: the Board tab and The Twelve tab.
+- **The Twelve page** is plain text. Log in with the `admin` password and press "Edit this page". Format: opening block, then `SEAT n ≃ TITLE` / `Ledger: … ≃ Seal: …` / description blocks, then closing blocks, separated by blank lines. The default text lives in `board.js` (`DEFAULT_ABOUT`) until the first save.
+- **Permissions:** members edit/delete only their own posts and replies. `admin` (shown as THE KEEPER) can edit or delete anything, pin posts, and edit the Twelve page.
+- **Setup** (Cloudflare Pages project > Settings): a KV binding named `MEMBER_KV`, and the secret `MEMBER_PASSWORDS` = comma-separated `seat:password` pairs, e.g. `1:abc...,2:...,12:...,admin:...`. Passwords: 8+ characters, all different, no commas. Generate a set with:
+  `(for i in $(seq 1 12) admin; do echo "$i:$(openssl rand -hex 6)"; done) | paste -sd,`
+  Then redeploy. To revoke a member, delete their pair (or change it); only they are signed out.
 
 ### Editing by hand
 Every content file is plain JSON and any commit to `main` publishes it. Recipe fields: `id, slug, title, description, image, servings, prepTime, cookTime, totalTime, source, category, ingredients[], instructions[], notes`. Look at an existing entry in `data/*.json` for the shape of the others. `*.json.example` files show the minimum.
