@@ -27,6 +27,7 @@ Recipes, writing, a baking lexicon, tools, a store and a few books. A static HTM
 | `reading-list.html` | Book recommendations | `data/reading-list.json` |
 | `playlists.html` / `playlist.html` | Spotify playlists for baking | `data/playlists.json` |
 | `editions.html` | Chomp Chomp Editions books and recommended links | `editions.json` (repo root) |
+| `editions/instructions.html` | Cheat sheet for editing the Editions page and what each admin field does (linked from the editions admin) | none |
 | `about.html`, `store.html`, `store/order.html` | Static pages. Orders go by email. | none |
 | `tools/` | Utilities ("Lab"): convert, encode, subnet, whois/IP, weather, currency, color, JSON, text, time, random, plus the Ipsum generators | `tools/data/*.json`, `tools/js/*.js` |
 | `archive-site/` | Browse and admin pages for the file archive at `archive.chom.ps` | Cloudflare R2, via `workers/archive-r2.js` |
@@ -57,7 +58,9 @@ The Page Editors tab links to the visual page editor, the WYSIWYG editor and the
 `admin/config.yml` is a leftover Decap CMS config pointing at an old repo (`chomp-chomp-pachewy/chomp`). The current admin does not use it.
 
 ### Editions: `/admin/editions.html`
-Manages `editions.json`. Each item can be placed under **Books** or **Recommended**, marked as an **affiliate** link (independent of section), tagged, made compact, hidden, reordered or deleted. It needs a fine-grained GitHub token with Contents read/write and commits to the branch you choose (default `main`).
+Manages `editions.json`. Items go under **Books** (the main Editions section) or **Recommended** (sorted into named, collapsible groups). Each item can be full, collapsible or compact, show an excerpt with "More", carry tags, and have several buy links, each with its own button text, optional price and affiliate flag (three or more links fold into one "Purchase options" button). It needs a fine-grained GitHub token with Contents read/write and commits to the branch you choose (default `main`). The page shows an "Admin version" label and refuses to save over data written by a newer version, to guard against stale cached copies.
+
+**Cheat sheet:** `/editions/instructions.html` explains every field, how to make a token, description formatting and common errors. It is linked from the top of the admin page.
 
 ### Members board: `/member/`
 A password-protected board for "The Catalan Twelve". Twelve seats, each with its own password. Members post **notes**, **events** and **links**, and reply in threads. Real names never appear: posts are shown under the seat's title (e.g. THE COLD HAND).

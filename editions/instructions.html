@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Editions Cheat Sheet</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#231f1f">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+
+  <style>
+    .help {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+      line-height: 1.6;
+    }
+
+    .help h1 {
+      font-size: 1.6em;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .help h2 {
+      font-size: 1.15em;
+      font-weight: 600;
+      margin: 44px 0 6px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--color-accent);
+    }
+
+    .help h3 {
+      font-size: 0.8em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin: 28px 0 4px;
+    }
+
+    .help p {
+      margin: 0 0 12px;
+    }
+
+    .help .lede {
+      color: var(--color-text-muted);
+      margin-bottom: 18px;
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      font-size: 0.9em;
+      margin-bottom: 22px;
+    }
+
+    .help a {
+      color: var(--color-accent);
+    }
+
+    .help code {
+      background: var(--color-sidebar-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 0 5px;
+      font-size: 0.88em;
+      word-break: break-word;
+    }
+
+    .help pre {
+      background: var(--color-sidebar-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      font-size: 0.85em;
+      line-height: 1.5;
+      margin: 8px 0 16px;
+    }
+
+    .help pre code {
+      background: none;
+      border: 0;
+      padding: 0;
+      word-break: normal;
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 8px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc a {
+      display: inline-block;
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--color-text-muted);
+    }
+
+    .toc a:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .steps {
+      padding-left: 1.3em;
+      margin: 0 0 12px;
+    }
+
+    .steps li {
+      margin-bottom: 8px;
+    }
+
+    /* Field reference: name on the left, explanation on the right (stacked on phones) */
+    dl.fields {
+      margin: 0 0 8px;
+    }
+
+    dl.fields dt {
+      font-weight: 600;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    dl.fields dt:first-child {
+      border-top: 0;
+    }
+
+    dl.fields dd {
+      margin: 2px 0 12px;
+      color: var(--color-text);
+    }
+
+    dl.fields dd .opt {
+      display: block;
+      margin-top: 4px;
+      color: var(--color-text-muted);
+      font-size: 0.92em;
+    }
+
+    @media (min-width: 700px) {
+      dl.fields {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        column-gap: 24px;
+      }
+
+      dl.fields dt,
+      dl.fields dd {
+        border-top: 1px solid var(--color-border);
+        padding: 12px 0;
+        margin: 0;
+      }
+
+      dl.fields dt:first-child,
+      dl.fields dt:first-child + dd {
+        border-top: 0;
+      }
+    }
+
+    .note {
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-sidebar-bg);
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      margin: 12px 0 16px;
+      font-size: 0.95em;
+    }
+
+    .help table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95em;
+      margin: 8px 0 16px;
+    }
+
+    .help th,
+    .help td {
+      text-align: left;
+      vertical-align: top;
+      padding: 8px 10px 8px 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .help th {
+      font-size: 0.8em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      border-top: 0;
+    }
+
+    .help td:first-child {
+      white-space: nowrap;
+      font-weight: 600;
+      padding-right: 16px;
+    }
+
+    @media (max-width: 699px) {
+      .help td:first-child {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<main class="help">
+
+  <div class="topbar">
+    <a href="/admin/editions.html">&larr; Editions admin</a>
+    <a href="/editions.html">View the Editions page</a>
+  </div>
+
+  <h1>Editions cheat sheet</h1>
+  <p class="lede">How to edit the Chomp Chomp Editions page, and what every field does.</p>
+
+  <ul class="toc">
+    <li><a href="#quick">Quick start</a></li>
+    <li><a href="#page">How the page works</a></li>
+    <li><a href="#connect">Connecting</a></li>
+    <li><a href="#settings">Page settings</a></li>
+    <li><a href="#items">Items</a></li>
+    <li><a href="#item-fields">Item fields</a></li>
+    <li><a href="#buy">Buy links</a></li>
+    <li><a href="#writing">Writing descriptions</a></li>
+    <li><a href="#fixes">When something goes wrong</a></li>
+    <li><a href="#habits">Good habits</a></li>
+  </ul>
+
+  <!-- ===================================================== -->
+  <h2 id="quick">Quick start</h2>
+
+  <ol class="steps">
+    <li>Open <a href="/admin/editions.html">chom.ps/admin/editions.html</a>.</li>
+    <li>Paste your GitHub token and click <b>Load</b>. (First time? See <a href="#connect">Connecting</a>.)</li>
+    <li>Click <b>Edit</b> on an item, or <b>+ Add item</b>.</li>
+    <li>Change what you like, then click <b>Apply to list</b>. Nothing is public yet.</li>
+    <li>Click <b>Save &amp; publish</b>. After about a minute, the live page shows the change.</li>
+  </ol>
+
+  <p class="note"><b>Apply to list</b> only changes the page you have open. <b>Save &amp; publish</b> is the step that makes it live. If you close the tab before saving, you lose the changes.</p>
+
+  <h3>Common jobs</h3>
+  <table>
+    <tr><th>I want to&hellip;</th><th>Do this</th></tr>
+    <tr><td>Add a new book</td><td><b>+ Add item</b>. Leave <b>Show under</b> on Books. Fill in at least Title, then add a buy link.</td></tr>
+    <tr><td>Add a second format</td><td>Edit the book, <b>+ Add link</b>, give it button text like &ldquo;Paperback &middot; Amazon&rdquo;.</td></tr>
+    <tr><td>Add a recommendation</td><td><b>+ Add item</b>, set <b>Show under</b> to Recommended, pick a Category.</td></tr>
+    <tr><td>Put a new book first</td><td>Use the &uarr; arrow in the list until it&rsquo;s at the top.</td></tr>
+    <tr><td>Hide something for now</td><td>Edit it and tick <b>Hidden</b>. It stays in your list but disappears from the page.</td></tr>
+    <tr><td>Shorten a long description</td><td>Set <b>How much of the description shows</b> to &ldquo;An excerpt&rdquo;.</td></tr>
+    <tr><td>Remove something</td><td><b>Delete</b> in the list, then <b>Save &amp; publish</b>.</td></tr>
+  </table>
+
+  <!-- ===================================================== -->
+  <h2 id="page">How the page works</h2>
+
+  <p>Visitors see two sections, in this order:</p>
+  <dl class="fields">
+    <dt>Chomp Chomp Editions</dt>
+    <dd>Your own books. These are items with <b>Show under</b> set to &ldquo;Books (main section)&rdquo;.</dd>
+    <dt>Recommended</dt>
+    <dd>Things you like. Items set to Recommended appear here, sorted into the groups you define (such as For Further Reading and Kitchen). Every group starts <b>closed</b>, with a count and a Show button. A group with no items doesn&rsquo;t appear.</dd>
+    <dt>Tag buttons</dt>
+    <dd>The row of small buttons near the top is built from every item&rsquo;s tags. Clicking one shows only matching items and opens the groups that contain them. Click again to clear.</dd>
+    <dt>Disclosure line</dt>
+    <dd>Appears above any section that has an affiliate link. See <a href="#buy">Buy links</a>.</dd>
+  </dl>
+
+  <p>Items appear in the order they are in your list, top to bottom. Hidden items and empty groups are skipped.</p>
+
+  <!-- ===================================================== -->
+  <h2 id="connect">Connecting</h2>
+
+  <dl class="fields">
+    <dt>Repository</dt>
+    <dd>Where the site lives on GitHub. Leave it as <code>chomp-chomp-chomp/chomp</code>.</dd>
+    <dt>Branch</dt>
+    <dd>Which branch to save to. Leave it as <code>main</code>, which is the live site.</dd>
+    <dt>GitHub personal access token</dt>
+    <dd>Your key to save changes. It&rsquo;s a long code starting <code>github_pat_</code>. It is sent only to GitHub, never to this site.</dd>
+    <dt>Remember on this device</dt>
+    <dd>Keeps the token in this browser so you don&rsquo;t paste it every time. Leave it off on a shared or work computer.</dd>
+    <dt>Load</dt>
+    <dd>Reads the current list from GitHub. Always click this first.</dd>
+  </dl>
+
+  <h3>Making a token (once, or when it expires)</h3>
+  <ol class="steps">
+    <li>On GitHub: your profile picture &rarr; <b>Settings</b> &rarr; <b>Developer settings</b> &rarr; <b>Personal access tokens</b> &rarr; <b>Fine-grained tokens</b> &rarr; <b>Generate new token</b>.</li>
+    <li>Name it (for example &ldquo;Editions admin&rdquo;) and pick an expiration date.</li>
+    <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick <code>chomp-chomp-chomp/chomp</code>.</li>
+    <li>Under <b>Repository permissions</b>, set <b>Contents</b> to <b>Read and write</b>. Leave everything else alone.</li>
+    <li>Click <b>Generate token</b> and copy it right away. GitHub only shows it once.</li>
+  </ol>
+
+  <!-- ===================================================== -->
+  <h2 id="settings">Page settings</h2>
+  <p>These sit at the top of the editor, above the item list.</p>
+
+  <dl class="fields">
+    <dt>Page intro</dt>
+    <dd>The line of text under the header art on the Editions page.</dd>
+    <dt>Affiliate disclosure</dt>
+    <dd>The sentence shown above any section that contains an affiliate link. It should say that you may earn a commission, and for Amazon links it needs: <i>&ldquo;As an Amazon Associate I earn from qualifying purchases.&rdquo;</i></dd>
+    <dt>Recommended groups</dt>
+    <dd>
+      One group per line, in the order they appear on the page. Write <code>Name | short description</code>. The description shows under the group&rsquo;s name and is optional.
+<pre><code>For Further Reading | These books hold up on their own merits.
+Kitchen | Tools and equipment I use and trust.
+Other</code></pre>
+      <span class="opt">An item with no group, or a group that isn&rsquo;t in this list, lands under &ldquo;Other&rdquo;. Renaming a group here does not rename it on items already in it. Open those items and pick the new name.</span>
+    </dd>
+  </dl>
+
+  <!-- ===================================================== -->
+  <h2 id="items">Items</h2>
+
+  <p>Each row in the list is one book or recommendation. Small tags beside the title show how it is set up (recommended, collapsible, affiliate, and so on).</p>
+
+  <dl class="fields">
+    <dt>&uarr; &darr;</dt>
+    <dd>Move the item up or down. This changes the order on the page.</dd>
+    <dt>Edit</dt>
+    <dd>Opens the item&rsquo;s form below the list.</dd>
+    <dt>Delete</dt>
+    <dd>Removes the item from your list (it asks first). It is gone from the page once you Save &amp; publish.</dd>
+    <dt>+ Add item</dt>
+    <dd>Starts a blank item.</dd>
+  </dl>
+
+  <!-- ===================================================== -->
+  <h2 id="item-fields">Item fields</h2>
+
+  <h3>Basics</h3>
+  <dl class="fields">
+    <dt>Title *</dt>
+    <dd>Required. The only field you must fill in.</dd>
+    <dt>Author</dt>
+    <dd>Shown under the title, followed by the Details if you add them: &ldquo;Donnie Boman &middot; Hardcover&rdquo;.</dd>
+    <dt>Tags</dt>
+    <dd>Comma-separated words, like <code>baking, bookshelf, C12 Bibliography</code>. They become the filter buttons near the top of the page, and show on the item itself (except on Compact items). Use the same spelling every time, because &ldquo;Baking&rdquo; and &ldquo;baking&rdquo; are different buttons.</dd>
+  </dl>
+
+  <h3>Where it shows</h3>
+  <dl class="fields">
+    <dt>Show under</dt>
+    <dd><b>Books (main section)</b> puts it under Chomp Chomp Editions. <b>Recommended</b> puts it in the Recommended groups.</dd>
+    <dt>Category</dt>
+    <dd>Appears only for Recommended items. Picks which group the item sits in.</dd>
+    <dt>Hidden</dt>
+    <dd>Keeps the item in your list but removes it from the page, and removes its tags from the tag buttons. Handy for drafts.</dd>
+  </dl>
+
+  <h3>How much shows</h3>
+  <dl class="fields">
+    <dt>Display</dt>
+    <dd>
+      <b>Full</b>: cover, text and buy buttons all showing.<br>
+      <b>Collapsible</b>: title, author, tags and buy buttons show. The cover and description sit behind a <b>More</b> link.<br>
+      <b>Compact</b>: one tidy line with the title, author and links. Everything else is hidden, so the fields below don&rsquo;t apply.
+      <span class="opt">Compact is good for long lists of recommendations. Collapsible is good for books with a lot of text.</span>
+    </dd>
+    <dt>How much of the description shows</dt>
+    <dd>
+      <b>All of it</b>, or <b>An excerpt</b> with the rest behind <b>More</b>. The excerpt is the first paragraph. To end it somewhere else, put <code>--more--</code> on a line by itself. Everything above shows, everything below is behind More. A single-paragraph description has nothing to hide, so no More link appears.
+    </dd>
+  </dl>
+
+  <h3>Content (hidden when Display is Compact)</h3>
+  <dl class="fields">
+    <dt>Subtitle</dt>
+    <dd>A smaller line under the title.</dd>
+    <dt>Status badge</dt>
+    <dd>A small red label above the title, such as <i>Available</i> or <i>Coming soon</i>. Leave blank for none.</dd>
+    <dt>Details</dt>
+    <dd>Format and length, shown after the author. For example <i>Hardcover, 240 pp.</i></dd>
+    <dt>Cover image URL</dt>
+    <dd>The web address of the cover image (starts with <code>https://</code>). Right-click a cover on your own image host and copy the image address. Shown beside the text on a computer and above it on a phone. On Collapsible items, it appears when More is opened.</dd>
+    <dt>Description</dt>
+    <dd>The text. A blank line starts a new paragraph. You can add links and light formatting; see <a href="#writing">Writing descriptions</a>.</dd>
+  </dl>
+
+  <!-- ===================================================== -->
+  <h2 id="buy">Buy links</h2>
+
+  <p>Each link becomes one button. Keep these for <b>places to buy</b>. Put reviews and extra reading in the description instead.</p>
+
+  <dl class="fields">
+    <dt>Button text</dt>
+    <dd>What the button says. Name the format and the store: <i>Hardcover &middot; Lulu</i>, <i>Paperback &middot; Amazon</i>.</dd>
+    <dt>Price (optional)</dt>
+    <dd>Shows small inside the button, such as <i>$28 + shipping</i>. <span class="opt">For Amazon, leave it off unless you keep it current. Amazon&rsquo;s rules restrict showing prices that may be out of date.</span></dd>
+    <dt>Affiliate</dt>
+    <dd>Tick this on links that earn you a commission. It adds a visible &ldquo;affiliate link&rdquo; label, marks the link for search engines as sponsored, and makes the disclosure line appear above that section. Leave it unticked for your own Lulu and plain links.</dd>
+    <dt>Link address</dt>
+    <dd>The full web address, starting <code>https://</code>.</dd>
+    <dt>+ Add link / &times;</dt>
+    <dd>Add another button, or remove one.</dd>
+    <dt>How the buy links appear</dt>
+    <dd>
+      <b>Automatic</b>: 1 or 2 links show as separate buttons. 3 or more fold into one <b>Purchase options</b> button that opens a list with each format, store and price.<br>
+      <b>Always separate buttons</b>: never fold them.<br>
+      <b>Always one &ldquo;Purchase options&rdquo; button</b>: folds even 2 links.
+    </dd>
+  </dl>
+
+  <p class="note"><b>Disclosure reminder.</b> The disclosure line shows when any link is marked Affiliate, and also when a description contains an Amazon link. If you use Amazon Associates, keep the &ldquo;As an Amazon Associate&hellip;&rdquo; sentence in the Affiliate disclosure box.</p>
+
+  <!-- ===================================================== -->
+  <h2 id="writing">Writing descriptions</h2>
+
+  <table>
+    <tr><th>You type</th><th>You get</th></tr>
+    <tr><td><code>[a review](https://example.com)</code></td><td>A link that reads &ldquo;a review&rdquo;.</td></tr>
+    <tr><td><code>&lt;a href="https://example.com"&gt;a review&lt;/a&gt;</code></td><td>The same link, written as HTML.</td></tr>
+    <tr><td><code>**bold**</code></td><td><b>bold</b></td></tr>
+    <tr><td><code>*italic*</code></td><td><i>italic</i></td></tr>
+    <tr><td>a blank line</td><td>A new paragraph.</td></tr>
+    <tr><td>a single line break</td><td>A line break inside the same paragraph.</td></tr>
+    <tr><td><code>--more--</code> on its own line</td><td>The end of the excerpt (when using excerpt mode).</td></tr>
+  </table>
+
+  <ul>
+    <li>Links open in a new tab. Only <code>https://</code>, <code>http://</code> and <code>mailto:</code> links work.</li>
+    <li>Any other HTML (images, scripts, styling) is shown as plain text, on purpose. This keeps the page safe if you paste a blurb from somewhere else.</li>
+    <li>A link address that contains a closing bracket <code>)</code> needs <code>%29</code> instead of it.</li>
+    <li>Amazon links in a description are treated as possible affiliate links.</li>
+  </ul>
+
+  <h3>Example: an excerpt with a review link</h3>
+<pre><code>Twelve recipes, one conspiracy, and a reading list that
+isn't lying to you about everything.
+
+--more--
+Longer story about where the recipes came from.
+
+Read [the first review](https://example.com/review).</code></pre>
+
+  <!-- ===================================================== -->
+  <h2 id="fixes">When something goes wrong</h2>
+
+  <p>The bar at the bottom of the admin says what happened. These are the usual messages:</p>
+
+  <table>
+    <tr><th>You see</th><th>What it means and what to do</th></tr>
+    <tr><td>Rejected the token</td><td>The token expired, was revoked, or was pasted wrong. <a href="#connect">Make a new one.</a></td></tr>
+    <tr><td>Allowed to read but not change</td><td>The token is missing <b>Contents: Read and write</b>, or doesn&rsquo;t include this repository. Fix it on GitHub, or make a new token.</td></tr>
+    <tr><td>Can&rsquo;t find the file, branch or repository</td><td>Check the Repository and Branch boxes. A token that doesn&rsquo;t include the repo gives this message too.</td></tr>
+    <tr><td>File changed since you loaded it</td><td>Something else saved first (another tab, or an edit on GitHub). Reload, then redo your change.</td></tr>
+    <tr><td>Branch protection rule</td><td>GitHub won&rsquo;t accept saves straight to that branch. Use a different branch or ask for the rule to be changed.</td></tr>
+    <tr><td>Admin page is out of date</td><td>Your browser is showing an old copy. Saving is switched off to protect your data. Add <code>?v=2</code> to the end of the address and try again.</td></tr>
+    <tr><td>&ldquo;[object Object]&rdquo; in the groups box</td><td>Also an old cached copy. Don&rsquo;t save. Reload with <code>?v=3</code> on the end.</td></tr>
+  </table>
+
+  <h3>Your change isn&rsquo;t showing on the live page</h3>
+  <ul>
+    <li>Wait a minute or two after saving. The site has to rebuild.</li>
+    <li>Then hard-refresh, or add <code>?v=1</code> to the end of the page address. Phones hold on to old copies.</li>
+    <li>Check the item isn&rsquo;t <b>Hidden</b>, and that you clicked <b>Save &amp; publish</b>, not just Apply to list.</li>
+  </ul>
+
+  <p>You can tell which version of the admin you have from the &ldquo;Admin version&rdquo; label under its title.</p>
+
+  <!-- ===================================================== -->
+  <h2 id="habits">Good habits</h2>
+
+  <ul>
+    <li><b>Load</b> before you start, and <b>Save &amp; publish</b> when you&rsquo;re done. Avoid editing in two tabs at once.</li>
+    <li>Keep buy buttons for buying, and put reviews and further reading in the description.</li>
+    <li>Tick <b>Affiliate</b> only on links that really earn you something, and keep the disclosure sentence accurate.</li>
+    <li>Use the same spelling for tags and group names.</li>
+    <li>Don&rsquo;t leave the token remembered on a shared computer.</li>
+  </ul>
+
+</main>
+
+</body>
+</html>
