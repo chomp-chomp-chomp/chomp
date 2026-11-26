@@ -56,7 +56,8 @@ export const canTouch = (user, authorId) => user.admin || user.id === authorId;
 
 // ---- "The Twelve" page ------------------------------------------------------
 // Plain text, edited by the admin in the page. Blocks are separated by blank lines:
-//   blocks before the first SEAT = opening, SEAT blocks = seats, blocks after = closing.
+//   blocks before the first SEAT = opening, SEAT blocks (and one optional "AUTHOR ≃ TITLE" block)
+//   = entries, blocks after = closing.
 export const DEFAULT_ABOUT = `THE CATALAN TWELVE ≃ MEMBERS
 
 Twelve seats. No names. The ledger is kept by hand, and the hand is not here.
@@ -109,6 +110,10 @@ SEAT 12 ≃ THE SEAL
 Ledger: Not recorded ≃ Seal: Unverified, present
 It was here before the paper.
 
+AUTHOR ≃ THE AUTHOR
+Ledger: Held in the other hand ≃ Seal: Withheld
+Writes it down afterward. Is never in the room when it happens.
+
 There is no secret. The secret is waiting.
 
 No charter survives. This page is not one.
@@ -120,15 +125,15 @@ export function parseAbout(text) {
     .map((b) => b.split('\n').map((l) => l.trim()).filter(Boolean)).filter((b) => b.length);
   const header = [], seats = [], footer = [];
   for (const lines of blocks) {
-    const m = lines[0].match(/^SEAT\s+(\d{1,2})\s*[≃≈~:\-–—]\s*(.+)$/i);
+    const m = lines[0].match(/^(?:SEAT\s+(\d{1,2})|(AUTHOR))\s*[≃≈~:\-–—]\s*(.+)$/i);
     if (!m) { (seats.length ? footer : header).push(lines); continue; }
-    const n = Number(m[1]);
-    if (n < 1 || n > 12) return { error: `Seat ${n}: seats run from 1 to 12.` };
-    if (seats.some((s) => s.n === n)) return { error: `Seat ${n} appears twice.` };
+    const n = m[2] ? 'admin' : Number(m[1]);
+    if (n !== 'admin' && (n < 1 || n > 12)) return { error: `Seat ${n}: seats run from 1 to 12.` };
+    if (seats.some((s) => s.n === n)) return { error: `${n === 'admin' ? 'The AUTHOR entry' : 'Seat ' + n} appears twice.` };
     let rest = lines.slice(1), ledger = '', seal = '';
     const lm = rest[0] && rest[0].match(/^Ledger:\s*(.*?)\s*[≃≈~]\s*Seal:\s*(.*)$/i);
     if (lm) { ledger = lm[1]; seal = lm[2]; rest = rest.slice(1); }
-    seats.push({ n, title: m[2].trim().slice(0, 60), ledger, seal, lines: rest });
+    seats.push({ n, title: m[3].trim().slice(0, 60), ledger, seal, lines: rest });
   }
   return { header, seats, footer };
 }
