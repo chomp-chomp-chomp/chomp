@@ -49,7 +49,7 @@
     .link-row .l-price { flex: 0 0 22%; min-width: 110px; }
     .link-row .l-aff { margin: 0; white-space: nowrap; }
     .link-row .l-url { flex: 1 1 100%; }
-    #status { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px; background: var(--panel);
+    #status { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px; background: var(--panel); max-height: 40vh; overflow-y: auto; line-height: 1.4;
       border-top: 1px solid var(--border); font-size: 0.9em; }
     #status.err { color: var(--accent); }
     .hidden { display: none; }
@@ -58,7 +58,7 @@
 <body>
 <main>
   <h1>Editions Admin</h1>
-  <p class="hint">Edits <code>editions.json</code> and commits it to GitHub. The live page updates after the site redeploys. <span id="ver" style="white-space:nowrap">Admin version 2</span></p>
+  <p class="hint">Edits <code>editions.json</code> and commits it to GitHub. The live page updates after the site redeploys. <span id="ver" style="white-space:nowrap">Admin version 2.2</span> &middot; <a href="/editions/instructions.html" target="_blank" rel="noopener" style="color:var(--accent);white-space:nowrap">Cheat sheet: how everything works &#8599;</a></p>
 
   <section class="panel" id="connect">
     <div class="row">
@@ -194,11 +194,28 @@
   const toB64 = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
   const fromB64 = (b) => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, '')), (c) => c.charCodeAt(0)));
 
+  // Turn a failed GitHub response into plain English, with GitHub's own message appended
+  async function explain(res, saving) {
+    let gh = '';
+    try { gh = ((await res.clone().json()).message || '').replace(/\.\s*$/, ''); } catch {}
+    const tail = gh ? ` GitHub says: \u201c${gh}\u201d.` : '';
+    const s = res.status;
+    if (s === 401) return 'GitHub rejected the token: it has expired, been revoked, or was pasted wrong. Make a new token on GitHub and paste it above.' + tail;
+    if (s === 403 && /rate limit/i.test(gh)) return 'GitHub is asking you to slow down (rate limit). Wait a few minutes and try again.' + tail;
+    if (s === 403 && /protected|rule|pull request|status check/i.test(gh)) return 'The branch has a protection rule that blocks saving straight to it. Try a different branch, or change the rule on GitHub.' + tail;
+    if (s === 403) return (saving
+      ? 'This token is allowed to read the repo but not to change it. In the token\u2019s settings on GitHub, make sure this repository is selected and Contents is set to \u201cRead and write\u201d, or make a new token.'
+      : 'GitHub refused access with this token. Check that the repository is selected on the token and that Contents access is on.') + tail;
+    if (s === 404) return 'GitHub can\u2019t find the file, branch or repository, or the token isn\u2019t allowed to see it. Check the repository name, the branch, and that the token includes this repo.' + tail;
+    if (saving && (s === 409 || s === 422)) return 'The file changed on GitHub since you loaded it. Reload and redo your edit.' + tail;
+    return `${saving ? 'Save' : 'Load'} failed (${s}).` + tail;
+  }
+
   async function load() {
     say('Loading…');
     try {
       const res = await api(`editions.json?ref=${encodeURIComponent($('branch').value.trim())}`);
-      if (!res.ok) throw new Error(`GitHub said ${res.status}. Check token, repo and branch.`);
+      if (!res.ok) throw new Error(await explain(res, false));
       const j = await res.json();
       sha = j.sha;
       data = JSON.parse(fromB64(j.content));
@@ -233,12 +250,7 @@
           branch: $('branch').value.trim()
         })
       });
-      if (!res.ok) {
-        const msg = res.status === 409 || res.status === 422
-          ? 'The file changed on GitHub since you loaded it. Reload and redo your edit.'
-          : `Save failed (${res.status}).`;
-        throw new Error(msg);
-      }
+      if (!res.ok) throw new Error(await explain(res, true));
       sha = (await res.json()).content.sha;
       setDirty(false); say('Saved. The live page updates after the site redeploys.');
     } catch (e) { say(e.message, true); }
