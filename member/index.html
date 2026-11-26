@@ -99,6 +99,8 @@
   const meEl = document.getElementById('me');
   let me = { id: '', admin: false }, labels = {}, about = null;
   const who = (id) => labels[id] || id;
+  // The DOM's replaceChildren prints null as the text "null"; drop empty slots first.
+  const show = (...nodes) => view.replaceChildren(...nodes.flat().filter((n) => n != null));
   const canTouch = (authorId) => me.admin || me.id === authorId;
 
   const state = { filter: 'all', q: '', entries: null };
@@ -205,7 +207,7 @@
       replies.push(r.data); drawEntry(e, replies);
     } }, 'Reply');
 
-    view.replaceChildren(
+    show(
       back(),
       h('h2', {}, e.pinned ? h('span', { class: 'pin' }, '📌') : null, h('span', { class: 'badge' }, TYPES[e.type].label), e.title),
       h('div', { class: 'meta' }, h('span', { class: 'who-name' }, who(e.author)), ' · ' + when(e.created) + edited),
@@ -295,10 +297,11 @@
   function showTwelve() {
     const p = about.parsed;
     const para = (lines) => lines.join('\n');
-    const seats = p.seats.slice().sort((a, b) => a.n - b.n).map((s) => {
+    const rank = (n) => (n === 'admin' ? 99 : n);
+    const seats = p.seats.slice().sort((a, b) => rank(a.n) - rank(b.n)).map((s) => {
       const mine = String(s.n) === me.id;
       return h('div', { class: 'seat' + (mine ? ' mine' : '') },
-        h('div', { class: 'st' }, 'SEAT ' + s.n + ' ≃ ' + s.title, mine ? h('i', {}, 'your seat') : null),
+        h('div', { class: 'st' }, (s.n === 'admin' ? 'AUTHOR' : 'SEAT ' + s.n) + ' ≃ ' + s.title, mine ? h('i', {}, s.n === 'admin' ? 'you' : 'your seat') : null),
         s.ledger || s.seal ? h('div', { class: 'ledger' }, 'Ledger: ' + s.ledger + ' ≃ Seal: ' + s.seal) : null,
         s.lines.length ? h('p', {}, para(s.lines)) : null);
     });
@@ -323,7 +326,7 @@
       about = r.data; labels = r.data.labels; location.hash = '#twelve';
     } }, 'Save');
     view.replaceChildren(
-      h('p', { class: 'meta' }, 'Blocks are separated by a blank line. Lines before the first SEAT are the opening (first line is the title); lines after the last SEAT are the closing. Each seat is: "SEAT 3 ≃ THE TITLE", then optionally "Ledger: … ≃ Seal: …", then its description. Seat titles are what members appear as on the board.'),
+      h('p', { class: 'meta' }, 'Blocks are separated by a blank line. Lines before the first SEAT are the opening (first line is the title); lines after the last SEAT are the closing. Each seat is: "SEAT 3 ≃ THE TITLE", then optionally "Ledger: … ≃ Seal: …", then its description. Your own entry starts "AUTHOR ≃ THE TITLE" and is shown after the seats. Titles are what people appear as on the board.'),
       ta, h('div', { class: 'actions' }, save, h('button', { onclick: () => { location.hash = '#twelve'; } }, 'Cancel')), msg);
   }
 
