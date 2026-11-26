@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Members · Chomp Chomp</title>
+  <style>
+    :root { --bg:#fdfdfd; --text:#353535; --muted:#666; --accent:#e73b42; --border:#e0e0e0; --panel:#f5f5f5; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#231f1f; --text:#d9d4d4; --muted:#a0a0a0; --accent:#ff6b7a; --border:#3b3636; --panel:#2b2626; }
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font:15px/1.5 Inter, system-ui, sans-serif; background:var(--bg); color:var(--text); }
+    main { max-width:760px; margin:0 auto; padding:20px 16px 80px; }
+    a { color:var(--accent); }
+    h1 { font-size:1.3em; font-weight:600; margin:0; }
+    h2 { font-size:1.25em; margin:6px 0; }
+    h3 { font-size:.95em; margin:22px 0 8px; }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+    .who { display:flex; align-items:center; gap:6px; font-size:.85em; color:var(--muted); }
+    .who input { width:130px; }
+    form { margin:0; }
+    input, textarea, select { font:inherit; color:var(--text); background:var(--bg);
+      border:1px solid var(--border); border-radius:6px; padding:7px 10px; width:100%; }
+    textarea { min-height:110px; resize:vertical; line-height:1.55; }
+    label { display:block; font-size:.8em; font-weight:600; margin:12px 0 3px; }
+    button { font:inherit; font-size:.9em; padding:6px 13px; border-radius:6px; cursor:pointer;
+      border:1px solid var(--border); background:transparent; color:var(--text); }
+    button.accent { border-color:var(--accent); color:var(--accent); }
+    button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+    button.danger { border-color:var(--accent); color:var(--accent); }
+    button:disabled { opacity:.5; cursor:default; }
+    .tools { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:12px; }
+    .tools input[type=search] { flex:1; min-width:140px; width:auto; }
+    .chip { border-radius:999px; padding:3px 12px; font-size:.82em; }
+    .chip.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+    .card { display:block; width:100%; text-align:left; background:var(--panel); border:1px solid var(--border);
+      border-radius:8px; padding:12px 14px; margin:0 0 10px; cursor:pointer; }
+    .card:hover { border-color:var(--accent); }
+    .card .t { font-weight:600; }
+    .meta { color:var(--muted); font-size:.82em; }
+    .badge { display:inline-block; font-size:.7em; letter-spacing:.04em; text-transform:uppercase;
+      border:1px solid var(--border); border-radius:4px; padding:0 6px; margin-right:6px; color:var(--muted); vertical-align:1px; }
+    .pin { color:var(--accent); margin-right:4px; }
+    .body { white-space:pre-wrap; overflow-wrap:anywhere; margin:12px 0; }
+    .fields { display:grid; grid-template-columns:auto 1fr; gap:2px 12px; margin:10px 0; font-size:.92em; }
+    .fields b { color:var(--muted); font-weight:500; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0; }
+    .reply { border-top:1px solid var(--border); padding:10px 0; }
+    .reply .body { margin:4px 0 0; }
+    .reply .x { float:right; padding:0 8px; border:0; color:var(--muted); }
+    .msg { color:var(--muted); font-size:.85em; min-height:1.4em; margin-top:8px; }
+    .msg.err { color:var(--accent); }
+    .empty { color:var(--muted); text-align:center; padding:40px 0; }
+    .nav { display:flex; gap:6px; margin:0 0 16px; }
+    .nav a { text-decoration:none; color:var(--muted); font-size:.85em; letter-spacing:.06em; text-transform:uppercase;
+      padding:4px 12px; border:1px solid var(--border); border-radius:999px; }
+    .nav a.on { color:#fff; background:var(--accent); border-color:var(--accent); }
+    .me { font-size:.8em; color:var(--muted); letter-spacing:.05em; }
+    .who-name { letter-spacing:.04em; }
+    .twelve h2 { letter-spacing:.08em; font-size:1.15em; margin:4px 0 8px; }
+    .twelve .lead { color:var(--muted); margin:0 0 18px; white-space:pre-line; }
+    .seat { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin:0 0 10px; }
+    .seat.mine { border-color:var(--accent); }
+    .seat .st { font-weight:600; letter-spacing:.06em; font-size:.9em; }
+    .seat .st i { font-style:normal; color:var(--accent); font-weight:500; font-size:.8em; margin-left:8px; }
+    .seat .ledger { color:var(--muted); font-size:.78em; letter-spacing:.03em; margin:2px 0 6px; }
+    .seat p { margin:0; white-space:pre-line; }
+    .coda { color:var(--muted); margin:18px 0 0; white-space:pre-line; font-size:.92em; }
+    .editor { width:100%; min-height:60vh; font-family:ui-monospace, Menlo, Consolas, monospace; font-size:.85em; line-height:1.5; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <h1><a href="#" style="color:inherit;text-decoration:none">Members</a></h1>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <span class="me" id="me"></span>
+      <form method="POST" action="/member/logout"><button type="submit">Log out</button></form>
+    </div>
+  </div>
+  <nav class="nav"><a id="nav-board" href="#">Board</a><a id="nav-twelve" href="#twelve">The Twelve</a></nav>
+  <div id="view"></div>
+</main>
+<script>
+(() => {
+  // Keep field keys in sync with TYPES in functions/member/_lib/board.js
+  const TYPES = {
+    note:  { label: 'Note',  fields: [] },
+    event: { label: 'Event', fields: [
+      { k: 'date', label: 'Date', input: 'date' },
+      { k: 'time', label: 'Time', input: 'text', ph: 'e.g. 7pm' },
+      { k: 'location', label: 'Location', input: 'text' } ] },
+    link:  { label: 'Link',  fields: [{ k: 'url', label: 'URL', input: 'url', ph: 'https://', required: true }] },
+  };
+
+  const view = document.getElementById('view');
+  const meEl = document.getElementById('me');
+  let me = { id: '', admin: false }, labels = {}, about = null;
+  const who = (id) => labels[id] || id;
+  const canTouch = (authorId) => me.admin || me.id === authorId;
+
+  const state = { filter: 'all', q: '', entries: null };
+
+  // ---- helpers ----
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (k === 'class') el.className = v;
+      else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+      else if (v !== false && v != null) el.setAttribute(k, v === true ? '' : v);
+    }
+    for (const kid of kids.flat()) if (kid != null) el.append(kid.nodeType ? kid : document.createTextNode(kid));
+    return el;
+  }
+  const when = (t) => new Date(t).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+  const prettyDate = (d) => { const [y, m, day] = d.split('-').map(Number); return new Date(y, m - 1, day).toLocaleDateString([], { dateStyle: 'medium' }); };
+
+  function linkify(text) {
+    const frag = document.createDocumentFragment();
+    text.split(/(https?:\/\/[^\s<]+)/g).forEach((part, i) => {
+      if (i % 2) frag.append(h('a', { href: part, target: '_blank', rel: 'noopener noreferrer' }, part));
+      else frag.append(part);
+    });
+    return frag;
+  }
+
+  async function api(path, opts = {}) {
+    const res = await fetch('/member/api' + path, {
+      credentials: 'same-origin',
+      headers: opts.body ? { 'Content-Type': 'application/json' } : undefined,
+      ...opts, body: opts.body ? JSON.stringify(opts.body) : undefined,
+    });
+    if (res.status === 401) { location.reload(); return { ok: false, status: 401, data: {} }; }
+    const data = await res.json().catch(() => ({}));
+    return { ok: res.ok, status: res.status, data };
+  }
+
+  // ---- list ----
+  async function showList() {
+    view.replaceChildren(h('p', { class: 'msg' }, 'Loading…'));
+    if (!state.entries) {
+      const r = await api('/entries');
+      if (!r.ok) { view.replaceChildren(h('p', { class: 'msg err' }, r.data.error || 'Could not load (' + r.status + ')')); return; }
+      state.entries = r.data.entries;
+    }
+    drawList();
+  }
+
+  function drawList() {
+    const chips = ['all', ...Object.keys(TYPES)].map((k) =>
+      h('button', { class: 'chip' + (state.filter === k ? ' on' : ''), onclick: () => { state.filter = k; drawList(); } },
+        k === 'all' ? 'All' : TYPES[k].label + 's'));
+    const search = h('input', { type: 'search', placeholder: 'Search titles', value: state.q,
+      oninput: (e) => { state.q = e.target.value; drawCards(); } });
+    const cards = h('div');
+    function drawCards() {
+      const list = state.entries
+        .filter((e) => (state.filter === 'all' || e.type === state.filter) && (!state.q || e.title.toLowerCase().includes(state.q.toLowerCase())))
+        .sort((a, b) => (b.pinned - a.pinned) || (b.updated - a.updated));
+      cards.replaceChildren(...(list.length ? list.map(card) : [h('p', { class: 'empty' }, state.entries.length ? 'Nothing matches.' : 'No posts yet. Be the first.')]));
+    }
+    function card(e) {
+      const sub = [who(e.author), when(e.updated)];
+      if (e.type === 'event' && e.date) sub.unshift(prettyDate(e.date));
+      return h('button', { class: 'card', onclick: () => { location.hash = '#e/' + e.id; } },
+        h('div', { class: 't' }, e.pinned ? h('span', { class: 'pin' }, '📌') : null, h('span', { class: 'badge' }, TYPES[e.type].label), e.title),
+        h('div', { class: 'meta' }, sub.join(' · ')));
+    }
+    drawCards();
+    view.replaceChildren(
+      h('div', { class: 'tools' }, chips, search, h('button', { class: 'primary', onclick: () => { location.hash = '#new'; } }, 'New post')),
+      cards);
+  }
+
+  // ---- detail ----
+  async function showEntry(id) {
+    view.replaceChildren(h('p', { class: 'msg' }, 'Loading…'));
+    const r = await api('/entries/' + id);
+    if (!r.ok) { view.replaceChildren(back(), h('p', { class: 'msg err' }, r.status === 404 ? 'That post no longer exists.' : 'Could not load.')); return; }
+    drawEntry(r.data.entry, r.data.replies);
+  }
+  const back = () => h('a', { href: '#' }, '← All posts');
+
+  function drawEntry(e, replies) {
+    const msg = h('p', { class: 'msg' });
+    const fieldRows = TYPES[e.type].fields.filter((f) => e.fields[f.k]).flatMap((f) => {
+      const v = e.fields[f.k];
+      const val = f.k === 'url' ? h('a', { href: v, target: '_blank', rel: 'noopener noreferrer' }, v)
+        : f.k === 'date' ? prettyDate(v) : v;
+      return [h('b', {}, f.label), h('span', {}, val)];
+    });
+    const edited = e.editedBy && e.updated !== e.created ? ' · edited by ' + who(e.editedBy) : '';
+
+    const replyBox = h('textarea', { maxlength: 2000, placeholder: 'Write a reply…', style: 'min-height:70px' });
+    const replyMsg = h('p', { class: 'msg' });
+    const replyBtn = h('button', { class: 'primary', onclick: async () => {
+      const body = replyBox.value.trim();
+      if (!body) return;
+      replyBtn.disabled = true;
+      const r = await api('/entries/' + e.id + '/replies', { method: 'POST', body: { body } });
+      replyBtn.disabled = false;
+      if (!r.ok) { replyMsg.textContent = r.data.error || 'Could not post.'; replyMsg.className = 'msg err'; return; }
+      replies.push(r.data); drawEntry(e, replies);
+    } }, 'Reply');
+
+    view.replaceChildren(
+      back(),
+      h('h2', {}, e.pinned ? h('span', { class: 'pin' }, '📌') : null, h('span', { class: 'badge' }, TYPES[e.type].label), e.title),
+      h('div', { class: 'meta' }, h('span', { class: 'who-name' }, who(e.author)), ' · ' + when(e.created) + edited),
+      fieldRows.length ? h('div', { class: 'fields' }, fieldRows) : null,
+      e.body ? h('div', { class: 'body' }, linkify(e.body)) : null,
+      canTouch(e.author) || me.admin ? h('div', { class: 'actions' },
+        canTouch(e.author) ? h('button', { onclick: () => { location.hash = '#edit/' + e.id; } }, 'Edit') : null,
+        me.admin ? h('button', { onclick: async () => {
+          const r = await api('/entries/' + e.id, { method: 'PUT', body: { ...e, pinned: !e.pinned, base: e.updated } });
+          if (!r.ok) { msg.textContent = r.status === 409 ? 'Someone changed this. Reload.' : (r.data.error || 'Failed'); msg.className = 'msg err'; return; }
+          state.entries = null; drawEntry(r.data, replies);
+        } }, e.pinned ? 'Unpin' : 'Pin') : null,
+        canTouch(e.author) ? h('button', { class: 'danger', onclick: async () => {
+          if (!confirm('Delete this post and its replies for everyone?')) return;
+          const r = await api('/entries/' + e.id, { method: 'DELETE' });
+          if (!r.ok) { msg.textContent = r.data.error || 'Failed'; msg.className = 'msg err'; return; }
+          state.entries = null; location.hash = '';
+        } }, 'Delete') : null) : null,
+      msg,
+      h('h3', {}, replies.length ? replies.length + (replies.length === 1 ? ' reply' : ' replies') : 'Replies'),
+      ...replies.map((r) => h('div', { class: 'reply' },
+        !canTouch(r.author) ? null : h('button', { class: 'x', title: 'Delete reply', onclick: async () => {
+          if (!confirm('Delete this reply?')) return;
+          await api('/entries/' + e.id + '/replies?rid=' + encodeURIComponent(r.id), { method: 'DELETE' });
+          drawEntry(e, replies.filter((x) => x.id !== r.id));
+        } }, '×'),
+        h('div', { class: 'meta' }, h('span', { class: 'who-name' }, who(r.author)), ' · ' + when(r.created)),
+        h('div', { class: 'body' }, linkify(r.body)))),
+      replyBox, h('div', { class: 'actions' }, replyBtn), replyMsg);
+  }
+
+  // ---- compose / edit ----
+  async function showForm(id) {
+    let e = null;
+    if (id) {
+      const r = await api('/entries/' + id);
+      if (!r.ok) { view.replaceChildren(back(), h('p', { class: 'msg err' }, 'Could not load.')); return; }
+      e = r.data.entry;
+    }
+    let type = e ? e.type : 'note';
+    const typeSel = h('select', { disabled: !!e, onchange: () => { type = typeSel.value; drawFields(); } },
+      Object.entries(TYPES).map(([k, t]) => h('option', { value: k, selected: k === type }, t.label)));
+    const title = h('input', { maxlength: 120, value: e ? e.title : '' });
+    const body = h('textarea', { maxlength: 20000 }, e ? e.body : '');
+    const fieldsBox = h('div');
+    const inputs = {};
+    const keep = e ? { ...e.fields } : {};
+    function drawFields() {
+      for (const k of Object.keys(inputs)) keep[k] = inputs[k].value;
+      fieldsBox.replaceChildren();
+      for (const f of TYPES[type].fields) {
+        inputs[f.k] = h('input', { type: f.input, maxlength: 200, placeholder: f.ph || '', required: !!f.required, value: keep[f.k] || '' });
+        fieldsBox.append(h('label', {}, f.label), inputs[f.k]);
+      }
+    }
+    drawFields();
+    const msg = h('p', { class: 'msg' });
+    const save = h('button', { class: 'primary', type: 'submit' }, e ? 'Save changes' : 'Post');
+    const form = h('form', { onsubmit: async (ev) => {
+      ev.preventDefault();
+      const fields = {};
+      for (const f of TYPES[type].fields) fields[f.k] = inputs[f.k].value;
+      save.disabled = true; msg.textContent = 'Saving…'; msg.className = 'msg';
+      const payload = { type, title: title.value, body: body.value, fields, pinned: e ? e.pinned : false };
+      const r = e ? await api('/entries/' + e.id, { method: 'PUT', body: { ...payload, base: e.updated } })
+                  : await api('/entries', { method: 'POST', body: payload });
+      save.disabled = false;
+      if (!r.ok) {
+        msg.textContent = r.status === 409 ? 'Someone else edited this first. Copy your text, reload, and redo your change.' : (r.data.error || 'Save failed');
+        msg.className = 'msg err'; return;
+      }
+      state.entries = null;
+      location.hash = '#e/' + (r.data.id);
+    } },
+      h('h2', {}, e ? 'Edit post' : 'New post'),
+      h('label', {}, 'Type'), typeSel,
+      h('label', {}, 'Title'), title,
+      fieldsBox,
+      h('label', {}, 'Details'), body,
+      h('div', { class: 'actions' }, save, h('button', { type: 'button', onclick: () => { location.hash = e ? '#e/' + e.id : ''; } }, 'Cancel')),
+      msg);
+    view.replaceChildren(back(), form);
+    title.focus();
+  }
+
+  // ---- The Twelve ----
+  function showTwelve() {
+    const p = about.parsed;
+    const para = (lines) => lines.join('\n');
+    const seats = p.seats.slice().sort((a, b) => a.n - b.n).map((s) => {
+      const mine = String(s.n) === me.id;
+      return h('div', { class: 'seat' + (mine ? ' mine' : '') },
+        h('div', { class: 'st' }, 'SEAT ' + s.n + ' ≃ ' + s.title, mine ? h('i', {}, 'your seat') : null),
+        s.ledger || s.seal ? h('div', { class: 'ledger' }, 'Ledger: ' + s.ledger + ' ≃ Seal: ' + s.seal) : null,
+        s.lines.length ? h('p', {}, para(s.lines)) : null);
+    });
+    const [title, ...lead] = p.header;
+    view.replaceChildren(h('div', { class: 'twelve' },
+      title ? h('h2', {}, para(title)) : null,
+      ...lead.map((l) => h('p', { class: 'lead' }, para(l))),
+      ...seats,
+      ...p.footer.map((l) => h('p', { class: 'coda' }, para(l))),
+      me.admin ? h('div', { class: 'actions' }, h('button', { onclick: () => { location.hash = '#twelve/edit'; } }, 'Edit this page')) : null));
+  }
+
+  function showTwelveEdit() {
+    if (!me.admin) { location.hash = '#twelve'; return; }
+    const ta = h('textarea', { class: 'editor', spellcheck: 'false' }, about.text);
+    const msg = h('p', { class: 'msg' });
+    const save = h('button', { class: 'primary', onclick: async () => {
+      save.disabled = true; msg.textContent = 'Saving…'; msg.className = 'msg';
+      const r = await api('/about', { method: 'PUT', body: { text: ta.value } });
+      save.disabled = false;
+      if (!r.ok) { msg.textContent = r.data.error || 'Save failed'; msg.className = 'msg err'; return; }
+      about = r.data; labels = r.data.labels; location.hash = '#twelve';
+    } }, 'Save');
+    view.replaceChildren(
+      h('p', { class: 'meta' }, 'Blocks are separated by a blank line. Lines before the first SEAT are the opening (first line is the title); lines after the last SEAT are the closing. Each seat is: "SEAT 3 ≃ THE TITLE", then optionally "Ledger: … ≃ Seal: …", then its description. Seat titles are what members appear as on the board.'),
+      ta, h('div', { class: 'actions' }, save, h('button', { onclick: () => { location.hash = '#twelve'; } }, 'Cancel')), msg);
+  }
+
+  // ---- routing ----
+  function route() {
+    const hash = location.hash.slice(1);
+    let m;
+    document.getElementById('nav-twelve').classList.toggle('on', hash.startsWith('twelve'));
+    document.getElementById('nav-board').classList.toggle('on', !hash.startsWith('twelve'));
+    if (hash === 'twelve') showTwelve();
+    else if (hash === 'twelve/edit') showTwelveEdit();
+    else if (hash === 'new') showForm();
+    else if ((m = hash.match(/^edit\/([a-z0-9-]+)$/))) showForm(m[1]);
+    else if ((m = hash.match(/^e\/([a-z0-9-]+)$/))) showEntry(m[1]);
+    else showList();
+  }
+  addEventListener('hashchange', route);
+  (async () => {
+    const r = await api('/about');
+    if (!r.ok) { view.replaceChildren(h('p', { class: 'msg err' }, r.data.error || 'Could not load (' + r.status + ')')); return; }
+    about = r.data; me = r.data.me; labels = r.data.labels;
+    meEl.textContent = me.admin ? 'you are ' + labels.admin : 'your seat: ' + (labels[me.id] || me.id);
+    route();
+  })();
+})();
+</script>
+</body>
+</html>
