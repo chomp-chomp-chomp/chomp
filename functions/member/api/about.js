@@ -11,7 +11,7 @@ export async function onRequest({ request, env, data }) {
   const me = data.user;
 
   if (request.method === 'PUT') {
-    if (!me.admin) return json({ error: 'Only the keeper can edit this page' }, 403);
+    if (!me.admin) return json({ error: 'Only the author can edit this page' }, 403);
     const input = await readJson(request);
     const text = String((input && input.text) || '').trim();
     if (!text) return json({ error: 'Page text is empty' }, 400);

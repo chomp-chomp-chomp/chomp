@@ -6,7 +6,7 @@
  * Pages > (project) > Settings:
  *   Variables and secrets: MEMBER_PASSWORDS (type: Secret), comma-separated
  *       seat:password pairs, e.g.  1:abc123def456,2:...,12:...,admin:...
- *       Seats are 1-12; "admin" is the keeper (edits the Twelve page, can
+ *       Seats are 1-12; "admin" is the author (edits the Twelve page, can
  *       moderate). Passwords: 8+ characters, unique, no commas.
  *   Bindings: MEMBER_KV (KV namespace)
  *

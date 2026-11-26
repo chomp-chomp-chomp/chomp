@@ -51,7 +51,7 @@ export const summaryOf = (id, m) => ({
 
 // ---- identity -------------------------------------------------------------
 // Authors are stored as seat ids ("1".."12" or "admin") and shown by seat title.
-export const ADMIN_LABEL = 'THE KEEPER';
+export const ADMIN_LABEL = 'THE AUTHOR';
 export const canTouch = (user, authorId) => user.admin || user.id === authorId;
 
 // ---- "The Twelve" page ------------------------------------------------------
