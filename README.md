@@ -59,8 +59,13 @@ The Page Editors tab links to the visual page editor, the WYSIWYG editor and the
 ### Editions: `/admin/editions.html`
 Manages `editions.json`. Each item can be placed under **Books** or **Recommended**, marked as an **affiliate** link (independent of section), tagged, made compact, hidden, reordered or deleted. It needs a fine-grained GitHub token with Contents read/write and commits to the branch you choose (default `main`).
 
-### Members page: `/member/`
-A password-protected shared page. `functions/member/_middleware.js` (Cloudflare Pages Function) checks a shared password and sets a signed `HttpOnly` cookie before serving `member/index.html`; `functions/member/api/doc.js` reads and writes one shared document in Workers KV. Setup in the Cloudflare dashboard (Pages project > Settings): add the secret `MEMBER_PASSWORD` and a KV namespace binding named `MEMBER_KV`, then redeploy. Changing the password signs everyone out.
+### Members board: `/member/`
+A password-protected shared bulletin board. Members post **notes**, **events** (date, time, location) and **links** (URL), pin posts, and reply in threads.
+- `functions/member/_middleware.js` (Cloudflare Pages Function) checks one shared password and sets a signed `HttpOnly` cookie before serving anything under `/member/`.
+- `functions/member/api/entries*` and `functions/member/_lib/board.js` are the API. Data is in Workers KV: `e:<id>` per post (summary in KV metadata so the list needs one call) and `r:<id>` per post for its replies.
+- `member/index.html` is the whole UI. To add a post type or field, edit `TYPES` in both `board.js` and `index.html`.
+- Setup (Cloudflare Pages project > Settings): secret `MEMBER_PASSWORD` and a KV binding named `MEMBER_KV`, then redeploy. Changing the password signs everyone out.
+- Names are self-declared (one shared password), so anyone logged in can edit or delete any post. It's an honor system for a trusted group.
 
 ### Editing by hand
 Every content file is plain JSON and any commit to `main` publishes it. Recipe fields: `id, slug, title, description, image, servings, prepTime, cookTime, totalTime, source, category, ingredients[], instructions[], notes`. Look at an existing entry in `data/*.json` for the shape of the others. `*.json.example` files show the minimum.
