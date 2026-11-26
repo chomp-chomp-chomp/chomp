@@ -59,6 +59,9 @@ The Page Editors tab links to the visual page editor, the WYSIWYG editor and the
 ### Editions: `/admin/editions.html`
 Manages `editions.json`. Each item can be placed under **Books** or **Recommended**, marked as an **affiliate** link (independent of section), tagged, made compact, hidden, reordered or deleted. It needs a fine-grained GitHub token with Contents read/write and commits to the branch you choose (default `main`).
 
+### Members page: `/member/`
+A password-protected shared page. `functions/member/_middleware.js` (Cloudflare Pages Function) checks a shared password and sets a signed `HttpOnly` cookie before serving `member/index.html`; `functions/member/api/doc.js` reads and writes one shared document in Workers KV. Setup in the Cloudflare dashboard (Pages project > Settings): add the secret `MEMBER_PASSWORD` and a KV namespace binding named `MEMBER_KV`, then redeploy. Changing the password signs everyone out.
+
 ### Editing by hand
 Every content file is plain JSON and any commit to `main` publishes it. Recipe fields: `id, slug, title, description, image, servings, prepTime, cookTime, totalTime, source, category, ingredients[], instructions[], notes`. Look at an existing entry in `data/*.json` for the shape of the others. `*.json.example` files show the minimum.
 

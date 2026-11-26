@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Members · Chomp Chomp</title>
+  <style>
+    :root { --bg:#fdfdfd; --text:#353535; --muted:#666; --accent:#e73b42; --border:#e0e0e0; --panel:#f5f5f5; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#231f1f; --text:#d9d4d4; --muted:#a0a0a0; --accent:#ff6b7a; --border:#3b3636; --panel:#2b2626; }
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font:15px/1.5 Inter, system-ui, sans-serif; background:var(--bg); color:var(--text); }
+    main { max-width:760px; margin:0 auto; padding:24px 16px 80px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+    h1 { font-size:1.3em; font-weight:600; margin:0; }
+    textarea { width:100%; min-height:60vh; padding:12px; font:inherit; line-height:1.6; resize:vertical;
+      color:var(--text); background:var(--panel); border:1px solid var(--border); border-radius:8px; }
+    .bar { display:flex; align-items:center; gap:12px; margin-top:10px; flex-wrap:wrap; }
+    .status { color:var(--muted); font-size:.85em; flex:1; }
+    .status.err { color:var(--accent); }
+    button { font:inherit; font-size:.9em; padding:7px 14px; border-radius:6px; cursor:pointer;
+      border:1px solid var(--accent); background:transparent; color:var(--accent); }
+    button.primary { background:var(--accent); color:#fff; }
+    button:disabled { opacity:.5; cursor:default; }
+    form { margin:0; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Members</h1>
+    <form method="POST" action="/member/logout"><button type="submit">Log out</button></form>
+  </header>
+  <textarea id="doc" placeholder="Loading…" disabled></textarea>
+  <div class="bar">
+    <span class="status" id="status"></span>
+    <button class="primary" id="save" disabled>Save</button>
+  </div>
+</main>
+<script>
+(() => {
+  const doc = document.getElementById('doc');
+  const saveBtn = document.getElementById('save');
+  const statusEl = document.getElementById('status');
+  let base = 0, dirty = false;
+
+  const say = (msg, err) => { statusEl.textContent = msg; statusEl.className = 'status' + (err ? ' err' : ''); };
+  const when = (t) => t ? 'Last saved ' + new Date(t).toLocaleString() : 'Nothing saved yet';
+
+  async function load() {
+    const r = await fetch('/member/api/doc', { credentials: 'same-origin' });
+    if (r.status === 401) { location.reload(); return; }
+    if (!r.ok) { say('Could not load (' + r.status + ')', true); return; }
+    const d = await r.json();
+    doc.value = d.text; base = d.updated; dirty = false;
+    doc.disabled = false; doc.placeholder = 'Write here…'; saveBtn.disabled = false;
+    say(when(base));
+  }
+
+  async function save() {
+    saveBtn.disabled = true; say('Saving…');
+    try {
+      const r = await fetch('/member/api/doc', {
+        method: 'PUT', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: doc.value, base }),
+      });
+      if (r.status === 401) { location.reload(); return; }
+      const d = await r.json();
+      if (r.status === 409) {
+        say('Someone else saved first. Your text is still here. Copy it, reload, and merge.', true);
+      } else if (!r.ok) {
+        say(d.error || 'Save failed', true);
+      } else {
+        base = d.updated; dirty = false; say(when(base));
+      }
+    } catch { say('Network error. Not saved.', true); }
+    saveBtn.disabled = false;
+  }
+
+  doc.addEventListener('input', () => { dirty = true; say('Unsaved changes'); });
+  saveBtn.addEventListener('click', save);
+  addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); if (!saveBtn.disabled) save(); } });
+  addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+  load();
+})();
+</script>
+</body>
+</html>
